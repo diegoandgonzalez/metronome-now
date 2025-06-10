@@ -14,22 +14,18 @@ const BPMInput = (props: Props) => {
 
   return (
     <div className="bpmInputContainer">
-      <input
+      <p
         className="bpmInput"
-        min={MIN_BPM}
-        max={MAX_BPM}
-        value={value}
-        onMouseOver={(e) => e.currentTarget.focus()}
-        onMouseOut={(e) => e.currentTarget.blur()}
-        onChange={() => { }}
         onWheel={(e) => {
           const valueToAdd = e.deltaY * -0.01;
-          handleChange(parseInt((e.target as HTMLInputElement).value) + valueToAdd)
+          handleChange(value + valueToAdd)
         }}
-      />
+      >
+        {value}
+        </p>
       <input
         type="range"
-        className="bpmInput"
+        className="bpmInputRange"
         min={MIN_BPM}
         max={MAX_BPM}
         value={value}

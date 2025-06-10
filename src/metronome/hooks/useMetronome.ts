@@ -15,19 +15,20 @@ import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../utils/localSto
 
 /*
     TODO:
-    - vibration on mobile (with toggle)
     - i18n
     - stop after X time
     - stop after X measures
     - tap to get BPM
     - allow add or subtract bpm per measure (with countdown?)
     - pwa
+    - templates?
+    - volume?
 */
 
 const useMetronome = (
-    initialBPM = DEFAULT_BPM, 
-    initialBeatsPerMeasure = DEFAULT_BEATS_PER_MEASURE, 
-    initialSubdivision = DEFAULT_SUBDIVISION, 
+    initialBPM = DEFAULT_BPM,
+    initialBeatsPerMeasure = DEFAULT_BEATS_PER_MEASURE,
+    initialSubdivision = DEFAULT_SUBDIVISION,
     initialAccentedBeats = DEFAULT_ACCENTED_BEATS,
 ) => {
     const [isPlaying, setIsPlaying] = useState(false);
