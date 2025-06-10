@@ -28,7 +28,10 @@ const BeatDisplay = (props: Props) => {
               className="beat"
               data-is-accented-beat={String(isAccentedBeat)}
               data-is-current-beat={String(isCurrentBeat)}
-              onClick={() => handleSetAccentedBeat(beatIndex)}
+              onClick={(e) => {
+                handleSetAccentedBeat(beatIndex);
+                e.currentTarget.blur();
+              }}
             >
               {beatIndex + 1}
             </button>
