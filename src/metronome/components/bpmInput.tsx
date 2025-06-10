@@ -1,4 +1,4 @@
-import { MAX_BPM, MIN_BPM } from "../constants";
+import { MAX_BPM, MIN_BPM } from "../../utils/constants";
 
 type Props = {
   value: number,

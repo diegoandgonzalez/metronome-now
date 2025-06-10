@@ -8,6 +8,7 @@ export const STOPPED_METRONOME_BEAT_INDEX = -1;
 
 export const DEFAULT_BEATS_PER_MEASURE = 4;
 export const DEFAULT_SUBDIVISION = 4;
+export const DEFAULT_ACCENTED_BEATS = [0];
 
 export const TIME_SIGNATURES = [
     "2/4",

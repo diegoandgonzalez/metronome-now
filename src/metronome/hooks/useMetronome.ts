@@ -7,9 +7,11 @@ import {
     DEFAULT_SUBDIVISION,
     LOOK_AHEAD,
     STOPPED_METRONOME_BEAT_INDEX,
-} from "../constants";
+    DEFAULT_ACCENTED_BEATS,
+} from "../../utils/constants";
 import type { ClickAudioRef, TimeSignature } from "../types";
 import useTimer from "./useTimer";
+import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../utils/localStorage";
 
 /*
     TODO:
@@ -20,20 +22,22 @@ import useTimer from "./useTimer";
     - stop after X measures
     - tap to get BPM
     - allow add or subtract bpm per measure (with countdown?)
-    - save bpm in localstorage
-    - save timesignature in localstorage
-    - save accented beats in localstorage
     - pwa
 */
 
-const useMetronome = () => {
+const useMetronome = (
+    initialBPM = DEFAULT_BPM, 
+    initialBeatsPerMeasure = DEFAULT_BEATS_PER_MEASURE, 
+    initialSubdivision = DEFAULT_SUBDIVISION, 
+    initialAccentedBeats = DEFAULT_ACCENTED_BEATS,
+) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [bpm, setBpm] = useState(DEFAULT_BPM);
+    const [bpm, setBpm] = useState(initialBPM);
     const [timeSignature, setTimeSignature] = useState<TimeSignature>({
-        beatsPerMeasure: DEFAULT_BEATS_PER_MEASURE,
-        subdivision: DEFAULT_SUBDIVISION,
+        beatsPerMeasure: initialBeatsPerMeasure,
+        subdivision: initialSubdivision,
     });
-    const [accentedBeats, setAccentedBeats] = useState([0]);
+    const [accentedBeats, setAccentedBeats] = useState(initialAccentedBeats);
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(-1);
     const [mute, setMute] = useState(false);
 
@@ -44,10 +48,10 @@ const useMetronome = () => {
     const nextNoteTimeRef = useRef(0);
 
     // these refs are used inside a timeout, state wouldn't get the updated value
-    const bpmRef = useRef(DEFAULT_BPM);
-    const beatsPerMeasureRef = useRef(DEFAULT_BEATS_PER_MEASURE);
+    const bpmRef = useRef(initialBPM);
+    const beatsPerMeasureRef = useRef(initialBeatsPerMeasure);
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX);
-    const accentedBeatsRef = useRef([0]);
+    const accentedBeatsRef = useRef(initialAccentedBeats);
 
     const muteRef = useRef(false);
 
@@ -154,6 +158,7 @@ const useMetronome = () => {
         if (value < MIN_BPM || value > MAX_BPM) return;
         bpmRef.current = value;
         setBpm(value);
+        setValueInLocalStorage(LOCAL_STORAGE_KEYS.bpm, value);
     }
 
     const handleSetTimeSignature = (timeSignatureString: string) => {
@@ -165,6 +170,8 @@ const useMetronome = () => {
             beatsPerMeasure: newBeatsPerMeasure,
             subdivision: newSubdivision,
         });
+        setValueInLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure, newBeatsPerMeasure);
+        setValueInLocalStorage(LOCAL_STORAGE_KEYS.subdivision, newSubdivision);
     }
 
     const handleSetAccentedBeat = (beatToAccent: number) => {
@@ -177,6 +184,7 @@ const useMetronome = () => {
 
         setAccentedBeats(newAccentedBeats);
         accentedBeatsRef.current = newAccentedBeats;
+        setValueInLocalStorage(LOCAL_STORAGE_KEYS.accentedBeats, newAccentedBeats);
     }
 
     return {

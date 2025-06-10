@@ -7,8 +7,14 @@ import BeatDisplay from "./components/beatDisplay";
 import Timer from "./components/timer";
 import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
 import MuteButton from "./components/muteButton";
+import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS } from "../utils/localStorage";
 
 const Metronome = () => {
+
+    const localStorageBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpm);
+    const localStorageBeatsPerMeasure = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure);
+    const localStorageSubdivision = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.subdivision);
+    const localStorageAccentedBeats = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.accentedBeats);
 
     const {
         playedTime,
@@ -23,7 +29,7 @@ const Metronome = () => {
         handleSetAccentedBeat,
         handleToggleMetronome,
         handleToggleMute,
-    } = useMetronome();
+    } = useMetronome(localStorageBPM, localStorageBeatsPerMeasure, localStorageSubdivision, localStorageAccentedBeats);
 
     useExecuteOnSpacePressed(handleToggleMetronome);
 
