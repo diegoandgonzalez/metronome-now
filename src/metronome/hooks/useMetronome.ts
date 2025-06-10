@@ -13,16 +13,17 @@ import useTimer from "./useTimer";
 
 /*
     TODO:
-    - styling
-    - simple mode
     - vibration on mobile (with toggle)
-    - countdown?
     - i18n
+    - dark/light theme
     - stop after X time
+    - stop after X measures
     - tap to get BPM
-    - save preferences in localstorage
-    - allow add or subtract bpm per measure
-    - pwa?
+    - allow add or subtract bpm per measure (with countdown?)
+    - save bpm in localstorage
+    - save timesignature in localstorage
+    - save accented beats in localstorage
+    - pwa
 */
 
 const useMetronome = () => {

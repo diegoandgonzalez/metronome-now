@@ -28,13 +28,8 @@ const Metronome = () => {
     useExecuteOnSpacePressed(handleToggleMetronome);
 
     return (
-        <div>
+        <div className="metronomeContainer">
             <Title />
-
-            <PlayButton
-                isPlaying={isPlaying}
-                handleClick={handleToggleMetronome}
-            />
             <BPMInput
                 value={bpm}
                 handleChange={handleSetBPM}
@@ -49,13 +44,19 @@ const Metronome = () => {
                 currentBeatInMeasure={currentBeatInMeasure}
                 handleSetAccentedBeat={handleSetAccentedBeat}
             />
-            <Timer
-                value={playedTime}
-            />
-            <MuteButton
-                mute={mute}
-                handleClick={handleToggleMute}
-            />
+            <div className="playMuteContainer">
+                <PlayButton
+                    isPlaying={isPlaying}
+                    handleClick={handleToggleMetronome}
+                />
+                <Timer
+                    value={playedTime}
+                />
+                <MuteButton
+                    mute={mute}
+                    handleClick={handleToggleMute}
+                />
+            </div>
         </div>
     );
 }

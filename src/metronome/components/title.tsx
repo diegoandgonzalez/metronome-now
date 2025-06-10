@@ -2,7 +2,7 @@ const Title = () => {
 
     return (
         <h1>
-            {"Metronome Now"}
+            Metronome <b>Now</b>
         </h1>
     );
 }

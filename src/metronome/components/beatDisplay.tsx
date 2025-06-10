@@ -32,9 +32,7 @@ const BeatDisplay = (props: Props) => {
                 handleSetAccentedBeat(beatIndex);
                 e.currentTarget.blur();
               }}
-            >
-              {beatIndex + 1}
-            </button>
+            />
           )
         })
       }

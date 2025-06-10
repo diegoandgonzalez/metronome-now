@@ -11,7 +11,7 @@ const Timer = (props: Props) => {
   } = props;
 
   return (
-    <p>
+    <p className="timer">
       {formatMsToHHMMSS(value)}
     </p>
   );

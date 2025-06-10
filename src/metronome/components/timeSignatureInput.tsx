@@ -14,24 +14,22 @@ const TimeSignatureInput = (props: Props) => {
   } = props;
 
   return (
-    <label>
-      Time signature:
-      <select
-        value={`${value.beatsPerMeasure}/${value.subdivision}`}
-        onChange={(e) => {
-          handleChange(e.target.value);
-          e.currentTarget.blur();
-        }}
-      >
-        {
-          TIME_SIGNATURES.map((item) => {
-            return (
-              <option key={item} value={item}>{item}</option>
-            )
-          })
-        }
-      </select>
-    </label>
+    <select
+      className="timeSignatureInput"
+      value={`${value.beatsPerMeasure}/${value.subdivision}`}
+      onChange={(e) => {
+        handleChange(e.target.value);
+        e.currentTarget.blur();
+      }}
+    >
+      {
+        TIME_SIGNATURES.map((item) => {
+          return (
+            <option key={item} value={item}>{item}</option>
+          )
+        })
+      }
+    </select>
   );
 };
 

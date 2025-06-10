@@ -1,13 +1,77 @@
 :root {
     --noAccentColor: #ccc;
+    --noAccentColor2: #6B6B6B;
     --accentColor: #d63444;
+    --accentColor2: #66171E;
+    --background: #201E23;
+    --background2: #18161A;
+}
+
+body {
+    margin: 0px;
+    background-color: var(--background);
+    background: radial-gradient(circle, var(--background) 0%, var(--background2) 100%);
+}
+
+body,
+input,
+button,
+option,
+select {
+    font-family: "Space Grotesk", sans-serif;
+}
+
+h1,
+p,
+input,
+label,
+button,
+option,
+select {
+    color: white;
+}
+
+h1 {
+    font-size: 40px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+option {
+    background-color: var(--background);
+}
+
+button {
+    background-color: var(--accentColor);
+    border: 0;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+b {
+    color: var(--accentColor);
+}
+
+select {
+    font-size: 18px;
+}
+
+.timeSignatureInput {
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 .beatContainer {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
     margin: 20px;
+    justify-content: center;
 }
 
 .beat {
@@ -20,10 +84,13 @@
     font-size: 18px;
     border: 0;
     background-color: var(--noAccentColor);
+    background: radial-gradient(circle, var(--noAccentColor) 0%, var(--noAccentColor2) 100%);
+
 }
 
 .beat[data-is-accented-beat="true"] {
     background-color: var(--accentColor);
+    background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
 }
 
 .beat[data-is-current-beat="true"] {
@@ -36,7 +103,39 @@
     outline: 0;
     border: 0;
     cursor: default;
-    font-size: 80px;
-    max-width: 150px;
+    font-size: 90px;
+    min-width: 250px;
+    max-width: 250px;
     text-align: center;
+    background-color: transparent;
+    accent-color: var(--accentColor);
+}
+
+.bpmInputContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.metronomeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px;
+}
+
+.playMuteContainer {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+        width: 160px;
+        font-size: 18px;
+    }
+}
+
+.timer {
+    font-size: 24px;
 }
