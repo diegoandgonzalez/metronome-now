@@ -30,3 +30,13 @@
     scale: 1.2;
     filter: brightness(110%);
 }
+
+.bpmInput {
+    caret-color: transparent;
+    outline: 0;
+    border: 0;
+    cursor: default;
+    font-size: 80px;
+    max-width: 150px;
+    text-align: center;
+}

@@ -14,22 +14,23 @@ const BPMInput = (props: Props) => {
 
   return (
     <div>
+      <button onClick={() => handleChange(value - 1)}>-1</button>
+      <button onClick={() => handleChange(value - 5)}>-5</button>
       <input
-        type="number"
+        className="bpmInput"
         min={MIN_BPM}
         max={MAX_BPM}
         value={value}
         onMouseOver={(e) => e.currentTarget.focus()}
         onMouseOut={(e) => e.currentTarget.blur()}
-        onChange={(e) => handleChange(parseInt(e.target.value))}
-        />
-      <input
-        type="range"
-        min={MIN_BPM}
-        max={MAX_BPM}
-        value={value}
-        onChange={(e) => handleChange(parseInt(e.target.value))}
+        onChange={() => { }}
+        onWheel={(e) => {
+          const valueToAdd = e.deltaY * -0.01;
+          handleChange(parseInt((e.target as HTMLInputElement).value) + valueToAdd)
+        }}
       />
+      <button onClick={() => handleChange(value + 1)}>+1</button>
+      <button onClick={() => handleChange(value + 5)}>+5</button>
     </div>
   );
 };
