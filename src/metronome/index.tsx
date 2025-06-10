@@ -34,7 +34,7 @@ const Metronome = () => {
     useExecuteOnSpacePressed(handleToggleMetronome);
 
     return (
-        <div className="metronomeContainer">
+        <div className="metronomeContainer">            
             <Title />
             <BPMInput
                 value={bpm}

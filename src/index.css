@@ -1,10 +1,20 @@
-:root {
-    --noAccentColor: #ccc;
-    --noAccentColor2: #6B6B6B;
+:root{
     --accentColor: #d63444;
     --accentColor2: #66171E;
+    --noAccentColor: #ccc;
+    --noAccentColor2: #6B6B6B;
+}
+
+:root[data-theme="dark"] {
     --background: #201E23;
-    --background2: #18161A;
+    --background2: #131114;
+    --textColor: white;
+}
+
+:root[data-theme="light"] {
+    --background: #fafafa;
+    --background2: #bdbdbd;
+    --textColor: black;
 }
 
 body {
@@ -28,7 +38,7 @@ label,
 button,
 option,
 select {
-    color: white;
+    color: var(--textColor);
 }
 
 h1 {
@@ -48,6 +58,7 @@ button {
     padding: 5px;
     margin: 5px;
     cursor: pointer;
+    color: white;
 }
 
 b {
@@ -138,4 +149,12 @@ select {
 
 .timer {
     font-size: 24px;
+}
+
+.themeChanger{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: transparent;
+    font-size: 26px;
 }

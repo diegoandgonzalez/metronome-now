@@ -15,4 +15,5 @@ export const LOCAL_STORAGE_KEYS = {
   beatsPerMeasure: "metronome_now_beatsPerMeasure",
   subdivision: "metronome_now_subdivision",
   accentedBeats: "metronome_now_accentedBeats",
+  theme: "metronome_now_theme",
 }

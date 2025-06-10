@@ -17,7 +17,6 @@ import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../utils/localSto
     TODO:
     - vibration on mobile (with toggle)
     - i18n
-    - dark/light theme
     - stop after X time
     - stop after X measures
     - tap to get BPM
