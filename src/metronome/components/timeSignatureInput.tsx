@@ -18,7 +18,10 @@ const TimeSignatureInput = (props: Props) => {
       Time signature:
       <select
         value={`${value.beatsPerMeasure}/${value.subdivision}`}
-        onChange={(e) => handleChange(e.target.value)}
+        onChange={(e) => {
+          handleChange(e.target.value);
+          e.currentTarget.blur();
+        }}
       >
         {
           TIME_SIGNATURES.map((item) => {

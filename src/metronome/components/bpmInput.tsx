@@ -14,8 +14,22 @@ const BPMInput = (props: Props) => {
 
   return (
     <div>
-      <button onClick={() => handleChange(value - 1)}>-1</button>
-      <button onClick={() => handleChange(value - 5)}>-5</button>
+      <button
+        onClick={(e) => {
+          handleChange(value - 1);
+          e.currentTarget.blur();
+        }}
+      >
+        -1
+      </button>
+      <button
+        onClick={(e) => {
+          handleChange(value - 5);
+          e.currentTarget.blur();
+        }}
+      >
+        -5
+      </button>
       <input
         className="bpmInput"
         min={MIN_BPM}
@@ -29,8 +43,22 @@ const BPMInput = (props: Props) => {
           handleChange(parseInt((e.target as HTMLInputElement).value) + valueToAdd)
         }}
       />
-      <button onClick={() => handleChange(value + 1)}>+1</button>
-      <button onClick={() => handleChange(value + 5)}>+5</button>
+      <button
+        onClick={(e) => {
+          handleChange(value + 1);
+          e.currentTarget.blur();
+        }}
+      >
+        +1
+      </button>
+      <button
+        onClick={(e) => {
+          handleChange(value + 5);
+          e.currentTarget.blur();
+        }}
+      >
+        +5
+      </button>
     </div>
   );
 };

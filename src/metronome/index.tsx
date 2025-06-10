@@ -5,6 +5,7 @@ import TimeSignatureInput from "./components/timeSignatureInput";
 import PlayButton from "./components/playButton";
 import BeatDisplay from "./components/beatDisplay";
 import Timer from "./components/timer";
+import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
 
 const Metronome = () => {
 
@@ -20,6 +21,8 @@ const Metronome = () => {
         handleSetAccentedBeat,
         handleToggleMetronome,
     } = useMetronome();
+
+    useExecuteOnSpacePressed(handleToggleMetronome);
 
     return (
         <div>
