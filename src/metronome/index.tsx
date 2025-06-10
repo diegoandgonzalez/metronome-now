@@ -6,6 +6,7 @@ import PlayButton from "./components/playButton";
 import BeatDisplay from "./components/beatDisplay";
 import Timer from "./components/timer";
 import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
+import MuteButton from "./components/muteButton";
 
 const Metronome = () => {
 
@@ -16,10 +17,12 @@ const Metronome = () => {
         timeSignature,
         accentedBeats,
         currentBeatInMeasure,
+        mute,
         handleSetBPM,
         handleSetTimeSignature,
         handleSetAccentedBeat,
         handleToggleMetronome,
+        handleToggleMute,
     } = useMetronome();
 
     useExecuteOnSpacePressed(handleToggleMetronome);
@@ -48,6 +51,10 @@ const Metronome = () => {
             />
             <Timer
                 value={playedTime}
+            />
+            <MuteButton
+                mute={mute}
+                handleClick={handleToggleMute}
             />
         </div>
     );

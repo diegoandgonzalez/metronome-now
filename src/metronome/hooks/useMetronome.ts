@@ -11,6 +11,20 @@ import {
 import type { ClickAudioRef, TimeSignature } from "../types";
 import useTimer from "./useTimer";
 
+/*
+    TODO:
+    - styling
+    - simple mode
+    - vibration on mobile (with toggle)
+    - countdown?
+    - i18n
+    - stop after X time
+    - tap to get BPM
+    - save preferences in localstorage
+    - allow add or subtract bpm per measure
+    - pwa?
+*/
+
 const useMetronome = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [bpm, setBpm] = useState(DEFAULT_BPM);
@@ -20,6 +34,7 @@ const useMetronome = () => {
     });
     const [accentedBeats, setAccentedBeats] = useState([0]);
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(-1);
+    const [mute, setMute] = useState(false);
 
     const audioContextRef = useRef<AudioContext>(null);
     const clickAudioRef = useRef<ClickAudioRef>({ click1: undefined, click2: undefined });
@@ -33,12 +48,14 @@ const useMetronome = () => {
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX);
     const accentedBeatsRef = useRef([0]);
 
+    const muteRef = useRef(false);
+
     const {
         playedTime,
         startTimer,
         stopTimer,
     } = useTimer();
-    
+
     useEffect(() => {
         audioContextRef.current = new window.AudioContext();
 
@@ -73,7 +90,9 @@ const useMetronome = () => {
         const isAccentedBeat = accentedBeatsRef.current.includes(calculatedBeat);
         const audioToPlay = isAccentedBeat ? clickAudioRef.current.click1 : clickAudioRef.current.click2;
 
-        playAudio(audioToPlay, time);
+        if (!muteRef.current) {
+            playAudio(audioToPlay, time);
+        }
         setCurrentBeatInMeasure(calculatedBeat);
 
         beatNumberRef.current++;
@@ -125,6 +144,11 @@ const useMetronome = () => {
         startMetronome();
     };
 
+    const handleToggleMute = () => {
+        muteRef.current = !muteRef.current;
+        setMute((prev) => !prev);
+    }
+
     const handleSetBPM = (value: number) => {
         if (value < MIN_BPM || value > MAX_BPM) return;
         bpmRef.current = value;
@@ -161,10 +185,12 @@ const useMetronome = () => {
         timeSignature,
         accentedBeats,
         currentBeatInMeasure,
+        mute,
         handleSetBPM,
         handleSetTimeSignature,
         handleSetAccentedBeat,
         handleToggleMetronome,
+        handleToggleMute,
     };
 }
 
