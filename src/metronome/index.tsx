@@ -4,10 +4,12 @@ import useMetronome from "./hooks/useMetronome";
 import TimeSignatureInput from "./components/timeSignatureInput";
 import PlayButton from "./components/playButton";
 import BeatDisplay from "./components/beatDisplay";
+import Timer from "./components/timer";
 
 const Metronome = () => {
 
     const {
+        playedTime,
         isPlaying,
         bpm,
         timeSignature,
@@ -40,6 +42,9 @@ const Metronome = () => {
                 beatsPerMeasure={timeSignature.beatsPerMeasure}
                 currentBeatInMeasure={currentBeatInMeasure}
                 handleSetAccentedBeat={handleSetAccentedBeat}
+            />
+            <Timer
+                value={playedTime}
             />
         </div>
     );

@@ -9,6 +9,7 @@ import {
     STOPPED_METRONOME_BEAT_INDEX,
 } from "../constants";
 import type { ClickAudioRef, TimeSignature } from "../types";
+import useTimer from "./useTimer";
 
 const useMetronome = () => {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -32,6 +33,12 @@ const useMetronome = () => {
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX);
     const accentedBeatsRef = useRef([0]);
 
+    const {
+        playedTime,
+        startTimer,
+        stopTimer,
+    } = useTimer();
+    
     useEffect(() => {
         audioContextRef.current = new window.AudioContext();
 
@@ -94,6 +101,7 @@ const useMetronome = () => {
 
         scheduler();
         setIsPlaying(true);
+        startTimer();
     };
 
     const stopMetronome = () => {
@@ -105,6 +113,7 @@ const useMetronome = () => {
         setIsPlaying(false);
         setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
         beatNumberRef.current = STOPPED_METRONOME_BEAT_INDEX;
+        stopTimer();
     };
 
     const handleToggleMetronome = () => {
@@ -146,6 +155,7 @@ const useMetronome = () => {
     }
 
     return {
+        playedTime,
         isPlaying,
         bpm,
         timeSignature,
