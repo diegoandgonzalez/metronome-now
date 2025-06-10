@@ -1,3 +1,32 @@
 :root {
-  
+    --noAccentColor: #ccc;
+    --accentColor: #d63444;
+}
+
+.beatContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px;
+}
+
+.beat {
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 18px;
+    border: 0;
+    background-color: var(--noAccentColor);
+}
+
+.beat[data-is-accented-beat="true"] {
+    background-color: var(--accentColor);
+}
+
+.beat[data-is-current-beat="true"] {
+    scale: 1.2;
+    filter: brightness(110%);
 }

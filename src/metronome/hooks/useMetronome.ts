@@ -17,6 +17,8 @@ const useMetronome = () => {
         beatsPerMeasure: DEFAULT_BEATS_PER_MEASURE,
         subdivision: DEFAULT_SUBDIVISION,
     });
+    const [accentedBeats, setAccentedBeats] = useState([0]);
+    const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(-1);
 
     const audioContextRef = useRef<AudioContext>(null);
     const clickAudioRef = useRef<ClickAudioRef>({ click1: undefined, click2: undefined });
@@ -25,8 +27,8 @@ const useMetronome = () => {
     const nextNoteTimeRef = useRef(0);
 
     // these refs are used inside a timeout, state wouldn't get the updated value
-    const bpmRef = useRef(DEFAULT_BPM); 
-    const beatsPerMeasureRef = useRef(DEFAULT_BEATS_PER_MEASURE); 
+    const bpmRef = useRef(DEFAULT_BPM);
+    const beatsPerMeasureRef = useRef(DEFAULT_BEATS_PER_MEASURE);
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX);
     const accentedBeatsRef = useRef([0]);
 
@@ -65,6 +67,7 @@ const useMetronome = () => {
         const audioToPlay = isAccentedBeat ? clickAudioRef.current.click1 : clickAudioRef.current.click2;
 
         playAudio(audioToPlay, time);
+        setCurrentBeatInMeasure(calculatedBeat);
 
         beatNumberRef.current++;
     };
@@ -87,6 +90,7 @@ const useMetronome = () => {
 
         nextNoteTimeRef.current = audioContextRef.current.currentTime + 0.05;
         beatNumberRef.current = 0;
+        setCurrentBeatInMeasure(0);
 
         scheduler();
         setIsPlaying(true);
@@ -99,6 +103,7 @@ const useMetronome = () => {
         }
 
         setIsPlaying(false);
+        setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
         beatNumberRef.current = STOPPED_METRONOME_BEAT_INDEX;
     };
 
@@ -128,12 +133,27 @@ const useMetronome = () => {
         });
     }
 
+    const handleSetAccentedBeat = (beatToAccent: number) => {
+        let newAccentedBeats = [...accentedBeats];
+        if (newAccentedBeats.includes(beatToAccent)) {
+            newAccentedBeats = newAccentedBeats.filter((item) => item !== beatToAccent);
+        } else {
+            newAccentedBeats = [...newAccentedBeats, beatToAccent];
+        }
+
+        setAccentedBeats(newAccentedBeats);
+        accentedBeatsRef.current = newAccentedBeats;
+    }
+
     return {
         isPlaying,
         bpm,
         timeSignature,
+        accentedBeats,
+        currentBeatInMeasure,
         handleSetBPM,
         handleSetTimeSignature,
+        handleSetAccentedBeat,
         handleToggleMetronome,
     };
 }
