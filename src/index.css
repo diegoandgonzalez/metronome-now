@@ -48,7 +48,7 @@ select {
 }
 
 h1 {
-    font-size: 40px;
+    font-size: 35px;
     text-align: center;
     margin-top: 50px;
 }
@@ -86,15 +86,15 @@ select {
 .beatContainer {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
     margin: 20px;
     justify-content: center;
 }
 
 .beat {
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     margin: 5px;
     border-radius: 50%;
     text-align: center;
@@ -117,16 +117,16 @@ select {
 
 .bpmInput {
     cursor: default;
-    font-size: 90px;
+    font-size: 80px;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 40px;
+    margin-bottom: 10px;
 }
 
 .bpmInputRange {
     outline: 0;
     cursor: default;
-    min-width: 250px;
-    max-width: 250px;
+    width: 300px;
     accent-color: var(--accentColor);
 }
 
@@ -148,10 +148,12 @@ select {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 5px;
 
     button {
         width: 160px;
-        font-size: 18px;
+        font-size: 24px;
+        padding: 5px 0px;
     }
 }
 
@@ -165,5 +167,5 @@ select {
     top: 10px;
     left: 10px;
     background-color: transparent;
-    font-size: 26px;
+    font-size: 20px;
 }
