@@ -1,4 +1,4 @@
-:root{
+:root {
     --accentColor: #d63444;
     --accentColor2: #66171E;
     --noAccentColor: #ccc;
@@ -21,6 +21,7 @@ body {
     margin: 0px;
     background-color: var(--background);
     background: radial-gradient(circle, var(--background) 0%, var(--background2) 100%);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body,
@@ -151,7 +152,7 @@ select {
     font-size: 24px;
 }
 
-.themeChanger{
+.themeChanger {
     position: fixed;
     top: 10px;
     left: 10px;
