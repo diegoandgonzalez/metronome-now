@@ -1,3 +1,6 @@
+import PlayIcon from "../../../assets/icons/playIcon";
+import StopIcon from "../../../assets/icons/stopIcon";
+
 type Props = {
     handleClick: () => void,
     isPlaying: boolean,
@@ -12,12 +15,13 @@ const PlayButton = (props: Props) => {
 
     return (
         <button
+            className="playButton"
             onClick={(e) => {
                 handleClick();
                 e.currentTarget.blur();
             }}
         >
-            {isPlaying ? "Stop" : "Start"}
+            {isPlaying ? <StopIcon /> : <PlayIcon />}
         </button>
     );
 }
