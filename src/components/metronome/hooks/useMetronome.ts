@@ -11,7 +11,7 @@ import {
 } from "../../../utils/constants";
 import type { ClickAudioRef, TimeSignature } from "../types";
 import useTimer from "./useTimer";
-import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../../utils/localStorage";
+import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../../utils/localStorage";
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
 
 /*
@@ -26,12 +26,13 @@ import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../
     - volume?
 */
 
-const useMetronome = (
-    initialBPM = DEFAULT_BPM,
-    initialBeatsPerMeasure = DEFAULT_BEATS_PER_MEASURE,
-    initialSubdivision = DEFAULT_SUBDIVISION,
-    initialBeatTypes = createDefaultBeatTypesArray(initialBeatsPerMeasure),
-) => {
+const initialBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpm) || DEFAULT_BPM;
+const initialBeatsPerMeasure = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure) || DEFAULT_BEATS_PER_MEASURE;
+const initialSubdivision = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.subdivision) || DEFAULT_SUBDIVISION;
+const initialBeatTypes = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatTypes) || createDefaultBeatTypesArray(initialBeatsPerMeasure);
+
+const useMetronome = () => {
+
     const [isPlaying, setIsPlaying] = useState(false);
     const [bpm, setBpm] = useState(initialBPM);
     const [timeSignature, setTimeSignature] = useState<TimeSignature>({

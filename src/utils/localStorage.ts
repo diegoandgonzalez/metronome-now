@@ -1,6 +1,7 @@
 export const setValueInLocalStorage = (key: string, value: string | number | number[]) => localStorage.setItem(key, JSON.stringify(value));
 
 export const getValueFromLocalStorage = (key: string) => {
+  console.log(key)
   try {
     const value = localStorage.getItem(key);
     if (value) return JSON.parse(value);
