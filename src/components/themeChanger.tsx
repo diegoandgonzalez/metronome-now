@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { DEFAULT_THEME } from "./utils/constants";
-import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "./utils/localStorage";
+import { DEFAULT_THEME } from "../utils/constants";
+import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../utils/localStorage";
 
 const ThemeChanger = () => {
 

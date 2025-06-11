@@ -8,11 +8,11 @@ import {
     LOOK_AHEAD,
     STOPPED_METRONOME_BEAT_INDEX,
     BEAT_TYPES_AMOUNT,
-} from "../../utils/constants";
+} from "../../../utils/constants";
 import type { ClickAudioRef, TimeSignature } from "../types";
 import useTimer from "./useTimer";
-import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../utils/localStorage";
-import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../utils/beatTypes";
+import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../../utils/localStorage";
+import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
 
 /*
     TODO:

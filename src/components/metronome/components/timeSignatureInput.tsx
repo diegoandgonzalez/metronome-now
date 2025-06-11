@@ -1,4 +1,4 @@
-import { TIME_SIGNATURES } from "../../utils/constants";
+import { TIME_SIGNATURES } from "../../../utils/constants";
 import type { TimeSignature } from "../types";
 
 type Props = {

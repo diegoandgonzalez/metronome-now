@@ -1,4 +1,4 @@
-import { formatMsToHHMMSS } from "../../utils/format";
+import { formatMsToHHMMSS } from "../../../utils/format";
 
 type Props = {
   value: number,

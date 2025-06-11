@@ -7,7 +7,7 @@ import BeatDisplay from "./components/beatDisplay";
 import Timer from "./components/timer";
 import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
 import MuteButton from "./components/muteButton";
-import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS } from "../utils/localStorage";
+import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS } from "../../utils/localStorage";
 
 const Metronome = () => {
 

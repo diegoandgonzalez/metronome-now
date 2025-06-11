@@ -1,5 +1,5 @@
-import Metronome from "./metronome"
-import ThemeChanger from "./themeChanger"
+import Metronome from "./components/metronome"
+import ThemeChanger from "./components/themeChanger"
 
 const App = () => {
 
