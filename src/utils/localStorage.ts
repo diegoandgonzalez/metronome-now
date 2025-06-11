@@ -1,7 +1,6 @@
 export const setValueInLocalStorage = (key: string, value: string | number | number[]) => localStorage.setItem(key, JSON.stringify(value));
 
 export const getValueFromLocalStorage = (key: string) => {
-  console.log(key)
   try {
     const value = localStorage.getItem(key);
     if (value) return JSON.parse(value);
@@ -17,4 +16,5 @@ export const LOCAL_STORAGE_KEYS = {
   subdivision: "metronome_now_subdivision",
   beatTypes: "metronome_now_beat_types",
   theme: "metronome_now_theme",
+  volume: "metronome_volume",
 }

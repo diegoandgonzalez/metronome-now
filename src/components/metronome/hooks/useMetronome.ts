@@ -8,6 +8,7 @@ import {
     LOOK_AHEAD,
     STOPPED_METRONOME_BEAT_INDEX,
     BEAT_TYPES_AMOUNT,
+    DEFAULT_VOLUME,
 } from "../../../utils/constants";
 import type { ClickAudioRef, TimeSignature } from "../types";
 import useTimer from "./useTimer";
@@ -30,6 +31,7 @@ const initialBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpm) || DEFAULT_B
 const initialBeatsPerMeasure = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure) || DEFAULT_BEATS_PER_MEASURE;
 const initialSubdivision = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.subdivision) || DEFAULT_SUBDIVISION;
 const initialBeatTypes = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatTypes) || createDefaultBeatTypesArray(initialBeatsPerMeasure);
+const initialVolume = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.volume) || DEFAULT_VOLUME;
 
 const useMetronome = () => {
 
@@ -41,7 +43,7 @@ const useMetronome = () => {
     });
     const [beatTypes, setBeatTypes] = useState(initialBeatTypes);
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(-1);
-    const [isMuted, setIsMuted] = useState(false);
+    const [volume, setVolume] = useState(initialVolume);
 
     const audioContextRef = useRef<AudioContext>(null);
     const clickAudioRef = useRef<ClickAudioRef>({ click1: undefined, click2: undefined });
@@ -55,7 +57,7 @@ const useMetronome = () => {
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX);
     const beatTypesRef = useRef(initialBeatTypes);
 
-    const isMutedRef = useRef(false);
+    const volumeRef = useRef(initialVolume);
 
     const {
         playedTime,
@@ -87,8 +89,11 @@ const useMetronome = () => {
         if (!audioContextRef.current || !audioToPlay) return;
 
         const source = audioContextRef.current.createBufferSource();
+        const gainNode = audioContextRef.current.createGain();
+        gainNode.gain.value = volumeRef.current / 100;
+        gainNode.connect(audioContextRef.current.destination);
         source.buffer = audioToPlay;
-        source.connect(audioContextRef.current.destination);
+        source.connect(gainNode);
         source.start(time);
     }
 
@@ -97,9 +102,7 @@ const useMetronome = () => {
         const beatType = beatTypesRef.current[calculatedBeat];
         const audioToPlay = [clickAudioRef.current.click1, clickAudioRef.current.click2][beatType];
 
-        if (!isMutedRef.current) {
-            playAudio(audioToPlay, time);
-        }
+        playAudio(audioToPlay, time);
 
         setCurrentBeatInMeasure(calculatedBeat);
         beatNumberRef.current++;
@@ -151,9 +154,10 @@ const useMetronome = () => {
         startMetronome();
     };
 
-    const handleToggleMute = () => {
-        isMutedRef.current = !isMutedRef.current;
-        setIsMuted((prev) => !prev);
+    const handleSetVolume = (newVolume: number) => {
+        volumeRef.current = newVolume;
+        setVolume(newVolume);
+        setValueInLocalStorage(LOCAL_STORAGE_KEYS.volume, newVolume);
     }
 
     const handleSetBPM = (value: number) => {
@@ -200,12 +204,12 @@ const useMetronome = () => {
         timeSignature,
         beatTypes,
         currentBeatInMeasure,
-        mute: isMuted,
+        volume,
         handleSetBPM,
         handleSetTimeSignature,
         handleToggleBeatType,
         handleToggleMetronome,
-        handleToggleMute,
+        handleSetVolume,
     };
 }
 
