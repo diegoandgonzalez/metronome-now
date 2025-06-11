@@ -1,17 +1,17 @@
 type Props = {
-  accentedBeats: number[],
+  beatTypes: number[],
   beatsPerMeasure: number
   currentBeatInMeasure: number
-  handleSetAccentedBeat: (beatIndex: number) => void,
+  handleClick: (beatIndex: number) => void,
 };
 
 const BeatDisplay = (props: Props) => {
 
   const {
-    accentedBeats,
+    beatTypes,
     beatsPerMeasure,
     currentBeatInMeasure,
-    handleSetAccentedBeat,
+    handleClick,
   } = props;
 
   return (
@@ -20,16 +20,16 @@ const BeatDisplay = (props: Props) => {
         [...Array(beatsPerMeasure)].map((_, beatIndex) => {
 
           const isCurrentBeat = currentBeatInMeasure === beatIndex;
-          const isAccentedBeat = accentedBeats.includes(beatIndex);
+          const beatType = beatTypes[beatIndex];
 
           return (
             <button
               key={beatIndex}
               className="beat"
-              data-is-accented-beat={String(isAccentedBeat)}
+              data-beat-type={String(beatType)}
               data-is-current-beat={String(isCurrentBeat)}
               onClick={(e) => {
-                handleSetAccentedBeat(beatIndex);
+                handleClick(beatIndex);
                 e.currentTarget.blur();
               }}
             />

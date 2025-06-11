@@ -7,11 +7,12 @@ import {
     DEFAULT_SUBDIVISION,
     LOOK_AHEAD,
     STOPPED_METRONOME_BEAT_INDEX,
-    DEFAULT_ACCENTED_BEATS,
+    BEAT_TYPES_AMOUNT,
 } from "../../utils/constants";
 import type { ClickAudioRef, TimeSignature } from "../types";
 import useTimer from "./useTimer";
 import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../utils/localStorage";
+import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../utils/beatTypes";
 
 /*
     TODO:
@@ -29,7 +30,7 @@ const useMetronome = (
     initialBPM = DEFAULT_BPM,
     initialBeatsPerMeasure = DEFAULT_BEATS_PER_MEASURE,
     initialSubdivision = DEFAULT_SUBDIVISION,
-    initialAccentedBeats = DEFAULT_ACCENTED_BEATS,
+    initialBeatTypes = createDefaultBeatTypesArray(initialBeatsPerMeasure),
 ) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [bpm, setBpm] = useState(initialBPM);
@@ -37,9 +38,9 @@ const useMetronome = (
         beatsPerMeasure: initialBeatsPerMeasure,
         subdivision: initialSubdivision,
     });
-    const [accentedBeats, setAccentedBeats] = useState(initialAccentedBeats);
+    const [beatTypes, setBeatTypes] = useState(initialBeatTypes);
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(-1);
-    const [mute, setMute] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
 
     const audioContextRef = useRef<AudioContext>(null);
     const clickAudioRef = useRef<ClickAudioRef>({ click1: undefined, click2: undefined });
@@ -51,9 +52,9 @@ const useMetronome = (
     const bpmRef = useRef(initialBPM);
     const beatsPerMeasureRef = useRef(initialBeatsPerMeasure);
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX);
-    const accentedBeatsRef = useRef(initialAccentedBeats);
+    const beatTypesRef = useRef(initialBeatTypes);
 
-    const muteRef = useRef(false);
+    const isMutedRef = useRef(false);
 
     const {
         playedTime,
@@ -92,14 +93,14 @@ const useMetronome = (
 
     const scheduleNote = (time: number) => {
         const calculatedBeat = beatNumberRef.current % beatsPerMeasureRef.current;
-        const isAccentedBeat = accentedBeatsRef.current.includes(calculatedBeat);
-        const audioToPlay = isAccentedBeat ? clickAudioRef.current.click1 : clickAudioRef.current.click2;
+        const beatType = beatTypesRef.current[calculatedBeat];
+        const audioToPlay = [clickAudioRef.current.click1, clickAudioRef.current.click2][beatType];
 
-        if (!muteRef.current) {
+        if (!isMutedRef.current) {
             playAudio(audioToPlay, time);
         }
-        setCurrentBeatInMeasure(calculatedBeat);
 
+        setCurrentBeatInMeasure(calculatedBeat);
         beatNumberRef.current++;
     };
 
@@ -150,8 +151,8 @@ const useMetronome = (
     };
 
     const handleToggleMute = () => {
-        muteRef.current = !muteRef.current;
-        setMute((prev) => !prev);
+        isMutedRef.current = !isMutedRef.current;
+        setIsMuted((prev) => !prev);
     }
 
     const handleSetBPM = (value: number) => {
@@ -159,6 +160,12 @@ const useMetronome = (
         bpmRef.current = value;
         setBpm(value);
         setValueInLocalStorage(LOCAL_STORAGE_KEYS.bpm, value);
+    }
+
+    const updateBeatTypes = (newBeatTypesArray: number[]) => {
+        setBeatTypes(newBeatTypesArray);
+        beatTypesRef.current = newBeatTypesArray;
+        setValueInLocalStorage(LOCAL_STORAGE_KEYS.beatTypes, newBeatTypesArray);
     }
 
     const handleSetTimeSignature = (timeSignatureString: string) => {
@@ -172,19 +179,17 @@ const useMetronome = (
         });
         setValueInLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure, newBeatsPerMeasure);
         setValueInLocalStorage(LOCAL_STORAGE_KEYS.subdivision, newSubdivision);
+
+        // update beatTypesArray with new length
+        const updatedBeatTypesArray = getUpdatedBeatTypesArray(beatTypes, newBeatsPerMeasure);
+        updateBeatTypes(updatedBeatTypesArray);
     }
 
-    const handleSetAccentedBeat = (beatToAccent: number) => {
-        let newAccentedBeats = [...accentedBeats];
-        if (newAccentedBeats.includes(beatToAccent)) {
-            newAccentedBeats = newAccentedBeats.filter((item) => item !== beatToAccent);
-        } else {
-            newAccentedBeats = [...newAccentedBeats, beatToAccent];
-        }
+    const handleToggleBeatType = (beatToAccent: number) => {
+        let newAccentedBeats = [...beatTypes];
+        newAccentedBeats[beatToAccent] = (newAccentedBeats[beatToAccent] + 1) % BEAT_TYPES_AMOUNT;
 
-        setAccentedBeats(newAccentedBeats);
-        accentedBeatsRef.current = newAccentedBeats;
-        setValueInLocalStorage(LOCAL_STORAGE_KEYS.accentedBeats, newAccentedBeats);
+        updateBeatTypes(newAccentedBeats);
     }
 
     return {
@@ -192,12 +197,12 @@ const useMetronome = (
         isPlaying,
         bpm,
         timeSignature,
-        accentedBeats,
+        beatTypes,
         currentBeatInMeasure,
-        mute,
+        mute: isMuted,
         handleSetBPM,
         handleSetTimeSignature,
-        handleSetAccentedBeat,
+        handleToggleBeatType,
         handleToggleMetronome,
         handleToggleMute,
     };

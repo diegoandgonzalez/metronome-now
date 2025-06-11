@@ -8,7 +8,11 @@ export const STOPPED_METRONOME_BEAT_INDEX = -1;
 
 export const DEFAULT_BEATS_PER_MEASURE = 4;
 export const DEFAULT_SUBDIVISION = 4;
-export const DEFAULT_ACCENTED_BEATS = [0];
+
+/**
+ * Number of different types of beat types
+ */
+export const BEAT_TYPES_AMOUNT = 3;
 
 export const TIME_SIGNATURES = [
     "2/4",

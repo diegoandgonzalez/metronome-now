@@ -12,8 +12,8 @@ export const getValueFromLocalStorage = (key: string) => {
 
 export const LOCAL_STORAGE_KEYS = {
   bpm: "metronome_now_bpm",
-  beatsPerMeasure: "metronome_now_beatsPerMeasure",
+  beatsPerMeasure: "metronome_now_beats_per_measure",
   subdivision: "metronome_now_subdivision",
-  accentedBeats: "metronome_now_accentedBeats",
+  beatTypes: "metronome_now_beat_types",
   theme: "metronome_now_theme",
 }

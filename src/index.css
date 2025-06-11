@@ -75,6 +75,10 @@ select {
     font-size: 18px;
 }
 
+option {
+    text-align: center;
+}
+
 .timeSignatureInput {
     background-color: transparent;
     border: 0;
@@ -100,14 +104,23 @@ select {
     text-align: center;
     font-size: 18px;
     border: 0;
-    background-color: var(--noAccentColor);
-    background: radial-gradient(circle, var(--noAccentColor) 0%, var(--noAccentColor2) 100%);
-
 }
 
-.beat[data-is-accented-beat="true"] {
+.beat[data-beat-type="0"] {
     background-color: var(--accentColor);
     background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
+}
+
+.beat[data-beat-type="1"] {
+    background-color: var(--noAccentColor);
+    background: radial-gradient(circle, var(--noAccentColor) 0%, var(--noAccentColor2) 100%);
+}
+
+.beat[data-beat-type="2"] {
+    background-color: var(--noAccentColor);
+    background: radial-gradient(circle, var(--noAccentColor) 0%, var(--noAccentColor2) 100%);
+    opacity: 0.25;
+    border: 5px solid var(--noAccentColor2);
 }
 
 .beat[data-is-current-beat="true"] {

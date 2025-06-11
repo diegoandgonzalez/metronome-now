@@ -14,19 +14,19 @@ const Metronome = () => {
     const localStorageBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpm);
     const localStorageBeatsPerMeasure = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure);
     const localStorageSubdivision = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.subdivision);
-    const localStorageAccentedBeats = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.accentedBeats);
+    const localStorageAccentedBeats = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatTypes);
 
     const {
         playedTime,
         isPlaying,
         bpm,
         timeSignature,
-        accentedBeats,
+        beatTypes,
         currentBeatInMeasure,
         mute,
         handleSetBPM,
         handleSetTimeSignature,
-        handleSetAccentedBeat,
+        handleToggleBeatType,
         handleToggleMetronome,
         handleToggleMute,
     } = useMetronome(localStorageBPM, localStorageBeatsPerMeasure, localStorageSubdivision, localStorageAccentedBeats);
@@ -45,10 +45,10 @@ const Metronome = () => {
                 handleChange={handleSetTimeSignature}
             />
             <BeatDisplay
-                accentedBeats={accentedBeats}
+                beatTypes={beatTypes}
                 beatsPerMeasure={timeSignature.beatsPerMeasure}
                 currentBeatInMeasure={currentBeatInMeasure}
-                handleSetAccentedBeat={handleSetAccentedBeat}
+                handleClick={handleToggleBeatType}
             />
             <div className="playMuteContainer">
                 <PlayButton
