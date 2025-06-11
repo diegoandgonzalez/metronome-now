@@ -3,6 +3,8 @@
     --accentColor2: #66171E;
     --noAccentColor: #ccc;
     --noAccentColor2: #6B6B6B;
+    --mutedColor: #444;
+    --mutedColor2: #222;
 }
 
 :root[data-theme="dark"] {
@@ -118,9 +120,7 @@ option {
 
 .beat[data-beat-type="2"] {
     background-color: var(--noAccentColor);
-    background: radial-gradient(circle, var(--noAccentColor) 0%, var(--noAccentColor2) 100%);
-    opacity: 0.25;
-    border: 5px solid var(--noAccentColor2);
+    background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
 }
 
 .beat[data-is-current-beat="true"] {
