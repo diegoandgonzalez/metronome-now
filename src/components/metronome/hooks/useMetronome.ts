@@ -17,16 +17,6 @@ import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS, setValueInLocalStorage } 
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
 import useCounter from "./useCounter";
 
-/*
-    TODO:
-    - i18n
-    - stop after X measures
-    - tap to get BPM
-    - allow add or subtract bpm per measure (with countdown?)
-    - pwa
-    - templates?
-*/
-
 const initialBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpm) || DEFAULT_BPM;
 const initialBeatsPerMeasure = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure) || DEFAULT_BEATS_PER_MEASURE;
 const initialSubdivision = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.subdivision) || DEFAULT_SUBDIVISION;

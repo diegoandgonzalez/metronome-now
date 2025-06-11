@@ -24,8 +24,11 @@ Online metronome for your everyday needs
 - i18n
 - Better time signature options, and subdivisions
 - Set the metronome to stop after a determined amount of measures
-- Increase or decrease your BPM after a determined amount of measures
+- Increase or decrease your BPM after a determined amount of measures (with countdown option)
+- Tap to get BPM
+- Save settings in templates for faster use
 - Deployed site with a live link
+- PWA
 
 ## How to run locally
 
