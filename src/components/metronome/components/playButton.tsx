@@ -11,7 +11,12 @@ const PlayButton = (props: Props) => {
     } = props;
 
     return (
-        <button onClick={handleClick}>
+        <button
+            onClick={(e) => {
+                handleClick();
+                e.currentTarget.blur();
+            }}
+        >
             {isPlaying ? "Stop" : "Start"}
         </button>
     );
