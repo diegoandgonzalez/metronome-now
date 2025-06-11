@@ -10,6 +10,10 @@ export const DEFAULT_BEATS_PER_MEASURE = 4;
 export const DEFAULT_SUBDIVISION = 4;
 
 export const DEFAULT_VOLUME = 100;
+export const DEFAULT_SECONDS_TO_STOP = 60;
+export const DEFAULT_MEASURES_TO_STOP = 4;
+
+export const ICON_SIZE = 40;
 
 /**
  * Number of different types of beat types

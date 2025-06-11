@@ -1,4 +1,6 @@
-const StopIcon = ({ size = 40 }) => {
+import { ICON_SIZE } from "../../utils/constants";
+
+const StopIcon = ({ size = ICON_SIZE }) => {
 
     return (
         <svg

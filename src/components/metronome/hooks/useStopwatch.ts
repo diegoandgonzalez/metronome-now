@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useTimer = () => {
+const useStopwatch = () => {
 
   const [isRunning, setIsRunning] = useState(false);
   const [startTime, setStartTime] = useState(0);
@@ -18,21 +18,21 @@ const useTimer = () => {
     return () => clearInterval(interval);
   }, [isRunning, startTime]);
 
-  const startTimer = () => {
+  const startStopwatch = () => {
     setStartTime(Date.now());
     setPlayedTime(0);
     setIsRunning(true);
   };
 
-  const stopTimer = () => {
+  const stopStopwatch = () => {
     setIsRunning(false);
   };
 
   return {
     playedTime,
-    startTimer,
-    stopTimer,
+    startStopwatch,
+    stopStopwatch,
   };
 }
 
-export default useTimer;
+export default useStopwatch;

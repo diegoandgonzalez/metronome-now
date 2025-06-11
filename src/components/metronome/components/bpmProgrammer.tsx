@@ -1,29 +1,27 @@
-import PlayIcon from "../../../assets/icons/playIcon";
-import StopIcon from "../../../assets/icons/stopIcon";
+import AddSubtractIcon from "../../../assets/icons/addSubtractIcon";
 
 type Props = {
     handleClick: () => void,
-    isPlaying: boolean,
 }
 
-const PlayButton = (props: Props) => {
+const BPMProgrammer = (props: Props) => {
 
     const {
-        isPlaying,
         handleClick
     } = props;
 
     return (
         <button
+            data-is-off="true" 
             className="iconButton"
             onClick={(e) => {
                 handleClick();
                 e.currentTarget.blur();
             }}
         >
-            {isPlaying ? <StopIcon /> : <PlayIcon />}
+            {<AddSubtractIcon />}
         </button>
     );
 }
 
-export default PlayButton;
+export default BPMProgrammer;

@@ -1,4 +1,6 @@
-const PlayIcon = ({ size = 40 }) => {
+import { ICON_SIZE } from "../../utils/constants";
+
+const PlayIcon = ({ size = ICON_SIZE }) => {
     
     return (
         <svg

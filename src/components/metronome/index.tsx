@@ -3,14 +3,18 @@ import BPMInput from "./components/bpmInput";
 import TimeSignatureInput from "./components/timeSignatureInput";
 import PlayButton from "./components/playButton";
 import BeatDisplay from "./components/beatDisplay";
-import Timer from "./components/timer";
+import Clock from "./components/clock";
 import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
 import useMetronome from "./hooks/useMetronome";
 import VolumeInput from "./components/volumeInput";
+import Timer from "./components/timer";
+import BPMProgrammer from "./components/bpmProgrammer";
 
 const Metronome = () => {
 
     const {
+        timerIsActive,
+        secondsToStop,
         playedTime,
         isPlaying,
         bpm,
@@ -23,12 +27,13 @@ const Metronome = () => {
         handleToggleBeatType,
         handleToggleMetronome,
         handleSetVolume,
+        handleSetTimer,
     } = useMetronome();
 
     useExecuteOnSpacePressed(handleToggleMetronome);
 
     return (
-        <div className="metronomeContainer">            
+        <div className="metronomeContainer">
             <Title />
             <BPMInput
                 value={bpm}
@@ -44,19 +49,27 @@ const Metronome = () => {
                 currentBeatInMeasure={currentBeatInMeasure}
                 handleClick={handleToggleBeatType}
             />
-            <div className="playMuteContainer">
+            <div className="buttonsContainer">
+                <BPMProgrammer
+                    handleClick={console.log}
+                />
                 <PlayButton
                     isPlaying={isPlaying}
                     handleClick={handleToggleMetronome}
                 />
                 <Timer
-                    value={playedTime}
-                />
-                <VolumeInput
-                    value={volume}
-                    handleChange={handleSetVolume}
+                    initialIsActive={timerIsActive}
+                    initialSecondsToStop={secondsToStop}
+                    handleSetTimer={handleSetTimer}
                 />
             </div>
+            <Clock
+                value={playedTime}
+            />
+            <VolumeInput
+                value={volume}
+                handleChange={handleSetVolume}
+            />
         </div>
     );
 }

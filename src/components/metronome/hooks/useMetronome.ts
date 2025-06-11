@@ -9,22 +9,22 @@ import {
     STOPPED_METRONOME_BEAT_INDEX,
     BEAT_TYPES_AMOUNT,
     DEFAULT_VOLUME,
+    DEFAULT_SECONDS_TO_STOP,
 } from "../../../utils/constants";
 import type { ClickAudioRef, TimeSignature } from "../types";
-import useTimer from "./useTimer";
+import useStopwatch from "./useStopwatch";
 import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../../utils/localStorage";
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
+import useCounter from "./useCounter";
 
 /*
     TODO:
     - i18n
-    - stop after X time
     - stop after X measures
     - tap to get BPM
     - allow add or subtract bpm per measure (with countdown?)
     - pwa
     - templates?
-    - volume?
 */
 
 const initialBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpm) || DEFAULT_BPM;
@@ -46,7 +46,7 @@ const useMetronome = () => {
     const [volume, setVolume] = useState(initialVolume);
 
     const audioContextRef = useRef<AudioContext>(null);
-    const clickAudioRef = useRef<ClickAudioRef>({ click1: undefined, click2: undefined });
+    const clickAudioRef = useRef<ClickAudioRef>({ clickAccent: undefined, clickNormal: undefined, clickMuted: undefined });
 
     const timeoutRef = useRef<number>(null);
     const nextNoteTimeRef = useRef(0);
@@ -56,14 +56,19 @@ const useMetronome = () => {
     const beatsPerMeasureRef = useRef(initialBeatsPerMeasure);
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX);
     const beatTypesRef = useRef(initialBeatTypes);
-
     const volumeRef = useRef(initialVolume);
 
     const {
         playedTime,
-        startTimer,
-        stopTimer,
-    } = useTimer();
+        startStopwatch,
+        stopStopwatch,
+    } = useStopwatch();
+
+    const {
+        isActive: timerIsActive,
+        amount: secondsToStop,
+        handleSetCounter: handleSetTimer,
+    } = useCounter(DEFAULT_SECONDS_TO_STOP);
 
     useEffect(() => {
         audioContextRef.current = new window.AudioContext();
@@ -77,9 +82,10 @@ const useMetronome = () => {
         };
 
         const loadAudio = async () => {
-            const click1 = await getAudioBuffer("src/assets/audio/click1.wav");
-            const click2 = await getAudioBuffer("src/assets/audio/click2.wav");
-            clickAudioRef.current = { click1, click2 };
+            const clickAccent = await getAudioBuffer("src/assets/audio/clickAccent.wav");
+            const clickNormal = await getAudioBuffer("src/assets/audio/clickNormal.wav");
+            const clickMuted = await getAudioBuffer("src/assets/audio/clickMuted.wav");
+            clickAudioRef.current = { clickAccent, clickNormal, clickMuted };
         };
 
         loadAudio();
@@ -100,12 +106,19 @@ const useMetronome = () => {
     const scheduleNote = (time: number) => {
         const calculatedBeat = beatNumberRef.current % beatsPerMeasureRef.current;
         const beatType = beatTypesRef.current[calculatedBeat];
-        const audioToPlay = [clickAudioRef.current.click1, clickAudioRef.current.click2][beatType];
+        const audioToPlay = [clickAudioRef.current.clickAccent, clickAudioRef.current.clickNormal, clickAudioRef.current.clickMuted][beatType];
 
         playAudio(audioToPlay, time);
 
         setCurrentBeatInMeasure(calculatedBeat);
-        beatNumberRef.current++;
+
+        // test add at the beggining of each measure
+        // if (calculatedBeat === 0 && beatNumberRef.current !== 0) {
+        //     bpmRef.current++;
+        //     setBpm(bpmRef.current); // use ref value because state is not up to date inside of setTimeout
+        // }
+
+        beatNumberRef.current++; // this should always go at the end of the function
     };
 
     const scheduler = () => {
@@ -130,7 +143,7 @@ const useMetronome = () => {
 
         scheduler();
         setIsPlaying(true);
-        startTimer();
+        startStopwatch();
     };
 
     const stopMetronome = () => {
@@ -142,7 +155,7 @@ const useMetronome = () => {
         setIsPlaying(false);
         setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
         beatNumberRef.current = STOPPED_METRONOME_BEAT_INDEX;
-        stopTimer();
+        stopStopwatch();
     };
 
     const handleToggleMetronome = () => {
@@ -197,7 +210,15 @@ const useMetronome = () => {
         updateBeatTypes(newAccentedBeats);
     }
 
+    useEffect(() => {
+        if (secondsToStop && timerIsActive && isPlaying && playedTime) {
+            if (playedTime >= (secondsToStop * 1000)) stopMetronome();
+        }
+    }, [isPlaying, playedTime, timerIsActive, secondsToStop, stopMetronome])
+
     return {
+        timerIsActive,
+        secondsToStop,
         playedTime,
         isPlaying,
         bpm,
@@ -210,6 +231,7 @@ const useMetronome = () => {
         handleToggleBeatType,
         handleToggleMetronome,
         handleSetVolume,
+        handleSetTimer,
     };
 }
 

@@ -49,6 +49,10 @@ select {
     color: var(--textColor);
 }
 
+input{
+    accent-color: var(--accentColor);
+}
+
 h1 {
     font-size: 35px;
     text-align: center;
@@ -69,6 +73,10 @@ button {
     color: white;
 }
 
+button:disabled {
+    background-color: var(--mutedColor);
+}
+
 b {
     color: var(--accentColor);
 }
@@ -79,6 +87,24 @@ select {
 
 option {
     text-align: center;
+}
+
+dialog {
+    margin: 0px;
+    padding: 15px;
+    border: 0px;
+    border-radius: 10px;
+    background-color: var(--background);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--textColor);
+    min-width: 250px;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.35);
 }
 
 .timeSignatureInput {
@@ -99,8 +125,8 @@ option {
 
 .beat {
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     margin: 5px;
     border-radius: 50%;
     text-align: center;
@@ -119,7 +145,7 @@ option {
 }
 
 .beat[data-beat-type="2"] {
-    background-color: var(--noAccentColor);
+    background-color: var(--mutedColor);
     background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
 }
 
@@ -140,7 +166,6 @@ option {
     outline: 0;
     cursor: pointer;
     width: 300px;
-    accent-color: var(--accentColor);
 }
 
 .bpmInputContainer {
@@ -156,15 +181,15 @@ option {
     margin: 15px;
 }
 
-.playMuteContainer {
+.buttonsContainer {
     margin: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 5px;
+    gap: 15px;
 }
 
-.timer {
+.clock {
     font-size: 24px;
     margin: 10px;
 }
@@ -196,12 +221,49 @@ option {
     outline: 0;
     cursor: pointer;
     width: 100px;
-    accent-color: var(--accentColor);
 }
 
-.playButton {
+.iconButton {
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    padding: 10px;
+    background-color: var(--accentColor);
+    background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
+}
+
+.iconButton[data-is-off="true"] {
+    background-color: var(--mutedColor);
+    background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
+}
+
+.closeIcon {
+    background: 0;
+    outline: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    color: var(--textColor);
+}
+
+.dialogHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dialogTitle{
+    font-size: 24px;
+}
+
+.timerInput {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    padding: 10px;
+    font-size: 20px;
+    max-width: 100px;
 }
