@@ -12,6 +12,7 @@ export const DEFAULT_SUBDIVISION = 4;
 export const DEFAULT_VOLUME = 100;
 export const DEFAULT_SECONDS_TO_STOP = 60;
 export const DEFAULT_MEASURES_TO_STOP = 4;
+export const DEFAULT_TIMER_IS_ACTIVE = false;
 
 export const ICON_SIZE = 40;
 
@@ -20,15 +21,8 @@ export const ICON_SIZE = 40;
  */
 export const BEAT_TYPES_AMOUNT = 3;
 
-export const TIME_SIGNATURES = [
-    "2/4",
-    "3/4",
-    "4/4",
-    "5/4",
-    "6/4",
-    "7/4",
-    "8/4",
-    "9/4",
-];
+export const BEATS_PER_MEASURE = Array.from({ length: 16 }, (_, i) => i + 1);
+
+export const SUBDIVISIONS = [2, 4, 8, 16];
 
 export const DEFAULT_THEME = "dark";

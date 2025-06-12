@@ -4,36 +4,81 @@ import {
     MAX_BPM,
     MIN_BPM,
     DEFAULT_BEATS_PER_MEASURE,
-    DEFAULT_SUBDIVISION,
     LOOK_AHEAD,
     STOPPED_METRONOME_BEAT_INDEX,
     BEAT_TYPES_AMOUNT,
     DEFAULT_VOLUME,
+    DEFAULT_TIMER_IS_ACTIVE,
     DEFAULT_SECONDS_TO_STOP,
+    DEFAULT_SUBDIVISION,
 } from "../../../utils/constants";
-import type { ClickAudioRef, TimeSignature } from "../types";
-import useStopwatch from "./useStopwatch";
-import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../../../utils/localStorage";
+import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
-import useCounter from "./useCounter";
+import useStateRefLocalStorageSync from "./useStateRefSync";
+import useTimeMeasure from "./useTimeMeasure";
 
 const initialBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpm) || DEFAULT_BPM;
 const initialBeatsPerMeasure = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure) || DEFAULT_BEATS_PER_MEASURE;
 const initialSubdivision = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.subdivision) || DEFAULT_SUBDIVISION;
 const initialBeatTypes = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatTypes) || createDefaultBeatTypesArray(initialBeatsPerMeasure);
 const initialVolume = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.volume) || DEFAULT_VOLUME;
+const initialTimerIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerIsActive) || DEFAULT_TIMER_IS_ACTIVE;
+const initialTimerSecondsToStop = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerSecondsToStop) || DEFAULT_SECONDS_TO_STOP;
+
+type AudioToPlay = AudioBuffer | undefined;
+
+type ClickAudioRef = {
+    clickAccent: AudioToPlay,
+    clickNormal: AudioToPlay,
+    clickMuted: AudioToPlay,
+}
 
 const useMetronome = () => {
 
     const [isPlaying, setIsPlaying] = useState(false);
-    const [bpm, setBpm] = useState(initialBPM);
-    const [timeSignature, setTimeSignature] = useState<TimeSignature>({
-        beatsPerMeasure: initialBeatsPerMeasure,
-        subdivision: initialSubdivision,
-    });
-    const [beatTypes, setBeatTypes] = useState(initialBeatTypes);
-    const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(-1);
-    const [volume, setVolume] = useState(initialVolume);
+
+    const {
+        value: bpm,
+        valueRef: bpmRef,
+        handleSyncValue: handleSyncBPM,
+    } = useStateRefLocalStorageSync<number>(initialBPM, LOCAL_STORAGE_KEYS.bpm);
+
+    const {
+        value: volume,
+        valueRef: volumeRef,
+        handleSyncValue: handleSyncVolume,
+    } = useStateRefLocalStorageSync<number>(initialVolume, LOCAL_STORAGE_KEYS.volume);
+
+    const {
+        value: beatTypes,
+        valueRef: beatTypesRef,
+        handleSyncValue: handleSyncBeatTypes,
+    } = useStateRefLocalStorageSync<number[]>(initialBeatTypes, LOCAL_STORAGE_KEYS.beatTypes);
+
+    const {
+        value: beatsPerMeasure,
+        valueRef: beatsPerMeasureRef,
+        handleSyncValue: handleSyncBeatsPerMeasure,
+    } = useStateRefLocalStorageSync<number>(initialBeatsPerMeasure, LOCAL_STORAGE_KEYS.beatsPerMeasure);
+
+    const {
+        value: subdivision,
+        valueRef: subdivisionRef,
+        handleSyncValue: handleSyncSubdivision,
+    } = useStateRefLocalStorageSync<number>(initialSubdivision, LOCAL_STORAGE_KEYS.subdivision);
+
+    const {
+        value: timerIsActive,
+        handleSyncValue: handleSyncTimerIsActive,
+    } = useStateRefLocalStorageSync<boolean>(initialTimerIsActive, LOCAL_STORAGE_KEYS.timerIsActive);
+
+    const {
+        value: timerSecondsToStop,
+        handleSyncValue: handleSyncTimerSecondsToStop,
+    } = useStateRefLocalStorageSync<number>(initialTimerSecondsToStop, LOCAL_STORAGE_KEYS.timerSecondsToStop);
+
+    const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(STOPPED_METRONOME_BEAT_INDEX); // circular number inside measure size
+    const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX); // counter of beats from 0 to infinity
 
     const audioContextRef = useRef<AudioContext>(null);
     const clickAudioRef = useRef<ClickAudioRef>({ clickAccent: undefined, clickNormal: undefined, clickMuted: undefined });
@@ -41,24 +86,11 @@ const useMetronome = () => {
     const timeoutRef = useRef<number>(null);
     const nextNoteTimeRef = useRef(0);
 
-    // these refs are used inside a timeout, state wouldn't get the updated value
-    const bpmRef = useRef(initialBPM);
-    const beatsPerMeasureRef = useRef(initialBeatsPerMeasure);
-    const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX);
-    const beatTypesRef = useRef(initialBeatTypes);
-    const volumeRef = useRef(initialVolume);
-
     const {
-        playedTime,
-        startStopwatch,
-        stopStopwatch,
-    } = useStopwatch();
-
-    const {
-        isActive: timerIsActive,
-        amount: secondsToStop,
-        handleSetCounter: handleSetTimer,
-    } = useCounter(DEFAULT_SECONDS_TO_STOP); // TODO: save value in localstorage
+        measuredTime,
+        startTimeMeasure,
+        stopTimeMeasure,
+    } = useTimeMeasure();
 
     useEffect(() => {
         audioContextRef.current = new window.AudioContext();
@@ -133,7 +165,7 @@ const useMetronome = () => {
 
         scheduler();
         setIsPlaying(true);
-        startStopwatch();
+        startTimeMeasure();
     };
 
     const stopMetronome = () => {
@@ -145,7 +177,7 @@ const useMetronome = () => {
         setIsPlaying(false);
         setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
         beatNumberRef.current = STOPPED_METRONOME_BEAT_INDEX;
-        stopStopwatch();
+        stopTimeMeasure();
     };
 
     const handleToggleMetronome = () => {
@@ -158,39 +190,29 @@ const useMetronome = () => {
     };
 
     const handleSetVolume = (newVolume: number) => {
-        volumeRef.current = newVolume;
-        setVolume(newVolume);
-        setValueInLocalStorage(LOCAL_STORAGE_KEYS.volume, newVolume);
+        handleSyncVolume(newVolume);
     }
 
     const handleSetBPM = (value: number) => {
         if (value < MIN_BPM || value > MAX_BPM) return;
-        bpmRef.current = value;
-        setBpm(value);
-        setValueInLocalStorage(LOCAL_STORAGE_KEYS.bpm, value);
+        handleSyncBPM(value);
     }
 
     const updateBeatTypes = (newBeatTypesArray: number[]) => {
-        setBeatTypes(newBeatTypesArray);
-        beatTypesRef.current = newBeatTypesArray;
-        setValueInLocalStorage(LOCAL_STORAGE_KEYS.beatTypes, newBeatTypesArray);
+        handleSyncBeatTypes(newBeatTypesArray);
     }
 
-    const handleSetTimeSignature = (timeSignatureString: string) => {
-        const [newBeatsPerMeasure, newSubdivision] = timeSignatureString.split("/").map(Number);
-
-        beatsPerMeasureRef.current = newBeatsPerMeasure;
-
-        setTimeSignature({
-            beatsPerMeasure: newBeatsPerMeasure,
-            subdivision: newSubdivision,
-        });
-        setValueInLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure, newBeatsPerMeasure);
-        setValueInLocalStorage(LOCAL_STORAGE_KEYS.subdivision, newSubdivision);
+    const handleSetBeatsPerMeasure = (newBeatsPerMeasure: number) => {
+        handleSyncBeatsPerMeasure(newBeatsPerMeasure);
 
         // update beatTypesArray with new length
         const updatedBeatTypesArray = getUpdatedBeatTypesArray(beatTypes, newBeatsPerMeasure);
         updateBeatTypes(updatedBeatTypesArray);
+    }
+
+    const handleSetSubdivision = (newSubdivision: number) => {
+        handleSyncSubdivision(newSubdivision);
+        // TODO: logic to add sounds between beats
     }
 
     const handleToggleBeatType = (beatToAccent: number) => {
@@ -200,24 +222,31 @@ const useMetronome = () => {
         updateBeatTypes(newAccentedBeats);
     }
 
+    const handleSetTimer = (newAmount: number, newIsActive: boolean) => {
+        handleSyncTimerSecondsToStop(newAmount);
+        handleSyncTimerIsActive(newIsActive);
+    }
+
     useEffect(() => {
-        if (secondsToStop && timerIsActive && isPlaying && playedTime) {
-            if (playedTime >= (secondsToStop * 1000)) stopMetronome();
+        if (timerIsActive && measuredTime) {
+            if (measuredTime >= (timerSecondsToStop * 1000)) stopMetronome();
         }
-    }, [isPlaying, playedTime, timerIsActive, secondsToStop, stopMetronome])
+    }, [measuredTime, timerIsActive, timerSecondsToStop, stopMetronome])
 
     return {
         timerIsActive,
-        secondsToStop,
-        playedTime,
+        timerSecondsToStop,
+        measuredTime,
         isPlaying,
         bpm,
-        timeSignature,
+        beatsPerMeasure,
+        subdivision,
         beatTypes,
         currentBeatInMeasure,
         volume,
         handleSetBPM,
-        handleSetTimeSignature,
+        handleSetBeatsPerMeasure,
+        handleSetSubdivision,
         handleToggleBeatType,
         handleToggleMetronome,
         handleSetVolume,

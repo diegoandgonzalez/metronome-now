@@ -1,35 +1,58 @@
-import { TIME_SIGNATURES } from "../../../utils/constants";
-import type { TimeSignature } from "../types";
+import { BEATS_PER_MEASURE, SUBDIVISIONS } from "../../../utils/constants";
 
 type Props = {
-  value: TimeSignature,
-  handleChange: (timeSignature: string) => void,
+  subdivision: number,
+  beatsPerMeasure: number,
+  handleSetBeatsPerMeasure: (newValue: number) => void,
+  handleSetSubdivision: (newValue: number) => void,
 }
 
 const TimeSignatureInput = (props: Props) => {
 
   const {
-    value,
-    handleChange,
+    subdivision,
+    beatsPerMeasure,
+    handleSetBeatsPerMeasure,
+    handleSetSubdivision,
   } = props;
 
   return (
-    <select
-      className="timeSignatureInput"
-      value={`${value.beatsPerMeasure}/${value.subdivision}`}
-      onChange={(e) => {
-        handleChange(e.target.value);
-        e.currentTarget.blur();
-      }}
-    >
-      {
-        TIME_SIGNATURES.map((item) => {
-          return (
-            <option key={item} value={item}>{item}</option>
-          )
-        })
-      }
-    </select>
+    <div className="timeSignatureInputContainer">
+      <select
+        className="timeSignatureInput"
+        value={beatsPerMeasure}
+        onChange={(e) => {
+          handleSetBeatsPerMeasure(Number(e.target.value));
+          e.currentTarget.blur();
+        }}
+      >
+        {
+          BEATS_PER_MEASURE.map((_, index) => {
+            return (
+              <option key={index} value={index + 1}>{index + 1}</option>
+            )
+          })
+        }
+      </select>
+      <p>/</p>
+      <select
+        className="timeSignatureInput"
+        value={subdivision}
+        onChange={(e) => {
+          handleSetSubdivision(Number(e.target.value));
+          e.currentTarget.blur();
+        }}
+      >
+        {
+          SUBDIVISIONS.map((item) => {
+            return (
+              <option key={item} value={item}>{item}</option>
+            )
+          })
+        }
+      </select>
+
+    </div>
   );
 };
 

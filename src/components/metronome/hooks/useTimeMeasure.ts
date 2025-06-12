@@ -1,38 +1,39 @@
 import { useState, useEffect } from "react";
 
-const useStopwatch = () => {
+const useTimeMeasure = () => {
 
   const [isRunning, setIsRunning] = useState(false);
   const [startTime, setStartTime] = useState(0);
-  const [playedTime, setPlayedTime] = useState(0);
+  const [measuredTime, setMeasuredTime] = useState(0);
 
   useEffect(() => {
     let interval: number;
 
     if (isRunning && startTime) {
       interval = setInterval(() => {
-        setPlayedTime((Date.now() - startTime));
+        setMeasuredTime((Date.now() - startTime));
       }, 500);
     }
 
     return () => clearInterval(interval);
   }, [isRunning, startTime]);
 
-  const startStopwatch = () => {
+  const startTimeMeasure = () => {
     setStartTime(Date.now());
-    setPlayedTime(0);
+    setMeasuredTime(0);
     setIsRunning(true);
   };
 
-  const stopStopwatch = () => {
+  const stopTimeMeasure = () => {
     setIsRunning(false);
+    setMeasuredTime(0);
   };
 
   return {
-    playedTime,
-    startStopwatch,
-    stopStopwatch,
+    measuredTime,
+    startTimeMeasure,
+    stopTimeMeasure,
   };
 }
 
-export default useStopwatch;
+export default useTimeMeasure;

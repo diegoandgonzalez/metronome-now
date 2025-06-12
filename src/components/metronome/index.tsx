@@ -14,16 +14,18 @@ const Metronome = () => {
 
     const {
         timerIsActive,
-        secondsToStop,
-        playedTime,
+        timerSecondsToStop,
+        measuredTime,
         isPlaying,
         bpm,
-        timeSignature,
+        beatsPerMeasure,
+        subdivision,
         beatTypes,
         currentBeatInMeasure,
         volume,
         handleSetBPM,
-        handleSetTimeSignature,
+        handleSetBeatsPerMeasure,
+        handleSetSubdivision,
         handleToggleBeatType,
         handleToggleMetronome,
         handleSetVolume,
@@ -40,12 +42,14 @@ const Metronome = () => {
                 handleChange={handleSetBPM}
             />
             <TimeSignatureInput
-                value={timeSignature}
-                handleChange={handleSetTimeSignature}
+                subdivision={subdivision}
+                beatsPerMeasure={beatsPerMeasure}
+                handleSetBeatsPerMeasure={handleSetBeatsPerMeasure}
+                handleSetSubdivision={handleSetSubdivision}
             />
             <BeatDisplay
                 beatTypes={beatTypes}
-                beatsPerMeasure={timeSignature.beatsPerMeasure}
+                beatsPerMeasure={beatsPerMeasure}
                 currentBeatInMeasure={currentBeatInMeasure}
                 handleClick={handleToggleBeatType}
             />
@@ -59,12 +63,12 @@ const Metronome = () => {
                 />
                 <Timer
                     initialIsActive={timerIsActive}
-                    initialSecondsToStop={secondsToStop}
+                    initialSecondsToStop={timerSecondsToStop}
                     handleSetTimer={handleSetTimer}
                 />
             </div>
             <Clock
-                value={playedTime}
+                value={measuredTime}
             />
             <VolumeInput
                 value={volume}
