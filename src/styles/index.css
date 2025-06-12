@@ -141,8 +141,8 @@ dialog::backdrop {
 
 .beat {
     cursor: pointer;
-    width: 45px;
-    height: 45px;
+    width: 30px;
+    height: 30px;
     margin: 5px;
     border-radius: 50%;
     text-align: center;
@@ -212,7 +212,7 @@ dialog::backdrop {
 
 .clock {
     font-size: 24px;
-    margin: 10px;
+    margin: 20px;
 }
 
 .themeChanger {
@@ -241,7 +241,7 @@ dialog::backdrop {
 .volumeInputRange {
     outline: 0;
     cursor: pointer;
-    width: 100px;
+    width: 150px;
 }
 
 .iconButton {

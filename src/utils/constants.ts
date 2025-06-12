@@ -14,7 +14,7 @@ export const DEFAULT_SECONDS_TO_STOP = 60;
 export const DEFAULT_MEASURES_TO_STOP = 4;
 export const DEFAULT_TIMER_IS_ACTIVE = false;
 
-export const ICON_SIZE = 40;
+export const ICON_SIZE = 45;
 
 /**
  * Number of different types of beat types
