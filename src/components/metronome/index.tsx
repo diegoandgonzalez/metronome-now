@@ -1,14 +1,18 @@
 import Title from "./components/title";
 import BPMInput from "./components/bpmInput";
 import TimeSignatureInput from "./components/timeSignatureInput";
-import PlayButton from "./components/playButton";
 import BeatDisplay from "./components/beatDisplay";
 import Clock from "./components/clock";
 import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
 import useMetronome from "./hooks/useMetronome";
 import VolumeInput from "./components/volumeInput";
-import Timer from "./components/timer";
-import BPMProgrammer from "./components/bpmProgrammer";
+import IconButton from "./components/iconButton";
+import StopIcon from "../../assets/icons/stopIcon";
+import PlayIcon from "../../assets/icons/playIcon";
+import AddSubtractIcon from "../../assets/icons/addSubtractIcon";
+import StopperIcon from "../../assets/icons/stopperIcon";
+import useDialog from "../dialog/useDialog";
+import TimerDialog from "./components/timerDialog";
 
 const Metronome = () => {
 
@@ -34,6 +38,12 @@ const Metronome = () => {
 
     useExecuteOnSpacePressed(handleToggleMetronome);
 
+    const {
+        dialogRef: timerDialogRef,
+        handleOpenDialog: handleOpenTimerDialog,
+        handleCloseDialog: handleCloseTimerDialog,
+    } = useDialog();
+
     return (
         <div className="metronomeContainer">
             <Title />
@@ -54,17 +64,30 @@ const Metronome = () => {
                 handleClick={handleToggleBeatType}
             />
             <div className="buttonsContainer">
-                <BPMProgrammer
+                <IconButton
+                    isActive={false}
                     handleClick={console.log}
-                />
-                <PlayButton
-                    isPlaying={isPlaying}
+                >
+                    {<AddSubtractIcon />}
+                </IconButton>
+                <IconButton
+                    isActive
                     handleClick={handleToggleMetronome}
-                />
-                <Timer
+                >
+                    {isPlaying ? <StopIcon /> : <PlayIcon />}
+                </IconButton>
+                <IconButton
+                    isActive={timerIsActive}
+                    handleClick={handleOpenTimerDialog}
+                >
+                    {<StopperIcon />}
+                </IconButton>
+                <TimerDialog
+                    ref={timerDialogRef}
                     initialIsActive={timerIsActive}
                     initialSecondsToStop={timerSecondsToStop}
                     handleSetTimer={handleSetTimer}
+                    handleClose={handleCloseTimerDialog}
                 />
             </div>
             <Clock
