@@ -58,7 +58,7 @@ const useMetronome = () => {
         isActive: timerIsActive,
         amount: secondsToStop,
         handleSetCounter: handleSetTimer,
-    } = useCounter(DEFAULT_SECONDS_TO_STOP);
+    } = useCounter(DEFAULT_SECONDS_TO_STOP); // TODO: save value in localstorage
 
     useEffect(() => {
         audioContextRef.current = new window.AudioContext();

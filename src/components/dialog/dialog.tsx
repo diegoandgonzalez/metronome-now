@@ -2,9 +2,10 @@ import CloseIcon from "../../assets/icons/closeIcon";
 
 type Props = {
     ref: React.Ref<HTMLDialogElement>,
-    handleClose: () => void,
     title?: string,
     children?: React.ReactNode,
+    handleClose: () => void,
+    handleSubmit: () => void,
 }
 
 // TODO: close on click outside
@@ -14,8 +15,9 @@ const Dialog = (props: Props) => {
     const {
         ref,
         title,
-        handleClose,
         children,
+        handleClose,
+        handleSubmit,
     } = props;
 
     return (
@@ -33,6 +35,11 @@ const Dialog = (props: Props) => {
             </div>
             <div>
                 {children}
+            </div>
+            <div className="dialogButtonContainer">
+                <button onClick={handleSubmit} type="submit">
+                    {"Accept"}
+                </button>
             </div>
         </dialog>
     )

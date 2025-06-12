@@ -26,9 +26,8 @@ const Timer = (props: Props) => {
     const [isActive, setIsActive] = useState(initialIsActive);
     const [seconds, setSeconds] = useState<number | string>(initialSecondsToStop);
 
-    const formattedSeconds = Number(seconds);
-
     const handleSubmit = () => {
+        const formattedSeconds = Number(seconds);
         if (!formattedSeconds || formattedSeconds < 1) return;
         handleSetTimer(formattedSeconds, isActive);
         handleCloseDialog();
@@ -47,36 +46,29 @@ const Timer = (props: Props) => {
                 {<StopperIcon />}
             </button>
             <Dialog
-                title={"Timer settings"}
                 ref={dialogRef}
+                title={"Timer settings"}
                 handleClose={handleCloseDialog}
+                handleSubmit={handleSubmit}
             >
-                <div>
-                    <div>
-                        <label htmlFor="active">{"Timer is active"}</label>
-                        <input type="checkbox" id="active" checked={isActive} onChange={() => setIsActive((prev) => !prev)} />
-                    </div>
-                    <label>
-                        {"Stop in"}
-                        <input
-                            className="timerInput"
-                            type="number"
-                            min={0}
-                            max={9999}
-                            value={seconds}
-                            onChange={(e) => setSeconds(e.target.value.substring(0, 4))}
-                            onMouseEnter={(e) => e.currentTarget.focus()}
-                            onMouseLeave={(e) => e.currentTarget.blur()}
-                        />
-                        {"seconds"}
+                <div className="checkboxContainer">
+                    <label htmlFor="active">
+                        {"Timer is active"}
                     </label>
+                    <input type="checkbox" id="active" checked={isActive} onChange={() => setIsActive((prev) => !prev)} />
                 </div>
-                <button
-                    disabled={!formattedSeconds || formattedSeconds < 1}
-                    onClick={handleSubmit}
-                >
-                    {"Accept"}
-                </button>
+                <label>
+                    {"Stop in"}
+                    <input
+                        className="timerInput"
+                        type="number"
+                        min={0}
+                        max={9999}
+                        value={seconds}
+                        onChange={(e) => setSeconds(e.target.value.substring(0, 4))}
+                    />
+                    {"seconds"}
+                </label>
             </Dialog>
         </>
     );
