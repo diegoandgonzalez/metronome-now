@@ -29,11 +29,11 @@ const Dialog = (props: Props) => {
                 <p className="dialogTitle">
                     {title}
                 </p>
-                <button className="closeIcon" onClick={handleClose}>
+                <button className="dialogCloseIcon" onClick={handleClose}>
                     {<CloseIcon />}
                 </button>
             </div>
-            <div>
+            <div className="dialogBody">
                 {children}
             </div>
             <div className="dialogButtonContainer">

@@ -20,25 +20,12 @@
 }
 
 body {
-    margin: 0px;
     background-color: var(--background);
     background: radial-gradient(circle, var(--background) 0%, var(--background2) 100%);
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-h1,
-p {
-    margin: 0px;
-}
-
 body,
-input,
-button,
-option,
-select {
-    font-family: "Space Grotesk", sans-serif;
-}
-
 h1,
 p,
 input,
@@ -46,6 +33,8 @@ label,
 button,
 option,
 select {
+    margin: 0px;
+    font-family: "Space Grotesk", sans-serif;
     color: var(--textColor);
 }
 
@@ -53,14 +42,14 @@ input {
     accent-color: var(--accentColor);
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
 input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 
 h1 {
@@ -69,22 +58,10 @@ h1 {
     margin-top: 50px;
 }
 
-option {
-    background-color: var(--background);
-}
-
 button {
-    background-color: var(--accentColor);
-    border: 0;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
+    border: 0px;
     cursor: pointer;
     color: white;
-}
-
-button:disabled {
-    background-color: var(--mutedColor);
 }
 
 b {
@@ -97,6 +74,7 @@ select {
 
 option {
     text-align: center;
+    background-color: var(--background);
 }
 
 dialog {
@@ -110,109 +88,51 @@ dialog {
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--textColor);
-    min-width: 250px;
+    width: clamp(250px, 75%, 300px);
+    font-size: 18px;
+
+    .dialogHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .dialogTitle {
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        .dialogCloseIcon {
+            background: 0px;
+            outline: 0px;
+            border: 0px;
+            margin: 0px;
+            padding: 0px;
+            display: flex;
+            color: var(--textColor);
+        }
+    }
+
+    .dialogBody {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    .dialogButtonContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        button {
+            background-color: var(--accentColor);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+    }
 }
 
 dialog::backdrop {
     background: rgba(0, 0, 0, 0.35);
-}
-
-.timeSignatureInputContainer {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.timeSignatureInput {
-    background-color: transparent;
-    border: 0;
-    outline: 0;
-    cursor: pointer;
-}
-
-.beatContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px;
-    justify-content: center;
-}
-
-.beat {
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    margin: 5px;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 18px;
-    border: 0;
-}
-
-.beat[data-beat-type="0"] {
-    background-color: var(--accentColor);
-    background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
-}
-
-.beat[data-beat-type="1"] {
-    background-color: var(--noAccentColor);
-    background: radial-gradient(circle, var(--noAccentColor) 0%, var(--noAccentColor2) 100%);
-}
-
-.beat[data-beat-type="2"] {
-    background-color: var(--mutedColor);
-    background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
-}
-
-.beat[data-is-current-beat="true"] {
-    scale: 1.2;
-    filter: brightness(110%);
-}
-
-.bpmInput {
-    cursor: default;
-    font-size: 80px;
-    text-align: center;
-    background: transparent;
-    outline: 0;
-    max-width: 180px;
-    border: 0;
-    margin-top: 30px;
-    margin-bottom: 10px;
-}
-
-.bpmInputRange {
-    outline: 0;
-    cursor: pointer;
-    width: 300px;
-}
-
-.bpmInputContainer {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-    align-items: center;
-}
-
-.metronomeContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 15px;
-}
-
-.buttonsContainer {
-    margin: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-}
-
-.clock {
-    font-size: 24px;
-    margin: 20px;
 }
 
 .themeChanger {
@@ -223,81 +143,152 @@ dialog::backdrop {
     font-size: 20px;
 }
 
-.volumeInputContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    button {
-        background: 0;
-        outline: 0px;
-        border: 0px;
-        margin: 0px;
-        width: auto;
-        font-size: 20px;
-    }
-}
-
-.volumeInputRange {
-    outline: 0;
-    cursor: pointer;
-    width: 150px;
-}
-
-.iconButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    padding: 10px;
-    background-color: var(--accentColor);
-    background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
-}
-
-.iconButton[data-is-off="true"] {
-    background-color: var(--mutedColor);
-    background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
-}
-
-.closeIcon {
-    background: 0;
-    outline: 0;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    color: var(--textColor);
-}
-
-.dialogHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.dialogTitle {
-    font-size: 24px;
-}
-
-.dialogButtonContainer {
-    margin-top: 10px;
+.metronomeContainer {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-}
+    align-items: center;
+    margin: 15px;
 
-.timerInput {
-    border: 0;
-    border-bottom: 1px solid;
-    outline: 0;
-    background-color: transparent;
-    margin: 10px;
-    font-size: 20px;
-    max-width: 100px;
-}
+    .timeSignatureInputContainer {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
 
-.checkboxContainer {
-    display: flex;
-    gap: 5px;
+        .timeSignatureInput {
+            background-color: transparent;
+            border: 0px;
+            outline: 0px;
+            cursor: pointer;
+        }
+    }
+
+    .beatContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px;
+        justify-content: center;
+
+        .beat {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 18px;
+            border: 0px;
+        }
+
+        .beat[data-beat-type="0"] {
+            background-color: var(--accentColor);
+            background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
+        }
+
+        .beat[data-beat-type="1"] {
+            background-color: var(--noAccentColor);
+            background: radial-gradient(circle, var(--noAccentColor) 0%, var(--noAccentColor2) 100%);
+        }
+
+        .beat[data-beat-type="2"] {
+            background-color: var(--mutedColor);
+            background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
+        }
+
+        .beat[data-is-current-beat="true"] {
+            scale: 1.2;
+            filter: brightness(110%);
+        }
+    }
+
+    .bpmInputContainer {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        align-items: center;
+        margin-top: 30px;
+
+        .bpmInput {
+            font-size: 80px;
+            text-align: center;
+            background: transparent;
+            outline: 0px;
+            max-width: 180px;
+            border: 0px;
+        }
+
+        .bpmInput[type=range] {
+            cursor: pointer;
+            min-width: 300px;
+        }
+    }
+
+    .mainActionsContainer {
+        margin: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .clock {
+        font-size: 24px;
+        margin: 20px;
+    }
+
+    .volumeInputContainer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        button {
+            background: 0px;
+            outline: 0px;
+            border: 0px;
+            margin: 0px;
+            width: auto;
+            font-size: 20px;
+        }
+
+        .volumeInput {
+            outline: 0px;
+            cursor: pointer;
+            width: 150px;
+        }
+    }
+
+    .iconButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        padding: 10px;
+        background-color: var(--accentColor);
+        background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
+    }
+
+    .iconButton[data-is-off="true"] {
+        background-color: var(--mutedColor);
+        background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
+    }
+
+    .timerInput {
+        border: 0px;
+        border-bottom: 1px solid;
+        outline: 0px;
+        background-color: transparent;
+        margin: 10px;
+        font-size: 20px;
+        max-width: 100px;
+    }
+
+    .checkboxContainer {
+        display: flex;
+        gap: 10px;
+
+        input[type=checkbox] {
+            scale: 1.4;
+        }
+    }
 }

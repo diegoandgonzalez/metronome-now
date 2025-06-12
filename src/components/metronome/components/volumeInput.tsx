@@ -22,7 +22,7 @@ const VolumeInput = (props: Props) => {
       </button>
       <input
         type="range"
-        className="volumeInputRange"
+        className="volumeInput"
         min={0}
         max={100}
         value={value}

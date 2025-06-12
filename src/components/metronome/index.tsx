@@ -7,12 +7,12 @@ import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
 import useMetronome from "./hooks/useMetronome";
 import VolumeInput from "./components/volumeInput";
 import IconButton from "./components/iconButton";
+import TimerDialog from "./components/timerDialog";
 import StopIcon from "../../assets/icons/stopIcon";
 import PlayIcon from "../../assets/icons/playIcon";
 import AddSubtractIcon from "../../assets/icons/addSubtractIcon";
 import StopperIcon from "../../assets/icons/stopperIcon";
 import useDialog from "../dialog/useDialog";
-import TimerDialog from "./components/timerDialog";
 
 const Metronome = () => {
 
@@ -63,7 +63,7 @@ const Metronome = () => {
                 currentBeatInMeasure={currentBeatInMeasure}
                 handleClick={handleToggleBeatType}
             />
-            <div className="buttonsContainer">
+            <div className="mainActionsContainer">
                 <IconButton
                     isActive={false}
                     handleClick={console.log}

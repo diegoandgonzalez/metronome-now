@@ -46,7 +46,7 @@ const BPMInput = (props: Props) => {
       />
       <input
         type="range"
-        className="bpmInputRange"
+        className="bpmInput"
         min={MIN_BPM}
         max={MAX_BPM}
         value={value}

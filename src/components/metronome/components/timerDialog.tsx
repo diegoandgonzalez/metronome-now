@@ -43,15 +43,15 @@ const TimerDialog = (props: Props) => {
             handleSubmit={handleSubmit}
         >
             <div className="checkboxContainer">
-                <label htmlFor="active">
-                    {"Timer is active"}
-                </label>
                 <input
                     type="checkbox"
                     id="active"
                     checked={isActive}
                     onChange={() => setIsActive((prev) => !prev)}
                 />
+                <label htmlFor="active">
+                    {"Timer is active"}
+                </label>
             </div>
             <label>
                 {"Stop in"}
