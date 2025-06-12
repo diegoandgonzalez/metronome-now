@@ -146,10 +146,12 @@ const useMetronome = () => {
     const scheduler = () => {
         if (!audioContextRef.current) return;
 
+        const subdivisionRatio = 4 / subdivisionRef.current;
+
         while (nextNoteTimeRef.current < audioContextRef.current.currentTime + 0.1) {
             scheduleNote(nextNoteTimeRef.current);
 
-            const secondsPerBeat = 60.0 / bpmRef.current;
+            const secondsPerBeat = 60.0 / (bpmRef.current / subdivisionRatio);
             nextNoteTimeRef.current += secondsPerBeat;
         }
 
