@@ -19,15 +19,16 @@ Online metronome for your everyday needs
 - Toggle accent, normal and mute sounds for each beat independently
 - Set the metronome to stop after a determined amount of seconds
 - Dark/light mode
+- i18n
 
 ## Coming Soon
-- i18n
+- Tap to get BPM
 - Set the metronome to stop after a determined amount of measures
 - Increase or decrease your BPM after a determined amount of measures (with countdown option)
-- Tap to get BPM
 - Save settings in templates for faster use
 - Deployed site with a live link
 - PWA
+- More languages supported
 
 ## How to run locally
 
