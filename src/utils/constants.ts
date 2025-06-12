@@ -26,3 +26,4 @@ export const BEATS_PER_MEASURE = Array.from({ length: 16 }, (_, i) => i + 1);
 export const SUBDIVISIONS = [2, 4, 8, 16];
 
 export const DEFAULT_THEME = "dark";
+export const DEFAULT_LANGUAGE = "en";

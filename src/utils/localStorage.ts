@@ -13,11 +13,12 @@ export const getValueFromLocalStorage = (key: string) => {
 };
 
 export const LOCAL_STORAGE_KEYS = {
+  theme: "metronome_now_theme",
+  language: "metronome_now_language",
   bpm: "metronome_now_bpm",
   beatsPerMeasure: "metronome_now_beats_per_measure",
   subdivision: "metronome_now_subdivision",
   beatTypes: "metronome_now_beat_types",
-  theme: "metronome_now_theme",
   volume: "metronome_now_volume",
   timerIsActive: "metronome_now_timer_is_active",
   timerSecondsToStop: "metronome_now_timer_seconds_to_stop",

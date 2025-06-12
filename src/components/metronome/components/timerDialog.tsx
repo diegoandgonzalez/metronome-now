@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Dialog from "../../dialog/dialog";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     ref: React.RefObject<HTMLDialogElement | null>,
@@ -18,6 +19,8 @@ const TimerDialog = (props: Props) => {
         handleSetTimer,
         handleClose,
     } = props;
+
+    const { t } = useTranslation();
 
     const [isActive, setIsActive] = useState(initialIsActive);
     const [seconds, setSeconds] = useState<number | string>(initialSecondsToStop);
@@ -38,7 +41,7 @@ const TimerDialog = (props: Props) => {
     return (
         <Dialog
             ref={ref}
-            title={"Timer settings"}
+            title={t("timerSettings")}
             handleClose={handleCloseAndReset}
             handleSubmit={handleSubmit}
         >
@@ -50,11 +53,11 @@ const TimerDialog = (props: Props) => {
                     onChange={() => setIsActive((prev) => !prev)}
                 />
                 <label htmlFor="active">
-                    {"Timer is active"}
+                    {t("timerIsActive")}
                 </label>
             </div>
             <label>
-                {"Stop in"}
+                {t("stopIn")}
                 <input
                     className="timerInput"
                     type="number"
@@ -63,7 +66,7 @@ const TimerDialog = (props: Props) => {
                     value={seconds}
                     onChange={(e) => setSeconds(e.target.value.substring(0, 4))}
                 />
-                {"seconds"}
+                {t("seconds")}
             </label>
         </Dialog>
     );

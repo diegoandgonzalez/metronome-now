@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import CloseIcon from "../../assets/icons/closeIcon";
 
 type Props = {
@@ -20,6 +21,8 @@ const Dialog = (props: Props) => {
         handleSubmit,
     } = props;
 
+    const { t } = useTranslation();
+
     return (
         <dialog
             ref={ref}
@@ -38,7 +41,7 @@ const Dialog = (props: Props) => {
             </div>
             <div className="dialogButtonContainer">
                 <button onClick={handleSubmit} type="submit">
-                    {"Accept"}
+                    {t("accept")}
                 </button>
             </div>
         </dialog>
