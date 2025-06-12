@@ -92,6 +92,7 @@ const Metronome = () => {
             </div>
             <Clock
                 value={measuredTime}
+                secondsToStop={timerIsActive ? timerSecondsToStop : 0}
             />
             <VolumeInput
                 value={volume}

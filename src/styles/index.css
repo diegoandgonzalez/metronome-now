@@ -232,9 +232,14 @@ dialog::backdrop {
         gap: 25px;
     }
 
-    .clock {
-        font-size: 24px;
-        margin: 20px;
+    .clockContainer {
+        display: flex;
+        align-items: center;
+
+        .clock {
+            font-size: 24px;
+            margin: 20px;
+        }
     }
 
     .volumeInputContainer {
