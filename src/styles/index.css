@@ -53,6 +53,16 @@ input {
     accent-color: var(--accentColor);
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
 h1 {
     font-size: 35px;
     text-align: center;
@@ -164,7 +174,11 @@ dialog::backdrop {
     cursor: default;
     font-size: 80px;
     text-align: center;
-    margin-top: 40px;
+    background: transparent;
+    outline: 0;
+    max-width: 180px;
+    border: 0;
+    margin-top: 30px;
     margin-bottom: 10px;
 }
 
@@ -178,6 +192,7 @@ dialog::backdrop {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
+    align-items: center;
 }
 
 .metronomeContainer {
