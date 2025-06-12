@@ -1,4 +1,3 @@
-import Title from "./components/title";
 import BPMInput from "./components/bpmInput";
 import TimeSignatureInput from "./components/timeSignatureInput";
 import BeatDisplay from "./components/beatDisplay";
@@ -46,7 +45,6 @@ const Metronome = () => {
 
     return (
         <div className="metronomeContainer">
-            <Title />
             <BPMInput
                 value={bpm}
                 handleChange={handleSetBPM}

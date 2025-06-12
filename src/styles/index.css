@@ -53,9 +53,9 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 h1 {
-    font-size: 35px;
+    font-size: 24px;
     text-align: center;
-    margin-top: 50px;
+    text-wrap: nowrap;
 }
 
 button {
@@ -139,19 +139,24 @@ dialog::backdrop {
     background: rgba(0, 0, 0, 0.35);
 }
 
-.fixedButtonsContainer {
-    position: fixed;
-    top: 20px;
-    right: 20px;
+header {
+    padding: 20px 30px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    div {
+        display: flex;
+        gap: 10px;
+    }
 
     .themeChanger {
         background-color: transparent;
         font-size: 20px;
+        padding: 0px;
     }
-    
+
     .languageChanger {
         font-size: 16px;
     }
@@ -161,10 +166,10 @@ dialog::backdrop {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 15px;
+    margin: 0px 15px 15px;
 
     .timeSignatureInputContainer {
-        margin-top: 10px;
+        margin-top: 20px;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -174,6 +179,7 @@ dialog::backdrop {
             border: 0px;
             outline: 0px;
             cursor: pointer;
+            font-size: 20px;
         }
     }
 
@@ -181,7 +187,7 @@ dialog::backdrop {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        margin: 20px;
+        margin: 40px;
         justify-content: center;
 
         .beat {
@@ -221,7 +227,7 @@ dialog::backdrop {
         flex-direction: column;
         margin-bottom: 15px;
         align-items: center;
-        margin-top: 30px;
+        margin-top: 15px;
 
         .bpmInput {
             font-size: 80px;
@@ -249,10 +255,11 @@ dialog::backdrop {
     .clockContainer {
         display: flex;
         align-items: center;
+        margin: 30px;
 
         .clock {
-            font-size: 24px;
-            margin: 20px;
+            margin: 0px 10px;
+            font-size: 22px;
         }
     }
 
