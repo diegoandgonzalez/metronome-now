@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { DEFAULT_LANGUAGE } from "../utils/constants";
-import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../utils/localStorage";
+import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../utils/localStorage";
 import { useTranslation } from "react-i18next";
 
 const LanguageChanger = () => {
 
-    const [language, setLanguage] = useState(() => {
-        return getValueFromLocalStorage(LOCAL_STORAGE_KEYS.language) || DEFAULT_LANGUAGE;
-    })
-
     const { t, i18n } = useTranslation();
+    const [language, setLanguage] = useState(i18n.language);
 
     const handleChangeLanguage = (newLanguage: string) => {
         setLanguage(newLanguage);
