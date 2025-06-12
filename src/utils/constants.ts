@@ -1,7 +1,7 @@
 export const LOOK_AHEAD = 25; // ms
 
 export const MIN_BPM = 30;
-export const MAX_BPM = 180;
+export const MAX_BPM = 240;
 export const DEFAULT_BPM = 120;
 
 export const STOPPED_METRONOME_BEAT_INDEX = -1;
