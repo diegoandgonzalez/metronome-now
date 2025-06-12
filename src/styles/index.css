@@ -70,6 +70,7 @@ b {
 
 select {
     font-size: 18px;
+    font-weight: 600;
     background: transparent;
     border: 0;
     outline: 0;
@@ -92,7 +93,7 @@ dialog {
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--textColor);
-    width: clamp(250px, 75%, 300px);
+    width: clamp(250px, 75%, 400px);
     font-size: 18px;
 
     .dialogHeader {
@@ -132,6 +133,16 @@ dialog {
             border-radius: 10px;
             font-size: 16px;
         }
+    }
+
+    .dialogInput {
+        border: 0px;
+        border-bottom: 1px solid;
+        outline: 0px;
+        background-color: transparent;
+        margin: 10px;
+        font-size: 20px;
+        max-width: 100px;
     }
 }
 
@@ -297,16 +308,6 @@ header {
     .iconButton[data-is-off="true"] {
         background-color: var(--mutedColor);
         background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
-    }
-
-    .timerInput {
-        border: 0px;
-        border-bottom: 1px solid;
-        outline: 0px;
-        background-color: transparent;
-        margin: 10px;
-        font-size: 20px;
-        max-width: 100px;
     }
 
     .checkboxContainer {

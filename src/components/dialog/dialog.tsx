@@ -9,8 +9,6 @@ type Props = {
     handleSubmit: () => void,
 }
 
-// TODO: close on click outside
-
 const Dialog = (props: Props) => {
 
     const {

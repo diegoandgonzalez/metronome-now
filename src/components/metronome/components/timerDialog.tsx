@@ -32,8 +32,13 @@ const TimerDialog = (props: Props) => {
     }
 
     const handleSubmit = () => {
-        const formattedSeconds = Number(seconds);
-        if (!formattedSeconds || formattedSeconds < 1) return;
+        const formattedSeconds = Math.round(Number(seconds));
+        if (!formattedSeconds || formattedSeconds < 1) {
+            console.error("NO secondsIsValid")
+            // TODO: show message
+            return;
+        }
+
         handleSetTimer(formattedSeconds, isActive);
         handleCloseAndReset();
     }
@@ -48,18 +53,19 @@ const TimerDialog = (props: Props) => {
             <div className="checkboxContainer">
                 <input
                     type="checkbox"
-                    id="active"
+                    id="timerIsActive"
                     checked={isActive}
                     onChange={() => setIsActive((prev) => !prev)}
                 />
-                <label htmlFor="active">
+                <label htmlFor="timerIsActive">
                     {t("timerIsActive")}
                 </label>
             </div>
-            <label>
+            <label htmlFor="timerInput">
                 {t("stopIn")}
                 <input
-                    className="timerInput"
+                    id="timerInput"
+                    className="dialogInput"
                     type="number"
                     min={0}
                     max={9999}

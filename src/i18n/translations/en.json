@@ -1,9 +1,17 @@
 {
     "timerSettings": "Timer settings",
-    "timerIsActive": "Timer is acttive",
+    "timerIsActive": "Timer is active",
     "stopIn": "Stop in",
     "seconds": "seconds",
     "accept": "Accept",
     "en": "English",
-    "es": "Español"
+    "es": "Español",
+    "bpmProgramming": "BPM programming",
+    "bpmProgrammingIsActive": "BPM programming is active",
+    "bpmToChange": "Amount of BPM to",
+    "goalBPM": "Goal BPM",
+    "changeBPMevery": "Change BPM every",
+    "measures": "measures",
+    "add": "add",
+    "subtract": "subtract"
 }

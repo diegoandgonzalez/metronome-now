@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MAX_BPM, MIN_BPM } from "../../../utils/constants";
 
 type Props = {
@@ -14,6 +14,11 @@ const BPMInput = (props: Props) => {
   } = props;
 
   const [auxBPM, setAuxBPM] = useState(String(value));
+
+  // so that when the BPM changes from outside, input fields update with that value
+  useEffect(() => {
+    setAuxBPM(String(value));
+  }, [value])
 
   const handleSubmit = (newValue = auxBPM) => {
     let valueToSubmit = parseInt(newValue);

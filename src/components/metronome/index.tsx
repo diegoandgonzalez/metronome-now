@@ -12,10 +12,15 @@ import PlayIcon from "../../assets/icons/playIcon";
 import AddSubtractIcon from "../../assets/icons/addSubtractIcon";
 import StopperIcon from "../../assets/icons/stopperIcon";
 import useDialog from "../dialog/useDialog";
+import BPMProgrammingDialog from "./components/bpmProgrammingDialog";
 
 const Metronome = () => {
 
     const {
+        bpmProgrammingIsActive,
+        bpmToChange,
+        goalBPM,
+        measuresToChangeBPM,
         timerIsActive,
         timerSecondsToStop,
         measuredTime,
@@ -33,6 +38,7 @@ const Metronome = () => {
         handleToggleMetronome,
         handleSetVolume,
         handleSetTimer,
+        handleSetBPMProgramming,
     } = useMetronome();
 
     useExecuteOnSpacePressed(handleToggleMetronome);
@@ -41,6 +47,12 @@ const Metronome = () => {
         dialogRef: timerDialogRef,
         handleOpenDialog: handleOpenTimerDialog,
         handleCloseDialog: handleCloseTimerDialog,
+    } = useDialog();
+
+    const {
+        dialogRef: bpmProgrammingRef,
+        handleOpenDialog: handleOpenBPMProgrammingDialog,
+        handleCloseDialog: handleCloseBPMProgrammingDialog,
     } = useDialog();
 
     return (
@@ -63,8 +75,8 @@ const Metronome = () => {
             />
             <div className="mainActionsContainer">
                 <IconButton
-                    isActive={false}
-                    handleClick={console.log}
+                    isActive={bpmProgrammingIsActive}
+                    handleClick={handleOpenBPMProgrammingDialog}
                 >
                     {<AddSubtractIcon />}
                 </IconButton>
@@ -86,6 +98,16 @@ const Metronome = () => {
                     initialSecondsToStop={timerSecondsToStop}
                     handleSetTimer={handleSetTimer}
                     handleClose={handleCloseTimerDialog}
+                />
+                <BPMProgrammingDialog
+                    ref={bpmProgrammingRef}
+                    initialIsActive={bpmProgrammingIsActive}
+                    initialBPMToChange={bpmToChange}
+                    initialGoalBPM={goalBPM}
+                    initialMeasuresToChangeBPM={measuresToChangeBPM}
+                    currentBPM={bpm}
+                    handleSetBPMProgramming={handleSetBPMProgramming}
+                    handleClose={handleCloseBPMProgrammingDialog}
                 />
             </div>
             <Clock

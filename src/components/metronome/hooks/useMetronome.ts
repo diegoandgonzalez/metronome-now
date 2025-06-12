@@ -11,6 +11,10 @@ import {
     DEFAULT_TIMER_IS_ACTIVE,
     DEFAULT_SECONDS_TO_STOP,
     DEFAULT_SUBDIVISION,
+    DEFAULT_BPM_PROGRAMMING_IS_ACTIVE,
+    DEFAULT_GOAL_BPM,
+    DEFAULT_BPM_TO_CHANGE,
+    DEFAULT_MEASURES_TO_CHANGE_BPM,
 } from "../../../utils/constants";
 import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
@@ -24,6 +28,10 @@ const initialBeatTypes = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatTypes) 
 const initialVolume = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.volume) || DEFAULT_VOLUME;
 const initialTimerIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerIsActive) || DEFAULT_TIMER_IS_ACTIVE;
 const initialTimerSecondsToStop = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerSecondsToStop) || DEFAULT_SECONDS_TO_STOP;
+const initialBPMProgrammingIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpmProgrammingIsActive) || DEFAULT_BPM_PROGRAMMING_IS_ACTIVE;
+const initialBPMToChange = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpmToChange) || DEFAULT_BPM_TO_CHANGE;
+const initialGoalBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.goalBPM) || DEFAULT_GOAL_BPM;
+const initialMeasuresToChangeBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.measuresToChangeBPM) || DEFAULT_MEASURES_TO_CHANGE_BPM;
 
 type AudioToPlay = AudioBuffer | undefined;
 
@@ -68,6 +76,30 @@ const useMetronome = () => {
     } = useStateRefLocalStorageSync<number>(initialSubdivision, LOCAL_STORAGE_KEYS.subdivision);
 
     const {
+        value: bpmProgrammingIsActive,
+        valueRef: bpmProgrammingIsActiveRef,
+        handleSyncValue: handleSyncBPMProgrammingIsActive,
+    } = useStateRefLocalStorageSync<boolean>(initialBPMProgrammingIsActive, LOCAL_STORAGE_KEYS.bpmProgrammingIsActive);
+
+    const {
+        value: goalBPM,
+        valueRef: goalBPMRef,
+        handleSyncValue: handleSyncGoalBPM,
+    } = useStateRefLocalStorageSync<number>(initialGoalBPM, LOCAL_STORAGE_KEYS.goalBPM);
+
+    const {
+        value: measuresToChangeBPM,
+        valueRef: measuresToChangeBPMRef,
+        handleSyncValue: handleSyncMeasuresToChangeBPM,
+    } = useStateRefLocalStorageSync<number>(initialMeasuresToChangeBPM, LOCAL_STORAGE_KEYS.measuresToChangeBPM);
+
+    const {
+        value: bpmToChange,
+        valueRef: bpmToChangeRef,
+        handleSyncValue: handleSyncBPMToChange,
+    } = useStateRefLocalStorageSync<number>(initialBPMToChange, LOCAL_STORAGE_KEYS.bpmToChange);
+
+    const {
         value: timerIsActive,
         handleSyncValue: handleSyncTimerIsActive,
     } = useStateRefLocalStorageSync<boolean>(initialTimerIsActive, LOCAL_STORAGE_KEYS.timerIsActive);
@@ -79,6 +111,7 @@ const useMetronome = () => {
 
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(STOPPED_METRONOME_BEAT_INDEX); // circular number inside measure size
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX); // counter of beats from 0 to infinity
+    const measureNumberRef = useRef(0); // counter of measures from 0 to infinity
 
     const audioContextRef = useRef<AudioContext>(null);
     const clickAudioRef = useRef<ClickAudioRef>({ clickAccent: undefined, clickNormal: undefined, clickMuted: undefined });
@@ -134,11 +167,19 @@ const useMetronome = () => {
 
         setCurrentBeatInMeasure(calculatedBeat);
 
-        // test add at the beggining of each measure
-        // if (calculatedBeat === 0 && beatNumberRef.current !== 0) {
-        //     bpmRef.current++;
-        //     setBpm(bpmRef.current); // use ref value because state is not up to date inside of setTimeout
-        // }
+        if (bpmProgrammingIsActiveRef.current) {
+            if (calculatedBeat === 0 && beatNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
+                measureNumberRef.current++;
+                if (measureNumberRef.current % measuresToChangeBPMRef.current === 0) { // if it's correct measure to change bpm
+                    if (
+                        (bpmToChangeRef.current > 0 && bpmRef.current < goalBPMRef.current) ||
+                        (bpmToChangeRef.current < 0 && bpmRef.current > goalBPMRef.current)
+                    ) {
+                        handleSyncBPM(bpmRef.current + bpmToChangeRef.current)
+                    }
+                }
+            }
+        }
 
         beatNumberRef.current++; // this should always go at the end of the function
     };
@@ -179,6 +220,7 @@ const useMetronome = () => {
         setIsPlaying(false);
         setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
         beatNumberRef.current = STOPPED_METRONOME_BEAT_INDEX;
+        measureNumberRef.current = 0;
         stopTimeMeasure();
     };
 
@@ -214,7 +256,6 @@ const useMetronome = () => {
 
     const handleSetSubdivision = (newSubdivision: number) => {
         handleSyncSubdivision(newSubdivision);
-        // TODO: logic to add sounds between beats
     }
 
     const handleToggleBeatType = (beatToAccent: number) => {
@@ -229,6 +270,13 @@ const useMetronome = () => {
         handleSyncTimerIsActive(newIsActive);
     }
 
+    const handleSetBPMProgramming = (newBPMToChange: number, newGoalBPM: number, newMeasuresToChangeBPM: number, newIsActive: boolean) => {
+        handleSyncBPMToChange(newBPMToChange);
+        handleSyncGoalBPM(newGoalBPM);
+        handleSyncMeasuresToChangeBPM(newMeasuresToChangeBPM);
+        handleSyncBPMProgrammingIsActive(newIsActive);
+    }
+
     useEffect(() => {
         if (timerIsActive && measuredTime) {
             if (measuredTime >= (timerSecondsToStop * 1000)) stopMetronome();
@@ -236,6 +284,10 @@ const useMetronome = () => {
     }, [measuredTime, timerIsActive, timerSecondsToStop, stopMetronome])
 
     return {
+        bpmProgrammingIsActive,
+        bpmToChange,
+        goalBPM,
+        measuresToChangeBPM,
         timerIsActive,
         timerSecondsToStop,
         measuredTime,
@@ -253,6 +305,7 @@ const useMetronome = () => {
         handleToggleMetronome,
         handleSetVolume,
         handleSetTimer,
+        handleSetBPMProgramming,
     };
 }
 

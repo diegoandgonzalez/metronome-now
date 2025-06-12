@@ -5,5 +5,13 @@
     "seconds": "segundos",
     "accept": "Aceptar",
     "en": "English",
-    "es": "Español"
+    "es": "Español",
+    "bpmProgramming": "Programación de BPM",
+    "bpmProgrammingIsActive": "Programación de BPM activada",
+    "bpmToChange": "Cantidad de BPM a",
+    "goalBPM": "BPM objetivo",
+    "changeBPMevery": "Cambiar BPM cada",
+    "measures": "compases",
+    "add": "sumar",
+    "subtract": "restar"
 }
