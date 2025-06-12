@@ -22,7 +22,6 @@ Online metronome for your everyday needs
 
 ## Coming Soon
 - i18n
-- Better time signature options, and subdivisions
 - Set the metronome to stop after a determined amount of measures
 - Increase or decrease your BPM after a determined amount of measures (with countdown option)
 - Tap to get BPM
