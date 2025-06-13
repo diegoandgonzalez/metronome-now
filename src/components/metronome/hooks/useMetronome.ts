@@ -137,9 +137,9 @@ const useMetronome = () => {
         };
 
         const loadAudio = async () => {
-            const clickAccent = await getAudioBuffer("src/assets/audio/clickAccent.wav");
-            const clickNormal = await getAudioBuffer("src/assets/audio/clickNormal.wav");
-            const clickMuted = await getAudioBuffer("src/assets/audio/clickMuted.wav");
+            const clickAccent = await getAudioBuffer("audio/clickAccent.wav");
+            const clickNormal = await getAudioBuffer("audio/clickNormal.wav");
+            const clickMuted = await getAudioBuffer("audio/clickMuted.wav");
             clickAudioRef.current = { clickAccent, clickNormal, clickMuted };
         };
 
