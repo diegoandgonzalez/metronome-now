@@ -17,6 +17,7 @@ import BPMProgrammingDialog from "./components/bpmProgrammingDialog";
 const Metronome = () => {
 
     const {
+        addSubtractOption,
         bpmProgrammingIsActive,
         bpmToChange,
         goalBPM,
@@ -92,23 +93,30 @@ const Metronome = () => {
                 >
                     {<StopperIcon />}
                 </IconButton>
-                <TimerDialog
-                    open={timerDialogIsOpen}
-                    initialIsActive={timerIsActive}
-                    initialSecondsToStop={timerSecondsToStop}
-                    handleSetTimer={handleSetTimer}
-                    handleClose={handleCloseTimerDialog}
-                />
-                <BPMProgrammingDialog
-                    open={bpmProgrammingDialogIsOpen}
-                    initialIsActive={bpmProgrammingIsActive}
-                    initialBPMToChange={bpmToChange}
-                    initialGoalBPM={goalBPM}
-                    initialMeasuresToChangeBPM={measuresToChangeBPM}
-                    currentBPM={bpm}
-                    handleSetBPMProgramming={handleSetBPMProgramming}
-                    handleClose={handleCloseBPMProgrammingDialog}
-                />
+                {
+                    timerDialogIsOpen &&
+                    <TimerDialog
+                        open={timerDialogIsOpen}
+                        initialIsActive={timerIsActive}
+                        initialSecondsToStop={timerSecondsToStop}
+                        handleSetTimer={handleSetTimer}
+                        handleClose={handleCloseTimerDialog}
+                    />
+                }
+                {
+                    bpmProgrammingDialogIsOpen &&
+                    <BPMProgrammingDialog
+                        open={bpmProgrammingDialogIsOpen}
+                        initialAddSubtractOption={addSubtractOption}
+                        initialIsActive={bpmProgrammingIsActive}
+                        initialBPMToChange={bpmToChange}
+                        initialGoalBPM={goalBPM}
+                        initialMeasuresToChangeBPM={measuresToChangeBPM}
+                        currentBPM={bpm}
+                        handleSetBPMProgramming={handleSetBPMProgramming}
+                        handleClose={handleCloseBPMProgrammingDialog}
+                    />
+                }
             </div>
             <Clock
                 value={measuredTime}

@@ -1,17 +1,18 @@
 import { useState } from "react";
 import Dialog from "../../dialog/dialog";
 import { useTranslation } from "react-i18next";
-import { ADD_OPTION, ADD_SUBTRACT_ARRAY, MAX_BPM, MAX_MEASURES_TO_CHANGE_BPM, MIN_BPM } from "../../../utils/constants";
+import { ADD_OPTION, ADD_SUBTRACT_ARRAY, MAX_BPM, MAX_MEASURES_TO_CHANGE_BPM, MIN_BPM, SUBTRACT_OPTION } from "../../../utils/constants";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
 
 type Props = {
     open: boolean,
+    initialAddSubtractOption: string,
     initialIsActive: boolean
     initialBPMToChange: number,
     initialGoalBPM: number,
     initialMeasuresToChangeBPM: number,
     currentBPM: number,
-    handleSetBPMProgramming: (bpmToChange: number, maxBPM: number, measuresToChangeBPM: number, isActive: boolean) => void,
+    handleSetBPMProgramming: (bpmToChange: number, maxBPM: number, measuresToChangeBPM: number, addSubtractOption: string, isActive: boolean) => void,
     handleClose: () => void,
 }
 
@@ -20,6 +21,7 @@ const BPMProgrammingDialog = (props: Props) => {
     const {
         open,
         initialIsActive,
+        initialAddSubtractOption,
         initialBPMToChange,
         initialGoalBPM,
         initialMeasuresToChangeBPM,
@@ -38,17 +40,10 @@ const BPMProgrammingDialog = (props: Props) => {
     const [bpmToChange, setBPMToChange] = useState<number | string>(initialBPMToChange);
     const [goalBPM, setGoalBPM] = useState<number | string>(initialGoalBPM);
     const [measuresToChangeBPM, setMeasuresToChangeBPM] = useState<number | string>(initialMeasuresToChangeBPM);
-    const [addSubtractOption, setAddSubtractOption] = useState<string>(ADD_OPTION);
-
-    const handleCloseAndReset = () => {
-        handleClose();
-        setIsActive(initialIsActive);
-        setBPMToChange(initialBPMToChange);
-        setGoalBPM(initialGoalBPM);
-    }
+    const [addSubtractOption, setAddSubtractOption] = useState<string>(initialAddSubtractOption);
 
     const handleSubmit = () => {
-        const formattedBPMToChange = Math.round(Number(bpmToChange) * (addSubtractOption === ADD_OPTION ? 1 : -1));
+        const formattedBPMToChange = Math.round(Number(bpmToChange));
         const formattedGoalBPM = Math.round(Number(goalBPM));
         const formattedMeasuresToChangeBPM = Math.round(Number(measuresToChangeBPM));
 
@@ -57,7 +52,7 @@ const BPMProgrammingDialog = (props: Props) => {
             return;
         }
 
-        if (formattedBPMToChange < 0) {
+        if (formattedBPMToChange < 0 && addSubtractOption === ADD_OPTION) {
             handleOpenSnackbar(t("bpmToChangeCannotBeNegative"));
             return;
         }
@@ -82,12 +77,12 @@ const BPMProgrammingDialog = (props: Props) => {
             return;
         }
 
-        if (formattedBPMToChange > 0 && formattedGoalBPM <= currentBPM) {
+        if (addSubtractOption === ADD_OPTION && formattedGoalBPM <= currentBPM) {
             handleOpenSnackbar(t("goalBPMCannotBeLessThanCurrentBPM"));
             return;
         }
 
-        if (formattedBPMToChange < 0 && formattedGoalBPM >= currentBPM) {
+        if (addSubtractOption === SUBTRACT_OPTION && formattedGoalBPM >= currentBPM) {
             handleOpenSnackbar(t("goalBPMCannotBeGreaterThanCurrentBPM"));
             return;
         }
@@ -97,15 +92,15 @@ const BPMProgrammingDialog = (props: Props) => {
             return;
         }
 
-        handleSetBPMProgramming(formattedBPMToChange, formattedGoalBPM, formattedMeasuresToChangeBPM, isActive);
-        handleCloseAndReset();
+        handleSetBPMProgramming(formattedBPMToChange, formattedGoalBPM, formattedMeasuresToChangeBPM, addSubtractOption, isActive);
+        handleClose();
     }
 
     return (
         <Dialog
             open={open}
             title={t("bpmProgramming")}
-            handleClose={handleCloseAndReset}
+            handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
             <div className="checkboxContainer">

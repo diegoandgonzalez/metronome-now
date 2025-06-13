@@ -15,6 +15,8 @@ import {
     DEFAULT_GOAL_BPM,
     DEFAULT_BPM_TO_CHANGE,
     DEFAULT_MEASURES_TO_CHANGE_BPM,
+    ADD_OPTION,
+    SUBTRACT_OPTION,
 } from "../../../utils/constants";
 import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
@@ -26,12 +28,13 @@ const initialBeatsPerMeasure = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beats
 const initialSubdivision = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.subdivision) || DEFAULT_SUBDIVISION;
 const initialBeatTypes = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatTypes) || createDefaultBeatTypesArray(initialBeatsPerMeasure);
 const initialVolume = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.volume) || DEFAULT_VOLUME;
-const initialTimerIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerIsActive) || DEFAULT_TIMER_IS_ACTIVE;
+const initialTimerIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerIsActive) !== undefined || DEFAULT_TIMER_IS_ACTIVE;
 const initialTimerSecondsToStop = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerSecondsToStop) || DEFAULT_SECONDS_TO_STOP;
-const initialBPMProgrammingIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpmProgrammingIsActive) || DEFAULT_BPM_PROGRAMMING_IS_ACTIVE;
+const initialBPMProgrammingIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpmProgrammingIsActive) !== undefined || DEFAULT_BPM_PROGRAMMING_IS_ACTIVE;
 const initialBPMToChange = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpmToChange) || DEFAULT_BPM_TO_CHANGE;
 const initialGoalBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.goalBPM) || DEFAULT_GOAL_BPM;
 const initialMeasuresToChangeBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.measuresToChangeBPM) || DEFAULT_MEASURES_TO_CHANGE_BPM;
+const initialAddSubtractOption = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.addSubtractOption) || ADD_OPTION;
 
 type AudioToPlay = AudioBuffer | undefined;
 
@@ -80,6 +83,12 @@ const useMetronome = () => {
         valueRef: bpmProgrammingIsActiveRef,
         handleSyncValue: handleSyncBPMProgrammingIsActive,
     } = useStateRefLocalStorageSync<boolean>(initialBPMProgrammingIsActive, LOCAL_STORAGE_KEYS.bpmProgrammingIsActive);
+
+    const {
+        value: addSubtractOption,
+        valueRef: addSubtractOptionRef,
+        handleSyncValue: handleSyncAddSubtractOption,
+    } = useStateRefLocalStorageSync<string>(initialAddSubtractOption, LOCAL_STORAGE_KEYS.addSubtractOption);
 
     const {
         value: goalBPM,
@@ -172,10 +181,21 @@ const useMetronome = () => {
                 measureNumberRef.current++;
                 if (measureNumberRef.current % measuresToChangeBPMRef.current === 0) { // if it's correct measure to change bpm
                     if (
-                        (bpmToChangeRef.current > 0 && bpmRef.current < goalBPMRef.current) ||
-                        (bpmToChangeRef.current < 0 && bpmRef.current > goalBPMRef.current)
+                        (addSubtractOptionRef.current === ADD_OPTION && bpmRef.current < goalBPMRef.current) ||
+                        (addSubtractOptionRef.current === SUBTRACT_OPTION && bpmRef.current > goalBPMRef.current)
                     ) {
-                        handleSyncBPM(bpmRef.current + bpmToChangeRef.current)
+                        // if new value is (greater/less) than goal, set goalbpm as new bpm
+                        let nextBpmValue = bpmRef.current + (bpmToChangeRef.current * (addSubtractOptionRef.current === ADD_OPTION ? 1 : -1));
+                        
+                        if (addSubtractOptionRef.current === ADD_OPTION && nextBpmValue > goalBPMRef.current) {
+                            nextBpmValue = goalBPMRef.current;
+                        }
+
+                        if (addSubtractOptionRef.current === SUBTRACT_OPTION && nextBpmValue < goalBPMRef.current) {
+                            nextBpmValue = goalBPMRef.current;
+                        }
+
+                        handleSyncBPM(nextBpmValue);
                     }
                 }
             }
@@ -270,11 +290,18 @@ const useMetronome = () => {
         handleSyncTimerIsActive(newIsActive);
     }
 
-    const handleSetBPMProgramming = (newBPMToChange: number, newGoalBPM: number, newMeasuresToChangeBPM: number, newIsActive: boolean) => {
+    const handleSetBPMProgramming = (
+        newBPMToChange: number,
+        newGoalBPM: number,
+        newMeasuresToChangeBPM: number,
+        newAddSubtractOption: string,
+        newIsActive: boolean
+    ) => {
         handleSyncBPMToChange(newBPMToChange);
         handleSyncGoalBPM(newGoalBPM);
         handleSyncMeasuresToChangeBPM(newMeasuresToChangeBPM);
         handleSyncBPMProgrammingIsActive(newIsActive);
+        handleSyncAddSubtractOption(newAddSubtractOption);
     }
 
     useEffect(() => {
@@ -284,6 +311,7 @@ const useMetronome = () => {
     }, [measuredTime, timerIsActive, timerSecondsToStop, stopMetronome])
 
     return {
+        addSubtractOption,
         bpmProgrammingIsActive,
         bpmToChange,
         goalBPM,
