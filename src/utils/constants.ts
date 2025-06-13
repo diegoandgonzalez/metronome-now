@@ -5,7 +5,7 @@ export const MAX_BPM = 360;
 export const DEFAULT_BPM = 120;
 
 export const MIN_VOLUME = 0;
-export const MAX_VOLUME = 100;
+export const MAX_VOLUME = 200;
 export const DEFAULT_VOLUME = 100;
 
 export const STOPPED_METRONOME_BEAT_INDEX = -1;

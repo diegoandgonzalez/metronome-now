@@ -32,7 +32,7 @@ const VolumeInput = (props: Props) => {
       />
       <button
         onClick={(e) => {
-          handleChange(100);
+          handleChange(MAX_VOLUME);
           e.currentTarget.blur();
         }}
       >
