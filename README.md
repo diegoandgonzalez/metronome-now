@@ -16,6 +16,7 @@ Online metronome for your everyday needs
 - TypeScript
 - React
 - Vite
+- i18next
 
 ## Features
 - Play metronome at the BPM and time signatures you want
