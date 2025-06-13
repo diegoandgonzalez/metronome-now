@@ -379,6 +379,7 @@ header {
         background-color: var(--accentColor);
         display: flex;
         align-items: center;
+        justify-content: space-between;
         color: white;
     }
 
