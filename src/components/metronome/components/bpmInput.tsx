@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { MAX_BPM, MIN_BPM } from "../../../utils/constants";
+import useSnackbarContext from "../../snackbar/useSnackbarContext";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   value: number,
@@ -20,9 +22,13 @@ const BPMInput = (props: Props) => {
     setAuxBPM(String(value));
   }, [value])
 
+  const { t } = useTranslation();
+  const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
+
   const handleSubmit = (newValue = auxBPM) => {
     let valueToSubmit = parseInt(newValue);
     if (!valueToSubmit || isNaN(valueToSubmit) || valueToSubmit < MIN_BPM || valueToSubmit > MAX_BPM) {
+      handleOpenSnackbar(t("bpmMustBeInRange", { min: MIN_BPM, max: MAX_BPM }));
       setAuxBPM(String(value));
       return;
     }
