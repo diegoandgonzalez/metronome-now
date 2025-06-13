@@ -26,14 +26,14 @@ Online metronome for your everyday needs
 - i18n
 - Deployed site with a live link
 - Increase or decrease your BPM after a determined amount of measures
+- Tap to get BPM
 
 ## Coming Soon
-- Tap to get BPM
 - Option to play countdown before increasing/decreasing BPM
 - Set the metronome to stop after a determined amount of measures
 - Save settings in templates for faster use
-- PWA
-- More languages
+- PWA (Installable website)
+- More languages (Portuguese, French and Italian)
 
 ## How to run locally
 

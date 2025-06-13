@@ -252,6 +252,16 @@ header {
         align-items: center;
         margin-top: 15px;
 
+        .bpmTapButton {
+            background: var(--accentColor);
+            border-radius: 8px;
+            padding: 5px 10px;
+        }
+
+        .bpmTapButton:active {
+            scale: 1.05;
+        }
+
         .bpmInputButtonContainer {
             display: flex;
             align-items: center;
@@ -265,7 +275,6 @@ header {
             }
         }
 
-
         .bpmInput {
             font-size: 80px;
             text-align: center;
@@ -278,6 +287,7 @@ header {
         .bpmInput[type=range] {
             cursor: pointer;
             min-width: 300px;
+            margin-top: 30px;
         }
     }
 

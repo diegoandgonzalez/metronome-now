@@ -25,5 +25,6 @@
     "goalBPMCannotBeGreaterThanCurrentBPM": "Goal BPM cannot be greater than current BPM",
     "measuresToChangeBPMHasToBePositive": "Measures to change BPM have to be a positive",
     "bpmMustBeInRange": "BPM must be between {{min}} and {{max}}",
-    "measuresToChangeBPMHasToBeLessThan": "Measures to change BPM have to be less than {{value}}"
+    "measuresToChangeBPMHasToBeLessThan": "Measures to change BPM have to be less than {{value}}",
+    "tapToGetBPM": "Tap to calculate"
 }

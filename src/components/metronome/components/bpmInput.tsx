@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { MAX_BPM, MIN_BPM } from "../../../utils/constants";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
+import useTapToBPM from "../hooks/useTapToBPM";
 
 type Props = {
   value: number,
@@ -15,25 +16,26 @@ const BPMInput = (props: Props) => {
     handleChange,
   } = props;
 
-  const [auxBPM, setAuxBPM] = useState(String(value));
+  const [localBPM, setLocalBPM] = useState(String(value));
+  const { tap } = useTapToBPM();
 
   // so that when the BPM changes from outside, input fields update with that value
   useEffect(() => {
-    setAuxBPM(String(value));
+    setLocalBPM(String(value));
   }, [value])
 
   const { t } = useTranslation();
   const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
 
-  const handleSubmit = (newValue = auxBPM) => {
+  const handleSubmit = (newValue = localBPM) => {
     let valueToSubmit = parseInt(newValue);
-    if (!valueToSubmit || isNaN(valueToSubmit) || valueToSubmit < MIN_BPM || valueToSubmit > MAX_BPM) {
+    if (isNaN(valueToSubmit) || valueToSubmit < MIN_BPM || valueToSubmit > MAX_BPM) {
       handleOpenSnackbar(t("bpmMustBeInRange", { min: MIN_BPM, max: MAX_BPM }));
-      setAuxBPM(String(value));
+      setLocalBPM(String(value));
       return;
     }
 
-    setAuxBPM(String(valueToSubmit));
+    setLocalBPM(String(valueToSubmit));
     handleChange(valueToSubmit);
   }
 
@@ -44,7 +46,7 @@ const BPMInput = (props: Props) => {
           className="bpmInputButton"
           onClick={(e) => {
             e.currentTarget.blur();
-            handleSubmit(String(Number(auxBPM) - 5));
+            handleSubmit(String(Number(localBPM) - 5));
           }}
         >
           - 5
@@ -54,8 +56,8 @@ const BPMInput = (props: Props) => {
           className="bpmInput"
           min={MIN_BPM}
           max={MAX_BPM}
-          value={auxBPM}
-          onChange={(e) => setAuxBPM(e.target.value.substring(0, 3))}
+          value={localBPM}
+          onChange={(e) => setLocalBPM(e.target.value.substring(0, 3))}
           onMouseEnter={(e) => e.currentTarget.focus()}
           onMouseLeave={(e) => e.currentTarget.blur()}
           onKeyDown={(e) => {
@@ -71,12 +73,23 @@ const BPMInput = (props: Props) => {
           className="bpmInputButton"
           onClick={(e) => {
             e.currentTarget.blur();
-            handleSubmit(String(Number(auxBPM) + 5));
+            handleSubmit(String(Number(localBPM) + 5));
           }}
         >
           + 5
         </button>
       </div>
+      <button
+        className="bpmTapButton"
+        onClick={(e) => {
+          e.currentTarget.blur();
+          const tappedBPM = tap();
+          if (!tappedBPM) return;
+          handleSubmit(String(tappedBPM))
+        }}
+      >
+        👆 {t("tapToGetBPM")}
+      </button>
       <input
         type="range"
         className="bpmInput"
