@@ -13,6 +13,7 @@ import AddSubtractIcon from "../../assets/icons/addSubtractIcon";
 import StopperIcon from "../../assets/icons/stopperIcon";
 import useDialog from "../dialog/useDialog";
 import BPMProgrammingDialog from "./components/bpmProgrammingDialog";
+import { MAIN_ICON_SIZE } from "../../utils/constants";
 
 const Metronome = () => {
 
@@ -88,7 +89,7 @@ const Metronome = () => {
                         isActive
                         handleClick={handleToggleMetronome}
                     >
-                        {isPlaying ? <StopIcon /> : <PlayIcon />}
+                        {isPlaying ? <StopIcon size={MAIN_ICON_SIZE} /> : <PlayIcon size={MAIN_ICON_SIZE} />}
                     </IconButton>
                     <IconButton
                         isActive={timerIsActive}
