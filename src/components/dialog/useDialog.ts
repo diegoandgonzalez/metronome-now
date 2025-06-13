@@ -1,23 +1,20 @@
-import { useRef } from "react";
+import { useState } from "react";
 
 const useDialog = () => {
 
-    const dialogRef = useRef<HTMLDialogElement>(null);
+    const [dialogIsOpen, setDialogIsOpen] = useState(false);
+
 
     const handleOpenDialog = () => {
-        if (dialogRef.current) {
-            dialogRef.current.showModal();
-        }
+        setDialogIsOpen(true);
     };
 
     const handleCloseDialog = () => {
-        if (dialogRef.current) {
-            dialogRef.current.close();
-        }
+        setDialogIsOpen(false);
     };
 
     return {
-        dialogRef,
+        dialogIsOpen,
         handleOpenDialog,
         handleCloseDialog,
     }

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Dialog from "../../dialog/dialog";
+import useSnackbarContext from "../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-    ref: React.RefObject<HTMLDialogElement | null>,
+    open: boolean,
     initialIsActive: boolean
     initialSecondsToStop: number,
     handleSetTimer: (amount: number, isActive: boolean) => void,
@@ -13,7 +14,7 @@ type Props = {
 const TimerDialog = (props: Props) => {
 
     const {
-        ref,
+        open,
         initialIsActive,
         initialSecondsToStop,
         handleSetTimer,
@@ -25,6 +26,10 @@ const TimerDialog = (props: Props) => {
     const [isActive, setIsActive] = useState(initialIsActive);
     const [seconds, setSeconds] = useState<number | string>(initialSecondsToStop);
 
+    const {
+        handleOpen: handleOpenSnackbar,
+    } = useSnackbarContext();
+
     const handleCloseAndReset = () => {
         handleClose();
         setIsActive(initialIsActive);
@@ -33,9 +38,9 @@ const TimerDialog = (props: Props) => {
 
     const handleSubmit = () => {
         const formattedSeconds = Math.round(Number(seconds));
+        
         if (!formattedSeconds || formattedSeconds < 1) {
-            console.error("NO secondsIsValid")
-            // TODO: show message
+            handleOpenSnackbar(t("secondsMustBePositiveValue"))
             return;
         }
 
@@ -45,7 +50,7 @@ const TimerDialog = (props: Props) => {
 
     return (
         <Dialog
-            ref={ref}
+            open={open}
             title={t("timerSettings")}
             handleClose={handleCloseAndReset}
             handleSubmit={handleSubmit}
@@ -71,6 +76,7 @@ const TimerDialog = (props: Props) => {
                     max={9999}
                     value={seconds}
                     onChange={(e) => setSeconds(e.target.value.substring(0, 4))}
+                    autoComplete="off"
                 />
                 {t("seconds")}
             </label>

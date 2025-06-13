@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import CloseIcon from "../../assets/icons/closeIcon";
+import CloseButton from "../closeButton";
 
 type Props = {
-    ref: React.Ref<HTMLDialogElement>,
+    open: boolean,
     title?: string,
     children?: React.ReactNode,
     handleClose: () => void,
@@ -12,7 +12,7 @@ type Props = {
 const Dialog = (props: Props) => {
 
     const {
-        ref,
+        open,
         title,
         children,
         handleClose,
@@ -21,28 +21,28 @@ const Dialog = (props: Props) => {
 
     const { t } = useTranslation();
 
+    if (!open) return;
+
     return (
-        <dialog
-            ref={ref}
-            onClose={handleClose}
-        >
-            <div className="dialogHeader">
-                <p className="dialogTitle">
-                    {title}
-                </p>
-                <button className="dialogCloseIcon" onClick={handleClose}>
-                    {<CloseIcon />}
-                </button>
+        <>
+            <div className="dialog">
+                <div className="dialogHeader">
+                    <p className="dialogTitle">
+                        {title}
+                    </p>
+                    <CloseButton handleClose={handleClose} />
+                </div>
+                <div className="dialogBody">
+                    {children}
+                </div>
+                <div className="dialogButtonContainer">
+                    <button onClick={handleSubmit} type="submit">
+                        {t("accept")}
+                    </button>
+                </div>
             </div>
-            <div className="dialogBody">
-                {children}
-            </div>
-            <div className="dialogButtonContainer">
-                <button onClick={handleSubmit} type="submit">
-                    {t("accept")}
-                </button>
-            </div>
-        </dialog>
+            <div className="backdrop" />
+        </>
     )
 }
 

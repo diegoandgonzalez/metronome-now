@@ -13,5 +13,15 @@
     "changeBPMevery": "Cambiar BPM cada",
     "measures": "compases",
     "add": "sumar",
-    "subtract": "restar"
+    "subtract": "restar",
+    "secondsMustBePositiveValue": "Los segundos deben ser un valor positivo",
+    "bpmToChangeCannotBeEmpty": "Los BPM no pueden estar vacíos",
+    "bpmToChangeCannotBeNegative": "Los BPM deben ser un valor positivo",
+    "bpmToChangeCannotBeLessThan": "Los BPM no pueden ser menos que {{value}}",
+    "bpmToChangeCannotBeGreaterThan": "Los BPM no pueden ser mayores que {{value}}",
+    "goalBPMCannotBeEmpty": "Los BPM objetivo no pueden estar vacíos",
+    "goalBPMCannotBeNegative": "Los BPM objetivo deben ser un valor positivo",
+    "goalBPMCannotBeLessThanCurrentBPM": "Los BPM objetivo no pueden ser menor al BPM actual",
+    "goalBPMCannotBeGreaterThanCurrentBPM": "Los BPM objetivo no pueden ser mayor al BPM actual",
+    "measuresToChangeBPMHasToBePositive": "Los compases tienen que ser valor positivo"
 }

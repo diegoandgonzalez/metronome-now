@@ -44,13 +44,13 @@ const Metronome = () => {
     useExecuteOnSpacePressed(handleToggleMetronome);
 
     const {
-        dialogRef: timerDialogRef,
+        dialogIsOpen: timerDialogIsOpen,
         handleOpenDialog: handleOpenTimerDialog,
         handleCloseDialog: handleCloseTimerDialog,
     } = useDialog();
 
     const {
-        dialogRef: bpmProgrammingRef,
+        dialogIsOpen: bpmProgrammingDialogIsOpen,
         handleOpenDialog: handleOpenBPMProgrammingDialog,
         handleCloseDialog: handleCloseBPMProgrammingDialog,
     } = useDialog();
@@ -93,14 +93,14 @@ const Metronome = () => {
                     {<StopperIcon />}
                 </IconButton>
                 <TimerDialog
-                    ref={timerDialogRef}
+                    open={timerDialogIsOpen}
                     initialIsActive={timerIsActive}
                     initialSecondsToStop={timerSecondsToStop}
                     handleSetTimer={handleSetTimer}
                     handleClose={handleCloseTimerDialog}
                 />
                 <BPMProgrammingDialog
-                    ref={bpmProgrammingRef}
+                    open={bpmProgrammingDialogIsOpen}
                     initialIsActive={bpmProgrammingIsActive}
                     initialBPMToChange={bpmToChange}
                     initialGoalBPM={goalBPM}

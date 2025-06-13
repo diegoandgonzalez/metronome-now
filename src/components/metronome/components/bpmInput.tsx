@@ -48,6 +48,7 @@ const BPMInput = (props: Props) => {
           }
         }}
         onBlur={() => handleSubmit()}
+        autoComplete="off"
       />
       <input
         type="range"
