@@ -3,10 +3,14 @@
 Online metronome for your everyday needs
 
 ## Table of contents
+* [Live link](#live-link)
 * [Technologies](#technologies)
 * [Features](#features)
 * [Coming soon](#coming-soon)
 * [How to run the project locally](#how-to-run-locally)
+
+## Live link
+[https://metronome-now.vercel.app/](https://metronome-now.vercel.app/)
 
 ## Technologies
 - TypeScript
@@ -20,15 +24,16 @@ Online metronome for your everyday needs
 - Set the metronome to stop after a determined amount of seconds
 - Dark/light mode
 - i18n
+- Deployed site with a live link
+- Increase or decrease your BPM after a determined amount of measures
 
 ## Coming Soon
 - Tap to get BPM
+- Option to play countdown before increasing/decreasing BPM
 - Set the metronome to stop after a determined amount of measures
-- Increase or decrease your BPM after a determined amount of measures (with countdown option)
 - Save settings in templates for faster use
-- Deployed site with a live link
 - PWA
-- More languages supported
+- More languages
 
 ## How to run locally
 
