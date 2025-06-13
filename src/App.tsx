@@ -11,9 +11,7 @@ const App = () => {
   const snackbarValue = useSnackbar();
 
   return (
-    <SnackbarContext
-      value={{...snackbarValue}}
-    >
+    <SnackbarContext value={snackbarValue}>
       <header className="header">
         <Title />
         <div>

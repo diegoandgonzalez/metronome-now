@@ -6,7 +6,7 @@ const useSnackbar = () => {
     const [text, setText] = useState("");
     const [secondsToClose, setSecondsToClose] = useState(0);
 
-    const handleOpen = (newText: string, newSecondsToClose: number) => {
+    const handleOpen = (newText: string, newSecondsToClose?: number) => {
         setText(newText);
         setSecondsToClose(newSecondsToClose || 5);
         setOpen(true);
