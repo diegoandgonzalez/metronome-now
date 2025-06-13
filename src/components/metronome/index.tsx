@@ -58,74 +58,78 @@ const Metronome = () => {
 
     return (
         <div className="metronomeContainer">
-            <BPMInput
-                value={bpm}
-                handleChange={handleSetBPM}
-            />
-            <TimeSignatureInput
-                subdivision={subdivision}
-                beatsPerMeasure={beatsPerMeasure}
-                handleSetBeatsPerMeasure={handleSetBeatsPerMeasure}
-                handleSetSubdivision={handleSetSubdivision}
-            />
+            <div>
+                <BPMInput
+                    value={bpm}
+                    handleChange={handleSetBPM}
+                />
+                <TimeSignatureInput
+                    subdivision={subdivision}
+                    beatsPerMeasure={beatsPerMeasure}
+                    handleSetBeatsPerMeasure={handleSetBeatsPerMeasure}
+                    handleSetSubdivision={handleSetSubdivision}
+                />
+            </div>
             <BeatDisplay
                 beatTypes={beatTypes}
                 beatsPerMeasure={beatsPerMeasure}
                 currentBeatInMeasure={currentBeatInMeasure}
                 handleClick={handleToggleBeatType}
             />
-            <div className="mainActionsContainer">
-                <IconButton
-                    isActive={bpmProgrammingIsActive}
-                    handleClick={handleOpenBPMProgrammingDialog}
-                >
-                    {<AddSubtractIcon />}
-                </IconButton>
-                <IconButton
-                    isActive
-                    handleClick={handleToggleMetronome}
-                >
-                    {isPlaying ? <StopIcon /> : <PlayIcon />}
-                </IconButton>
-                <IconButton
-                    isActive={timerIsActive}
-                    handleClick={handleOpenTimerDialog}
-                >
-                    {<StopperIcon />}
-                </IconButton>
-                {
-                    timerDialogIsOpen &&
-                    <TimerDialog
-                        open={timerDialogIsOpen}
-                        initialIsActive={timerIsActive}
-                        initialSecondsToStop={timerSecondsToStop}
-                        handleSetTimer={handleSetTimer}
-                        handleClose={handleCloseTimerDialog}
-                    />
-                }
-                {
-                    bpmProgrammingDialogIsOpen &&
-                    <BPMProgrammingDialog
-                        open={bpmProgrammingDialogIsOpen}
-                        initialAddSubtractOption={addSubtractOption}
-                        initialIsActive={bpmProgrammingIsActive}
-                        initialBPMToChange={bpmToChange}
-                        initialGoalBPM={goalBPM}
-                        initialMeasuresToChangeBPM={measuresToChangeBPM}
-                        currentBPM={bpm}
-                        handleSetBPMProgramming={handleSetBPMProgramming}
-                        handleClose={handleCloseBPMProgrammingDialog}
-                    />
-                }
-            </div>
-            <Clock
-                value={measuredTime}
-                secondsToStop={timerIsActive ? timerSecondsToStop : 0}
-            />
-            <VolumeInput
-                value={volume}
-                handleChange={handleSetVolume}
-            />
+            <footer>
+                <div className="mainActionsContainer">
+                    <IconButton
+                        isActive={bpmProgrammingIsActive}
+                        handleClick={handleOpenBPMProgrammingDialog}
+                    >
+                        {<AddSubtractIcon />}
+                    </IconButton>
+                    <IconButton
+                        isActive
+                        handleClick={handleToggleMetronome}
+                    >
+                        {isPlaying ? <StopIcon /> : <PlayIcon />}
+                    </IconButton>
+                    <IconButton
+                        isActive={timerIsActive}
+                        handleClick={handleOpenTimerDialog}
+                    >
+                        {<StopperIcon />}
+                    </IconButton>
+                    {
+                        timerDialogIsOpen &&
+                        <TimerDialog
+                            open={timerDialogIsOpen}
+                            initialIsActive={timerIsActive}
+                            initialSecondsToStop={timerSecondsToStop}
+                            handleSetTimer={handleSetTimer}
+                            handleClose={handleCloseTimerDialog}
+                        />
+                    }
+                    {
+                        bpmProgrammingDialogIsOpen &&
+                        <BPMProgrammingDialog
+                            open={bpmProgrammingDialogIsOpen}
+                            initialAddSubtractOption={addSubtractOption}
+                            initialIsActive={bpmProgrammingIsActive}
+                            initialBPMToChange={bpmToChange}
+                            initialGoalBPM={goalBPM}
+                            initialMeasuresToChangeBPM={measuresToChangeBPM}
+                            currentBPM={bpm}
+                            handleSetBPMProgramming={handleSetBPMProgramming}
+                            handleClose={handleCloseBPMProgrammingDialog}
+                        />
+                    }
+                </div>
+                <Clock
+                    value={measuredTime}
+                    secondsToStop={timerIsActive ? timerSecondsToStop : 0}
+                />
+                <VolumeInput
+                    value={volume}
+                    handleChange={handleSetVolume}
+                />
+            </footer>
         </div>
     );
 }
