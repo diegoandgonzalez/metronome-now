@@ -18,23 +18,10 @@ import {
     ADD_OPTION,
     SUBTRACT_OPTION,
 } from "../../../utils/constants";
-import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
+import { getValueFromLocalStorage, isKeyPresentInLocalStorage, LOCAL_STORAGE_KEYS, type LocalStorageValueType } from "../../../utils/localStorage";
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
 import useStateRefLocalStorageSync from "./useStateRefSync";
 import useTimeMeasure from "./useTimeMeasure";
-
-const initialBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpm) || DEFAULT_BPM;
-const initialBeatsPerMeasure = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatsPerMeasure) || DEFAULT_BEATS_PER_MEASURE;
-const initialSubdivision = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.subdivision) || DEFAULT_SUBDIVISION;
-const initialBeatTypes = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.beatTypes) || createDefaultBeatTypesArray(initialBeatsPerMeasure);
-const initialVolume = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.volume) || DEFAULT_VOLUME;
-const initialTimerIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerIsActive) !== undefined || DEFAULT_TIMER_IS_ACTIVE;
-const initialTimerSecondsToStop = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.timerSecondsToStop) || DEFAULT_SECONDS_TO_STOP;
-const initialBPMProgrammingIsActive = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpmProgrammingIsActive) !== undefined || DEFAULT_BPM_PROGRAMMING_IS_ACTIVE;
-const initialBPMToChange = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.bpmToChange) || DEFAULT_BPM_TO_CHANGE;
-const initialGoalBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.goalBPM) || DEFAULT_GOAL_BPM;
-const initialMeasuresToChangeBPM = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.measuresToChangeBPM) || DEFAULT_MEASURES_TO_CHANGE_BPM;
-const initialAddSubtractOption = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.addSubtractOption) || ADD_OPTION;
 
 type AudioToPlay = AudioBuffer | undefined;
 
@@ -43,6 +30,23 @@ type ClickAudioRef = {
     clickNormal: AudioToPlay,
     clickMuted: AudioToPlay,
 }
+
+const getInitialValue = (localStorageKey: string, defaultValue: LocalStorageValueType) => {
+    return isKeyPresentInLocalStorage(localStorageKey) ? getValueFromLocalStorage(localStorageKey) : defaultValue;
+}
+
+const initialBPM = getInitialValue(LOCAL_STORAGE_KEYS.bpm, DEFAULT_BPM);
+const initialBeatsPerMeasure = getInitialValue(LOCAL_STORAGE_KEYS.beatsPerMeasure, DEFAULT_BEATS_PER_MEASURE);
+const initialSubdivision = getInitialValue(LOCAL_STORAGE_KEYS.subdivision, DEFAULT_SUBDIVISION);
+const initialBeatTypes = getInitialValue(LOCAL_STORAGE_KEYS.beatTypes, createDefaultBeatTypesArray(initialBeatsPerMeasure));
+const initialVolume = getInitialValue(LOCAL_STORAGE_KEYS.volume, DEFAULT_VOLUME);
+const initialTimerIsActive = getInitialValue(LOCAL_STORAGE_KEYS.timerIsActive, DEFAULT_TIMER_IS_ACTIVE);
+const initialTimerSecondsToStop = getInitialValue(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_SECONDS_TO_STOP);
+const initialBPMProgrammingIsActive = getInitialValue(LOCAL_STORAGE_KEYS.bpmProgrammingIsActive, DEFAULT_BPM_PROGRAMMING_IS_ACTIVE);
+const initialBPMToChange = getInitialValue(LOCAL_STORAGE_KEYS.bpmToChange, DEFAULT_BPM_TO_CHANGE);
+const initialGoalBPM = getInitialValue(LOCAL_STORAGE_KEYS.goalBPM, DEFAULT_GOAL_BPM);
+const initialMeasuresToChangeBPM = getInitialValue(LOCAL_STORAGE_KEYS.measuresToChangeBPM, DEFAULT_MEASURES_TO_CHANGE_BPM);
+const initialAddSubtractOption = getInitialValue(LOCAL_STORAGE_KEYS.addSubtractOption, ADD_OPTION);
 
 const useMetronome = () => {
 
@@ -186,7 +190,7 @@ const useMetronome = () => {
                     ) {
                         // if new value is (greater/less) than goal, set goalbpm as new bpm
                         let nextBpmValue = bpmRef.current + (bpmToChangeRef.current * (addSubtractOptionRef.current === ADD_OPTION ? 1 : -1));
-                        
+
                         if (addSubtractOptionRef.current === ADD_OPTION && nextBpmValue > goalBPMRef.current) {
                             nextBpmValue = goalBPMRef.current;
                         }

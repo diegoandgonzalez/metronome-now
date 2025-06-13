@@ -1,5 +1,7 @@
 export type LocalStorageValueType = string | number | number[] | boolean;
 
+export const isKeyPresentInLocalStorage = (key: string) => Boolean(localStorage.getItem(key));
+
 export const setValueInLocalStorage = (key: string, value: LocalStorageValueType) => localStorage.setItem(key, JSON.stringify(value));
 
 export const getValueFromLocalStorage = (key: string) => {
