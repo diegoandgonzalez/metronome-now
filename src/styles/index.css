@@ -95,6 +95,7 @@ dialog {
     color: var(--textColor);
     width: clamp(250px, 75%, 400px);
     font-size: 18px;
+    overflow: hidden;
 
     .dialogHeader {
         display: flex;
