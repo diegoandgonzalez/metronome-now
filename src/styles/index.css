@@ -248,6 +248,20 @@ header {
         align-items: center;
         margin-top: 15px;
 
+        .bpmInputButtonContainer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .bpmInputButton {
+                background: var(--accentColor);
+                border-radius: 8px;
+                padding: 5px 10px;
+                font-size: 16px;
+            }
+        }
+
+
         .bpmInput {
             font-size: 80px;
             text-align: center;

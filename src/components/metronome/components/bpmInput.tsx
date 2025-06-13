@@ -33,23 +33,43 @@ const BPMInput = (props: Props) => {
 
   return (
     <div className="bpmInputContainer">
-      <input
-        type="number"
-        className="bpmInput"
-        min={MIN_BPM}
-        max={MAX_BPM}
-        value={auxBPM}
-        onChange={(e) => setAuxBPM(e.target.value.substring(0, 3))}
-        onMouseEnter={(e) => e.currentTarget.focus()}
-        onMouseLeave={(e) => e.currentTarget.blur()}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            handleSubmit();
-          }
-        }}
-        onBlur={() => handleSubmit()}
-        autoComplete="off"
-      />
+      <div className="bpmInputButtonContainer">
+        <button
+          className="bpmInputButton"
+          onClick={(e) => {
+            e.currentTarget.blur();
+            handleSubmit(String(Number(auxBPM) - 5));
+          }}
+        >
+          - 5
+        </button>
+        <input
+          type="number"
+          className="bpmInput"
+          min={MIN_BPM}
+          max={MAX_BPM}
+          value={auxBPM}
+          onChange={(e) => setAuxBPM(e.target.value.substring(0, 3))}
+          onMouseEnter={(e) => e.currentTarget.focus()}
+          onMouseLeave={(e) => e.currentTarget.blur()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSubmit();
+            }
+          }}
+          onBlur={() => handleSubmit()}
+          autoComplete="off"
+        />
+        <button
+          className="bpmInputButton"
+          onClick={(e) => {
+            e.currentTarget.blur();
+            handleSubmit(String(Number(auxBPM) + 5));
+          }}
+        >
+          + 5
+        </button>
+      </div>
       <input
         type="range"
         className="bpmInput"
