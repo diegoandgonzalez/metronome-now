@@ -24,5 +24,6 @@
     "goalBPMCannotBeLessThanCurrentBPM": "Los BPM objetivo no pueden ser menor al BPM actual",
     "goalBPMCannotBeGreaterThanCurrentBPM": "Los BPM objetivo no pueden ser mayor al BPM actual",
     "measuresToChangeBPMHasToBePositive": "Los compases tienen que ser valor positivo",
-    "bpmMustBeInRange": "Los BPM deben estar entre {{min}} y {{max}}"
+    "bpmMustBeInRange": "Los BPM deben estar entre {{min}} y {{max}}",
+    "measuresToChangeBPMHasToBeLessThan": "Los compases tienen que ser menores a {{value}}"
 }

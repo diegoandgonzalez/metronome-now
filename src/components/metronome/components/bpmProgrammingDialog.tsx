@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Dialog from "../../dialog/dialog";
 import { useTranslation } from "react-i18next";
-import { ADD_OPTION, ADD_SUBTRACT_ARRAY, MAX_BPM, MAX_MEASURES_TO_CHANGE_BPM, MIN_BPM, SUBTRACT_OPTION } from "../../../utils/constants";
+import { ADD_OPTION, ADD_SUBTRACT_ARRAY, MAX_BPM, MAX_MEASURES_TO_CHANGE_BPM, MIN_BPM, MIN_MEASURES_TO_CHANGE_BPM, SUBTRACT_OPTION } from "../../../utils/constants";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
 
 type Props = {
@@ -92,6 +92,11 @@ const BPMProgrammingDialog = (props: Props) => {
             return;
         }
 
+        if (formattedMeasuresToChangeBPM > MAX_MEASURES_TO_CHANGE_BPM) {
+            handleOpenSnackbar(t("measuresToChangeBPMHasToBeLessThan", { value: MAX_MEASURES_TO_CHANGE_BPM }));
+            return;
+        }
+
         handleSetBPMProgramming(formattedBPMToChange, formattedGoalBPM, formattedMeasuresToChangeBPM, addSubtractOption, isActive);
         handleClose();
     }
@@ -149,7 +154,7 @@ const BPMProgrammingDialog = (props: Props) => {
                         id="measuresToChangeBPM"
                         className="dialogInput"
                         type="number"
-                        min={0}
+                        min={MIN_MEASURES_TO_CHANGE_BPM}
                         max={MAX_MEASURES_TO_CHANGE_BPM}
                         value={measuresToChangeBPM}
                         onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}

@@ -1,3 +1,5 @@
+import { MAX_VOLUME, MIN_VOLUME } from "../../../utils/constants";
+
 type Props = {
   value: number,
   handleChange: (value: number) => void,
@@ -23,8 +25,8 @@ const VolumeInput = (props: Props) => {
       <input
         type="range"
         className="volumeInput"
-        min={0}
-        max={100}
+        min={MIN_VOLUME}
+        max={MAX_VOLUME}
         value={value}
         onChange={(e) => handleChange(parseFloat(e.target.value))}
       />
