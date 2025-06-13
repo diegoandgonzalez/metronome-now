@@ -60,6 +60,7 @@ const BPMInput = (props: Props) => {
           onMouseLeave={(e) => e.currentTarget.blur()}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
+              e.currentTarget.blur();
               handleSubmit();
             }
           }}
