@@ -5,7 +5,14 @@ import es from "./translations/es.json";
 import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS } from "../utils/localStorage";
 import { DEFAULT_LANGUAGE } from "../utils/constants";
 
-const initialLanguage = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.language) || DEFAULT_LANGUAGE;
+const browserLanguage = (() => {
+    let auxLang = navigator.language;
+
+    if (auxLang.includes("-")) return auxLang.substring(0, auxLang.indexOf("-"));
+    return auxLang;
+})();
+
+const initialLanguage = getValueFromLocalStorage(LOCAL_STORAGE_KEYS.language) || browserLanguage || DEFAULT_LANGUAGE;
 
 const resources = {
     en: {

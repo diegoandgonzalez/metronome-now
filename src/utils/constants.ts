@@ -34,4 +34,4 @@ export const SUBTRACT_OPTION = "subtract";
 export const ADD_SUBTRACT_ARRAY = [ADD_OPTION, SUBTRACT_OPTION];
 
 export const DEFAULT_THEME = "dark";
-export const DEFAULT_LANGUAGE = "es";
+export const DEFAULT_LANGUAGE = "en";

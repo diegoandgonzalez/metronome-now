@@ -3,7 +3,7 @@ import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../utils/localStorag
 import { useTranslation } from "react-i18next";
 
 const LanguageChanger = () => {
-
+    
     const { t, i18n } = useTranslation();
     const [language, setLanguage] = useState(i18n.language);
 
