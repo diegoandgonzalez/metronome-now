@@ -39,7 +39,7 @@ const useAudio = () => {
 
         const source = audioContextRef.current.createBufferSource();
         const gainNode = audioContextRef.current.createGain();
-        gainNode.gain.value = 100;
+        gainNode.gain.value = 1;
         gainNode.connect(audioContextRef.current.destination);
         source.buffer = audioToPlay;
         source.connect(gainNode);
