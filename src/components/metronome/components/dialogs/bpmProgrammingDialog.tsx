@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Dialog from "../../dialog/dialog";
+import Dialog from "../../../dialog/dialog";
 import { useTranslation } from "react-i18next";
-import { ADD_OPTION, ADD_SUBTRACT_ARRAY, MAX_BPM, MAX_MEASURES_TO_CHANGE_BPM, MIN_BPM, MIN_MEASURES_TO_CHANGE_BPM, SUBTRACT_OPTION } from "../../../utils/constants";
-import useSnackbarContext from "../../snackbar/useSnackbarContext";
+import { ADD_OPTION, ADD_SUBTRACT_ARRAY, MAX_BPM, MAX_MEASURES_TO_CHANGE_BPM, MIN_BPM, MIN_MEASURES_TO_CHANGE_BPM, SUBTRACT_OPTION } from "../../../../utils/constants";
+import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 
 type Props = {
     open: boolean,

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Dialog from "../../dialog/dialog";
-import useSnackbarContext from "../../snackbar/useSnackbarContext";
+import Dialog from "../../../dialog/dialog";
+import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
 
 type Props = {
