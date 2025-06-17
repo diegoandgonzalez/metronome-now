@@ -24,7 +24,6 @@ export const LOCAL_STORAGE_KEYS = {
   beatsPerMeasure: "mn_beats_per_measure",
   subdivision: "mn_subdivision",
   beatTypes: "mn_beat_types",
-  volume: "mn_volume",
   timerIsActive: "mn_timer_is_active",
   timerSecondsToStop: "mn_timer_seconds_to_stop",
   tempoProgrammingIsActive: "mn_tp_is_active",

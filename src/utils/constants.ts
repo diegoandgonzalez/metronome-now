@@ -4,10 +4,6 @@ export const MIN_BPM = 1;
 export const MAX_BPM = 360;
 export const DEFAULT_BPM = 120;
 
-export const MIN_VOLUME = 0;
-export const MAX_VOLUME = 200;
-export const DEFAULT_VOLUME = 100;
-
 export const STOPPED_METRONOME_BEAT_INDEX = -1;
 
 export const DEFAULT_BEATS_PER_MEASURE = 4;
@@ -24,8 +20,8 @@ export const MIN_MEASURES_TO_CHANGE_BPM = 0;
 export const MAX_MEASURES_TO_CHANGE_BPM = 100;
 export const DEFAULT_MEASURES_TO_CHANGE_BPM = 4;
 
-export const ICON_SIZE = 40;
-export const MAIN_ICON_SIZE = 60;
+export const ICON_SIZE = 35;
+export const MAIN_ICON_SIZE = 55;
 
 /**
  * Number of different types of beat types

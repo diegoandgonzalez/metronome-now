@@ -1,9 +1,6 @@
-import LanguageChanger from "./components/languageChanger"
-import ThemeChanger from "./components/themeChanger"
-import Metronome from "./components/metronome"
-import Title from "./components/metronome/components/title"
 import SnackbarContext from "./components/snackbar/snackbarContext"
 import useSnackbar from "./components/snackbar/useSnackbar"
+import Metronome from "./components/metronome"
 import Snackbar from "./components/snackbar"
 
 const App = () => {
@@ -12,15 +9,8 @@ const App = () => {
 
   return (
     <SnackbarContext value={snackbarValue}>
-      <header className="header">
-        <Title />
-        <div>
-          <Snackbar />
-          <LanguageChanger />
-          <ThemeChanger />
-        </div>
-      </header>
       <Metronome />
+      <Snackbar />
     </SnackbarContext>
   )
 }

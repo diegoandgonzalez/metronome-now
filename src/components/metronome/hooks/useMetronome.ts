@@ -65,11 +65,9 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
     } = useTimeMeasure();
 
     const {
-        volume,
         audioContextRef,
         clickAudioRef,
         playAudio,
-        handleSetVolume,
     } = useAudio();
 
     const scheduleNote = (time: number) => {
@@ -100,7 +98,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         while (nextNoteTimeRef.current <= audioContextRef.current.currentTime) {
             scheduleNote(nextNoteTimeRef.current);
 
-            const secondsPerBeat = 60.0 / bpmRef.current / subdivisionRatio;
+            const secondsPerBeat = 60.0 / (bpmRef.current / subdivisionRatio);
             nextNoteTimeRef.current += secondsPerBeat;
         }
 
@@ -190,7 +188,6 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         subdivision,
         beatTypes,
         currentBeatInMeasure,
-        volume,
         handleSetBPM,
         handleSetBeatsPerMeasure,
         handleSetSubdivision,
@@ -198,7 +195,6 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         handleStartMetronome,
         handleStopMetronome,
         handleTogglePauseMetronome,
-        handleSetVolume,
     };
 }
 

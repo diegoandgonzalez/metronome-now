@@ -210,7 +210,7 @@ header {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        margin: 40px;
+        margin: 20px;
         justify-content: center;
 
         .beat {
@@ -295,6 +295,7 @@ header {
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 10px;
         margin-bottom: 50px;
     }
 
@@ -309,7 +310,7 @@ header {
     .clockContainer {
         display: flex;
         align-items: center;
-        margin: 30px;
+        margin: 10px;
 
         .clock {
             margin: 0px 10px;
@@ -322,27 +323,6 @@ header {
             background: transparent;
             display: flex;
             align-items: center;
-        }
-    }
-
-    .volumeInputContainer {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-        button {
-            background: 0px;
-            outline: 0px;
-            border: 0px;
-            margin: 0px;
-            width: auto;
-            font-size: 20px;
-        }
-
-        .volumeInput {
-            outline: 0px;
-            cursor: pointer;
-            width: 150px;
         }
     }
 
@@ -393,6 +373,7 @@ header {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 20px;
         color: white;
     }
 

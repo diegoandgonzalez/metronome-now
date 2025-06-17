@@ -1,9 +1,4 @@
 import { useEffect, useRef } from "react";
-import {
-    DEFAULT_VOLUME,
-} from "../../../utils/constants";
-import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
-import useStateRefLocalStorageSync from "./useStateRefLocalStorageSync";
 
 type AudioToPlay = AudioBuffer | undefined;
 
@@ -13,15 +8,7 @@ type ClickAudioRef = {
     clickMuted: AudioToPlay,
 }
 
-const initialVolume = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.volume, DEFAULT_VOLUME);
-
 const useAudio = () => {
-
-    const {
-        value: volume,
-        valueRef: volumeRef,
-        handleSyncValue: handleSyncVolume,
-    } = useStateRefLocalStorageSync<number>(initialVolume, LOCAL_STORAGE_KEYS.volume);
 
     const audioContextRef = useRef<AudioContext>(null);
     const clickAudioRef = useRef<ClickAudioRef>({ clickAccent: undefined, clickNormal: undefined, clickMuted: undefined });
@@ -52,23 +39,17 @@ const useAudio = () => {
 
         const source = audioContextRef.current.createBufferSource();
         const gainNode = audioContextRef.current.createGain();
-        gainNode.gain.value = volumeRef.current / 100;
+        gainNode.gain.value = 100;
         gainNode.connect(audioContextRef.current.destination);
         source.buffer = audioToPlay;
         source.connect(gainNode);
         source.start(time);
     }
 
-    const handleSetVolume = (newVolume: number) => {
-        handleSyncVolume(newVolume);
-    }
-
     return {
-        volume,
         audioContextRef,
         clickAudioRef,
         playAudio,
-        handleSetVolume,
     };
 }
 

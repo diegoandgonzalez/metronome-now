@@ -38,8 +38,6 @@
     "clickToTurnOffTimer": "Click to activate timer",
     "beatsPerMeasure": "Beats per measure",
     "beatValue": "Beat value",
-    "mute": "Mute",
-    "setMaxVolume": "Max volume",
     "stop": "Stop",
     "play": "Play",
     "pause": "Pause",
