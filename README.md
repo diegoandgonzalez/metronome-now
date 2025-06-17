@@ -27,7 +27,8 @@ Online metronome for your everyday needs
 - i18n
 - Deployed site with a live link
 - Increase or decrease your BPM after a determined amount of measures
-- Tap to get BPM
+- Tap to get tempo
+- Pause metronome and timer at anytime
 
 ## Coming Soon
 - Option to play countdown before increasing/decreasing BPM

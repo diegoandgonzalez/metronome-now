@@ -27,6 +27,7 @@ const Metronome = () => {
         timerSecondsToStop,
         measuredTime,
         isPlaying,
+        isPaused,
         bpm,
         beatsPerMeasure,
         subdivision,
@@ -38,6 +39,7 @@ const Metronome = () => {
         handleSetSubdivision,
         handleToggleBeatType,
         handleToggleMetronome,
+        handleTogglePauseMetronome,
         handleSetVolume,
         handleSetTimer,
         handleSetBPMProgramming,
@@ -126,8 +128,11 @@ const Metronome = () => {
                     }
                 </div>
                 <Clock
+                    isPlaying={isPlaying}
+                    isPaused={isPaused}
                     value={measuredTime}
                     secondsToStop={timerIsActive ? timerSecondsToStop : 0}
+                    handleClick={handleTogglePauseMetronome}
                 />
                 <VolumeInput
                     value={volume}

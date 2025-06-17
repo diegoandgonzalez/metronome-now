@@ -44,5 +44,7 @@
     "mute": "Mute",
     "setMaxVolume": "Max volume",
     "stop": "Stop",
-    "play": "Play"
+    "play": "Play",
+    "pause": "Pause",
+    "resume": "Resume"
 }

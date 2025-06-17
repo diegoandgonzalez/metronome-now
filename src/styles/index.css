@@ -314,6 +314,14 @@ header {
         .clock {
             margin: 0px 10px;
             font-size: 22px;
+            width: 100px;
+            text-align: center;
+        }
+
+        .pauseButton {
+            background: transparent;
+            display: flex;
+            align-items: center;
         }
     }
 

@@ -51,6 +51,7 @@ const initialAddSubtractOption = getInitialValue(LOCAL_STORAGE_KEYS.addSubtractO
 const useMetronome = () => {
 
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
 
     const {
         value: bpm,
@@ -136,6 +137,7 @@ const useMetronome = () => {
         measuredTime,
         startTimeMeasure,
         stopTimeMeasure,
+        togglePauseTimeMeasure,
     } = useTimeMeasure();
 
     useEffect(() => {
@@ -223,10 +225,20 @@ const useMetronome = () => {
         timeoutRef.current = setTimeout(scheduler, LOOK_AHEAD);
     };
 
-    const startMetronome = () => {
+    const setNextNoteTimeToStart = () => {
         if (!audioContextRef.current) return;
-
         nextNoteTimeRef.current = audioContextRef.current.currentTime + 0.05;
+    }
+
+    const clearTimeoutRefToStop = () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+        }
+    }
+
+    const startMetronome = () => {
+        setNextNoteTimeToStart();
         beatNumberRef.current = 0;
         setCurrentBeatInMeasure(0);
 
@@ -236,12 +248,9 @@ const useMetronome = () => {
     };
 
     const stopMetronome = () => {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-            timeoutRef.current = null;
-        }
-
+        clearTimeoutRefToStop();
         setIsPlaying(false);
+        setIsPaused(false);
         setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
         beatNumberRef.current = STOPPED_METRONOME_BEAT_INDEX;
         measureNumberRef.current = 0;
@@ -256,6 +265,20 @@ const useMetronome = () => {
 
         startMetronome();
     };
+
+    const handleTogglePauseMetronome = () => {
+        // It functions similar to toggle metronome except it doesn't reset clock, beat and measure positions
+        if (!isPaused) {
+            clearTimeoutRefToStop();
+            togglePauseTimeMeasure();
+        } else {
+            setNextNoteTimeToStart();
+            togglePauseTimeMeasure();
+            scheduler();
+        }
+
+        setIsPaused((prev) => !prev);
+    }
 
     const handleSetVolume = (newVolume: number) => {
         handleSyncVolume(newVolume);
@@ -324,6 +347,7 @@ const useMetronome = () => {
         timerSecondsToStop,
         measuredTime,
         isPlaying,
+        isPaused,
         bpm,
         beatsPerMeasure,
         subdivision,
@@ -335,6 +359,7 @@ const useMetronome = () => {
         handleSetSubdivision,
         handleToggleBeatType,
         handleToggleMetronome,
+        handleTogglePauseMetronome,
         handleSetVolume,
         handleSetTimer,
         handleSetBPMProgramming,
