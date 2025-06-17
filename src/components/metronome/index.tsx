@@ -140,7 +140,6 @@ const Metronome = () => {
                             initialBPMToChange={bpmToChange}
                             initialGoalBPM={goalBPM}
                             initialMeasuresToChangeBPM={measuresToChangeBPM}
-                            currentBPM={bpm}
                             handleSetTempoProgramming={handleSetTempoProgramming}
                             handleClose={handleCloseBPMProgrammingDialog}
                         />

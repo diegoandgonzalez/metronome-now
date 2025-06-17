@@ -1,7 +1,14 @@
 import { useState } from "react";
 import Dialog from "../../../dialog/dialog";
 import { useTranslation } from "react-i18next";
-import { ADD_OPTION, ADD_SUBTRACT_ARRAY, MAX_BPM, MAX_MEASURES_TO_CHANGE_BPM, MIN_BPM, MIN_MEASURES_TO_CHANGE_BPM, SUBTRACT_OPTION } from "../../../../utils/constants";
+import {
+    ADD_OPTION,
+    ADD_SUBTRACT_ARRAY,
+    MAX_BPM,
+    MAX_MEASURES_TO_CHANGE_BPM,
+    MIN_BPM,
+    MIN_MEASURES_TO_CHANGE_BPM,
+} from "../../../../utils/constants";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 
 type Props = {
@@ -11,7 +18,6 @@ type Props = {
     initialBPMToChange: number,
     initialGoalBPM: number,
     initialMeasuresToChangeBPM: number,
-    currentBPM: number,
     handleSetTempoProgramming: (bpmToChange: number, maxBPM: number, measuresToChangeBPM: number, addSubtractOption: string, isActive: boolean) => void,
     handleClose: () => void,
 }
@@ -25,7 +31,6 @@ const TempoProgrammingDialog = (props: Props) => {
         initialBPMToChange,
         initialGoalBPM,
         initialMeasuresToChangeBPM,
-        currentBPM,
         handleSetTempoProgramming,
         handleClose,
     } = props;
@@ -46,11 +51,6 @@ const TempoProgrammingDialog = (props: Props) => {
         const formattedBPMToChange = Math.round(Number(bpmToChange));
         const formattedGoalBPM = Math.round(Number(goalBPM));
         const formattedMeasuresToChangeBPM = Math.round(Number(measuresToChangeBPM));
-
-        if (!formattedBPMToChange) {
-            handleOpenSnackbar(t("bpmToChangeCannotBeEmpty"));
-            return;
-        }
 
         if (formattedBPMToChange < 0 && addSubtractOption === ADD_OPTION) {
             handleOpenSnackbar(t("bpmToChangeCannotBeNegative"));
@@ -77,18 +77,8 @@ const TempoProgrammingDialog = (props: Props) => {
             return;
         }
 
-        if (addSubtractOption === ADD_OPTION && formattedGoalBPM <= currentBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeLessThanCurrentBPM"));
-            return;
-        }
-
-        if (addSubtractOption === SUBTRACT_OPTION && formattedGoalBPM >= currentBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeGreaterThanCurrentBPM"));
-            return;
-        }
-
-        if (formattedMeasuresToChangeBPM <= 0) {
-            handleOpenSnackbar(t("measuresToChangeBPMHasToBePositive"));
+        if (formattedMeasuresToChangeBPM < 0) {
+            handleOpenSnackbar(t("measuresToChangeBPMCannotBeNegative"));
             return;
         }
 
