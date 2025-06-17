@@ -44,6 +44,7 @@ const BPMInput = (props: Props) => {
       <div className="bpmInputButtonContainer">
         <button
           className="bpmInputButton"
+          title={t("subtractFiveBPM")}
           onClick={(e) => {
             e.currentTarget.blur();
             handleSubmit(String(Number(localBPM) - 5));
@@ -54,6 +55,7 @@ const BPMInput = (props: Props) => {
         <input
           type="number"
           className="bpmInput"
+          title={t("clickToEditBPM")}
           min={MIN_BPM}
           max={MAX_BPM}
           value={localBPM}
@@ -71,6 +73,7 @@ const BPMInput = (props: Props) => {
         />
         <button
           className="bpmInputButton"
+          title={t("subtractFiveBPM")}
           onClick={(e) => {
             e.currentTarget.blur();
             handleSubmit(String(Number(localBPM) + 5));
@@ -81,6 +84,7 @@ const BPMInput = (props: Props) => {
       </div>
       <button
         className="bpmTapButton"
+        title={t("tapTempoToCalculateBPM")}
         onClick={(e) => {
           e.currentTarget.blur();
           const tappedBPM = tap();

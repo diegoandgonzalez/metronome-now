@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 type Props = {
   beatTypes: number[],
   beatsPerMeasure: number
@@ -14,6 +16,8 @@ const BeatDisplay = (props: Props) => {
     handleClick,
   } = props;
 
+  const { t } = useTranslation();
+
   return (
     <div className="beatContainer">
       {
@@ -26,6 +30,7 @@ const BeatDisplay = (props: Props) => {
             <button
               key={beatIndex}
               className="beat"
+              title={t("clickToToggleBeatType")}
               data-beat-type={String(beatType)}
               data-is-current-beat={String(isCurrentBeat)}
               onClick={(e) => {

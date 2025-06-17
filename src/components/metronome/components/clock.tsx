@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { formatMsToHHMMSS } from "../../../utils/format";
 
 type Props = {
@@ -12,16 +13,18 @@ const Clock = (props: Props) => {
     secondsToStop,
   } = props;
 
+  const { t } = useTranslation();
+
   return (
     <div className="clockContainer">
-      <p className="clock">
+      <p className="clock" title={t("playedTime")}>
         {formatMsToHHMMSS(value)}
       </p>
       {
         Boolean(secondsToStop) &&
         <>
           <p>/</p>
-          <p className="clock">
+          <p className="clock" title={t("timerValue")}>
             {formatMsToHHMMSS(secondsToStop as number * 1000)}
           </p>
         </>

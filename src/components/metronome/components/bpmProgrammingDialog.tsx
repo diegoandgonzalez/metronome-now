@@ -108,23 +108,26 @@ const BPMProgrammingDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <div className="checkboxContainer">
-                <input
-                    id="bpmProgrammingIsActive"
-                    type="checkbox"
-                    checked={isActive}
-                    onChange={() => setIsActive((prev) => !prev)}
-                />
-                <label htmlFor="bpmProgrammingIsActive">
+            <form className="formContainer">
+                <label
+                    htmlFor="bpmProgrammingIsActive"
+                    className="checkboxContainer"
+                    title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
+                >
+                    <input
+                        id="bpmProgrammingIsActive"
+                        type="checkbox"
+                        checked={isActive}
+                        onChange={() => setIsActive((prev) => !prev)}
+                    />
                     {t("bpmProgrammingIsActive")}
                 </label>
-            </div>
-            <div>
                 <label htmlFor="bpmToChange">
                     {t("bpmToChange")}
                     <select
                         value={addSubtractOption}
                         onChange={(e) => setAddSubtractOption(e.target.value)}
+                        title={t("selectHowBPMchanges")}
                     >
                         {
                             ADD_SUBTRACT_ARRAY
@@ -146,8 +149,6 @@ const BPMProgrammingDialog = (props: Props) => {
                         autoComplete="off"
                     />
                 </label>
-            </div>
-            <div>
                 <label htmlFor="measuresToChangeBPM">
                     {t("changeBPMevery")}
                     <input
@@ -162,8 +163,6 @@ const BPMProgrammingDialog = (props: Props) => {
                     />
                     {t("measures")}
                 </label>
-            </div>
-            <div>
                 <label htmlFor="goalBPM">
                     {t("goalBPM")}
                     <input
@@ -177,7 +176,7 @@ const BPMProgrammingDialog = (props: Props) => {
                         autoComplete="off"
                     />
                 </label>
-            </div>
+            </form>
         </Dialog>
     );
 }

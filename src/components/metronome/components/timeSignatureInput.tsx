@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { BEATS_PER_MEASURE, SUBDIVISIONS } from "../../../utils/constants";
 
 type Props = {
@@ -16,16 +17,19 @@ const TimeSignatureInput = (props: Props) => {
     handleSetSubdivision,
   } = props;
 
+const { t} = useTranslation();
+
   return (
     <div className="timeSignatureInputContainer">
       <select
         className="timeSignatureInput"
+        title={t("beatsPerMeasure")}
         value={beatsPerMeasure}
         onChange={(e) => {
           handleSetBeatsPerMeasure(Number(e.target.value));
           e.currentTarget.blur();
         }}
-      >
+        >
         {
           BEATS_PER_MEASURE.map((_, index) => {
             return (
@@ -37,6 +41,7 @@ const TimeSignatureInput = (props: Props) => {
       <p>/</p>
       <select
         className="timeSignatureInput"
+        title={t("beatValue")}
         value={subdivision}
         onChange={(e) => {
           handleSetSubdivision(Number(e.target.value));

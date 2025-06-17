@@ -353,6 +353,11 @@ header {
         background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
     }
 
+    .formContainer {
+        display: flex;
+        flex-direction: column;
+    }
+
     .checkboxContainer {
         display: flex;
         gap: 10px;

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { MAX_VOLUME, MIN_VOLUME } from "../../../utils/constants";
 
 type Props = {
@@ -12,14 +13,17 @@ const VolumeInput = (props: Props) => {
     handleChange,
   } = props;
 
+  const { t } = useTranslation();
+
   return (
     <div className="volumeInputContainer">
       <button
+        title={t("mute")}
         onClick={(e) => {
           handleChange(0);
           e.currentTarget.blur();
         }}
-      >
+        >
         🔇
       </button>
       <input
@@ -29,8 +33,9 @@ const VolumeInput = (props: Props) => {
         max={MAX_VOLUME}
         value={value}
         onChange={(e) => handleChange(parseFloat(e.target.value))}
-      />
+        />
       <button
+        title={t("setMaxVolume")}
         onClick={(e) => {
           handleChange(MAX_VOLUME);
           e.currentTarget.blur();

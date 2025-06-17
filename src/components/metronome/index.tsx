@@ -80,18 +80,21 @@ const Metronome = () => {
             <footer>
                 <div className="mainActionsContainer">
                     <IconButton
+                        title={"bpmProgramming"}
                         isActive={bpmProgrammingIsActive}
                         handleClick={handleOpenBPMProgrammingDialog}
                     >
                         {<AddSubtractIcon />}
                     </IconButton>
                     <IconButton
+                        title={isPlaying ? "stop" : "play"}
                         isActive
                         handleClick={handleToggleMetronome}
                     >
                         {isPlaying ? <StopIcon size={MAIN_ICON_SIZE} /> : <PlayIcon size={MAIN_ICON_SIZE} />}
                     </IconButton>
                     <IconButton
+                        title={"timer"}
                         isActive={timerIsActive}
                         handleClick={handleOpenTimerDialog}
                     >
