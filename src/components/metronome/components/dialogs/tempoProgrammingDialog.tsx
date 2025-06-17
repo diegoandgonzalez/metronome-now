@@ -12,11 +12,11 @@ type Props = {
     initialGoalBPM: number,
     initialMeasuresToChangeBPM: number,
     currentBPM: number,
-    handleSetBPMProgramming: (bpmToChange: number, maxBPM: number, measuresToChangeBPM: number, addSubtractOption: string, isActive: boolean) => void,
+    handleSetTempoProgramming: (bpmToChange: number, maxBPM: number, measuresToChangeBPM: number, addSubtractOption: string, isActive: boolean) => void,
     handleClose: () => void,
 }
 
-const BPMProgrammingDialog = (props: Props) => {
+const TempoProgrammingDialog = (props: Props) => {
 
     const {
         open,
@@ -26,7 +26,7 @@ const BPMProgrammingDialog = (props: Props) => {
         initialGoalBPM,
         initialMeasuresToChangeBPM,
         currentBPM,
-        handleSetBPMProgramming,
+        handleSetTempoProgramming,
         handleClose,
     } = props;
 
@@ -97,7 +97,7 @@ const BPMProgrammingDialog = (props: Props) => {
             return;
         }
 
-        handleSetBPMProgramming(formattedBPMToChange, formattedGoalBPM, formattedMeasuresToChangeBPM, addSubtractOption, isActive);
+        handleSetTempoProgramming(formattedBPMToChange, formattedGoalBPM, formattedMeasuresToChangeBPM, addSubtractOption, isActive);
         handleClose();
     }
 
@@ -181,4 +181,4 @@ const BPMProgrammingDialog = (props: Props) => {
     );
 }
 
-export default BPMProgrammingDialog;
+export default TempoProgrammingDialog;

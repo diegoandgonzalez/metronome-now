@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { DEFAULT_THEME } from "../utils/constants";
-import { getValueFromLocalStorage, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../utils/localStorage";
+import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../utils/localStorage";
 
 const ThemeChanger = () => {
 
     const [theme, setTheme] = useState(() => {
-        return getValueFromLocalStorage(LOCAL_STORAGE_KEYS.theme) || DEFAULT_THEME;
+        return getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.theme, DEFAULT_THEME);
     })
 
     useEffect(() => {

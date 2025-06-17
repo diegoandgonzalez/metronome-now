@@ -1,10 +1,7 @@
 export type LocalStorageValueType = string | number | number[] | boolean;
 
-export const isKeyPresentInLocalStorage = (key: string) => Boolean(localStorage.getItem(key));
-
-export const setValueInLocalStorage = (key: string, value: LocalStorageValueType) => localStorage.setItem(key, JSON.stringify(value));
-
-export const getValueFromLocalStorage = (key: string) => {
+const isKeyPresentInLocalStorage = (key: string) => Boolean(localStorage.getItem(key));
+const getValueFromLocalStorage = (key: string) => {
   try {
     const value = localStorage.getItem(key);
     if (value) return JSON.parse(value);
@@ -13,6 +10,12 @@ export const getValueFromLocalStorage = (key: string) => {
     return;
   }
 };
+
+export const getValueFromLocalStorageOrDefault = (localStorageKey: string, defaultValue?: LocalStorageValueType) => {
+  return isKeyPresentInLocalStorage(localStorageKey) ? getValueFromLocalStorage(localStorageKey) : (defaultValue || null);
+}
+
+export const setValueInLocalStorage = (key: string, value: LocalStorageValueType) => localStorage.setItem(key, JSON.stringify(value));
 
 export const LOCAL_STORAGE_KEYS = {
   theme: "mn_theme",
@@ -24,9 +27,9 @@ export const LOCAL_STORAGE_KEYS = {
   volume: "mn_volume",
   timerIsActive: "mn_timer_is_active",
   timerSecondsToStop: "mn_timer_seconds_to_stop",
-  bpmProgrammingIsActive: "mn_bpm_programming_is_active",
-  bpmToChange: "mn_bpm_to_change",
-  goalBPM: "mn_goal_bpm",
-  measuresToChangeBPM: "mn_measures_to_change_bpm",
-  addSubtractOption: "mn_add_subtract_option",
+  tempoProgrammingIsActive: "mn_tp_is_active",
+  tempoProgrammingBPMToChange: "mn_tp_bpm_to_change",
+  tempoProgrammingGoalBPM: "mn_tp_goal_bpm",
+  tempoProgrammingMeasuresToChangeBPM: "mn_tp_measures_to_change_bpm",
+  tempoProgrammingAddSubtractOption: "mn_tp_add_subtract_option",
 }

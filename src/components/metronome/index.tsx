@@ -6,44 +6,63 @@ import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
 import useMetronome from "./hooks/useMetronome";
 import VolumeInput from "./components/volumeInput";
 import IconButton from "./components/iconButton";
-import TimerDialog from "./components/dialogs/timerDialog";
 import StopIcon from "../../assets/icons/stopIcon";
 import PlayIcon from "../../assets/icons/playIcon";
 import AddSubtractIcon from "../../assets/icons/addSubtractIcon";
 import StopperIcon from "../../assets/icons/stopperIcon";
+import TempoProgrammingDialog from "./components/dialogs/tempoProgrammingDialog";
+import TimerDialog from "./components/dialogs/timerDialog";
 import useDialog from "../dialog/useDialog";
-import BPMProgrammingDialog from "./components/dialogs/bpmProgrammingDialog";
 import { MAIN_ICON_SIZE } from "../../utils/constants";
+import useTimer from "./hooks/useTimer";
+import useTempoProgramming from "./hooks/useTempoProgramming";
 
 const Metronome = () => {
 
     const {
+        isActive: isTempoProgrammingActive,
         addSubtractOption,
-        bpmProgrammingIsActive,
         bpmToChange,
-        goalBPM,
         measuresToChangeBPM,
-        timerIsActive,
-        timerSecondsToStop,
-        measuredTime,
+        goalBPM,
+        handleSetTempoProgramming,
+        getProgrammedBPM,
+    } = useTempoProgramming();
+
+    const {
         isPlaying,
         isPaused,
+        measuredTime,
         bpm,
         beatsPerMeasure,
         subdivision,
         beatTypes,
         currentBeatInMeasure,
-        volume,
+        volume,        
         handleSetBPM,
         handleSetBeatsPerMeasure,
         handleSetSubdivision,
         handleToggleBeatType,
-        handleToggleMetronome,
+        handleStartMetronome,
+        handleStopMetronome,
         handleTogglePauseMetronome,
         handleSetVolume,
+    } = useMetronome(getProgrammedBPM);
+
+    const {
+        timerIsActive,
+        timerSecondsToStop,
         handleSetTimer,
-        handleSetBPMProgramming,
-    } = useMetronome();
+    } = useTimer(measuredTime, handleStopMetronome);
+
+    const handleToggleMetronome = () => {
+        if (isPlaying) {
+            handleStopMetronome();
+            return;
+        }
+
+        handleStartMetronome();
+    }
 
     useExecuteOnSpacePressed(handleToggleMetronome);
 
@@ -83,7 +102,7 @@ const Metronome = () => {
                 <div className="mainActionsContainer">
                     <IconButton
                         title={"bpmProgramming"}
-                        isActive={bpmProgrammingIsActive}
+                        isActive={isTempoProgrammingActive}
                         handleClick={handleOpenBPMProgrammingDialog}
                     >
                         {<AddSubtractIcon />}
@@ -114,15 +133,15 @@ const Metronome = () => {
                     }
                     {
                         bpmProgrammingDialogIsOpen &&
-                        <BPMProgrammingDialog
+                        <TempoProgrammingDialog
                             open={bpmProgrammingDialogIsOpen}
                             initialAddSubtractOption={addSubtractOption}
-                            initialIsActive={bpmProgrammingIsActive}
+                            initialIsActive={isTempoProgrammingActive}
                             initialBPMToChange={bpmToChange}
                             initialGoalBPM={goalBPM}
                             initialMeasuresToChangeBPM={measuresToChangeBPM}
                             currentBPM={bpm}
-                            handleSetBPMProgramming={handleSetBPMProgramming}
+                            handleSetTempoProgramming={handleSetTempoProgramming}
                             handleClose={handleCloseBPMProgrammingDialog}
                         />
                     }

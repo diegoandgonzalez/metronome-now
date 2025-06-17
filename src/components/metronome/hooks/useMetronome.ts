@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
     DEFAULT_BPM,
     MAX_BPM,
@@ -7,48 +7,21 @@ import {
     LOOK_AHEAD,
     STOPPED_METRONOME_BEAT_INDEX,
     BEAT_TYPES_AMOUNT,
-    DEFAULT_VOLUME,
-    DEFAULT_TIMER_IS_ACTIVE,
-    DEFAULT_SECONDS_TO_STOP,
     DEFAULT_SUBDIVISION,
-    DEFAULT_BPM_PROGRAMMING_IS_ACTIVE,
-    DEFAULT_GOAL_BPM,
-    DEFAULT_BPM_TO_CHANGE,
-    DEFAULT_MEASURES_TO_CHANGE_BPM,
-    ADD_OPTION,
-    SUBTRACT_OPTION,
 } from "../../../utils/constants";
-import { getValueFromLocalStorage, isKeyPresentInLocalStorage, LOCAL_STORAGE_KEYS, type LocalStorageValueType } from "../../../utils/localStorage";
+import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
-import useStateRefLocalStorageSync from "./useStateRefSync";
+import useStateRefLocalStorageSync from "./useStateRefLocalStorageSync";
 import useTimeMeasure from "./useTimeMeasure";
+import { type GetProgrammedBPMType } from "./useTempoProgramming";
+import useAudio from "./useAudio";
 
-type AudioToPlay = AudioBuffer | undefined;
+const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_BPM);
+const initialBeatsPerMeasure = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatsPerMeasure, DEFAULT_BEATS_PER_MEASURE);
+const initialSubdivision = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.subdivision, DEFAULT_SUBDIVISION);
+const initialBeatTypes = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatTypes, createDefaultBeatTypesArray(initialBeatsPerMeasure));
 
-type ClickAudioRef = {
-    clickAccent: AudioToPlay,
-    clickNormal: AudioToPlay,
-    clickMuted: AudioToPlay,
-}
-
-const getInitialValue = (localStorageKey: string, defaultValue: LocalStorageValueType) => {
-    return isKeyPresentInLocalStorage(localStorageKey) ? getValueFromLocalStorage(localStorageKey) : defaultValue;
-}
-
-const initialBPM = getInitialValue(LOCAL_STORAGE_KEYS.bpm, DEFAULT_BPM);
-const initialBeatsPerMeasure = getInitialValue(LOCAL_STORAGE_KEYS.beatsPerMeasure, DEFAULT_BEATS_PER_MEASURE);
-const initialSubdivision = getInitialValue(LOCAL_STORAGE_KEYS.subdivision, DEFAULT_SUBDIVISION);
-const initialBeatTypes = getInitialValue(LOCAL_STORAGE_KEYS.beatTypes, createDefaultBeatTypesArray(initialBeatsPerMeasure));
-const initialVolume = getInitialValue(LOCAL_STORAGE_KEYS.volume, DEFAULT_VOLUME);
-const initialTimerIsActive = getInitialValue(LOCAL_STORAGE_KEYS.timerIsActive, DEFAULT_TIMER_IS_ACTIVE);
-const initialTimerSecondsToStop = getInitialValue(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_SECONDS_TO_STOP);
-const initialBPMProgrammingIsActive = getInitialValue(LOCAL_STORAGE_KEYS.bpmProgrammingIsActive, DEFAULT_BPM_PROGRAMMING_IS_ACTIVE);
-const initialBPMToChange = getInitialValue(LOCAL_STORAGE_KEYS.bpmToChange, DEFAULT_BPM_TO_CHANGE);
-const initialGoalBPM = getInitialValue(LOCAL_STORAGE_KEYS.goalBPM, DEFAULT_GOAL_BPM);
-const initialMeasuresToChangeBPM = getInitialValue(LOCAL_STORAGE_KEYS.measuresToChangeBPM, DEFAULT_MEASURES_TO_CHANGE_BPM);
-const initialAddSubtractOption = getInitialValue(LOCAL_STORAGE_KEYS.addSubtractOption, ADD_OPTION);
-
-const useMetronome = () => {
+const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -58,12 +31,6 @@ const useMetronome = () => {
         valueRef: bpmRef,
         handleSyncValue: handleSyncBPM,
     } = useStateRefLocalStorageSync<number>(initialBPM, LOCAL_STORAGE_KEYS.bpm);
-
-    const {
-        value: volume,
-        valueRef: volumeRef,
-        handleSyncValue: handleSyncVolume,
-    } = useStateRefLocalStorageSync<number>(initialVolume, LOCAL_STORAGE_KEYS.volume);
 
     const {
         value: beatTypes,
@@ -83,52 +50,9 @@ const useMetronome = () => {
         handleSyncValue: handleSyncSubdivision,
     } = useStateRefLocalStorageSync<number>(initialSubdivision, LOCAL_STORAGE_KEYS.subdivision);
 
-    const {
-        value: bpmProgrammingIsActive,
-        valueRef: bpmProgrammingIsActiveRef,
-        handleSyncValue: handleSyncBPMProgrammingIsActive,
-    } = useStateRefLocalStorageSync<boolean>(initialBPMProgrammingIsActive, LOCAL_STORAGE_KEYS.bpmProgrammingIsActive);
-
-    const {
-        value: addSubtractOption,
-        valueRef: addSubtractOptionRef,
-        handleSyncValue: handleSyncAddSubtractOption,
-    } = useStateRefLocalStorageSync<string>(initialAddSubtractOption, LOCAL_STORAGE_KEYS.addSubtractOption);
-
-    const {
-        value: goalBPM,
-        valueRef: goalBPMRef,
-        handleSyncValue: handleSyncGoalBPM,
-    } = useStateRefLocalStorageSync<number>(initialGoalBPM, LOCAL_STORAGE_KEYS.goalBPM);
-
-    const {
-        value: measuresToChangeBPM,
-        valueRef: measuresToChangeBPMRef,
-        handleSyncValue: handleSyncMeasuresToChangeBPM,
-    } = useStateRefLocalStorageSync<number>(initialMeasuresToChangeBPM, LOCAL_STORAGE_KEYS.measuresToChangeBPM);
-
-    const {
-        value: bpmToChange,
-        valueRef: bpmToChangeRef,
-        handleSyncValue: handleSyncBPMToChange,
-    } = useStateRefLocalStorageSync<number>(initialBPMToChange, LOCAL_STORAGE_KEYS.bpmToChange);
-
-    const {
-        value: timerIsActive,
-        handleSyncValue: handleSyncTimerIsActive,
-    } = useStateRefLocalStorageSync<boolean>(initialTimerIsActive, LOCAL_STORAGE_KEYS.timerIsActive);
-
-    const {
-        value: timerSecondsToStop,
-        handleSyncValue: handleSyncTimerSecondsToStop,
-    } = useStateRefLocalStorageSync<number>(initialTimerSecondsToStop, LOCAL_STORAGE_KEYS.timerSecondsToStop);
-
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(STOPPED_METRONOME_BEAT_INDEX); // circular number inside measure size
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX); // counter of beats from 0 to infinity
     const measureNumberRef = useRef(0); // counter of measures from 0 to infinity
-
-    const audioContextRef = useRef<AudioContext>(null);
-    const clickAudioRef = useRef<ClickAudioRef>({ clickAccent: undefined, clickNormal: undefined, clickMuted: undefined });
 
     const timeoutRef = useRef<number>(null);
     const nextNoteTimeRef = useRef(0);
@@ -140,74 +64,32 @@ const useMetronome = () => {
         togglePauseTimeMeasure,
     } = useTimeMeasure();
 
-    useEffect(() => {
-        audioContextRef.current = new window.AudioContext();
-
-        const getAudioBuffer = async (url: string) => {
-            if (!audioContextRef.current) return;
-
-            const response = await fetch(url);
-            const arrayBuffer = await response.arrayBuffer();
-            return await audioContextRef.current.decodeAudioData(arrayBuffer);
-        };
-
-        const loadAudio = async () => {
-            const clickAccent = await getAudioBuffer("audio/clickAccent.wav");
-            const clickNormal = await getAudioBuffer("audio/clickNormal.wav");
-            const clickMuted = await getAudioBuffer("audio/clickMuted.wav");
-            clickAudioRef.current = { clickAccent, clickNormal, clickMuted };
-        };
-
-        loadAudio();
-    }, []);
-
-    const playAudio = (audioToPlay: AudioBuffer | undefined, time: number) => {
-        if (!audioContextRef.current || !audioToPlay) return;
-
-        const source = audioContextRef.current.createBufferSource();
-        const gainNode = audioContextRef.current.createGain();
-        gainNode.gain.value = volumeRef.current / 100;
-        gainNode.connect(audioContextRef.current.destination);
-        source.buffer = audioToPlay;
-        source.connect(gainNode);
-        source.start(time);
-    }
+    const {
+        volume,
+        audioContextRef,
+        clickAudioRef,
+        playAudio,
+        handleSetVolume,
+    } = useAudio();
 
     const scheduleNote = (time: number) => {
-        const calculatedBeat = beatNumberRef.current % beatsPerMeasureRef.current;
-        const beatType = beatTypesRef.current[calculatedBeat];
+        const newCurrentBeatInMeasure = beatNumberRef.current % beatsPerMeasureRef.current;
+        const beatType = beatTypesRef.current[newCurrentBeatInMeasure];
         const audioToPlay = [clickAudioRef.current.clickAccent, clickAudioRef.current.clickNormal, clickAudioRef.current.clickMuted][beatType];
 
         playAudio(audioToPlay, time);
 
-        setCurrentBeatInMeasure(calculatedBeat);
+        setCurrentBeatInMeasure(newCurrentBeatInMeasure);
 
-        if (bpmProgrammingIsActiveRef.current) {
-            if (calculatedBeat === 0 && beatNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
-                measureNumberRef.current++;
-                if (measureNumberRef.current % measuresToChangeBPMRef.current === 0) { // if it's correct measure to change bpm
-                    if (
-                        (addSubtractOptionRef.current === ADD_OPTION && bpmRef.current < goalBPMRef.current) ||
-                        (addSubtractOptionRef.current === SUBTRACT_OPTION && bpmRef.current > goalBPMRef.current)
-                    ) {
-                        // if new value is (greater/less) than goal, set goalbpm as new bpm
-                        let nextBpmValue = bpmRef.current + (bpmToChangeRef.current * (addSubtractOptionRef.current === ADD_OPTION ? 1 : -1));
+        if (newCurrentBeatInMeasure === 0 && beatNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
+            measureNumberRef.current++;
 
-                        if (addSubtractOptionRef.current === ADD_OPTION && nextBpmValue > goalBPMRef.current) {
-                            nextBpmValue = goalBPMRef.current;
-                        }
-
-                        if (addSubtractOptionRef.current === SUBTRACT_OPTION && nextBpmValue < goalBPMRef.current) {
-                            nextBpmValue = goalBPMRef.current;
-                        }
-
-                        handleSyncBPM(nextBpmValue);
-                    }
-                }
+            if (getProgrammedBPM) {
+                handleSyncBPM(getProgrammedBPM(measureNumberRef.current, bpmRef.current));
             }
         }
 
-        beatNumberRef.current++; // this should always go at the end of the function
+        beatNumberRef.current++;
     };
 
     const scheduler = () => {
@@ -215,30 +97,30 @@ const useMetronome = () => {
 
         const subdivisionRatio = 4 / subdivisionRef.current;
 
-        while (nextNoteTimeRef.current < audioContextRef.current.currentTime + 0.1) {
+        while (nextNoteTimeRef.current <= audioContextRef.current.currentTime) {
             scheduleNote(nextNoteTimeRef.current);
 
-            const secondsPerBeat = 60.0 / (bpmRef.current / subdivisionRatio);
+            const secondsPerBeat = 60.0 / bpmRef.current / subdivisionRatio;
             nextNoteTimeRef.current += secondsPerBeat;
         }
 
         timeoutRef.current = setTimeout(scheduler, LOOK_AHEAD);
     };
 
-    const setNextNoteTimeToStart = () => {
+    const setNextNoteTimeToStartOrResume = () => {
         if (!audioContextRef.current) return;
-        nextNoteTimeRef.current = audioContextRef.current.currentTime + 0.05;
+        nextNoteTimeRef.current = audioContextRef.current.currentTime;
     }
 
-    const clearTimeoutRefToStop = () => {
+    const clearTimeoutRefToStopOrPause = () => {
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = null;
         }
     }
 
-    const startMetronome = () => {
-        setNextNoteTimeToStart();
+    const handleStartMetronome = () => {
+        setNextNoteTimeToStartOrResume();
         beatNumberRef.current = 0;
         setCurrentBeatInMeasure(0);
 
@@ -247,8 +129,8 @@ const useMetronome = () => {
         startTimeMeasure();
     };
 
-    const stopMetronome = () => {
-        clearTimeoutRefToStop();
+    const handleStopMetronome = () => {
+        clearTimeoutRefToStopOrPause();
         setIsPlaying(false);
         setIsPaused(false);
         setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
@@ -257,31 +139,18 @@ const useMetronome = () => {
         stopTimeMeasure();
     };
 
-    const handleToggleMetronome = () => {
-        if (isPlaying) {
-            stopMetronome();
-            return;
-        }
-
-        startMetronome();
-    };
-
     const handleTogglePauseMetronome = () => {
-        // It functions similar to toggle metronome except it doesn't reset clock, beat and measure positions
+        // it works similar to handleToggleMetronome except it doesn't reset clock, beat and measure positions
         if (!isPaused) {
-            clearTimeoutRefToStop();
+            clearTimeoutRefToStopOrPause();
             togglePauseTimeMeasure();
         } else {
-            setNextNoteTimeToStart();
+            setNextNoteTimeToStartOrResume();
             togglePauseTimeMeasure();
             scheduler();
         }
 
         setIsPaused((prev) => !prev);
-    }
-
-    const handleSetVolume = (newVolume: number) => {
-        handleSyncVolume(newVolume);
     }
 
     const handleSetBPM = (value: number) => {
@@ -312,42 +181,10 @@ const useMetronome = () => {
         updateBeatTypes(newAccentedBeats);
     }
 
-    const handleSetTimer = (newAmount: number, newIsActive: boolean) => {
-        handleSyncTimerSecondsToStop(newAmount);
-        handleSyncTimerIsActive(newIsActive);
-    }
-
-    const handleSetBPMProgramming = (
-        newBPMToChange: number,
-        newGoalBPM: number,
-        newMeasuresToChangeBPM: number,
-        newAddSubtractOption: string,
-        newIsActive: boolean
-    ) => {
-        handleSyncBPMToChange(newBPMToChange);
-        handleSyncGoalBPM(newGoalBPM);
-        handleSyncMeasuresToChangeBPM(newMeasuresToChangeBPM);
-        handleSyncBPMProgrammingIsActive(newIsActive);
-        handleSyncAddSubtractOption(newAddSubtractOption);
-    }
-
-    useEffect(() => {
-        if (timerIsActive && measuredTime) {
-            if (measuredTime >= (timerSecondsToStop * 1000)) stopMetronome();
-        }
-    }, [measuredTime, timerIsActive, timerSecondsToStop, stopMetronome])
-
     return {
-        addSubtractOption,
-        bpmProgrammingIsActive,
-        bpmToChange,
-        goalBPM,
-        measuresToChangeBPM,
-        timerIsActive,
-        timerSecondsToStop,
-        measuredTime,
         isPlaying,
         isPaused,
+        measuredTime,
         bpm,
         beatsPerMeasure,
         subdivision,
@@ -358,11 +195,10 @@ const useMetronome = () => {
         handleSetBeatsPerMeasure,
         handleSetSubdivision,
         handleToggleBeatType,
-        handleToggleMetronome,
+        handleStartMetronome,
+        handleStopMetronome,
         handleTogglePauseMetronome,
         handleSetVolume,
-        handleSetTimer,
-        handleSetBPMProgramming,
     };
 }
 
