@@ -90,7 +90,7 @@ option {
 
 .dialog {
     margin: 0px;
-    padding: 15px 20px;
+    padding: 20px;
     border: 0px;
     border-radius: 10px;
     background-color: var(--background);
@@ -99,25 +99,25 @@ option {
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--textColor);
-    width: clamp(250px, 75%, 400px);
+    width: clamp(250px, 93%, 400px);
     font-size: 18px;
     overflow: hidden;
     z-index: 2;
 
     .dialogHeader {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
+        gap: 10px;
 
         .dialogTitle {
-            font-size: 26px;
+            font-size: 25px;
             font-weight: 600;
         }
     }
 
     .dialogBody {
-        margin-top: 30px;
-        margin-bottom: 10px;
+        margin: 35px 5px 10px;
     }
 
     .dialogButtonContainer {
