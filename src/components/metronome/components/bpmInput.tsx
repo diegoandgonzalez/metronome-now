@@ -47,7 +47,9 @@ const BPMInput = (props: Props) => {
           title={t("subtractFiveBPM")}
           onClick={(e) => {
             e.currentTarget.blur();
-            handleSubmit(String(Number(localBPM) - 5));
+            const newBPM = Number(localBPM) - 5;
+            if (newBPM < MIN_BPM) return;
+            handleSubmit(String(newBPM));
           }}
         >
           - 5
@@ -76,7 +78,9 @@ const BPMInput = (props: Props) => {
           title={t("subtractFiveBPM")}
           onClick={(e) => {
             e.currentTarget.blur();
-            handleSubmit(String(Number(localBPM) + 5));
+            const newBPM = Number(localBPM) + 5;
+            if (newBPM > MAX_BPM) return;
+            handleSubmit(String(newBPM));
           }}
         >
           + 5

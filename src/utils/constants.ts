@@ -1,6 +1,6 @@
 export const LOOK_AHEAD = 25; // ms
 
-export const MIN_BPM = 1;
+export const MIN_BPM = 30;
 export const MAX_BPM = 360;
 export const DEFAULT_BPM = 120;
 
