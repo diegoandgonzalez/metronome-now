@@ -21,6 +21,7 @@ export const LOCAL_STORAGE_KEYS = {
   theme: "mn_theme",
   language: "mn_language",
   bpm: "mn_bpm",
+  countdownIsActive: "mn_countdown_is_active",
   beatsPerMeasure: "mn_beats_per_measure",
   subdivision: "mn_subdivision",
   beatTypes: "mn_beat_types",

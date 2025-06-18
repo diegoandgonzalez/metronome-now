@@ -18,6 +18,7 @@ import useTempoProgramming from "./hooks/useTempoProgramming";
 import Title from "./components/title";
 import LanguageChanger from "../languageChanger";
 import ThemeChanger from "../themeChanger";
+import CountdownButton from "./components/countdownButton";
 
 const Metronome = () => {
 
@@ -32,6 +33,8 @@ const Metronome = () => {
     } = useTempoProgramming();
 
     const {
+        countdownIsActive,
+        isPlayingCountdown,
         isPlaying,
         isPaused,
         currentTime,
@@ -48,6 +51,7 @@ const Metronome = () => {
         handleStartMetronome,
         handleStopMetronome,
         handleTogglePauseMetronome,
+        handleToggleCountdownIsActive,
     } = useMetronome(getProgrammedBPM);
 
     const {
@@ -110,18 +114,29 @@ const Metronome = () => {
                     handleClick={handleToggleBeatType}
                 />
                 <Clock
+                    hidePauseButton={isPlayingCountdown}
                     isPlaying={isPlaying}
                     isPaused={isPaused}
                     value={currentTime}
                     secondsToStop={timerSecondsIsActive ? timerSecondsToStop : 0}
                     handleClick={handleTogglePauseMetronome}
                 />
+                <CountdownButton
+                    countdownIsActive={countdownIsActive}
+                    handleClick={() => {
+                        handleToggleCountdownIsActive();
+                        handleStopMetronome();
+                    }}
+                />
                 <footer>
                     <div className="mainActionsContainer">
                         <IconButton
                             title={"bpmProgramming"}
                             isActive={isTempoProgrammingActive}
-                            handleClick={handleOpenBPMProgrammingDialog}
+                            handleClick={() => {
+                                handleOpenBPMProgrammingDialog();
+                                handleStopMetronome();
+                            }}
                         >
                             {<AddSubtractIcon />}
                         </IconButton>
@@ -135,7 +150,10 @@ const Metronome = () => {
                         <IconButton
                             title={"timer"}
                             isActive={timerSecondsIsActive || timerMeasuresIsActive}
-                            handleClick={handleOpenTimerDialog}
+                            handleClick={() => {
+                                handleOpenTimerDialog();
+                                handleStopMetronome();
+                            }}
                         >
                             {<StopperIcon />}
                         </IconButton>
@@ -166,7 +184,7 @@ const Metronome = () => {
                         handleClose={handleCloseBPMProgrammingDialog}
                     />
                 }
-            </div >
+            </div>
         </>
     );
 }

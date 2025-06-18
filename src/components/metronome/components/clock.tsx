@@ -4,6 +4,7 @@ import PauseIcon from "../../../assets/icons/pauseIcon";
 import PlayIcon from "../../../assets/icons/playIcon";
 
 type Props = {
+  hidePauseButton: boolean,
   isPlaying: boolean,
   isPaused: boolean,
   value: number,
@@ -14,6 +15,7 @@ type Props = {
 const Clock = (props: Props) => {
 
   const {
+    hidePauseButton,
     isPlaying,
     isPaused,
     value,
@@ -26,7 +28,7 @@ const Clock = (props: Props) => {
   return (
     <div className="clockContainer">
       {
-        isPlaying &&
+        isPlaying && !hidePauseButton &&
         <button
           className="pauseButton"
           title={t(isPaused ? "resume" : "pause")}

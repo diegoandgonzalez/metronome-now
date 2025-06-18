@@ -44,5 +44,8 @@
     "stop": "Stop",
     "play": "Play",
     "pause": "Pause",
-    "resume": "Resume"
+    "resume": "Resume",
+    "playExtraMeasureAtBeggining": "Play extra measure at the beggining",
+    "disableCountdown": "Disable countdown",
+    "enableCountdown": "Enable countdown"
 }

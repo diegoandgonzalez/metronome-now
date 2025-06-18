@@ -193,9 +193,16 @@ header {
     align-items: center;
     justify-content: center;
     margin: 0px auto;
+    padding-top: 20px;
     height: calc(100dvh - 100px);
     max-width: 500px;
     gap: 20px;
+
+    .countdownButton {
+        background: transparent;
+        text-decoration: underline;
+        font-size: 16px;
+    }
 
     .timeSignatureInputContainer {
         margin: 20px;
@@ -217,7 +224,6 @@ header {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        margin: 20px;
         justify-content: center;
 
         .beat {
@@ -323,10 +329,10 @@ header {
     .clockContainer {
         display: flex;
         align-items: center;
-        margin: 15px;
+        gap: 5px;
+        margin: 30px;
 
         .clock {
-            margin: 0px 10px;
             font-size: 22px;
             width: 100px;
             text-align: center;

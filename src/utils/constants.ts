@@ -1,5 +1,7 @@
 export const LOOK_AHEAD = 25; // ms
 
+export const DEFAULT_COUNTDOWN_IS_ACTIVE = false;
+
 export const MIN_BPM = 30;
 export const MAX_BPM = 360;
 export const DEFAULT_BPM = 120;

@@ -44,5 +44,8 @@
     "stop": "Stop",
     "play": "Play",
     "pause": "Pausar",
-    "resume": "Reanudar"
+    "resume": "Reanudar",
+    "playExtraMeasureAtBeggining": "Tocar compás adicional al principio",
+    "disableCountdown": "Desactivar cuenta regresiva",
+    "enableCountdown": "Activar cuenta regresiva"
 }
