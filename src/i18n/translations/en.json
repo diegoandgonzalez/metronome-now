@@ -45,7 +45,5 @@
     "play": "Play",
     "pause": "Pause",
     "resume": "Resume",
-    "playExtraMeasureAtBeggining": "Play extra measure at the beggining",
-    "disableCountdown": "Disable countdown",
-    "enableCountdown": "Enable countdown"
+    "countdown": "Countdown (in measures)"
 }

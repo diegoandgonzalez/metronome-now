@@ -24,7 +24,7 @@ Online metronome for your everyday needs
 - Set the metronome to stop after a determined amount of seconds
 - Set the metronome to stop after a determined amount of measures
 - Increase or decrease your BPM after a determined amount of measures
-- Play optional extra measure at the beggining (countdown)
+- Play optional extra measures at the beggining (countdown)
 - Tap to get tempo
 - Pause metronome and timer at anytime
 - Save your current settings for the next time you open the site

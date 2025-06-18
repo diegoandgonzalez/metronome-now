@@ -18,7 +18,7 @@ import useTempoProgramming from "./hooks/useTempoProgramming";
 import Title from "./components/title";
 import LanguageChanger from "../languageChanger";
 import ThemeChanger from "../themeChanger";
-import CountdownButton from "./components/countdownButton";
+import CountdownInput from "./components/countdownInput";
 
 const Metronome = () => {
 
@@ -33,7 +33,7 @@ const Metronome = () => {
     } = useTempoProgramming();
 
     const {
-        countdownIsActive,
+        countdownAmount,
         isPlayingCountdown,
         isPlaying,
         isPaused,
@@ -51,7 +51,7 @@ const Metronome = () => {
         handleStartMetronome,
         handleStopMetronome,
         handleTogglePauseMetronome,
-        handleToggleCountdownIsActive,
+        handleSetCountdownAmount,
     } = useMetronome(getProgrammedBPM);
 
     const {
@@ -121,10 +121,10 @@ const Metronome = () => {
                     secondsToStop={timerSecondsIsActive ? timerSecondsToStop : 0}
                     handleClick={handleTogglePauseMetronome}
                 />
-                <CountdownButton
-                    countdownIsActive={countdownIsActive}
-                    handleClick={() => {
-                        handleToggleCountdownIsActive();
+                <CountdownInput
+                    initialAmount={countdownAmount}
+                    handleClick={(newAmount) => {
+                        handleSetCountdownAmount(newAmount);
                         handleStopMetronome();
                     }}
                 />
