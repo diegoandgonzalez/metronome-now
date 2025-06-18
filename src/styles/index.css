@@ -99,7 +99,7 @@ option {
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--textColor);
-    width: clamp(250px, 93%, 400px);
+    width: clamp(250px, 93%, 450px);
     font-size: 18px;
     overflow: hidden;
     z-index: 2;

@@ -98,75 +98,73 @@ const TempoProgrammingDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <form className="formContainer">
-                <label
-                    htmlFor="bpmProgrammingIsActive"
-                    className="checkboxContainer"
-                    title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
+            <label
+                htmlFor="bpmProgrammingIsActive"
+                className="checkboxContainer"
+                title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
+            >
+                <input
+                    id="bpmProgrammingIsActive"
+                    type="checkbox"
+                    checked={isActive}
+                    onChange={() => setIsActive((prev) => !prev)}
+                />
+                {t("bpmProgrammingIsActive")}
+            </label>
+            <label htmlFor="bpmToChange">
+                {t("bpmToChange")}
+                <select
+                    value={addSubtractOption}
+                    onChange={(e) => setAddSubtractOption(e.target.value)}
+                    title={t("selectHowBPMchanges")}
                 >
-                    <input
-                        id="bpmProgrammingIsActive"
-                        type="checkbox"
-                        checked={isActive}
-                        onChange={() => setIsActive((prev) => !prev)}
-                    />
-                    {t("bpmProgrammingIsActive")}
-                </label>
-                <label htmlFor="bpmToChange">
-                    {t("bpmToChange")}
-                    <select
-                        value={addSubtractOption}
-                        onChange={(e) => setAddSubtractOption(e.target.value)}
-                        title={t("selectHowBPMchanges")}
-                    >
-                        {
-                            ADD_SUBTRACT_ARRAY
-                                .map((item) => {
-                                    return (
-                                        <option key={item} value={item}>{t(item)}</option>
-                                    )
-                                })
-                        }
-                    </select>
-                    <input
-                        id="bpmToChange"
-                        className="dialogInput"
-                        type="number"
-                        min={0}
-                        max={MAX_BPM}
-                        value={bpmToChange}
-                        onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
-                        autoComplete="off"
-                    />
-                </label>
-                <label htmlFor="measuresToChangeBPM">
-                    {t("changeBPMevery")}
-                    <input
-                        id="measuresToChangeBPM"
-                        className="dialogInput"
-                        type="number"
-                        min={MIN_MEASURES_TO_CHANGE_BPM}
-                        max={MAX_MEASURES_TO_CHANGE_BPM}
-                        value={measuresToChangeBPM}
-                        onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
-                        autoComplete="off"
-                    />
-                    {t("measures")}
-                </label>
-                <label htmlFor="goalBPM">
-                    {t("goalBPM")}
-                    <input
-                        id="goalBPM"
-                        className="dialogInput"
-                        type="number"
-                        min={MIN_BPM}
-                        max={MAX_BPM}
-                        value={goalBPM}
-                        onChange={(e) => setGoalBPM(e.target.value.substring(0, 3))}
-                        autoComplete="off"
-                    />
-                </label>
-            </form>
+                    {
+                        ADD_SUBTRACT_ARRAY
+                            .map((item) => {
+                                return (
+                                    <option key={item} value={item}>{t(item)}</option>
+                                )
+                            })
+                    }
+                </select>
+                <input
+                    id="bpmToChange"
+                    className="dialogInput"
+                    type="number"
+                    min={0}
+                    max={MAX_BPM}
+                    value={bpmToChange}
+                    onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
+                    autoComplete="off"
+                />
+            </label>
+            <label htmlFor="measuresToChangeBPM">
+                {t("changeBPMevery")}
+                <input
+                    id="measuresToChangeBPM"
+                    className="dialogInput"
+                    type="number"
+                    min={MIN_MEASURES_TO_CHANGE_BPM}
+                    max={MAX_MEASURES_TO_CHANGE_BPM}
+                    value={measuresToChangeBPM}
+                    onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
+                    autoComplete="off"
+                />
+                {t("measures")}
+            </label>
+            <label htmlFor="goalBPM">
+                {t("goalBPM")}
+                <input
+                    id="goalBPM"
+                    className="dialogInput"
+                    type="number"
+                    min={MIN_BPM}
+                    max={MAX_BPM}
+                    value={goalBPM}
+                    onChange={(e) => setGoalBPM(e.target.value.substring(0, 3))}
+                    autoComplete="off"
+                />
+            </label>
         </Dialog>
     );
 }

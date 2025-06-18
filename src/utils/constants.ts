@@ -10,7 +10,9 @@ export const DEFAULT_BEATS_PER_MEASURE = 4;
 export const DEFAULT_SUBDIVISION = 4;
 
 export const DEFAULT_TIMER_IS_ACTIVE = false;
-export const DEFAULT_SECONDS_TO_STOP = 60;
+export const DEFAULT_SECONDS_TO_STOP = 30;
+export const MAX_SECONDS_TO_STOP = 59;
+export const MAX_MINUTES_TO_STOP = 60;
 
 export const DEFAULT_BPM_PROGRAMMING_IS_ACTIVE = false;
 export const DEFAULT_BPM_TO_CHANGE = 10;
