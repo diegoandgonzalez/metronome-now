@@ -311,7 +311,7 @@ header {
 
     .mainActionsContainer {
         width: 100%;
-        max-width: 300px;
+        max-width: 280px;
         margin: 10px;
         display: flex;
         flex-direction: row;

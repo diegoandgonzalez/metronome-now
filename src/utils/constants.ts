@@ -25,7 +25,7 @@ export const MIN_MEASURES_TO_CHANGE_BPM = 0;
 export const MAX_MEASURES_TO_CHANGE_BPM = 100;
 export const DEFAULT_MEASURES_TO_CHANGE_BPM = 4;
 
-export const ICON_SIZE = 35;
+export const ICON_SIZE = 40;
 export const MAIN_ICON_SIZE = 55;
 
 /**
