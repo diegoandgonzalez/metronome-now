@@ -41,49 +41,57 @@ const BPMInput = (props: Props) => {
 
   return (
     <div className="bpmInputContainer">
+      <input
+        type="number"
+        className="bpmInput"
+        title={t("clickToEditBPM")}
+        min={MIN_BPM}
+        max={MAX_BPM}
+        value={localBPM}
+        onChange={(e) => setLocalBPM(e.target.value.substring(0, 3))}
+        onMouseEnter={(e) => e.currentTarget.focus()}
+        onMouseLeave={(e) => e.currentTarget.blur()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.currentTarget.blur();
+            handleSubmit();
+          }
+        }}
+        onBlur={() => handleSubmit()}
+        autoComplete="off"
+      />
       <div className="bpmInputButtonContainer">
         <button
           className="bpmInputButton"
-          title={t("subtractFiveBPM")}
+          title={t("subtractBPM", { value: 1 })}
           onClick={(e) => {
             e.currentTarget.blur();
-            const newBPM = Number(localBPM) - 5;
+            const newBPM = Number(localBPM) - 1;
             if (newBPM < MIN_BPM) return;
             handleSubmit(String(newBPM));
           }}
         >
-          - 5
+          - 1
         </button>
         <input
-          type="number"
+          type="range"
           className="bpmInput"
-          title={t("clickToEditBPM")}
           min={MIN_BPM}
           max={MAX_BPM}
-          value={localBPM}
-          onChange={(e) => setLocalBPM(e.target.value.substring(0, 3))}
-          onMouseEnter={(e) => e.currentTarget.focus()}
-          onMouseLeave={(e) => e.currentTarget.blur()}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.currentTarget.blur();
-              handleSubmit();
-            }
-          }}
-          onBlur={() => handleSubmit()}
-          autoComplete="off"
+          value={value}
+          onChange={(e) => handleSubmit(e.target.value)}
         />
         <button
           className="bpmInputButton"
-          title={t("subtractFiveBPM")}
+          title={t("addBPM", { value: 1 })}
           onClick={(e) => {
             e.currentTarget.blur();
-            const newBPM = Number(localBPM) + 5;
+            const newBPM = Number(localBPM) + 1;
             if (newBPM > MAX_BPM) return;
             handleSubmit(String(newBPM));
           }}
         >
-          + 5
+          + 1
         </button>
       </div>
       <button
@@ -98,14 +106,6 @@ const BPMInput = (props: Props) => {
       >
         👆 {t("tapToGetBPM")}
       </button>
-      <input
-        type="range"
-        className="bpmInput"
-        min={MIN_BPM}
-        max={MAX_BPM}
-        value={value}
-        onChange={(e) => handleSubmit(e.target.value)}
-      />
     </div>
   );
 };
