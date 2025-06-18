@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MAX_BPM } from "../../../utils/constants";
+import { MAX_BPM, MIN_BPM } from "../../../utils/constants";
 
 const useTapToBPM = () => {
 
@@ -22,6 +22,7 @@ const useTapToBPM = () => {
     setStartTime(tapTime);
 
     const calculatedBPM = Math.round(60 / secondsBetweenTaps);
+    if (calculatedBPM < MIN_BPM) return MIN_BPM;
     if (calculatedBPM > MAX_BPM) return MAX_BPM;
     return calculatedBPM;
   }
