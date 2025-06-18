@@ -23,7 +23,10 @@ const CountdownInput = (props: Props) => {
             <select
                 id="countdownInput"
                 value={initialAmount}
-                onChange={(e) => handleClick(Number(e.target.value))}
+                onChange={(e) => {
+                    e.currentTarget.blur();
+                    handleClick(Number(e.target.value));
+                }}
             >
                 {
                     [0, 1, 2, 3, 4].map((item) => {
