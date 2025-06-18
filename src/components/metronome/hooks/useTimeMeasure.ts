@@ -6,7 +6,7 @@ const useTimeMeasure = () => {
 
   const [isRunning, setIsRunning] = useState(false);
   const [startTime, setStartTime] = useState(0);
-  const [measuredTime, setMeasuredTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
 
   const isPaused = useRef(false);
 
@@ -16,7 +16,7 @@ const useTimeMeasure = () => {
     if (isRunning && startTime) {
       interval = setInterval(() => {
         if (isPaused.current) return;
-        setMeasuredTime((prev) => prev + TIME_TO_ADD);
+        setCurrentTime((prev) => prev + TIME_TO_ADD);
       }, TIME_TO_ADD);
     }
 
@@ -29,18 +29,18 @@ const useTimeMeasure = () => {
 
   const startTimeMeasure = () => {
     setStartTime(Date.now());
-    setMeasuredTime(0);
+    setCurrentTime(0);
     setIsRunning(true);
   };
 
   const stopTimeMeasure = () => {
     setIsRunning(false);
-    setMeasuredTime(0);
+    setCurrentTime(0);
     isPaused.current = false;
   };
 
   return {
-    measuredTime,
+    currentTime,
     startTimeMeasure,
     stopTimeMeasure,
     togglePauseTimeMeasure,

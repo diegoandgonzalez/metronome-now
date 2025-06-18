@@ -58,7 +58,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
     const nextNoteTimeRef = useRef(0);
 
     const {
-        measuredTime,
+        currentTime,
         startTimeMeasure,
         stopTimeMeasure,
         togglePauseTimeMeasure,
@@ -72,6 +72,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
 
     const scheduleNote = (time: number) => {
         const newCurrentBeatInMeasure = beatNumberRef.current % beatsPerMeasureRef.current;
+        const lastBeatOfMeasure = beatsPerMeasureRef.current - 1;
         const beatType = beatTypesRef.current[newCurrentBeatInMeasure];
         const audioToPlay = [clickAudioRef.current.clickAccent, clickAudioRef.current.clickNormal, clickAudioRef.current.clickMuted][beatType];
 
@@ -79,9 +80,11 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
 
         setCurrentBeatInMeasure(newCurrentBeatInMeasure);
 
-        if (newCurrentBeatInMeasure === 0 && beatNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
+        if (newCurrentBeatInMeasure === lastBeatOfMeasure) {
             measureNumberRef.current++;
+        }
 
+        if (newCurrentBeatInMeasure === 0 && beatNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
             if (getProgrammedBPM) {
                 handleSyncBPM(getProgrammedBPM(measureNumberRef.current, bpmRef.current));
             }
@@ -182,12 +185,13 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
     return {
         isPlaying,
         isPaused,
-        measuredTime,
+        currentTime,
         bpm,
         beatsPerMeasure,
         subdivision,
         beatTypes,
         currentBeatInMeasure,
+        currentMeasure: measureNumberRef.current,
         handleSetBPM,
         handleSetBeatsPerMeasure,
         handleSetSubdivision,

@@ -34,12 +34,13 @@ const Metronome = () => {
     const {
         isPlaying,
         isPaused,
-        measuredTime,
+        currentTime,
         bpm,
         beatsPerMeasure,
         subdivision,
         beatTypes,
         currentBeatInMeasure,
+        currentMeasure,
         handleSetBPM,
         handleSetBeatsPerMeasure,
         handleSetSubdivision,
@@ -50,10 +51,12 @@ const Metronome = () => {
     } = useMetronome(getProgrammedBPM);
 
     const {
-        timerIsActive,
+        timerSecondsIsActive,
+        timerMeasuresIsActive,
         timerSecondsToStop,
+        timerMeasuresToStop,
         handleSetTimer,
-    } = useTimer(measuredTime, handleStopMetronome);
+    } = useTimer(currentTime, currentMeasure, handleStopMetronome);
 
     const handleToggleMetronome = () => {
         if (isPlaying) {
@@ -109,8 +112,8 @@ const Metronome = () => {
                 <Clock
                     isPlaying={isPlaying}
                     isPaused={isPaused}
-                    value={measuredTime}
-                    secondsToStop={timerIsActive ? timerSecondsToStop : 0}
+                    value={currentTime}
+                    secondsToStop={timerSecondsIsActive ? timerSecondsToStop : 0}
                     handleClick={handleTogglePauseMetronome}
                 />
                 <footer>
@@ -131,19 +134,21 @@ const Metronome = () => {
                         </IconButton>
                         <IconButton
                             title={"timer"}
-                            isActive={timerIsActive}
+                            isActive={timerSecondsIsActive || timerMeasuresIsActive}
                             handleClick={handleOpenTimerDialog}
                         >
                             {<StopperIcon />}
                         </IconButton>
-                    </div>                    
+                    </div>
                 </footer>
                 {
                     timerDialogIsOpen &&
                     <TimerDialog
                         open={timerDialogIsOpen}
-                        initialIsActive={timerIsActive}
+                        initialSecondsIsActive={timerSecondsIsActive}
+                        initialMeasuresIsActive={timerMeasuresIsActive}
                         initialSecondsToStop={timerSecondsToStop}
+                        initialMeasuresToStop={timerMeasuresToStop}
                         handleSetTimer={handleSetTimer}
                         handleClose={handleCloseTimerDialog}
                     />

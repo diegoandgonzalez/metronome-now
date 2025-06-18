@@ -15,6 +15,7 @@
     "measures": "measures",
     "add": "add",
     "subtract": "subtract",
+    "measuresMustBePositiveValue": "Measures must be a positive number",
     "timeCannotBeEmpty": "Minutes and seconds cannot be both empty",
     "timeMustBePositiveValue": "There cannot be negative numbers",
     "bpmToChangeCannotBeNegative": "BPM to change must be positive",

@@ -12,7 +12,7 @@ const getValueFromLocalStorage = (key: string) => {
 };
 
 export const getValueFromLocalStorageOrDefault = (localStorageKey: string, defaultValue?: LocalStorageValueType) => {
-  return isKeyPresentInLocalStorage(localStorageKey) ? getValueFromLocalStorage(localStorageKey) : (defaultValue || null);
+  return isKeyPresentInLocalStorage(localStorageKey) ? getValueFromLocalStorage(localStorageKey) : defaultValue;
 }
 
 export const setValueInLocalStorage = (key: string, value: LocalStorageValueType) => localStorage.setItem(key, JSON.stringify(value));
@@ -24,8 +24,10 @@ export const LOCAL_STORAGE_KEYS = {
   beatsPerMeasure: "mn_beats_per_measure",
   subdivision: "mn_subdivision",
   beatTypes: "mn_beat_types",
-  timerIsActive: "mn_timer_is_active",
+  timerSecondsIsActive: "mn_timer_seconds_is_active",
+  timerMeasuresIsActive: "mn_timer_measures_is_active",
   timerSecondsToStop: "mn_timer_seconds_to_stop",
+  timerMeasuresToStop: "mn_timer_measures_to_stop",
   tempoProgrammingIsActive: "mn_tp_is_active",
   tempoProgrammingBPMToChange: "mn_tp_bpm_to_change",
   tempoProgrammingGoalBPM: "mn_tp_goal_bpm",

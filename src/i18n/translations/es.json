@@ -15,6 +15,7 @@
     "measures": "compases",
     "add": "sumar",
     "subtract": "restar",
+    "measuresMustBePositiveValue": "Los compases deben ser un valor positivo",
     "timeCannotBeEmpty": "Los minutos y segundos no pueden ser ambos cero",
     "timeMustBePositiveValue": "No puede haber valores negativos",
     "bpmToChangeCannotBeNegative": "Los BPM deben ser un valor positivo",

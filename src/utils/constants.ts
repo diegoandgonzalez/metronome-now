@@ -9,7 +9,10 @@ export const STOPPED_METRONOME_BEAT_INDEX = -1;
 export const DEFAULT_BEATS_PER_MEASURE = 4;
 export const DEFAULT_SUBDIVISION = 4;
 
-export const DEFAULT_TIMER_IS_ACTIVE = false;
+export const DEFAULT_TIMER_SECONDS_IS_ACTIVE = false;
+export const DEFAULT_TIMER_MEASURES_IS_ACTIVE = false;
+export const DEFAULT_MEASURES_TO_STOP = 8;
+export const MAX_MEASURES_TO_STOP = 999;
 export const DEFAULT_SECONDS_TO_STOP = 30;
 export const MAX_SECONDS_TO_STOP = 59;
 export const MAX_MINUTES_TO_STOP = 60;
