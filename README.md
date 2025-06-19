@@ -31,10 +31,10 @@ Online metronome for your everyday needs
 - Dark/light mode
 - English, Spanish, Italian, Portuguese, German, and French translations
 - Deployed site with a live link
+- PWA (Website installable as app)
 
 ## Coming Soon
 - Template creation for faster use
-- PWA (Installable website)
 
 ## How to run locally
 
