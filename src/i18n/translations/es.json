@@ -8,13 +8,9 @@
     "en": "English",
     "es": "Español",
     "bpmProgramming": "Programación de tempo",
-    "bpmProgrammingIsActive": "Programación de tempo activada",
-    "bpmToChange": "Cantidad de bpm a",
-    "goalBPM": "Tempo límite",
-    "changeBPMevery": "Cambiar bpm cada",
     "measures": "compases",
-    "add": "sumar",
-    "subtract": "restar",
+    "add": "Sumar",
+    "subtract": "Restar",
     "measuresMustBePositiveValue": "Los compases deben ser un valor positivo",
     "timeCannotBeEmpty": "Los minutos y segundos no pueden ser ambos cero",
     "timeMustBePositiveValue": "No puede haber valores negativos",
@@ -45,5 +41,8 @@
     "play": "Play",
     "pause": "Pausar",
     "resume": "Reanudar",
-    "countdown": "Cuenta regresiva (compases)"
+    "countdown": "Cuenta regresiva (compases)",
+    "bpmEvery": "bpm cada",
+    "measuresUntil": "compases hasta",
+    "bpm": "bpm"
 }

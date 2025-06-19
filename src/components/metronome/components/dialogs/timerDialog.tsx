@@ -104,70 +104,60 @@ const TimerDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <label
-                className="checkboxContainer"
-                htmlFor="timerIsSecondsActive"
-            >
+            <div className="checkboxContainer">
                 <input
                     type="checkbox"
-                    id="timerIsSecondsActive"
                     checked={isSecondsActive}
-                    onChange={() => {
+                    onChange={(e) => {
+                        e.currentTarget.blur();
                         setIsSecondsActive((prev) => !prev);
                         setIsMeasuresActive(false);
                     }}
                 />
-                <span>
-                    {t("stopIn")}
-                    <input
-                        className="dialogInput"
-                        type="number"
-                        min={0}
-                        max={MAX_MINUTES_TO_STOP}
-                        value={minutes}
-                        onChange={(e) => setMinutes(e.target.value.substring(0, 2))}
-                        autoComplete="off"
-                    />
-                    {t("minutes")}
-                    <input
-                        className="dialogInput"
-                        type="number"
-                        min={0}
-                        max={MAX_SECONDS_TO_STOP}
-                        value={seconds}
-                        onChange={(e) => setSeconds(e.target.value.substring(0, 2))}
-                        autoComplete="off"
-                    />
-                    {t("seconds")}
-                </span>
-            </label>
-            <label
-                className="checkboxContainer"
-                htmlFor="timerIsMeasuresActive"
-            >
+                {t("stopIn")}
+                <input
+                    className="dialogInput"
+                    type="number"
+                    min={0}
+                    max={MAX_MINUTES_TO_STOP}
+                    value={minutes}
+                    onChange={(e) => setMinutes(e.target.value.substring(0, 2))}
+                    autoComplete="off"
+                />
+                {t("minutes")}
+                <input
+                    className="dialogInput"
+                    type="number"
+                    min={0}
+                    max={MAX_SECONDS_TO_STOP}
+                    value={seconds}
+                    onChange={(e) => setSeconds(e.target.value.substring(0, 2))}
+                    autoComplete="off"
+                />
+                {t("seconds")}
+            </div>
+            <div className="checkboxContainer">
                 <input
                     type="checkbox"
-                    id="timerIsMeasuresActive"
                     checked={isMeasuresActive}
-                    onChange={() => {
+                    onChange={(e) => {
+                        e.currentTarget.blur();
                         setIsMeasuresActive((prev) => !prev);
                         setIsSecondsActive(false);
                     }}
                 />
-                <span>
-                    {t("stopIn")}
-                    <input
-                        className="dialogInput"
-                        type="number"
-                        min={0}
-                        max={MAX_MEASURES_TO_STOP}
-                        value={measures}
-                        onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
-                        autoComplete="off"
-                    />
-                    {t("measures")}
-                </span>
-            </label>
+                {t("stopIn")}
+                <input
+                    className="dialogInput"
+                    type="number"
+                    min={0}
+                    max={MAX_MEASURES_TO_STOP}
+                    value={measures}
+                    onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
+                    autoComplete="off"
+                />
+                {t("measures")}
+            </div>
         </Dialog>
     );
 }

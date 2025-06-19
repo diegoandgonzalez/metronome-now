@@ -8,13 +8,9 @@
     "en": "English",
     "es": "Español",
     "bpmProgramming": "Tempo programming",
-    "bpmProgrammingIsActive": "Tempo programming is active",
-    "bpmToChange": "Amount of bpm to",
-    "goalBPM": "Limit tempo",
-    "changeBPMevery": "Change bpm every",
     "measures": "measures",
-    "add": "add",
-    "subtract": "subtract",
+    "add": "Add",
+    "subtract": "Subtract",
     "measuresMustBePositiveValue": "Measures must be a positive number",
     "timeCannotBeEmpty": "Minutes and seconds cannot be both empty",
     "timeMustBePositiveValue": "There cannot be negative numbers",
@@ -45,5 +41,8 @@
     "play": "Play",
     "pause": "Pause",
     "resume": "Resume",
-    "countdown": "Countdown (in measures)"
+    "countdown": "Countdown (in measures)",
+    "bpmEvery": "bpm every",
+    "measuresUntil": "measures until",
+    "bpm": "bpm"
 }

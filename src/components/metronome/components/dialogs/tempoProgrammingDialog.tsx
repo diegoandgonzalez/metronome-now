@@ -98,21 +98,16 @@ const TempoProgrammingDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <label
-                htmlFor="bpmProgrammingIsActive"
-                className="checkboxContainer"
-                title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
-            >
+            <div className="checkboxContainer">
                 <input
-                    id="bpmProgrammingIsActive"
                     type="checkbox"
                     checked={isActive}
-                    onChange={() => setIsActive((prev) => !prev)}
+                    onChange={(e) => {
+                        e.currentTarget.blur();
+                        setIsActive((prev) => !prev);
+                    }}
+                    title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
                 />
-                {t("bpmProgrammingIsActive")}
-            </label>
-            <label htmlFor="bpmToChange">
-                {t("bpmToChange")}
                 <select
                     value={addSubtractOption}
                     onChange={(e) => setAddSubtractOption(e.target.value)}
@@ -128,7 +123,6 @@ const TempoProgrammingDialog = (props: Props) => {
                     }
                 </select>
                 <input
-                    id="bpmToChange"
                     className="dialogInput"
                     type="number"
                     min={0}
@@ -137,11 +131,8 @@ const TempoProgrammingDialog = (props: Props) => {
                     onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
                     autoComplete="off"
                 />
-            </label>
-            <label htmlFor="measuresToChangeBPM">
-                {t("changeBPMevery")}
+                {t("bpmEvery")}
                 <input
-                    id="measuresToChangeBPM"
                     className="dialogInput"
                     type="number"
                     min={MIN_MEASURES_TO_CHANGE_BPM}
@@ -150,12 +141,8 @@ const TempoProgrammingDialog = (props: Props) => {
                     onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
                     autoComplete="off"
                 />
-                {t("measures")}
-            </label>
-            <label htmlFor="goalBPM">
-                {t("goalBPM")}
+                {t("measuresUntil")}
                 <input
-                    id="goalBPM"
                     className="dialogInput"
                     type="number"
                     min={MIN_BPM}
@@ -164,7 +151,8 @@ const TempoProgrammingDialog = (props: Props) => {
                     onChange={(e) => setGoalBPM(e.target.value.substring(0, 3))}
                     autoComplete="off"
                 />
-            </label>
+                {t("bpm")}
+            </div>
         </Dialog>
     );
 }
