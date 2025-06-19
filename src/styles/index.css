@@ -191,11 +191,9 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     margin: 0px auto;
-    height: calc(100dvh - 100px);
+    padding: 10px;
     max-width: 500px;
-    gap: 20px;
 
     .countdownInputContainer {
         display: flex;
@@ -219,8 +217,8 @@ header {
     }
 
     .beatContainer {
-        margin: 10px;
-        min-height: 100px;
+        margin: 25px 0px;
+        min-height: 120px;
         max-width: 400px;
         display: flex;
         flex-wrap: wrap;
@@ -288,11 +286,11 @@ header {
                 border-radius: 8px;
                 padding: 8px 15px;
                 font-size: 16px;
+                white-space: nowrap;
             }
         }
 
         .bpmInput {
-            margin-top: 10px;
             font-size: 75px;
             text-align: center;
             background: transparent;
@@ -302,19 +300,18 @@ header {
 
         .bpmInput[type=range] {
             cursor: pointer;
-            min-width: 230px;
+            min-width: 200px;
             margin: 15px 0px;
         }
     }
 
     footer {
+        margin-top: 30px;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        margin-top: 10px;
-        margin-bottom: 20px;
     }
 
     .mainActionsContainer {
@@ -384,6 +381,16 @@ header {
             scale: 1.5;
             cursor: pointer;
         }
+    }
+}
+
+@media (min-height: 630px) {
+    .metronomeContainer {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding-top: 30px;
     }
 }
 
