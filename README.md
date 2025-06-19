@@ -29,13 +29,12 @@ Online metronome for your everyday needs
 - Pause metronome and timer at anytime
 - Save your current settings for the next time you open the site
 - Dark/light mode
-- English and spanish localization
+- English, Spanish, Italian, Portuguese, German, and French translations
 - Deployed site with a live link
 
 ## Coming Soon
 - Template creation for faster use
 - PWA (Installable website)
-- More languages (Portuguese, French and Italian)
 
 ## How to run locally
 

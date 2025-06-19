@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../utils/localStorage";
 import { useTranslation } from "react-i18next";
+import { LANGUAGES_ARRAY } from "../utils/constants";
 
 const LanguageChanger = () => {
     
@@ -20,7 +21,7 @@ const LanguageChanger = () => {
             onChange={(e) => handleChangeLanguage(e.target.value)}
         >
             {
-                ["en", "es"].map((item) => {
+                LANGUAGES_ARRAY.map((item) => {
                     return (
                         <option key={item} value={item}>{t(item)}</option>
                     )
