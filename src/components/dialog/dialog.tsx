@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import CloseButton from "../closeButton";
+import useExecuteOnKeyPressed from "../metronome/hooks/useExecuteOnKeyPressed";
 
 type Props = {
     open: boolean,
@@ -20,6 +21,9 @@ const Dialog = (props: Props) => {
     } = props;
 
     const { t } = useTranslation();
+
+    useExecuteOnKeyPressed("Escape", handleClose);
+
 
     if (!open) return;
 
@@ -43,7 +47,7 @@ const Dialog = (props: Props) => {
                     </button>
                 </div>
             </div>
-            <div className="backdrop" />
+            <div className="backdrop" onClick={handleClose} />
         </>
     )
 }

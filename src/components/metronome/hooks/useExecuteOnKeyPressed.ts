@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 
-const useExecuteOnSpacePressed = (callback: () => void) => {
+const useExecuteOnKeyPressed = (keyCode: string, callback: () => void) => {
 
   useEffect(() => {
     const executeCallback = (event: KeyboardEvent) => {
-      if (event.code === "Space" && callback) callback();
+      if (event.code === keyCode && callback) callback();
     }
 
     document.addEventListener("keyup", executeCallback);
@@ -15,4 +15,4 @@ const useExecuteOnSpacePressed = (callback: () => void) => {
   }, [callback])
 };
 
-export default useExecuteOnSpacePressed;
+export default useExecuteOnKeyPressed;

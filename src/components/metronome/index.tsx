@@ -2,7 +2,7 @@ import BPMInput from "./components/bpmInput";
 import TimeSignatureInput from "./components/timeSignatureInput";
 import BeatDisplay from "./components/beatDisplay";
 import Clock from "./components/clock";
-import useExecuteOnSpacePressed from "./hooks/useExecuteOnSpacePressed";
+import useExecuteOnKeyPressed from "./hooks/useExecuteOnKeyPressed";
 import useMetronome from "./hooks/useMetronome";
 import IconButton from "./components/iconButton";
 import StopIcon from "../../assets/icons/stopIcon";
@@ -85,7 +85,7 @@ const Metronome = () => {
         handleStartMetronome();
     }
 
-    useExecuteOnSpacePressed(handleToggleMetronome);
+    useExecuteOnKeyPressed("Space", handleToggleMetronome);
 
     return (
         <>
