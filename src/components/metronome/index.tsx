@@ -19,6 +19,7 @@ import Title from "./components/title";
 import LanguageChanger from "../languageChanger";
 import ThemeChanger from "../themeChanger";
 import CountdownInput from "./components/countdownInput";
+import { useTranslation } from "react-i18next";
 
 const Metronome = () => {
 
@@ -87,6 +88,8 @@ const Metronome = () => {
 
     useExecuteOnKeyPressed("Space", handleToggleMetronome);
 
+    const { t } = useTranslation();
+
     return (
         <>
             <header className="header">
@@ -133,7 +136,7 @@ const Metronome = () => {
                 <footer>
                     <div className="mainActionsContainer">
                         <IconButton
-                            title={"bpmProgramming"}
+                            title={t("bpmProgramming")}
                             isActive={isTempoProgrammingActive}
                             handleClick={() => {
                                 handleOpenBPMProgrammingDialog();
@@ -143,14 +146,14 @@ const Metronome = () => {
                             {<AddSubtractIcon />}
                         </IconButton>
                         <IconButton
-                            title={isPlaying ? "stop" : "play"}
+                            title={t(isPlaying ? "stop" : "play")}
                             isActive
                             handleClick={handleToggleMetronome}
                         >
                             {isPlaying ? <StopIcon size={MAIN_ICON_SIZE} /> : <PlayIcon size={MAIN_ICON_SIZE} />}
                         </IconButton>
                         <IconButton
-                            title={"timer"}
+                            title={t("timer")}
                             isActive={timerSecondsIsActive || timerMeasuresIsActive}
                             handleClick={() => {
                                 handleOpenTimerDialog();

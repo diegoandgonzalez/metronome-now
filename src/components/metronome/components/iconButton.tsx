@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 
 type Props = {
     title?: string,
@@ -17,16 +16,14 @@ const IconButton = (props: Props) => {
         handleClick,
     } = props;
 
-    const { t } = useTranslation();
-
     return (
         <button
             data-is-off={String(!isActive)}
-            title={title ? t(title) : ""}
+            title={title || ""}
             className="iconButton"
             onClick={(e) => {
-                handleClick();
                 e.currentTarget.blur();
+                handleClick();
             }}
         >
             {children}

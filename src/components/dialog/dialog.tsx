@@ -24,7 +24,6 @@ const Dialog = (props: Props) => {
 
     useExecuteOnKeyPressed("Escape", handleClose);
 
-
     if (!open) return;
 
     return (
