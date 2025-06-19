@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import CloseButton from "../closeButton";
 import useExecuteOnKeyPressed from "../metronome/hooks/useExecuteOnKeyPressed";
+import { createPortal } from "react-dom";
 
 type Props = {
     open: boolean,
@@ -26,7 +27,7 @@ const Dialog = (props: Props) => {
 
     if (!open) return;
 
-    return (
+    return createPortal(
         <>
             <div className="dialog">
                 <div className="dialogHeader">
@@ -47,7 +48,8 @@ const Dialog = (props: Props) => {
                 </div>
             </div>
             <div className="backdrop" onClick={handleClose} />
-        </>
+        </>,
+        document.body
     )
 }
 

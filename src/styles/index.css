@@ -118,6 +118,24 @@ option {
 
     .dialogBody {
         margin: 30px 5px 30px;
+
+        .formContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .checkboxContainer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+
+            input[type=checkbox] {
+                scale: 1.5;
+                cursor: pointer;
+            }
+        }
     }
 
     .dialogButtonContainer {
@@ -365,23 +383,6 @@ header {
         background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
     }
 
-    .formContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .checkboxContainer {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 10px;
-
-        input[type=checkbox] {
-            scale: 1.5;
-            cursor: pointer;
-        }
-    }
 }
 
 @media (min-height: 630px) {
