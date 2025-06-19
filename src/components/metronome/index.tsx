@@ -62,17 +62,6 @@ const Metronome = () => {
         handleSetTimer,
     } = useTimer(currentTime, currentMeasure, handleStopMetronome);
 
-    const handleToggleMetronome = () => {
-        if (isPlaying) {
-            handleStopMetronome();
-            return;
-        }
-
-        handleStartMetronome();
-    }
-
-    useExecuteOnSpacePressed(handleToggleMetronome);
-
     const {
         dialogIsOpen: timerDialogIsOpen,
         handleOpenDialog: handleOpenTimerDialog,
@@ -84,6 +73,19 @@ const Metronome = () => {
         handleOpenDialog: handleOpenBPMProgrammingDialog,
         handleCloseDialog: handleCloseBPMProgrammingDialog,
     } = useDialog();
+
+    const handleToggleMetronome = () => {
+        if (timerDialogIsOpen || bpmProgrammingDialogIsOpen) return;
+
+        if (isPlaying) {
+            handleStopMetronome();
+            return;
+        }
+
+        handleStartMetronome();
+    }
+
+    useExecuteOnSpacePressed(handleToggleMetronome);
 
     return (
         <>
