@@ -164,7 +164,7 @@ option {
 }
 
 header {
-    padding: 20px 30px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -192,7 +192,6 @@ header {
     align-items: center;
     justify-content: center;
     margin: 0px auto;
-    padding-top: 20px;
     height: calc(100dvh - 100px);
     max-width: 500px;
     gap: 20px;
@@ -204,7 +203,6 @@ header {
     }
 
     .timeSignatureInputContainer {
-        margin: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -220,10 +218,14 @@ header {
     }
 
     .beatContainer {
+        margin: 10px;
+        min-height: 100px;
+        max-width: 400px;
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 0px 10px;
         justify-content: center;
+        align-items: center;
 
         .beat {
             cursor: pointer;
@@ -262,7 +264,6 @@ header {
         flex-direction: column;
         margin-bottom: 15px;
         align-items: center;
-        margin-top: 15px;
 
         .bpmTapButton {
             background: var(--accentColor);
@@ -311,6 +312,7 @@ header {
         flex-direction: column;
         align-items: center;
         gap: 10px;
+        margin-top: 10px;
         margin-bottom: 50px;
     }
 
@@ -325,11 +327,17 @@ header {
         gap: 30px;
     }
 
+    .clockCountdownContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .clockContainer {
         display: flex;
         align-items: center;
         gap: 5px;
-        margin: 30px;
+        margin: 10px;
 
         .clock {
             font-size: 22px;

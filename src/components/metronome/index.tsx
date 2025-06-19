@@ -118,21 +118,23 @@ const Metronome = () => {
                     currentBeatInMeasure={currentBeatInMeasure}
                     handleClick={handleToggleBeatType}
                 />
-                <Clock
-                    hidePauseButton={isPlayingCountdown}
-                    isPlaying={isPlaying}
-                    isPaused={isPaused}
-                    value={currentTime}
-                    secondsToStop={timerSecondsIsActive ? timerSecondsToStop : 0}
-                    handleClick={handleTogglePauseMetronome}
-                />
-                <CountdownInput
-                    initialAmount={countdownAmount}
-                    handleClick={(newAmount) => {
-                        handleSetCountdownAmount(newAmount);
-                        handleStopMetronome();
-                    }}
-                />
+                <div className="clockCountdownContainer">
+                    <Clock
+                        hidePauseButton={isPlayingCountdown}
+                        isPlaying={isPlaying}
+                        isPaused={isPaused}
+                        value={currentTime}
+                        secondsToStop={timerSecondsIsActive ? timerSecondsToStop : 0}
+                        handleClick={handleTogglePauseMetronome}
+                    />
+                    <CountdownInput
+                        initialAmount={countdownAmount}
+                        handleClick={(newAmount) => {
+                            handleSetCountdownAmount(newAmount);
+                            handleStopMetronome();
+                        }}
+                    />
+                </div>
                 <footer>
                     <div className="mainActionsContainer">
                         <IconButton
