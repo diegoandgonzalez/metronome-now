@@ -10,7 +10,6 @@ export default defineConfig({
         enabled: true,
       },
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
       manifest: {
         name: "Metronome Now",
         short_name: "Metronome Now",
@@ -21,19 +20,19 @@ export default defineConfig({
         start_url: "/",
         icons: [
           {
-            src: "/android-chrome-512x512.png",
+            src: "/images/icons/android-chrome-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any"
           },
           {
-            src: "/android-chrome-192x192.png",
+            src: "/images/icons/android-chrome-192x192.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "any"
           },
           {
-            src: "/apple-touch-icon.png",
+            src: "/images/icons/apple-touch-icon.png",
             sizes: "180x180",
             type: "image/png",
             purpose: "any"
