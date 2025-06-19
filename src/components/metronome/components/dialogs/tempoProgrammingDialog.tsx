@@ -98,7 +98,7 @@ const TempoProgrammingDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <div className="checkboxContainer">
+            <label className="checkboxContainer">
                 <input
                     type="checkbox"
                     checked={isActive}
@@ -152,7 +152,7 @@ const TempoProgrammingDialog = (props: Props) => {
                     autoComplete="off"
                 />
                 {t("bpm")}
-            </div>
+            </label>
         </Dialog>
     );
 }
