@@ -41,13 +41,13 @@ export default defineConfig({
         ],
         screenshots: [
           {
-            src: "/screenshots/mobile_screencap.png",
+            src: "images/screenshots/mobile_screencap.png",
             sizes: "374x694",
             type: "image/png",
             label: "Metronome now"
           },
           {
-            src: "/screenshots/desktop_screencap.png",
+            src: "images/screenshots/desktop_screencap.png",
             sizes: "1275x717",
             type: "image/png",
             form_factor: "wide",
