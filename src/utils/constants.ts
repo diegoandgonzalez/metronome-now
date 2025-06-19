@@ -28,7 +28,7 @@ export const MAX_MEASURES_TO_CHANGE_BPM = 100;
 export const DEFAULT_MEASURES_TO_CHANGE_BPM = 4;
 
 export const ICON_SIZE = 40;
-export const MAIN_ICON_SIZE = 55;
+export const MAIN_ICON_SIZE = 655;
 
 /**
  * Number of different types of beat types
