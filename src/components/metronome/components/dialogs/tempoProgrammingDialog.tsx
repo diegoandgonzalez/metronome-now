@@ -98,7 +98,7 @@ const TempoProgrammingDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <label className="checkboxContainer">
+            <label>
                 <input
                     type="checkbox"
                     checked={isActive}
@@ -108,20 +108,23 @@ const TempoProgrammingDialog = (props: Props) => {
                     }}
                     title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
                 />
-                <select
-                    value={addSubtractOption}
-                    onChange={(e) => setAddSubtractOption(e.target.value)}
-                    title={t("selectHowBPMchanges")}
-                >
-                    {
-                        ADD_SUBTRACT_ARRAY
-                            .map((item) => {
-                                return (
-                                    <option key={item} value={item}>{t(item)}</option>
-                                )
-                            })
-                    }
-                </select>
+                {"Programming is active"}
+            </label>
+            <select
+                value={addSubtractOption}
+                onChange={(e) => setAddSubtractOption(e.target.value)}
+                title={t("selectHowBPMchanges")}
+            >
+                {
+                    ADD_SUBTRACT_ARRAY
+                        .map((item) => {
+                            return (
+                                <option key={item} value={item}>{t(item)}</option>
+                            )
+                        })
+                }
+            </select>
+            <label>
                 <input
                     className="dialogInput"
                     type="number"
@@ -132,6 +135,8 @@ const TempoProgrammingDialog = (props: Props) => {
                     autoComplete="off"
                 />
                 {t("bpmEvery")}
+            </label>
+            <label >
                 <input
                     className="dialogInput"
                     type="number"
@@ -142,6 +147,8 @@ const TempoProgrammingDialog = (props: Props) => {
                     autoComplete="off"
                 />
                 {t("measuresUntil")}
+            </label>
+            <label>
                 <input
                     className="dialogInput"
                     type="number"

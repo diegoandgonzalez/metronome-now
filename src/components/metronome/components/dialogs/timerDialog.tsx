@@ -104,7 +104,7 @@ const TimerDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <label className="checkboxContainer">
+            <label>
                 <input
                     type="checkbox"
                     checked={isSecondsActive}
@@ -136,7 +136,7 @@ const TimerDialog = (props: Props) => {
                 />
                 {t("seconds")}
             </label>
-            <label className="checkboxContainer">
+            <label>
                 <input
                     type="checkbox"
                     checked={isMeasuresActive}
