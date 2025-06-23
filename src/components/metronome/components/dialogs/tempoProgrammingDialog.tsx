@@ -108,7 +108,7 @@ const TempoProgrammingDialog = (props: Props) => {
                     }}
                     title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
                 />
-                {"Programming is active"}
+                {t("tempoProgrammingIsActive")}
             </label>
             <select
                 value={addSubtractOption}

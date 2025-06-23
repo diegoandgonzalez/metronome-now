@@ -12,6 +12,7 @@
     "seconds": "seg",
     "accept": "Aceptar",
     "bpmProgramming": "Programación de tempo",
+    "tempoProgrammingIsActive": "Programación de tempo activada",
     "measures": "compases",
     "add": "Sumar",
     "subtract": "Restar",

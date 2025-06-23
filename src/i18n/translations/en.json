@@ -12,6 +12,7 @@
     "seconds": "sec",
     "accept": "Accept",
     "bpmProgramming": "Tempo programming",
+    "tempoProgrammingIsActive": "Tempo programming is active",
     "measures": "measures",
     "add": "Add",
     "subtract": "Subtract",
