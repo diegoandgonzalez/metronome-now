@@ -1,18 +1,18 @@
 import { ICON_SIZE } from "../../utils/constants";
 
 const PlayIcon = ({ size = ICON_SIZE }) => {
-    
+
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 26 26"
+            viewBox="0 0 20 20"
             width={size}
             height={size}
         >
             <path
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
-                d="M20.208 11.857L6.902 5.26a1.312 1.312 0 0 0-1.268.052a1.272 1.272 0 0 0-.619 1.09V19.6c0 .443.233.856.619 1.089a1.316 1.316 0 0 0 1.269.052l13.306-6.599c.438-.218.716-.658.716-1.143s-.279-.924-.717-1.142z"
+                d="M15.544 9.59a1 1 0 0 1-.053 1.728L6.476 16.2A1 1 0 0 1 5 15.321V4.804a1 1 0 0 1 1.53-.848l9.014 5.634Z"
             />
         </svg>
     )
