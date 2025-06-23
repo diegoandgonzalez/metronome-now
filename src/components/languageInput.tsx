@@ -1,22 +1,25 @@
-import { useState } from "react";
-import { LOCAL_STORAGE_KEYS, setValueInLocalStorage } from "../utils/localStorage";
+import { LOCAL_STORAGE_KEYS } from "../utils/localStorage";
 import { useTranslation } from "react-i18next";
 import { LANGUAGES_ARRAY } from "../utils/constants";
+import useStateRefLocalStorageSync from "../utils/hooks/useStateRefLocalStorageSync";
 
-const LanguageChanger = () => {
-    
+const LanguageInput = () => {
+
     const { t, i18n } = useTranslation();
-    const [language, setLanguage] = useState(i18n.language);
+
+    const {
+        value: language,
+        handleSyncValue: handleSyncLanguage,
+    } = useStateRefLocalStorageSync<string>(i18n.language, LOCAL_STORAGE_KEYS.language);
 
     const handleChangeLanguage = (newLanguage: string) => {
-        setLanguage(newLanguage);
-        setValueInLocalStorage(LOCAL_STORAGE_KEYS.language, newLanguage);
+        handleSyncLanguage(newLanguage);
         i18n.changeLanguage(newLanguage);
     }
 
     return (
         <select
-            className="languageChanger"
+            className="languageInput"
             value={language}
             onChange={(e) => handleChangeLanguage(e.target.value)}
         >
@@ -31,4 +34,4 @@ const LanguageChanger = () => {
     )
 }
 
-export default LanguageChanger;
+export default LanguageInput;

@@ -16,7 +16,7 @@ import { MAIN_ICON_SIZE } from "../../utils/constants";
 import useTimer from "./hooks/useTimer";
 import useTempoProgramming from "./hooks/useTempoProgramming";
 import Title from "./components/title";
-import LanguageChanger from "../languageChanger";
+import LanguageInput from "../languageInput";
 import ThemeButton from "../themeButton";
 import CountdownInput from "./components/countdownInput";
 import { useTranslation } from "react-i18next";
@@ -95,7 +95,7 @@ const Metronome = () => {
             <header className="header">
                 <Title />
                 <div>
-                    <LanguageChanger />
+                    <LanguageInput />
                     <ThemeButton />
                 </div>
             </header>
