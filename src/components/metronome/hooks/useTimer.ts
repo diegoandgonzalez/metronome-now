@@ -6,7 +6,7 @@ import {
     DEFAULT_MEASURES_TO_STOP,
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
-import useStateRefLocalStorageSync from "./useStateRefLocalStorageSync";
+import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 
 const initialTimerSecondsIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsIsActive, DEFAULT_TIMER_SECONDS_IS_ACTIVE);
 const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresIsActive, DEFAULT_TIMER_MEASURES_IS_ACTIVE);

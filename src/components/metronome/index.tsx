@@ -2,7 +2,6 @@ import BPMInput from "./components/bpmInput";
 import TimeSignatureInput from "./components/timeSignatureInput";
 import BeatDisplay from "./components/beatDisplay";
 import Clock from "./components/clock";
-import useExecuteOnKeyPressed from "./hooks/useExecuteOnKeyPressed";
 import useMetronome from "./hooks/useMetronome";
 import IconButton from "./components/iconButton";
 import StopIcon from "../../assets/icons/stopIcon";
@@ -12,12 +11,13 @@ import StopperIcon from "../../assets/icons/stopperIcon";
 import TempoProgrammingDialog from "./components/dialogs/tempoProgrammingDialog";
 import TimerDialog from "./components/dialogs/timerDialog";
 import useDialog from "../dialog/useDialog";
+import useExecuteOnKeyPressed from "../../utils/hooks/useExecuteOnKeyPressed";
 import { MAIN_ICON_SIZE } from "../../utils/constants";
 import useTimer from "./hooks/useTimer";
 import useTempoProgramming from "./hooks/useTempoProgramming";
 import Title from "./components/title";
 import LanguageChanger from "../languageChanger";
-import ThemeChanger from "../themeChanger";
+import ThemeButton from "../themeButton";
 import CountdownInput from "./components/countdownInput";
 import { useTranslation } from "react-i18next";
 
@@ -96,7 +96,7 @@ const Metronome = () => {
                 <Title />
                 <div>
                     <LanguageChanger />
-                    <ThemeChanger />
+                    <ThemeButton />
                 </div>
             </header>
             <div className="metronomeContainer">

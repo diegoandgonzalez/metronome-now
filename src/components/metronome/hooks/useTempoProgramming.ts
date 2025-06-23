@@ -7,7 +7,7 @@ import {
     SUBTRACT_OPTION,
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
-import useStateRefLocalStorageSync from "./useStateRefLocalStorageSync";
+import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 
 const initialTempoProgrammingIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingIsActive, DEFAULT_BPM_PROGRAMMING_IS_ACTIVE);
 const initialTempoProgrammingBPMToChange = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingBPMToChange, DEFAULT_BPM_TO_CHANGE);

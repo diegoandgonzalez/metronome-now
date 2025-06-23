@@ -12,7 +12,7 @@ import {
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
-import useStateRefLocalStorageSync from "./useStateRefLocalStorageSync";
+import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 import useTimeMeasure from "./useTimeMeasure";
 import { type GetProgrammedBPMType } from "./useTempoProgramming";
 import useAudio from "./useAudio";

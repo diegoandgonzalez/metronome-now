@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { setValueInLocalStorage, type LocalStorageValueType } from "../../../utils/localStorage";
+import { setValueInLocalStorage, type LocalStorageValueType } from "../localStorage";
 
 const useStateRefLocalStorageSync = <Type>(initialValue: Type, localStorageKey: string) => {
 

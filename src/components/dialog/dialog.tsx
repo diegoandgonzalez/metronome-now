@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import CloseButton from "../closeButton";
-import useExecuteOnKeyPressed from "../metronome/hooks/useExecuteOnKeyPressed";
+import useExecuteOnKeyPressed from "../../utils/hooks/useExecuteOnKeyPressed";
 import { createPortal } from "react-dom";
 
 type Props = {
