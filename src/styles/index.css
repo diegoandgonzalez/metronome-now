@@ -11,6 +11,7 @@
     --noAccentColor2: #6B6B6B;
     --mutedColor: #444;
     --mutedColor2: #222;
+    --successColor: #27be59;
 }
 
 :root[data-theme="dark"] {
@@ -410,6 +411,10 @@ header {
         justify-content: space-between;
         gap: 20px;
         color: white;
+    }
+
+    .snackbarContent[data-type="success"] {
+        background-color: var(--successColor);
     }
 
     .closeIcon {

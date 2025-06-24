@@ -7,6 +7,7 @@ const Snackbar = () => {
     const {
         open,
         text,
+        type,
         secondsToClose,
         handleClose,
     } = useSnackbarContext();
@@ -27,7 +28,10 @@ const Snackbar = () => {
             className="snackbar"
             data-is-open={String(open)}
         >
-            <div className="snackbarContent">
+            <div
+                className="snackbarContent"
+                data-type={type}
+            >
                 {text}
                 <CloseButton handleClose={handleClose} />
             </div>

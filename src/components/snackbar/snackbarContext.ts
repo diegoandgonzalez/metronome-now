@@ -4,8 +4,9 @@ const SnackbarContext = createContext({
     open: false,
     text: "",
     secondsToClose: 0,
-    handleOpen: (_: string, __?: number) => {},
-    handleClose: () => {},
+    type: "",
+    handleOpen: (_: string, __?: number, ___?: string) => { },
+    handleClose: () => { },
 });
 
 export default SnackbarContext;
