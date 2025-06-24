@@ -127,7 +127,7 @@ const Metronome = () => {
     } = useDialog();
 
     const handleToggleMetronome = () => {
-        if (timerDialogIsOpen || bpmProgrammingDialogIsOpen) return;
+        if (timerDialogIsOpen || bpmProgrammingDialogIsOpen || createTemplateDialogIsOpen || deleteTemplateDialogIsOpen || updateTemplateDialogIsOpen) return;
 
         if (isPlaying) {
             handleStopMetronome();
