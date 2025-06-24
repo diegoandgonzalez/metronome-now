@@ -4,7 +4,6 @@ const useDialog = () => {
 
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
-
     const handleOpenDialog = () => {
         setDialogIsOpen(true);
     };

@@ -1,19 +1,20 @@
 import {
-    DEFAULT_BPM_PROGRAMMING_IS_ACTIVE,
-    DEFAULT_GOAL_BPM,
-    DEFAULT_BPM_TO_CHANGE,
-    DEFAULT_MEASURES_TO_CHANGE_BPM,
+    DEFAULT_TEMPO_PROGRAMMING_IS_ACTIVE,
+    DEFAULT_TEMPO_PROGRAMMING_GOAL_BPM,
+    DEFAULT_TEMPO_PROGRAMMING_BPM_TO_CHANGE,
+    DEFAULT_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
     ADD_OPTION,
     SUBTRACT_OPTION,
+    DEFAULT_TEMPO_PROGRAMMING_ADD_SUBTRACT_OPTION,
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 
-const initialTempoProgrammingIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingIsActive, DEFAULT_BPM_PROGRAMMING_IS_ACTIVE);
-const initialTempoProgrammingBPMToChange = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingBPMToChange, DEFAULT_BPM_TO_CHANGE);
-const initialTempoProgrammingGoalBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingGoalBPM, DEFAULT_GOAL_BPM);
-const initialTempoProgrammingMeasuresToChangeBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingMeasuresToChangeBPM, DEFAULT_MEASURES_TO_CHANGE_BPM);
-const initialTempoProgrammingAddSubtractOption = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingAddSubtractOption, ADD_OPTION);
+const initialTempoProgrammingIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingIsActive, DEFAULT_TEMPO_PROGRAMMING_IS_ACTIVE);
+const initialTempoProgrammingBPMToChange = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingBPMToChange, DEFAULT_TEMPO_PROGRAMMING_BPM_TO_CHANGE);
+const initialTempoProgrammingGoalBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingGoalBPM, DEFAULT_TEMPO_PROGRAMMING_GOAL_BPM);
+const initialTempoProgrammingMeasuresToChangeBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingMeasuresToChangeBPM, DEFAULT_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM);
+const initialTempoProgrammingAddSubtractOption = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingAddSubtractOption, DEFAULT_TEMPO_PROGRAMMING_ADD_SUBTRACT_OPTION);
 
 export type GetProgrammedBPMType = (currentMeasure: number, currentBPM: number) => number;
 

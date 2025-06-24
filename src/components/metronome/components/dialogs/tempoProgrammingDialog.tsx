@@ -5,9 +5,9 @@ import {
     ADD_OPTION,
     ADD_SUBTRACT_ARRAY,
     MAX_BPM,
-    MAX_MEASURES_TO_CHANGE_BPM,
+    MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
     MIN_BPM,
-    MIN_MEASURES_TO_CHANGE_BPM,
+    MIN_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
 } from "../../../../utils/constants";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 
@@ -82,8 +82,8 @@ const TempoProgrammingDialog = (props: Props) => {
             return;
         }
 
-        if (formattedMeasuresToChangeBPM > MAX_MEASURES_TO_CHANGE_BPM) {
-            handleOpenSnackbar(t("measuresToChangeBPMHasToBeLessThan", { value: MAX_MEASURES_TO_CHANGE_BPM }));
+        if (formattedMeasuresToChangeBPM > MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM) {
+            handleOpenSnackbar(t("measuresToChangeBPMHasToBeLessThan", { value: MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM }));
             return;
         }
 
@@ -140,8 +140,8 @@ const TempoProgrammingDialog = (props: Props) => {
                 <input
                     className="dialogInput"
                     type="number"
-                    min={MIN_MEASURES_TO_CHANGE_BPM}
-                    max={MAX_MEASURES_TO_CHANGE_BPM}
+                    min={MIN_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM}
+                    max={MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM}
                     value={measuresToChangeBPM}
                     onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
                     autoComplete="off"

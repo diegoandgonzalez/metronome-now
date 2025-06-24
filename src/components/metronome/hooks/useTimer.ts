@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import {
-    DEFAULT_SECONDS_TO_STOP,
+    DEFAULT_TIMER_SECONDS_TO_STOP,
     DEFAULT_TIMER_SECONDS_IS_ACTIVE,
     DEFAULT_TIMER_MEASURES_IS_ACTIVE,
-    DEFAULT_MEASURES_TO_STOP,
+    DEFAULT_TIMER_MEASURES_TO_STOP,
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 
 const initialTimerSecondsIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsIsActive, DEFAULT_TIMER_SECONDS_IS_ACTIVE);
 const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresIsActive, DEFAULT_TIMER_MEASURES_IS_ACTIVE);
-const initialTimerSecondsToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_SECONDS_TO_STOP);
-const initialTimerMeasuresToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresToStop, DEFAULT_MEASURES_TO_STOP);
+const initialTimerSecondsToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_TIMER_SECONDS_TO_STOP);
+const initialTimerMeasuresToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresToStop, DEFAULT_TIMER_MEASURES_TO_STOP);
 
 const useTimer = (currentTime: number, currentMeasure: number, callback: () => void) => {
 

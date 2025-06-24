@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import BPMInput from "./components/bpmInput";
 import TimeSignatureInput from "./components/timeSignatureInput";
 import BeatDisplay from "./components/beatDisplay";
@@ -19,16 +20,20 @@ import Title from "./components/title";
 import LanguageInput from "../languageInput";
 import ThemeButton from "../themeButton";
 import CountdownInput from "./components/countdownInput";
-import { useTranslation } from "react-i18next";
+import TemplatesInput from "./components/templatesInput";
+import type { MetronomeTimerTempoProgrammingFunction } from "./types";
+import useTemplates from "./hooks/useTemplates";
+import CreateTemplateDialog from "./components/dialogs/createTemplateDialog";
+import ConfirmDialog from "./components/dialogs/confirmDialog";
 
 const Metronome = () => {
 
     const {
-        isActive: isTempoProgrammingActive,
-        addSubtractOption,
-        bpmToChange,
-        measuresToChangeBPM,
-        goalBPM,
+        isActive: tempoProgrammingIsActive,
+        addSubtractOption: tempoProgrammingAddSubtractOption,
+        bpmToChange: tempoProgrammingBPMToChange,
+        measuresToChangeBPM: tempoProgrammingMeasuresToChangeBPM,
+        goalBPM: tempoProgrammingGoalBPM,
         handleSetTempoProgramming,
         getProgrammedBPM,
     } = useTempoProgramming();
@@ -45,14 +50,15 @@ const Metronome = () => {
         beatTypes,
         currentBeatInMeasure,
         currentMeasure,
+        handleStartMetronome,
+        handleStopMetronome,
+        handleTogglePauseMetronome,
         handleSetBPM,
         handleSetBeatsPerMeasure,
         handleSetSubdivision,
         handleToggleBeatType,
-        handleStartMetronome,
-        handleStopMetronome,
-        handleTogglePauseMetronome,
         handleSetCountdownAmount,
+        handleSetMetronomeSettings,
     } = useMetronome(getProgrammedBPM);
 
     const {
@@ -62,6 +68,51 @@ const Metronome = () => {
         timerMeasuresToStop,
         handleSetTimer,
     } = useTimer(currentTime, currentMeasure, handleStopMetronome);
+
+    const handleUpdateByTemplateSelection: MetronomeTimerTempoProgrammingFunction = (newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
+        handleStopMetronome();
+        handleSetMetronomeSettings(newMetronomeSettings);
+        handleSetTimer(
+            newTimerSettings.timerSecondsToStop,
+            newTimerSettings.timerSecondsIsActive,
+            newTimerSettings.timerMeasuresToStop,
+            newTimerSettings.timerMeasuresIsActive
+        );
+        handleSetTempoProgramming(
+            newTempoProgrammingSettings.tempoProgrammingBPMToChange,
+            newTempoProgrammingSettings.tempoProgrammingGoalBPM,
+            newTempoProgrammingSettings.tempoProgrammingMeasuresToChangeBPM,
+            newTempoProgrammingSettings.tempoProgrammingAddSubtractOption,
+            newTempoProgrammingSettings.tempoProgrammingIsActive
+        );
+    }
+
+    const {
+        templates,
+        selectedTemplateID,
+        handleSelectTemplate,
+        handleCreateTemplate,
+        handleUpdateTemplate,
+        handleDeleteTemplate,
+    } = useTemplates(handleUpdateByTemplateSelection);
+
+    const {
+        dialogIsOpen: updateTemplateDialogIsOpen,
+        handleOpenDialog: handleOpenUpdateTemplateDialog,
+        handleCloseDialog: handleCloseUpdateTemplateDialog,
+    } = useDialog();
+
+    const {
+        dialogIsOpen: deleteTemplateDialogIsOpen,
+        handleOpenDialog: handleOpenDeleteTemplateDialog,
+        handleCloseDialog: handleCloseDeleteTemplateDialog,
+    } = useDialog();
+
+    const {
+        dialogIsOpen: createTemplateDialogIsOpen,
+        handleOpenDialog: handleOpenCreateTemplateDialog,
+        handleCloseDialog: handleCloseCreateTemplateDialog,
+    } = useDialog();
 
     const {
         dialogIsOpen: timerDialogIsOpen,
@@ -89,6 +140,29 @@ const Metronome = () => {
     useExecuteOnKeyPressed("Space", handleToggleMetronome);
 
     const { t } = useTranslation();
+
+    const metronomeSettings = {
+        bpm,
+        beatsPerMeasure,
+        subdivision,
+        beatTypes,
+        countdownAmount,
+    };
+
+    const timerSettings = {
+        timerSecondsIsActive,
+        timerSecondsToStop,
+        timerMeasuresIsActive,
+        timerMeasuresToStop,
+    };
+
+    const tempoProgrammingSettings = {
+        tempoProgrammingIsActive,
+        tempoProgrammingBPMToChange,
+        tempoProgrammingGoalBPM,
+        tempoProgrammingMeasuresToChangeBPM,
+        tempoProgrammingAddSubtractOption,
+    };
 
     return (
         <>
@@ -139,7 +213,7 @@ const Metronome = () => {
                     <div className="mainActionsContainer">
                         <IconButton
                             title={t("bpmProgramming")}
-                            isActive={isTempoProgrammingActive}
+                            isActive={tempoProgrammingIsActive}
                             handleClick={() => {
                                 handleOpenBPMProgrammingDialog();
                                 handleStopMetronome();
@@ -165,6 +239,14 @@ const Metronome = () => {
                             {<StopperIcon />}
                         </IconButton>
                     </div>
+                    <TemplatesInput
+                        value={selectedTemplateID}
+                        templates={templates}
+                        handleSelectTemplate={handleSelectTemplate}
+                        handleCreateTemplate={handleOpenCreateTemplateDialog}
+                        handleUpdateTemplate={handleOpenUpdateTemplateDialog}
+                        handleDeleteTemplate={handleOpenDeleteTemplateDialog}
+                    />
                 </footer>
                 {
                     timerDialogIsOpen &&
@@ -182,13 +264,47 @@ const Metronome = () => {
                     bpmProgrammingDialogIsOpen &&
                     <TempoProgrammingDialog
                         open={bpmProgrammingDialogIsOpen}
-                        initialAddSubtractOption={addSubtractOption}
-                        initialIsActive={isTempoProgrammingActive}
-                        initialBPMToChange={bpmToChange}
-                        initialGoalBPM={goalBPM}
-                        initialMeasuresToChangeBPM={measuresToChangeBPM}
+                        initialAddSubtractOption={tempoProgrammingAddSubtractOption}
+                        initialIsActive={tempoProgrammingIsActive}
+                        initialBPMToChange={tempoProgrammingBPMToChange}
+                        initialGoalBPM={tempoProgrammingGoalBPM}
+                        initialMeasuresToChangeBPM={tempoProgrammingMeasuresToChangeBPM}
                         handleSetTempoProgramming={handleSetTempoProgramming}
                         handleClose={handleCloseBPMProgrammingDialog}
+                    />
+                }
+                {
+                    createTemplateDialogIsOpen &&
+                    <CreateTemplateDialog
+                        open={createTemplateDialogIsOpen}
+                        handleSetTemplate={(newTemplateName) => handleCreateTemplate(newTemplateName, metronomeSettings, timerSettings, tempoProgrammingSettings)}
+                        handleClose={handleCloseCreateTemplateDialog}
+                    />
+                }
+                {
+                    deleteTemplateDialogIsOpen &&
+                    <ConfirmDialog
+                        open={deleteTemplateDialogIsOpen}
+                        title={"Delete template"} // TODO: translate
+                        message={"Do you want to delete the template?"} // TODO: translate
+                        handleSubmit={() => {
+                            handleDeleteTemplate();
+                            handleCloseDeleteTemplateDialog();
+                        }}
+                        handleClose={handleCloseDeleteTemplateDialog}
+                    />
+                }
+                {
+                    updateTemplateDialogIsOpen &&
+                    <ConfirmDialog
+                        open={updateTemplateDialogIsOpen}
+                        title={"Update template"} // TODO: translate
+                        message={"Do you want to update the template with the current settings?"} // TODO: translate
+                        handleSubmit={() => {
+                            handleUpdateTemplate(metronomeSettings, timerSettings, tempoProgrammingSettings);
+                            handleCloseUpdateTemplateDialog();
+                        }}
+                        handleClose={handleCloseUpdateTemplateDialog}
                     />
                 }
             </div>

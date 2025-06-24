@@ -16,6 +16,7 @@ import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalSt
 import useTimeMeasure from "./useTimeMeasure";
 import { type GetProgrammedBPMType } from "./useTempoProgramming";
 import useAudio from "./useAudio";
+import type { MetronomeSettings } from "../types";
 
 const initialCountdownAmount = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownAmount, DEFAULT_COUNTDOWN_AMOUNT);
 const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_BPM);
@@ -185,8 +186,8 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         handleSyncBPM(value);
     }
 
-    const updateBeatTypes = (newBeatTypesArray: number[]) => {
-        handleSyncBeatTypes(newBeatTypesArray);
+    const handleSetBeatTypes = (newBeatTypes: number[]) => {
+        handleSyncBeatTypes(newBeatTypes);
     }
 
     const handleSetBeatsPerMeasure = (newBeatsPerMeasure: number) => {
@@ -194,7 +195,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
 
         // update beatTypesArray with new length
         const updatedBeatTypesArray = getUpdatedBeatTypesArray(beatTypes, newBeatsPerMeasure);
-        updateBeatTypes(updatedBeatTypesArray);
+        handleSetBeatTypes(updatedBeatTypesArray);
     }
 
     const handleSetSubdivision = (newSubdivision: number) => {
@@ -205,11 +206,19 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         let newAccentedBeats = [...beatTypes];
         newAccentedBeats[beatToAccent] = (newAccentedBeats[beatToAccent] + 1) % BEAT_TYPES_AMOUNT;
 
-        updateBeatTypes(newAccentedBeats);
+        handleSetBeatTypes(newAccentedBeats);
     }
 
     const handleSetCountdownAmount = (newAmount: number) => {
         handleSyncCountdownAmount(newAmount);
+    }
+
+    const handleSetMetronomeSettings = (newMetronomeSettings: MetronomeSettings) => {
+        handleSetBPM(newMetronomeSettings.bpm);
+        handleSetBeatsPerMeasure(newMetronomeSettings.beatsPerMeasure);
+        handleSetSubdivision(newMetronomeSettings.subdivision);
+        handleSetBeatTypes(newMetronomeSettings.beatTypes);
+        handleSetCountdownAmount(newMetronomeSettings.countdownAmount);
     }
 
     return {
@@ -224,14 +233,15 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         beatTypes,
         currentBeatInMeasure,
         currentMeasure: measureNumberRef.current,
+        handleStartMetronome,
+        handleStopMetronome,
+        handleTogglePauseMetronome,
         handleSetBPM,
         handleSetBeatsPerMeasure,
         handleSetSubdivision,
         handleToggleBeatType,
-        handleStartMetronome,
-        handleStopMetronome,
-        handleTogglePauseMetronome,
         handleSetCountdownAmount,
+        handleSetMetronomeSettings,
     };
 }
 
