@@ -59,5 +59,10 @@
     "templateUpdated": "Plantilla actualizada",
     "templateDeleted": "Plantilla eliminada",
     "newTemplateExplanation": "Se creará una nueva plantilla con la configuración actual.",
-    "newTemplateName": "Nombre de la nueva plantilla"
+    "newTemplateName": "Nombre de la nueva plantilla",
+    "DBnotSupported": "Base de datos no compatible con el navegador",
+    "databaseError": "Error de base de datos",
+    "noTemplate": "Sin plantilla",
+    "nameRequired": "El nombre es obligatorio",
+    "nameInUse": "El nombre ya está en uso"
 }

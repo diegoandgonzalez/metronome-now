@@ -1,55 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import {
-    DEFAULT_BEATS_PER_MEASURE,
-    DEFAULT_BPM,
-    DEFAULT_TEMPO_PROGRAMMING_IS_ACTIVE,
-    DEFAULT_COUNTDOWN_AMOUNT,
-    DEFAULT_SUBDIVISION,
-    DEFAULT_TIMER_MEASURES_IS_ACTIVE,
-    DEFAULT_TIMER_MEASURES_TO_STOP,
-    DEFAULT_TIMER_SECONDS_IS_ACTIVE,
-    DEFAULT_TIMER_SECONDS_TO_STOP,
-    DEFAULT_TEMPO_PROGRAMMING_BPM_TO_CHANGE,
-    DEFAULT_TEMPO_PROGRAMMING_GOAL_BPM,
-    DEFAULT_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
-    DEFAULT_TEMPO_PROGRAMMING_ADD_SUBTRACT_OPTION,
-} from "../../../utils/constants";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
 import type { Template, MetronomeTimerTempoProgrammingFunction, TemplateMetronomeTimerTempoProgrammingFunction } from "../types";
-import { createDefaultBeatTypesArray } from "../../../utils/beatTypes";
 import { useTranslation } from "react-i18next";
-
-const DEFAULT_TEMPLATE: Template = {
-    id: "",
-    name: "Default",
-    metronomeSettings: {
-        bpm: DEFAULT_BPM,
-        beatsPerMeasure: DEFAULT_BEATS_PER_MEASURE,
-        subdivision: DEFAULT_SUBDIVISION,
-        beatTypes: createDefaultBeatTypesArray(DEFAULT_BEATS_PER_MEASURE),
-        countdownAmount: DEFAULT_COUNTDOWN_AMOUNT,
-    },
-    timerSettings: {
-        timerSecondsIsActive: DEFAULT_TIMER_SECONDS_IS_ACTIVE,
-        timerSecondsToStop: DEFAULT_TIMER_SECONDS_TO_STOP,
-        timerMeasuresIsActive: DEFAULT_TIMER_MEASURES_IS_ACTIVE,
-        timerMeasuresToStop: DEFAULT_TIMER_MEASURES_TO_STOP,
-    },
-    tempoProgrammigSettings: {
-        tempoProgrammingIsActive: DEFAULT_TEMPO_PROGRAMMING_IS_ACTIVE,
-        tempoProgrammingBPMToChange: DEFAULT_TEMPO_PROGRAMMING_BPM_TO_CHANGE,
-        tempoProgrammingGoalBPM: DEFAULT_TEMPO_PROGRAMMING_GOAL_BPM,
-        tempoProgrammingMeasuresToChangeBPM: DEFAULT_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
-        tempoProgrammingAddSubtractOption: DEFAULT_TEMPO_PROGRAMMING_ADD_SUBTRACT_OPTION,
-    }
-}
-
-const initialTemplates: Template[] = [DEFAULT_TEMPLATE]
+import useIndexedDB from "../../../utils/hooks/useIndexedDB";
 
 const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammingFunction) => {
 
-    const [templates, setTemplates] = useState(initialTemplates);
+    const {
+        getAllItems: getAllItemsFromDB,
+        addItem: addItemToDB,
+        updateItem: updateItemInDB,
+        deleteItem: deleteItemInDB,
+        error: errorDB,
+        isReady: isDBReady,
+    } = useIndexedDB<Template>("MetronomeNowDB", "Templates", 1, "id");
+
+    const [templates, setTemplates] = useState<Template[]>([]);
     const [selectedTemplateID, setSelectedTemplateID] = useState("");
 
     const {
@@ -57,6 +24,22 @@ const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammi
     } = useSnackbarContext();
 
     const { t } = useTranslation();
+
+    useEffect(() => {
+        if (errorDB) {
+            handleOpenSnackbar(t(errorDB.message));
+        }
+    }, [errorDB, handleOpenSnackbar, t])
+
+    useEffect(() => {
+        if (!isDBReady) return;
+
+        getAllItemsFromDB()
+            .then(setTemplates)
+            .catch((error) => {
+                handleOpenSnackbar(error);
+            });
+    }, [getAllItemsFromDB, isDBReady, handleOpenSnackbar]);
 
     const handleSelectTemplate = (newTemplateID: string) => {
         setSelectedTemplateID(newTemplateID);
@@ -77,34 +60,58 @@ const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammi
             tempoProgrammigSettings: newTempoProgrammingSettings,
         }
 
-        setTemplates((prev) => [...prev, newTemplate]);
-        setSelectedTemplateID(newTemplate.id);
-        handleOpenSnackbar(t("templateCreated"), 0, "success");
+        addItemToDB(newTemplate)
+            .then(() => {
+                getAllItemsFromDB()
+                    .then((newTemplates) => {
+                        setTemplates(newTemplates);
+                        setSelectedTemplateID(newTemplate.id);
+                        handleOpenSnackbar(t("templateCreated"), 0, "success");
+                    })
+            })
+            .catch((error) => {
+                handleOpenSnackbar(error);
+            });
     }
 
     const handleUpdateTemplate: MetronomeTimerTempoProgrammingFunction = (newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
-        const selectedTemplateIndex = templates.findIndex((template) => template.id === selectedTemplateID);
-        if (selectedTemplateIndex === -1) return;
-
-        const auxTemplates = [...templates];
-        const auxSelectedTemplate = auxTemplates[selectedTemplateIndex];
+        const auxSelectedTemplate = templates.find((template) => template.id === selectedTemplateID);
+        if (!auxSelectedTemplate) return;
 
         auxSelectedTemplate.metronomeSettings = newMetronomeSettings;
         auxSelectedTemplate.timerSettings = newTimerSettings;
         auxSelectedTemplate.tempoProgrammigSettings = newTempoProgrammingSettings;
 
-        setTemplates(auxTemplates);
-        handleOpenSnackbar(t("templateUpdated"), 0, "success");
+        updateItemInDB(auxSelectedTemplate)
+            .then(() => {
+                getAllItemsFromDB()
+                    .then((newTemplates) => {
+                        setTemplates(newTemplates);
+                        handleOpenSnackbar(t("templateUpdated"), 0, "success");
+                    })
+            })
+            .catch((error) => {
+                handleOpenSnackbar(error);
+            });
     }
 
     const handleDeleteTemplate = () => {
-        const newTemplates = templates.filter((template) => template.id !== selectedTemplateID);
-        setTemplates(newTemplates);
-        setSelectedTemplateID("");
-        handleOpenSnackbar(t("templateDeleted"), 0, "success");
+        deleteItemInDB(selectedTemplateID)
+            .then(() => {
+                getAllItemsFromDB()
+                    .then((newTemplates) => {
+                        setTemplates(newTemplates);
+                        setSelectedTemplateID("");
+                        handleOpenSnackbar(t("templateDeleted"), 0, "success");
+                    })
+            })
+            .catch((error) => {
+                handleOpenSnackbar(error);
+            });
     }
 
     return {
+        isDBReady,
         templates,
         selectedTemplateID,
         handleSelectTemplate,

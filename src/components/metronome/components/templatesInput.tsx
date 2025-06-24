@@ -7,6 +7,7 @@ import type {
 } from "../types";
 
 type Props = {
+    disabled: boolean,
     value: string
     templates: Template[],
     handleSelectTemplate: (newTemplateID: string) => void,
@@ -18,6 +19,7 @@ type Props = {
 const TemplatesInput = (props: Props) => {
 
     const {
+        disabled,
         value,
         templates,
         handleSelectTemplate,
@@ -31,6 +33,7 @@ const TemplatesInput = (props: Props) => {
     return (
         <div className="templatesInputContainer">
             <select
+                disabled={disabled}
                 className="templatesInput"
                 value={value}
                 onChange={(e) => {
@@ -38,8 +41,11 @@ const TemplatesInput = (props: Props) => {
                     handleSelectTemplate(e.target.value);
                 }}
             >
+                <option value={""}>{t("noTemplate")}</option>
                 {
-                    templates.map((template) => {
+                    templates
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((template) => {
                         return (
                             <option key={template.id} value={template.id}>
                                 {template.name}
@@ -50,29 +56,32 @@ const TemplatesInput = (props: Props) => {
             </select>
             <button
                 className="templatesButton"
+                disabled={disabled}
                 title={t("createTemplate")}
                 onClick={(e) => {
                     e.currentTarget.blur();
                     handleCreateTemplate();
                 }}
             >
-                {<CreateIcon size={20} />}
+                {<CreateIcon size={22} />}
             </button>
             {
                 Boolean(value) &&
                 <>
                     <button
                         className="templatesButton"
+                        disabled={disabled}
                         title={t("updateTemplate")}
                         onClick={(e) => {
                             e.currentTarget.blur();
                             handleUpdateTemplate();
                         }}
                     >
-                        {<EditIcon size={16} />}
+                        {<EditIcon size={22} />}
                     </button>
                     <button
                         className="templatesButton"
+                        disabled={disabled}
                         title={t("deleteTemplate")}
                         onClick={(e) => {
                             e.currentTarget.blur();

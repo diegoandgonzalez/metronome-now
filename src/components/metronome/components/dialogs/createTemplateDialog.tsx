@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 
 type Props = {
     open: boolean,
+    templateNames: string[],
     handleSetTemplate: (newName: string) => void,
     handleClose: () => void,
 }
@@ -13,6 +14,7 @@ const CreateTemplateDialog = (props: Props) => {
 
     const {
         open,
+        templateNames,
         handleSetTemplate,
         handleClose,
     } = props;
@@ -26,8 +28,13 @@ const CreateTemplateDialog = (props: Props) => {
     const { t } = useTranslation();
 
     const handleSubmit = () => {
-        if (!templateName) { // TODO: min and max length
-            handleOpenSnackbar("Name required");
+        if (!templateName) {
+            handleOpenSnackbar(t("nameRequired"));
+            return;
+        }
+
+        if (templateNames.includes(templateName)) {
+            handleOpenSnackbar(t("nameInUse"));
             return;
         }
 
@@ -48,12 +55,10 @@ const CreateTemplateDialog = (props: Props) => {
             <label>
                 {t("newTemplateName")}:
                 <input
-                    // TODO: min and max length
-                    // TODO: style
                     type="text"
                     value={templateName}
                     onChange={(e) => {
-                        setTemplateName(e.target.value);
+                        setTemplateName(e.target.value.substring(0, 20));
                     }}
                 />
             </label>

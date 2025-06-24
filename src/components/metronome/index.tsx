@@ -88,6 +88,7 @@ const Metronome = () => {
     }
 
     const {
+        isDBReady,
         templates,
         selectedTemplateID,
         handleSelectTemplate,
@@ -240,6 +241,7 @@ const Metronome = () => {
                         </IconButton>
                     </div>
                     <TemplatesInput
+                        disabled={!isDBReady}
                         value={selectedTemplateID}
                         templates={templates}
                         handleSelectTemplate={handleSelectTemplate}
@@ -277,6 +279,7 @@ const Metronome = () => {
                     createTemplateDialogIsOpen &&
                     <CreateTemplateDialog
                         open={createTemplateDialogIsOpen}
+                        templateNames={templates.map((item) => item.name)}
                         handleSetTemplate={(newTemplateName) => handleCreateTemplate(newTemplateName, metronomeSettings, timerSettings, tempoProgrammingSettings)}
                         handleClose={handleCloseCreateTemplateDialog}
                     />
