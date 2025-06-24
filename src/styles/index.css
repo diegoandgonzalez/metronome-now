@@ -131,12 +131,9 @@ label {
 
     .dialogBody {
         margin: 30px 5px 30px;
-
-        .formContainer {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
 
     .dialogButtonContainer {

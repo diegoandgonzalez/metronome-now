@@ -37,18 +37,10 @@ const Dialog = (props: Props) => {
                     <CloseButton handleClose={handleClose} />
                 </div>
                 <div className="dialogBody">
-                    <form id="dialogForm" className="formContainer">
-                        {children}
-                    </form>
+                    {children}
                 </div>
                 <div className="dialogButtonContainer">
-                    <button
-                        form="dialogForm"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleSubmit()
-                        }}
-                    >
+                    <button onClick={handleSubmit}>
                         {t("accept")}
                     </button>
                 </div>
