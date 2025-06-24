@@ -285,8 +285,8 @@ const Metronome = () => {
                     deleteTemplateDialogIsOpen &&
                     <ConfirmDialog
                         open={deleteTemplateDialogIsOpen}
-                        title={"Delete template"} // TODO: translate
-                        message={"Do you want to delete the template?"} // TODO: translate
+                        title={t("deleteTemplate")}
+                        message={t("deleteTemplateQuestion")}
                         handleSubmit={() => {
                             handleDeleteTemplate();
                             handleCloseDeleteTemplateDialog();
@@ -298,8 +298,8 @@ const Metronome = () => {
                     updateTemplateDialogIsOpen &&
                     <ConfirmDialog
                         open={updateTemplateDialogIsOpen}
-                        title={"Update template"} // TODO: translate
-                        message={"Do you want to update the template with the current settings?"} // TODO: translate
+                        title={t("updateTemplate")}
+                        message={t("updateTemplateQuestion")}
                         handleSubmit={() => {
                             handleUpdateTemplate(metronomeSettings, timerSettings, tempoProgrammingSettings);
                             handleCloseUpdateTemplateDialog();

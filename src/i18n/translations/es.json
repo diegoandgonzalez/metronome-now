@@ -49,5 +49,15 @@
     "countdown": "Cuenta regresiva (compases)",
     "bpmEvery": "bpm cada",
     "measuresUntil": "compases hasta",
-    "bpm": "bpm"
+    "bpm": "bpm",
+    "createTemplate": "Crear plantilla",
+    "updateTemplate": "Actualizar plantilla",
+    "deleteTemplate": "Eliminar plantilla",
+    "deleteTemplateQuestion": "¿Deseas eliminar la plantilla?",
+    "updateTemplateQuestion": "¿Deseas actualizar la plantilla con la configuración actual?",
+    "templateCreated": "Plantilla creada",
+    "templateUpdated": "Plantilla actualizada",
+    "templateDeleted": "Plantilla eliminada",
+    "newTemplateExplanation": "Se creará una nueva plantilla con la configuración actual.",
+    "newTemplateName": "Nombre de la nueva plantilla"
 }

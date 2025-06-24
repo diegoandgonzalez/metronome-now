@@ -18,10 +18,11 @@ import {
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
 import type { Template, MetronomeTimerTempoProgrammingFunction, TemplateMetronomeTimerTempoProgrammingFunction } from "../types";
 import { createDefaultBeatTypesArray } from "../../../utils/beatTypes";
+import { useTranslation } from "react-i18next";
 
 const DEFAULT_TEMPLATE: Template = {
     id: "",
-    name: "Default settings",
+    name: "Default",
     metronomeSettings: {
         bpm: DEFAULT_BPM,
         beatsPerMeasure: DEFAULT_BEATS_PER_MEASURE,
@@ -55,6 +56,8 @@ const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammi
         handleOpen: handleOpenSnackbar,
     } = useSnackbarContext();
 
+    const { t } = useTranslation();
+
     const handleSelectTemplate = (newTemplateID: string) => {
         setSelectedTemplateID(newTemplateID);
 
@@ -76,7 +79,7 @@ const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammi
 
         setTemplates((prev) => [...prev, newTemplate]);
         setSelectedTemplateID(newTemplate.id);
-        handleOpenSnackbar("Templated created", 0, "success"); // TODO: translate
+        handleOpenSnackbar(t("templateCreated"), 0, "success");
     }
 
     const handleUpdateTemplate: MetronomeTimerTempoProgrammingFunction = (newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
@@ -91,14 +94,14 @@ const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammi
         auxSelectedTemplate.tempoProgrammigSettings = newTempoProgrammingSettings;
 
         setTemplates(auxTemplates);
-        handleOpenSnackbar("Template updated", 0, "success"); // TODO: translate
+        handleOpenSnackbar(t("templateUpdated"), 0, "success");
     }
 
     const handleDeleteTemplate = () => {
         const newTemplates = templates.filter((template) => template.id !== selectedTemplateID);
         setTemplates(newTemplates);
         setSelectedTemplateID("");
-        handleOpenSnackbar("Template deleted", 0, "success"); // TODO: translate
+        handleOpenSnackbar(t("templateDeleted"), 0, "success");
     }
 
     return {

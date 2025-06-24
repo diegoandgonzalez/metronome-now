@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Dialog from "../../../dialog/dialog";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     open: boolean,
@@ -22,6 +23,8 @@ const CreateTemplateDialog = (props: Props) => {
         handleOpen: handleOpenSnackbar,
     } = useSnackbarContext();
 
+    const { t } = useTranslation();
+
     const handleSubmit = () => {
         if (!templateName) { // TODO: min and max length
             handleOpenSnackbar("Name required");
@@ -35,19 +38,19 @@ const CreateTemplateDialog = (props: Props) => {
     return (
         <Dialog
             open={open}
-            title={"Create template"}
+            title={t("createTemplate")}
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
             <p>
-                {"A new template will be created with the current settings."}
+                {t("newTemplateExplanation")}
             </p>
             <label>
-                {"New template name"}:
+                {t("newTemplateName")}:
                 <input
                     // TODO: min and max length
                     // TODO: style
-                    style={{ background: "transparent", outline: 0, border: 0, borderBottom: "1px solid var(--textColor)" }}
+                    type="text"
                     value={templateName}
                     onChange={(e) => {
                         setTemplateName(e.target.value);

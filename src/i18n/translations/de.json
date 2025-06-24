@@ -49,5 +49,15 @@
     "countdown": "Countdown (Takte)",
     "bpmEvery": "BPM alle",
     "measuresUntil": "Takte bis",
-    "bpm": "BPM"
+    "bpm": "BPM",
+    "createTemplate": "Vorlage erstellen",
+    "updateTemplate": "Vorlage aktualisieren",
+    "deleteTemplate": "Vorlage löschen",
+    "deleteTemplateQuestion": "Möchtest du die Vorlage löschen?",
+    "updateTemplateQuestion": "Möchtest du die Vorlage mit den aktuellen Einstellungen aktualisieren?",
+    "templateCreated": "Vorlage erstellt",
+    "templateUpdated": "Vorlage aktualisiert",
+    "templateDeleted": "Vorlage gelöscht",
+    "newTemplateExplanation": "Eine neue Vorlage wird mit den aktuellen Einstellungen erstellt.",
+    "newTemplateName": "Name der neuen Vorlage"
 }

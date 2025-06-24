@@ -49,5 +49,15 @@
     "countdown": "Contagem regressiva (compassos)",
     "bpmEvery": "bpm a cada",
     "measuresUntil": "compassos até",
-    "bpm": "bpm"
+    "bpm": "bpm",
+    "createTemplate": "Criar modelo",
+    "updateTemplate": "Atualizar modelo",
+    "deleteTemplate": "Excluir modelo",
+    "deleteTemplateQuestion": "Deseja excluir o modelo?",
+    "updateTemplateQuestion": "Deseja atualizar o modelo com as configurações atuais?",
+    "templateCreated": "Modelo criado",
+    "templateUpdated": "Modelo atualizado",
+    "templateDeleted": "Modelo excluído",
+    "newTemplateExplanation": "Um novo modelo será criado com as configurações atuais.",
+    "newTemplateName": "Nome do novo modelo"
 }

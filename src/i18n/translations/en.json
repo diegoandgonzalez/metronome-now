@@ -49,5 +49,15 @@
     "countdown": "Countdown (in measures)",
     "bpmEvery": "bpm every",
     "measuresUntil": "measures until",
-    "bpm": "bpm"
+    "bpm": "bpm",
+    "createTemplate": "Create template",
+    "updateTemplate": "Update template",
+    "deleteTemplate": "Delete template",
+    "deleteTemplateQuestion": "Do you want to delete the template?",
+    "updateTemplateQuestion": "Do you want to update the template with the current settings?",
+    "templateCreated": "Template created",
+    "templateUpdated": "Template updated",
+    "templateDeleted": "Template deleted",
+    "newTemplateExplanation": "A new template will be created with the current settings.",
+    "newTemplateName": "New template name"
 }

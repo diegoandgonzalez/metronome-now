@@ -49,5 +49,15 @@
     "countdown": "Compte à rebours (mesures)",
     "bpmEvery": "bpm toutes les",
     "measuresUntil": "mesures jusqu’à",
-    "bpm": "bpm"
+    "bpm": "bpm",
+    "createTemplate": "Créer un modèle",
+    "updateTemplate": "Mettre à jour le modèle",
+    "deleteTemplate": "Supprimer le modèle",
+    "deleteTemplateQuestion": "Voulez-vous supprimer le modèle ?",
+    "updateTemplateQuestion": "Voulez-vous mettre à jour le modèle avec les paramètres actuels ?",
+    "templateCreated": "Modèle créé",
+    "templateUpdated": "Modèle mis à jour",
+    "templateDeleted": "Modèle supprimé",
+    "newTemplateExplanation": "Un nouveau modèle sera créé avec les paramètres actuels.",
+    "newTemplateName": "Nom du nouveau modèle"
 }

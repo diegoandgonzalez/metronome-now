@@ -49,5 +49,15 @@
     "countdown": "Conto alla rovescia (battute)",
     "bpmEvery": "bpm ogni",
     "measuresUntil": "battute fino a",
-    "bpm": "bpm"
+    "bpm": "bpm",
+    "createTemplate": "Crea modello",
+    "updateTemplate": "Aggiorna modello",
+    "deleteTemplate": "Elimina modello",
+    "deleteTemplateQuestion": "Vuoi eliminare il modello?",
+    "updateTemplateQuestion": "Vuoi aggiornare il modello con le impostazioni attuali?",
+    "templateCreated": "Modello creato",
+    "templateUpdated": "Modello aggiornato",
+    "templateDeleted": "Modello eliminato",
+    "newTemplateExplanation": "Verrà creato un nuovo modello con le impostazioni attuali.",
+    "newTemplateName": "Nome del nuovo modello"
 }

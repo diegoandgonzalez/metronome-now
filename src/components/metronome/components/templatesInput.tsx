@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import CreateIcon from "../../../assets/icons/createIcon";
 import DeleteIcon from "../../../assets/icons/deleteIcon";
 import EditIcon from "../../../assets/icons/editIcon";
@@ -25,6 +26,8 @@ const TemplatesInput = (props: Props) => {
         handleDeleteTemplate,
     } = props;
 
+    const { t } = useTranslation();
+
     return (
         <div className="templatesInputContainer">
             <select
@@ -47,7 +50,7 @@ const TemplatesInput = (props: Props) => {
             </select>
             <button
                 className="templatesButton"
-                title={"Create template"} // TODO: translate
+                title={t("createTemplate")}
                 onClick={(e) => {
                     e.currentTarget.blur();
                     handleCreateTemplate();
@@ -60,7 +63,7 @@ const TemplatesInput = (props: Props) => {
                 <>
                     <button
                         className="templatesButton"
-                        title={"Update template"} // TODO: translate
+                        title={t("updateTemplate")}
                         onClick={(e) => {
                             e.currentTarget.blur();
                             handleUpdateTemplate();
@@ -70,7 +73,7 @@ const TemplatesInput = (props: Props) => {
                     </button>
                     <button
                         className="templatesButton"
-                        title={"Delete template"} // TODO: translate
+                        title={t("deleteTemplate")}
                         onClick={(e) => {
                             e.currentTarget.blur();
                             handleDeleteTemplate();

@@ -49,7 +49,16 @@ input {
     accent-color: var(--accentColor);
 }
 
-input[type=checkbox] {
+input[type="text"] {
+    background: transparent;
+    outline: 0;
+    border: 0;
+    border-radius: 0px;
+    border-bottom: 1px solid var(--textColor);
+    font-size: 18px;
+}
+
+input[type="checkbox"] {
     margin: 0px 5px;
     scale: 1.5;
     cursor: pointer;
