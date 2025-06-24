@@ -1,3 +1,6 @@
+import CreateIcon from "../../../assets/icons/createIcon";
+import DeleteIcon from "../../../assets/icons/deleteIcon";
+import EditIcon from "../../../assets/icons/editIcon";
 import type {
     Template,
 } from "../types";
@@ -23,8 +26,9 @@ const TemplatesInput = (props: Props) => {
     } = props;
 
     return (
-        <div className="templatesInput">
+        <div className="templatesInputContainer">
             <select
+                className="templatesInput"
                 value={value}
                 onChange={(e) => {
                     e.currentTarget.blur();
@@ -42,25 +46,37 @@ const TemplatesInput = (props: Props) => {
                 }
             </select>
             <button
+                className="templatesButton"
                 title={"Create template"} // TODO: translate
-                onClick={handleCreateTemplate}
+                onClick={(e) => {
+                    e.currentTarget.blur();
+                    handleCreateTemplate();
+                }}
             >
-                {"➕"}
+                {<CreateIcon size={20} />}
             </button>
             {
                 Boolean(value) &&
                 <>
                     <button
+                        className="templatesButton"
                         title={"Update template"} // TODO: translate
-                        onClick={handleUpdateTemplate}
+                        onClick={(e) => {
+                            e.currentTarget.blur();
+                            handleUpdateTemplate();
+                        }}
                     >
-                        {"✏️"}
+                        {<EditIcon size={16} />}
                     </button>
                     <button
+                        className="templatesButton"
                         title={"Delete template"} // TODO: translate
-                        onClick={handleDeleteTemplate}
+                        onClick={(e) => {
+                            e.currentTarget.blur();
+                            handleDeleteTemplate();
+                        }}
                     >
-                        {"❌"}
+                        {<DeleteIcon size={16} />}
                     </button>
                 </>
             }

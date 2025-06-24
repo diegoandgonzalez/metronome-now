@@ -41,9 +41,7 @@ const BPMInput = (props: Props) => {
 
   return (
     <div className="bpmInputContainer">
-      <label htmlFor="bpmInput">{"BPM"}</label>
       <input
-        id="bpmInput"
         type="number"
         className="bpmInput"
         title={t("clickToEditBPM")}
