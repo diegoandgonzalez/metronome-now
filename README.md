@@ -6,7 +6,6 @@ Online metronome for your everyday needs
 * [Live link](#live-link)
 * [Technologies](#technologies)
 * [Features](#features)
-* [Coming soon](#coming-soon)
 * [How to run the project locally](#how-to-run-locally)
 
 ## Live link
@@ -17,24 +16,22 @@ Online metronome for your everyday needs
 - React
 - Vite
 - i18next
+- IndexedDB
 
 ## Features
 - Play metronome at the BPM and time signatures you want
 - Toggle accent, normal and mute sounds for each beat independently
-- Set the metronome to stop after a determined amount of seconds
-- Set the metronome to stop after a determined amount of measures
+- Set the metronome to stop after a determined amount of seconds/measures
 - Increase or decrease your BPM after a determined amount of measures
 - Play optional extra measures at the beggining (countdown)
 - Tap to get tempo
 - Pause metronome and timer at anytime
-- Save your current settings for the next time you open the site
+- Template creation for faster settings switch
+- Preserve your current settings for the next time you open the site
 - Dark/light mode
-- English, Spanish, Italian, Portuguese, German, and French translations
+- English, Spanish, Italian, Portuguese, German, and French localizations
 - Deployed site with a live link
 - PWA (Website installable as app)
-
-## Coming Soon
-- Template creation for faster use
 
 ## How to run locally
 
