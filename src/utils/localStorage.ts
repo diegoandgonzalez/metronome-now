@@ -12,7 +12,8 @@ const getValueFromLocalStorage = (key: string) => {
 };
 
 export const getValueFromLocalStorageOrDefault = (localStorageKey: string, defaultValue?: LocalStorageValueType) => {
-  return isKeyPresentInLocalStorage(localStorageKey) ? getValueFromLocalStorage(localStorageKey) : defaultValue;
+  if (!isKeyPresentInLocalStorage(localStorageKey)) return defaultValue;
+  return getValueFromLocalStorage(localStorageKey) ?? defaultValue;
 }
 
 export const setValueInLocalStorage = (key: string, value: LocalStorageValueType) => localStorage.setItem(key, JSON.stringify(value));
