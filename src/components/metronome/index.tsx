@@ -47,7 +47,7 @@ const Metronome = () => {
         handleTogglePauseMetronome,
         handleSetBPM,
         handleSetBeatsPerMeasure,
-        handleSetSubdivision,
+        handleSetNoteValue,
         handleToggleBeatType,
         handleSetCountdownAmount,
         handleSetMetronomeSettings,
@@ -144,10 +144,10 @@ const Metronome = () => {
                         handleChange={handleSetBPM}
                     />
                     <TimeSignatureInput
-                        subdivision={metronomeSettings.subdivision}
+                        noteValue={metronomeSettings.noteValue}
                         beatsPerMeasure={metronomeSettings.beatsPerMeasure}
                         handleSetBeatsPerMeasure={handleSetBeatsPerMeasure}
-                        handleSetSubdivision={handleSetSubdivision}
+                        handleSetNoteValue={handleSetNoteValue}
                     />
                 </div>
                 <BeatDisplay

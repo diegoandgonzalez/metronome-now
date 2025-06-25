@@ -1,7 +1,7 @@
 export type MetronomeSettings = {
     bpm: number,
     beatsPerMeasure: number,
-    subdivision: number,
+    noteValue: number,
     beatTypes: number[],
     countdownAmount: number,
 }

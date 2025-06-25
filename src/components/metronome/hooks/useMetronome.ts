@@ -7,7 +7,7 @@ import {
     LOOK_AHEAD,
     STOPPED_METRONOME_BEAT_INDEX,
     BEAT_TYPES_AMOUNT,
-    DEFAULT_SUBDIVISION,
+    DEFAULT_NOTE_VALUE,
     DEFAULT_COUNTDOWN_AMOUNT,
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
@@ -21,7 +21,7 @@ import type { MetronomeSettings } from "../types";
 const initialCountdownAmount = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownAmount, DEFAULT_COUNTDOWN_AMOUNT);
 const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_BPM);
 const initialBeatsPerMeasure = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatsPerMeasure, DEFAULT_BEATS_PER_MEASURE);
-const initialSubdivision = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.subdivision, DEFAULT_SUBDIVISION);
+const initialNoteValue = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.noteValue, DEFAULT_NOTE_VALUE);
 const initialBeatTypes = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatTypes, createDefaultBeatTypesArray(initialBeatsPerMeasure));
 
 const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
@@ -56,10 +56,10 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
     } = useStateRefLocalStorageSync<number>(initialBeatsPerMeasure, LOCAL_STORAGE_KEYS.beatsPerMeasure);
 
     const {
-        value: subdivision,
-        valueRef: subdivisionRef,
-        handleSyncValue: handleSyncSubdivision,
-    } = useStateRefLocalStorageSync<number>(initialSubdivision, LOCAL_STORAGE_KEYS.subdivision);
+        value: noteValue,
+        valueRef: noteValueRef,
+        handleSyncValue: handleSyncNoteValue,
+    } = useStateRefLocalStorageSync<number>(initialNoteValue, LOCAL_STORAGE_KEYS.noteValue);
 
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(STOPPED_METRONOME_BEAT_INDEX); // circular number inside measure size
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX); // counter of beats from 0 to infinity
@@ -119,8 +119,8 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
     const scheduler = () => {
         if (!audioContextRef.current) return;
 
-        const subdivisionRatio = 4 / subdivisionRef.current;
-        const secondsPerBeat = 60.0 / (bpmRef.current / subdivisionRatio);
+        const noteValueRatio = 4 / noteValueRef.current;
+        const secondsPerBeat = 60.0 / (bpmRef.current / noteValueRatio);
 
         while (nextNoteTimeRef.current <= audioContextRef.current.currentTime) {
             scheduleNote(nextNoteTimeRef.current);
@@ -198,8 +198,8 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         handleSetBeatTypes(updatedBeatTypesArray);
     }
 
-    const handleSetSubdivision = (newSubdivision: number) => {
-        handleSyncSubdivision(newSubdivision);
+    const handleSetNoteValue = (newNoteValue: number) => {
+        handleSyncNoteValue(newNoteValue);
     }
 
     const handleToggleBeatType = (beatToAccent: number) => {
@@ -216,7 +216,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
     const handleSetMetronomeSettings = (newMetronomeSettings: MetronomeSettings) => {
         handleSetBPM(newMetronomeSettings.bpm);
         handleSetBeatsPerMeasure(newMetronomeSettings.beatsPerMeasure);
-        handleSetSubdivision(newMetronomeSettings.subdivision);
+        handleSetNoteValue(newMetronomeSettings.noteValue);
         handleSetBeatTypes(newMetronomeSettings.beatTypes);
         handleSetCountdownAmount(newMetronomeSettings.countdownAmount);
     }
@@ -224,7 +224,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
     const settings = {
         bpm,
         beatsPerMeasure,
-        subdivision,
+        noteValue,
         beatTypes,
         countdownAmount,
     };
@@ -242,7 +242,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         handleTogglePauseMetronome,
         handleSetBPM,
         handleSetBeatsPerMeasure,
-        handleSetSubdivision,
+        handleSetNoteValue,
         handleToggleBeatType,
         handleSetCountdownAmount,
         handleSetMetronomeSettings,

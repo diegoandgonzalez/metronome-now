@@ -23,7 +23,7 @@ export const LOCAL_STORAGE_KEYS = {
   bpm: "mn_bpm",
   countdownAmount: "mn_countdown_amount",
   beatsPerMeasure: "mn_beats_per_measure",
-  subdivision: "mn_subdivision",
+  noteValue: "mn_note_value",
   beatTypes: "mn_beat_types",
   timerSecondsIsActive: "mn_timer_seconds_is_active",
   timerMeasuresIsActive: "mn_timer_measures_is_active",
