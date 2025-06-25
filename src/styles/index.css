@@ -246,6 +246,7 @@ header {
             width: 30px;
             height: 30px;
             margin: 5px;
+            padding: 0px;
             border-radius: 50%;
             text-align: center;
             font-size: 18px;
