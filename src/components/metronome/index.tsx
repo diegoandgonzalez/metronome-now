@@ -25,6 +25,7 @@ import type { MetronomeTimerTempoProgrammingFunction } from "./types";
 import useTemplates from "./hooks/useTemplates";
 import CreateUpdateTemplateDialog from "./components/dialogs/createUpdateTemplateDialog";
 import ConfirmationDialog from "./components/dialogs/confirmationDialog";
+import AboutDialog from "./components/dialogs/aboutDialog";
 
 const Metronome = () => {
 
@@ -105,6 +106,12 @@ const Metronome = () => {
         handleCloseDialog: handleCloseBPMProgrammingDialog,
     } = useDialog();
 
+    const {
+        dialogIsOpen: aboutDialogIsOpen,
+        handleOpenDialog: handleOpenAboutDialog,
+        handleCloseDialog: handleCloseAboutDialog,
+    } = useDialog();
+
     const someDialogIsOpen = (
         timerDialogIsOpen
         || bpmProgrammingDialogIsOpen
@@ -131,7 +138,7 @@ const Metronome = () => {
     return (
         <>
             <header className="header">
-                <Title />
+                <Title handleClick={handleOpenAboutDialog} />
                 <div>
                     <LanguageInput />
                     <ThemeButton />
@@ -269,6 +276,13 @@ const Metronome = () => {
                             handleCloseDeleteTemplateDialog();
                         }}
                         handleClose={handleCloseDeleteTemplateDialog}
+                    />
+                }
+                {
+                    aboutDialogIsOpen &&
+                    <AboutDialog
+                        open={aboutDialogIsOpen}
+                        handleClose={handleCloseAboutDialog}
                     />
                 }
             </div>

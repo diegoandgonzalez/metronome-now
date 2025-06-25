@@ -8,7 +8,7 @@ type Props = {
     title?: string,
     children?: React.ReactNode,
     handleClose: () => void,
-    handleSubmit: () => void,
+    handleSubmit?: () => void,
 }
 
 const Dialog = (props: Props) => {
@@ -39,11 +39,14 @@ const Dialog = (props: Props) => {
                 <div className="dialogBody">
                     {children}
                 </div>
-                <div className="dialogButtonContainer">
-                    <button onClick={handleSubmit}>
-                        {t("accept")}
-                    </button>
-                </div>
+                {
+                    Boolean(handleSubmit) &&
+                    <div className="dialogButtonContainer">
+                        <button onClick={handleSubmit}>
+                            {t("accept")}
+                        </button>
+                    </div>
+                }
             </div>
             <div className="backdrop" onClick={handleClose} />
         </>,
