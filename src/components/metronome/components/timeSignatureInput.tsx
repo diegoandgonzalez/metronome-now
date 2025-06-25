@@ -26,8 +26,8 @@ const TimeSignatureInput = (props: Props) => {
         title={t("beatsPerMeasure")}
         value={beatsPerMeasure}
         onChange={(e) => {
-          handleSetBeatsPerMeasure(Number(e.target.value));
           e.currentTarget.blur();
+          handleSetBeatsPerMeasure(Number(e.target.value));
         }}
       >
         {

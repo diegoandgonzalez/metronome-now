@@ -121,7 +121,10 @@ const TempoProgrammingDialog = (props: Props) => {
             </label>
             <select
                 value={addSubtractOption}
-                onChange={(e) => setAddSubtractOption(e.target.value)}
+                onChange={(e) => {
+                    e.currentTarget.blur();
+                    setAddSubtractOption(e.target.value);
+                }}
                 title={t("selectHowBPMchanges")}
             >
                 {

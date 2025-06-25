@@ -21,7 +21,10 @@ const LanguageInput = () => {
         <select
             className="languageInput"
             value={language}
-            onChange={(e) => handleChangeLanguage(e.target.value)}
+            onChange={(e) => {
+                e.currentTarget.blur();
+                handleChangeLanguage(e.target.value);
+            }}
         >
             {
                 LANGUAGES_ARRAY.map((item) => {

@@ -1,6 +1,7 @@
 export const LOOK_AHEAD = 25; // ms
 
 export const DEFAULT_COUNTDOWN_AMOUNT = 0;
+export const COUNTDOWN_ARRAY = [0, 1, 2, 3, 4];
 
 export const ADD_OPTION = "add";
 export const SUBTRACT_OPTION = "subtract";
