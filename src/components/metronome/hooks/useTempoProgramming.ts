@@ -52,11 +52,11 @@ const useTempoProgramming = () => {
     } = useStateRefLocalStorageSync<number>(initialTempoProgrammingBPMToChange, LOCAL_STORAGE_KEYS.tempoProgrammingBPMToChange);
 
     const handleSetTempoProgrammingSettings = (newSettings: TempoProgrammingSettings) => {
-        handleSyncBPMToChange(newSettings.bpmToChange);
-        handleSyncGoalBPM(newSettings.goalBPM);
-        handleSyncMeasuresToChangeBPM(newSettings.measuresToChangeBPM);
-        handleSyncBPMProgrammingIsActive(newSettings.isActive);
-        handleSyncAddSubtractOption(newSettings.addSubtractOption);
+        handleSyncBPMToChange(newSettings.bpmToChange ?? DEFAULT_TEMPO_PROGRAMMING_BPM_TO_CHANGE);
+        handleSyncGoalBPM(newSettings.goalBPM ?? DEFAULT_TEMPO_PROGRAMMING_GOAL_BPM);
+        handleSyncMeasuresToChangeBPM(newSettings.measuresToChangeBPM ?? DEFAULT_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM);
+        handleSyncBPMProgrammingIsActive(newSettings.isActive ?? DEFAULT_TEMPO_PROGRAMMING_IS_ACTIVE);
+        handleSyncAddSubtractOption(newSettings.addSubtractOption ?? DEFAULT_TEMPO_PROGRAMMING_ADD_SUBTRACT_OPTION);
     }
 
     const getProgrammedBPM: GetProgrammedBPMType = (currentMeasure, currentBPM) => {

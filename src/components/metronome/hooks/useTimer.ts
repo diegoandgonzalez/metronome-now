@@ -37,10 +37,10 @@ const useTimer = (currentTime: number, currentMeasure: number, callback: () => v
     } = useStateRefLocalStorageSync<number>(initialTimerMeasuresToStop, LOCAL_STORAGE_KEYS.timerMeasuresToStop);
 
     const handleSetTimerSettings = (newSettings: TimerSettings) => {
-        handleSyncSecondsToStop(newSettings.secondsToStop);
-        handleSyncSecondsIsActive(newSettings.secondsIsActive);
-        handleSyncMeasuresToStop(newSettings.measuresToStop);
-        handleSyncMeasuresIsActive(newSettings.measuresIsActive);
+        handleSyncSecondsToStop(newSettings.secondsToStop ?? DEFAULT_TIMER_SECONDS_TO_STOP);
+        handleSyncSecondsIsActive(newSettings.secondsIsActive ?? DEFAULT_TIMER_SECONDS_IS_ACTIVE);
+        handleSyncMeasuresToStop(newSettings.measuresToStop ?? DEFAULT_TIMER_MEASURES_TO_STOP);
+        handleSyncMeasuresIsActive(newSettings.measuresIsActive ?? DEFAULT_TIMER_MEASURES_IS_ACTIVE);
     }
 
     useEffect(() => {

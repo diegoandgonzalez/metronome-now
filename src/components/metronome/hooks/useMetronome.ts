@@ -214,11 +214,11 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
     }
 
     const handleSetMetronomeSettings = (newMetronomeSettings: MetronomeSettings) => {
-        handleSetBPM(newMetronomeSettings.bpm);
-        handleSetBeatsPerMeasure(newMetronomeSettings.beatsPerMeasure);
-        handleSetNoteValue(newMetronomeSettings.noteValue);
-        handleSetBeatTypes(newMetronomeSettings.beatTypes);
-        handleSetCountdownAmount(newMetronomeSettings.countdownAmount);
+        handleSetBPM(newMetronomeSettings.bpm ?? DEFAULT_BPM);
+        handleSetBeatsPerMeasure(newMetronomeSettings.beatsPerMeasure ?? DEFAULT_BEATS_PER_MEASURE);
+        handleSetNoteValue(newMetronomeSettings.noteValue ?? DEFAULT_NOTE_VALUE);
+        handleSetBeatTypes(newMetronomeSettings.beatTypes ?? createDefaultBeatTypesArray(DEFAULT_BEATS_PER_MEASURE));
+        handleSetCountdownAmount(newMetronomeSettings.countdownAmount ?? DEFAULT_COUNTDOWN_AMOUNT);
     }
 
     const settings = {
