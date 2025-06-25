@@ -15,7 +15,7 @@ const Snackbar = () => {
     useEffect(() => {
         let timeout: number;
         if (open && secondsToClose) {
-            timeout = setTimeout(() => {
+            timeout = window.setTimeout(() => {
                 handleClose();
             }, secondsToClose * 1000)
         }

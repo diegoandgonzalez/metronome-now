@@ -128,7 +128,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
             nextNoteTimeRef.current += secondsPerBeat;
         }
 
-        timeoutRef.current = setTimeout(scheduler, LOOK_AHEAD);
+        timeoutRef.current = window.setTimeout(scheduler, LOOK_AHEAD);
     };
 
     const setNextNoteTimeToStartOrResume = () => {
