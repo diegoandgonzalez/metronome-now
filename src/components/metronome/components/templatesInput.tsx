@@ -77,7 +77,7 @@ const TemplatesInput = (props: Props) => {
                             handleUpdateTemplate();
                         }}
                     >
-                        {<EditIcon size={22} />}
+                        {<EditIcon size={18} />}
                     </button>
                     <button
                         className="templatesButton"

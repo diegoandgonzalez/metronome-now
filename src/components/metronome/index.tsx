@@ -23,7 +23,7 @@ import CountdownInput from "./components/countdownInput";
 import TemplatesInput from "./components/templatesInput";
 import type { MetronomeTimerTempoProgrammingFunction } from "./types";
 import useTemplates from "./hooks/useTemplates";
-import CreateTemplateDialog from "./components/dialogs/createTemplateDialog";
+import CreateUpdateTemplateDialog from "./components/dialogs/createUpdateTemplateDialog";
 import ConfirmDialog from "./components/dialogs/confirmDialog";
 
 const Metronome = () => {
@@ -127,8 +127,16 @@ const Metronome = () => {
         handleCloseDialog: handleCloseBPMProgrammingDialog,
     } = useDialog();
 
+    const someDialogIsOpen = (
+        timerDialogIsOpen
+        || bpmProgrammingDialogIsOpen
+        || createTemplateDialogIsOpen
+        || deleteTemplateDialogIsOpen
+        || updateTemplateDialogIsOpen
+    );
+
     const handleToggleMetronome = () => {
-        if (timerDialogIsOpen || bpmProgrammingDialogIsOpen || createTemplateDialogIsOpen || deleteTemplateDialogIsOpen || updateTemplateDialogIsOpen) return;
+        if (someDialogIsOpen) return;
 
         if (isPlaying) {
             handleStopMetronome();
@@ -277,11 +285,22 @@ const Metronome = () => {
                 }
                 {
                     createTemplateDialogIsOpen &&
-                    <CreateTemplateDialog
+                    <CreateUpdateTemplateDialog
                         open={createTemplateDialogIsOpen}
+                        initialValue={""}
                         templateNames={templates.map((item) => item.name)}
                         handleSetTemplate={(newTemplateName) => handleCreateTemplate(newTemplateName, metronomeSettings, timerSettings, tempoProgrammingSettings)}
                         handleClose={handleCloseCreateTemplateDialog}
+                    />
+                }
+                {
+                    updateTemplateDialogIsOpen &&
+                    <CreateUpdateTemplateDialog
+                        open={updateTemplateDialogIsOpen}
+                        initialValue={templates.find((item) => item.id === selectedTemplateID)?.name || ""}
+                        templateNames={templates.map((item) => item.name)}
+                        handleSetTemplate={(newTemplateName) => handleUpdateTemplate(newTemplateName, metronomeSettings, timerSettings, tempoProgrammingSettings)}
+                        handleClose={handleCloseUpdateTemplateDialog}
                     />
                 }
                 {
@@ -295,19 +314,6 @@ const Metronome = () => {
                             handleCloseDeleteTemplateDialog();
                         }}
                         handleClose={handleCloseDeleteTemplateDialog}
-                    />
-                }
-                {
-                    updateTemplateDialogIsOpen &&
-                    <ConfirmDialog
-                        open={updateTemplateDialogIsOpen}
-                        title={t("updateTemplate")}
-                        message={t("updateTemplateQuestion")}
-                        handleSubmit={() => {
-                            handleUpdateTemplate(metronomeSettings, timerSettings, tempoProgrammingSettings);
-                            handleCloseUpdateTemplateDialog();
-                        }}
-                        handleClose={handleCloseUpdateTemplateDialog}
                     />
                 }
             </div>

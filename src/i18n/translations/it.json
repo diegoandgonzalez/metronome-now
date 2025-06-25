@@ -59,7 +59,7 @@
     "templateUpdated": "Modello aggiornato",
     "templateDeleted": "Modello eliminato",
     "newTemplateExplanation": "Verrà creato un nuovo modello con le impostazioni attuali.",
-    "newTemplateName": "Nome del nuovo modello",
+    "templateName": "Nome del modello",
     "DBnotSupported": "Database non supportato dal browser",
     "databaseError": "Errore del database",
     "noTemplate": "Nessun modello",

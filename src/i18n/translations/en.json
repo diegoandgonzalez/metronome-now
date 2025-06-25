@@ -59,7 +59,7 @@
     "templateUpdated": "Template updated",
     "templateDeleted": "Template deleted",
     "newTemplateExplanation": "A new template will be created with the current settings.",
-    "newTemplateName": "New template name",
+    "templateName": "Template name",
     "DBnotSupported": "Database not supported by browser",
     "databaseError": "Database error",
     "noTemplate": "No template",

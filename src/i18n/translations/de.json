@@ -59,7 +59,7 @@
     "templateUpdated": "Vorlage aktualisiert",
     "templateDeleted": "Vorlage gelöscht",
     "newTemplateExplanation": "Eine neue Vorlage wird mit den aktuellen Einstellungen erstellt.",
-    "newTemplateName": "Name der neuen Vorlage",
+    "templateName": "Name der Vorlage",
     "DBnotSupported": "Datenbank wird vom Browser nicht unterstützt",
     "databaseError": "Datenbankfehler",
     "noTemplate": "Keine Vorlage",

@@ -74,10 +74,11 @@ const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammi
             });
     }
 
-    const handleUpdateTemplate: MetronomeTimerTempoProgrammingFunction = (newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
+    const handleUpdateTemplate: TemplateMetronomeTimerTempoProgrammingFunction = (newtemplateName, newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
         const auxSelectedTemplate = templates.find((template) => template.id === selectedTemplateID);
         if (!auxSelectedTemplate) return;
 
+        auxSelectedTemplate.name = newtemplateName;
         auxSelectedTemplate.metronomeSettings = newMetronomeSettings;
         auxSelectedTemplate.timerSettings = newTimerSettings;
         auxSelectedTemplate.tempoProgrammigSettings = newTempoProgrammingSettings;

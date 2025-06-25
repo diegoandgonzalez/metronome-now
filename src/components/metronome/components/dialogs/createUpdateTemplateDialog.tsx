@@ -5,21 +5,23 @@ import { useTranslation } from "react-i18next";
 
 type Props = {
     open: boolean,
+    initialValue: string,
     templateNames: string[],
     handleSetTemplate: (newName: string) => void,
     handleClose: () => void,
 }
 
-const CreateTemplateDialog = (props: Props) => {
+const CreateUpdateTemplateDialog = (props: Props) => {
 
     const {
         open,
+        initialValue,
         templateNames,
         handleSetTemplate,
         handleClose,
     } = props;
 
-    const [templateName, setTemplateName] = useState("");
+    const [templateName, setTemplateName] = useState(initialValue);
 
     const {
         handleOpen: handleOpenSnackbar,
@@ -33,7 +35,7 @@ const CreateTemplateDialog = (props: Props) => {
             return;
         }
 
-        if (templateNames.includes(templateName)) {
+        if (templateName !== initialValue && templateNames.includes(templateName)) {
             handleOpenSnackbar(t("nameInUse"));
             return;
         }
@@ -42,18 +44,20 @@ const CreateTemplateDialog = (props: Props) => {
         handleClose();
     }
 
+    const isCreate = !Boolean(initialValue);
+
     return (
         <Dialog
             open={open}
-            title={t("createTemplate")}
+            title={t(isCreate ? "createTemplate" : "updateTemplate")}
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
             <p>
-                {t("newTemplateExplanation")}
+                {t(isCreate ? "newTemplateExplanation" : "updateTemplateQuestion")}
             </p>
             <label>
-                {t("newTemplateName")}:
+                {t("templateName")}:
                 <input
                     type="text"
                     value={templateName}
@@ -66,4 +70,4 @@ const CreateTemplateDialog = (props: Props) => {
     );
 }
 
-export default CreateTemplateDialog;
+export default CreateUpdateTemplateDialog;
