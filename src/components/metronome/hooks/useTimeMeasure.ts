@@ -14,7 +14,7 @@ const useTimeMeasure = () => {
     let interval: number;
 
     if (isRunning && startTime) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         if (isPaused.current) return;
         setCurrentTime((prev) => prev + TIME_TO_ADD);
       }, TIME_TO_ADD);
