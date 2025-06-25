@@ -5,30 +5,27 @@
 }
 
 :root {
-    --accentColor: #d63444;
+    --accentColor: #d42b3c;
     --accentColor2: #66171E;
     --noAccentColor: #ccc;
     --noAccentColor2: #6B6B6B;
-    --mutedColor: #444;
+    --mutedColor: #3e3e3e;
     --mutedColor2: #222;
     --successColor: #27be59;
 }
 
 :root[data-theme="dark"] {
-    --background: #201E23;
-    --background2: #131114;
+    --background: #1c1a1e;
     --textColor: white;
 }
 
 :root[data-theme="light"] {
     --background: #fafafa;
-    --background2: #efefef;
     --textColor: black;
 }
 
 body {
     background-color: var(--background);
-    background: radial-gradient(circle, var(--background) 0%, var(--background2) 100%);
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
@@ -85,6 +82,10 @@ button {
     border: 0px;
     cursor: pointer;
     color: white;
+}
+
+button:hover {
+    scale: 1.03;
 }
 
 b {
@@ -290,22 +291,22 @@ header {
 
         .beat[data-beat-type="0"] {
             background-color: var(--accentColor);
-            background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
+            background: radial-gradient(var(--accentColor), var(--accentColor2));
         }
 
         .beat[data-beat-type="1"] {
             background-color: var(--noAccentColor);
-            background: radial-gradient(circle, var(--noAccentColor) 0%, var(--noAccentColor2) 100%);
+            background: radial-gradient(var(--noAccentColor), var(--noAccentColor2));
         }
 
         .beat[data-beat-type="2"] {
             background-color: var(--mutedColor);
-            background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
+            background: radial-gradient(var(--mutedColor), var(--mutedColor2));
         }
 
         .beat[data-is-current-beat="true"] {
             scale: 1.2;
-            filter: brightness(110%);
+            filter: brightness(120%);
         }
     }
 
@@ -321,10 +322,6 @@ header {
             margin: 15px;
             padding: 5px 10px;
             font-size: 16px;
-        }
-
-        .bpmTapButton:active {
-            scale: 1.05;
         }
 
         .bpmInputButtonContainer {
@@ -381,12 +378,10 @@ header {
                 border-radius: 50%;
                 padding: 10px;
                 background-color: var(--accentColor);
-                background: radial-gradient(circle, var(--accentColor) 0%, var(--accentColor2) 100%);
             }
 
             .iconButton[data-is-off="true"] {
                 background-color: var(--mutedColor);
-                background: radial-gradient(circle, var(--mutedColor) 0%, var(--mutedColor2) 100%);
             }
         }
     }
