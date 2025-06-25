@@ -10,6 +10,7 @@ import {
     MIN_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
 } from "../../../../utils/constants";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
+import type { TempoProgrammingSettings } from "../../types";
 
 type Props = {
     open: boolean,
@@ -18,7 +19,7 @@ type Props = {
     initialBPMToChange: number,
     initialGoalBPM: number,
     initialMeasuresToChangeBPM: number,
-    handleSetTempoProgramming: (bpmToChange: number, maxBPM: number, measuresToChangeBPM: number, addSubtractOption: string, isActive: boolean) => void,
+    handleSetTempoProgrammingSettings: (newSettings: TempoProgrammingSettings) => void,
     handleClose: () => void,
 }
 
@@ -31,7 +32,7 @@ const TempoProgrammingDialog = (props: Props) => {
         initialBPMToChange,
         initialGoalBPM,
         initialMeasuresToChangeBPM,
-        handleSetTempoProgramming,
+        handleSetTempoProgrammingSettings,
         handleClose,
     } = props;
 
@@ -87,7 +88,15 @@ const TempoProgrammingDialog = (props: Props) => {
             return;
         }
 
-        handleSetTempoProgramming(formattedBPMToChange, formattedGoalBPM, formattedMeasuresToChangeBPM, addSubtractOption, isActive);
+        const newSettings = {
+            isActive: isActive,
+            bpmToChange: formattedBPMToChange,
+            goalBPM: formattedGoalBPM,
+            measuresToChangeBPM: formattedMeasuresToChangeBPM,
+            addSubtractOption: addSubtractOption,
+        }
+
+        handleSetTempoProgrammingSettings(newSettings);
         handleClose();
     }
 

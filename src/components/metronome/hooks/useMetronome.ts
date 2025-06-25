@@ -221,18 +221,22 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         handleSetCountdownAmount(newMetronomeSettings.countdownAmount);
     }
 
-    return {
-        countdownAmount,
-        isPlayingCountdown: isPlaying && Boolean(countdownAmount) && !countdownHasFinished.current,
-        isPlaying,
-        isPaused,
-        currentTime,
+    const settings = {
         bpm,
         beatsPerMeasure,
         subdivision,
         beatTypes,
+        countdownAmount,
+    };
+
+    return {
+        isPlayingCountdown: isPlaying && Boolean(countdownAmount) && !countdownHasFinished.current,
+        isPlaying,
+        isPaused,
+        currentTime,
         currentBeatInMeasure,
         currentMeasure: measureNumberRef.current,
+        settings,
         handleStartMetronome,
         handleStopMetronome,
         handleTogglePauseMetronome,

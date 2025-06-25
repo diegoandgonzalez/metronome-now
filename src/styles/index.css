@@ -223,11 +223,14 @@ header {
     max-width: 500px;
 
     .templatesInputContainer {
+        height: 40px;
         display: flex;
+        align-items: center;
         gap: 8px;
 
         .templatesInput {
             margin-right: 10px;
+            min-width: 160px;
             max-width: 200px;
             text-overflow: ellipsis;
         }

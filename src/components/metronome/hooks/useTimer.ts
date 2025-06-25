@@ -7,6 +7,7 @@ import {
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
+import type { TimerSettings } from "../types";
 
 const initialTimerSecondsIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsIsActive, DEFAULT_TIMER_SECONDS_IS_ACTIVE);
 const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresIsActive, DEFAULT_TIMER_MEASURES_IS_ACTIVE);
@@ -16,48 +17,52 @@ const initialTimerMeasuresToStop = getValueFromLocalStorageOrDefault(LOCAL_STORA
 const useTimer = (currentTime: number, currentMeasure: number, callback: () => void) => {
 
     const {
-        value: timerSecondsIsActive,
-        handleSyncValue: handleSyncTimerSecondsIsActive,
+        value: secondsIsActive,
+        handleSyncValue: handleSyncSecondsIsActive,
     } = useStateRefLocalStorageSync<boolean>(initialTimerSecondsIsActive, LOCAL_STORAGE_KEYS.timerSecondsIsActive);
 
     const {
-        value: timerMeasuresIsActive,
-        handleSyncValue: handleSyncTimerMeasuresIsActive,
+        value: measuresIsActive,
+        handleSyncValue: handleSyncMeasuresIsActive,
     } = useStateRefLocalStorageSync<boolean>(initialTimerMeasuresIsActive, LOCAL_STORAGE_KEYS.timerMeasuresIsActive);
 
     const {
-        value: timerSecondsToStop,
-        handleSyncValue: handleSyncTimerSecondsToStop,
+        value: secondsToStop,
+        handleSyncValue: handleSyncSecondsToStop,
     } = useStateRefLocalStorageSync<number>(initialTimerSecondsToStop, LOCAL_STORAGE_KEYS.timerSecondsToStop);
 
     const {
-        value: timerMeasuresToStop,
-        handleSyncValue: handleSyncTimerMeasuresToStop,
+        value: measuresToStop,
+        handleSyncValue: handleSyncMeasuresToStop,
     } = useStateRefLocalStorageSync<number>(initialTimerMeasuresToStop, LOCAL_STORAGE_KEYS.timerMeasuresToStop);
 
-    const handleSetTimer = (newSecondsAmount: number, newSecondsIsActive: boolean, newMeasuresAmount: number, newMeasuresIsActive: boolean) => {
-        handleSyncTimerSecondsToStop(newSecondsAmount);
-        handleSyncTimerSecondsIsActive(newSecondsIsActive);
-        handleSyncTimerMeasuresToStop(newMeasuresAmount);
-        handleSyncTimerMeasuresIsActive(newMeasuresIsActive);
+    const handleSetTimerSettings = (newSettings: TimerSettings) => {
+        handleSyncSecondsToStop(newSettings.secondsToStop);
+        handleSyncSecondsIsActive(newSettings.secondsIsActive);
+        handleSyncMeasuresToStop(newSettings.measuresToStop);
+        handleSyncMeasuresIsActive(newSettings.measuresIsActive);
     }
 
     useEffect(() => {
-        if (timerSecondsIsActive && currentTime) {
-            if (currentTime >= (timerSecondsToStop * 1000)) callback();
+        if (secondsIsActive && currentTime) {
+            if (currentTime >= (secondsToStop * 1000)) callback();
         }
 
-        if (timerMeasuresIsActive && currentMeasure) {
-            if (currentMeasure >= timerMeasuresToStop) callback();
+        if (measuresIsActive && currentMeasure) {
+            if (currentMeasure >= measuresToStop) callback();
         }
-    }, [currentTime, timerSecondsIsActive, timerSecondsToStop, callback])
+    }, [currentTime, secondsIsActive, secondsToStop, callback])
+
+    const settings = {
+        secondsIsActive,
+        secondsToStop,
+        measuresIsActive,
+        measuresToStop,
+    };
 
     return {
-        timerSecondsIsActive,
-        timerMeasuresIsActive,
-        timerSecondsToStop,
-        timerMeasuresToStop,
-        handleSetTimer,
+        settings,
+        handleSetTimerSettings,
     };
 }
 

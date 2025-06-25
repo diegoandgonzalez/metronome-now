@@ -3,6 +3,7 @@ import Dialog from "../../../dialog/dialog";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
 import { MAX_MEASURES_TO_STOP, MAX_MINUTES_TO_STOP, MAX_SECONDS_TO_STOP } from "../../../../utils/constants";
+import type { TimerSettings } from "../../types";
 
 type Props = {
     open: boolean,
@@ -10,7 +11,7 @@ type Props = {
     initialMeasuresIsActive: boolean
     initialSecondsToStop: number,
     initialMeasuresToStop: number,
-    handleSetTimer: (seconds: number, secondsIsActive: boolean, measures: number, measuresIsActive: boolean) => void,
+    handleSetTimerSettings: (newSettings: TimerSettings) => void,
     handleClose: () => void,
 }
 
@@ -51,7 +52,7 @@ const TimerDialog = (props: Props) => {
         initialMeasuresIsActive,
         initialSecondsToStop,
         initialMeasuresToStop,
-        handleSetTimer,
+        handleSetTimerSettings,
         handleClose,
     } = props;
 
@@ -93,7 +94,14 @@ const TimerDialog = (props: Props) => {
             return;
         }
 
-        handleSetTimer(totalSeconds, isSecondsActive, formattedMeasures, isMeasuresActive);
+        const newSettings = {
+            secondsIsActive: isSecondsActive,
+            secondsToStop: totalSeconds,
+            measuresIsActive: isMeasuresActive,
+            measuresToStop: formattedMeasures,
+        }
+
+        handleSetTimerSettings(newSettings);
         handleClose();
     }
 

@@ -24,32 +24,24 @@ import TemplatesInput from "./components/templatesInput";
 import type { MetronomeTimerTempoProgrammingFunction } from "./types";
 import useTemplates from "./hooks/useTemplates";
 import CreateUpdateTemplateDialog from "./components/dialogs/createUpdateTemplateDialog";
-import ConfirmDialog from "./components/dialogs/confirmDialog";
+import ConfirmationDialog from "./components/dialogs/confirmationDialog";
 
 const Metronome = () => {
 
     const {
-        isActive: tempoProgrammingIsActive,
-        addSubtractOption: tempoProgrammingAddSubtractOption,
-        bpmToChange: tempoProgrammingBPMToChange,
-        measuresToChangeBPM: tempoProgrammingMeasuresToChangeBPM,
-        goalBPM: tempoProgrammingGoalBPM,
-        handleSetTempoProgramming,
+        settings: tempoProgrammingSettings,
+        handleSetTempoProgrammingSettings,
         getProgrammedBPM,
     } = useTempoProgramming();
 
     const {
-        countdownAmount,
         isPlayingCountdown,
         isPlaying,
         isPaused,
         currentTime,
-        bpm,
-        beatsPerMeasure,
-        subdivision,
-        beatTypes,
         currentBeatInMeasure,
         currentMeasure,
+        settings: metronomeSettings,
         handleStartMetronome,
         handleStopMetronome,
         handleTogglePauseMetronome,
@@ -62,29 +54,15 @@ const Metronome = () => {
     } = useMetronome(getProgrammedBPM);
 
     const {
-        timerSecondsIsActive,
-        timerMeasuresIsActive,
-        timerSecondsToStop,
-        timerMeasuresToStop,
-        handleSetTimer,
+        settings: timerSettings,
+        handleSetTimerSettings,
     } = useTimer(currentTime, currentMeasure, handleStopMetronome);
 
     const handleUpdateByTemplateSelection: MetronomeTimerTempoProgrammingFunction = (newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
         handleStopMetronome();
         handleSetMetronomeSettings(newMetronomeSettings);
-        handleSetTimer(
-            newTimerSettings.timerSecondsToStop,
-            newTimerSettings.timerSecondsIsActive,
-            newTimerSettings.timerMeasuresToStop,
-            newTimerSettings.timerMeasuresIsActive
-        );
-        handleSetTempoProgramming(
-            newTempoProgrammingSettings.tempoProgrammingBPMToChange,
-            newTempoProgrammingSettings.tempoProgrammingGoalBPM,
-            newTempoProgrammingSettings.tempoProgrammingMeasuresToChangeBPM,
-            newTempoProgrammingSettings.tempoProgrammingAddSubtractOption,
-            newTempoProgrammingSettings.tempoProgrammingIsActive
-        );
+        handleSetTimerSettings(newTimerSettings);
+        handleSetTempoProgrammingSettings(newTempoProgrammingSettings);
     }
 
     const {
@@ -150,29 +128,6 @@ const Metronome = () => {
 
     const { t } = useTranslation();
 
-    const metronomeSettings = {
-        bpm,
-        beatsPerMeasure,
-        subdivision,
-        beatTypes,
-        countdownAmount,
-    };
-
-    const timerSettings = {
-        timerSecondsIsActive,
-        timerSecondsToStop,
-        timerMeasuresIsActive,
-        timerMeasuresToStop,
-    };
-
-    const tempoProgrammingSettings = {
-        tempoProgrammingIsActive,
-        tempoProgrammingBPMToChange,
-        tempoProgrammingGoalBPM,
-        tempoProgrammingMeasuresToChangeBPM,
-        tempoProgrammingAddSubtractOption,
-    };
-
     return (
         <>
             <header className="header">
@@ -185,19 +140,19 @@ const Metronome = () => {
             <div className="metronomeContainer">
                 <div>
                     <BPMInput
-                        value={bpm}
+                        value={metronomeSettings.bpm}
                         handleChange={handleSetBPM}
                     />
                     <TimeSignatureInput
-                        subdivision={subdivision}
-                        beatsPerMeasure={beatsPerMeasure}
+                        subdivision={metronomeSettings.subdivision}
+                        beatsPerMeasure={metronomeSettings.beatsPerMeasure}
                         handleSetBeatsPerMeasure={handleSetBeatsPerMeasure}
                         handleSetSubdivision={handleSetSubdivision}
                     />
                 </div>
                 <BeatDisplay
-                    beatTypes={beatTypes}
-                    beatsPerMeasure={beatsPerMeasure}
+                    beatTypes={metronomeSettings.beatTypes}
+                    beatsPerMeasure={metronomeSettings.beatsPerMeasure}
                     currentBeatInMeasure={currentBeatInMeasure}
                     handleClick={handleToggleBeatType}
                 />
@@ -207,11 +162,11 @@ const Metronome = () => {
                         isPlaying={isPlaying}
                         isPaused={isPaused}
                         value={currentTime}
-                        secondsToStop={timerSecondsIsActive ? timerSecondsToStop : 0}
+                        secondsToStop={timerSettings.secondsIsActive ? timerSettings.secondsToStop : 0}
                         handleClick={handleTogglePauseMetronome}
                     />
                     <CountdownInput
-                        initialAmount={countdownAmount}
+                        initialAmount={metronomeSettings.countdownAmount}
                         handleClick={(newAmount) => {
                             handleSetCountdownAmount(newAmount);
                             handleStopMetronome();
@@ -222,7 +177,7 @@ const Metronome = () => {
                     <div className="mainActionsContainer">
                         <IconButton
                             title={t("bpmProgramming")}
-                            isActive={tempoProgrammingIsActive}
+                            isActive={tempoProgrammingSettings.isActive}
                             handleClick={() => {
                                 handleOpenBPMProgrammingDialog();
                                 handleStopMetronome();
@@ -239,7 +194,7 @@ const Metronome = () => {
                         </IconButton>
                         <IconButton
                             title={t("timer")}
-                            isActive={timerSecondsIsActive || timerMeasuresIsActive}
+                            isActive={timerSettings.secondsIsActive || timerSettings.measuresIsActive}
                             handleClick={() => {
                                 handleOpenTimerDialog();
                                 handleStopMetronome();
@@ -262,11 +217,11 @@ const Metronome = () => {
                     timerDialogIsOpen &&
                     <TimerDialog
                         open={timerDialogIsOpen}
-                        initialSecondsIsActive={timerSecondsIsActive}
-                        initialMeasuresIsActive={timerMeasuresIsActive}
-                        initialSecondsToStop={timerSecondsToStop}
-                        initialMeasuresToStop={timerMeasuresToStop}
-                        handleSetTimer={handleSetTimer}
+                        initialSecondsIsActive={timerSettings.secondsIsActive}
+                        initialMeasuresIsActive={timerSettings.measuresIsActive}
+                        initialSecondsToStop={timerSettings.secondsToStop}
+                        initialMeasuresToStop={timerSettings.measuresToStop}
+                        handleSetTimerSettings={handleSetTimerSettings}
                         handleClose={handleCloseTimerDialog}
                     />
                 }
@@ -274,12 +229,12 @@ const Metronome = () => {
                     bpmProgrammingDialogIsOpen &&
                     <TempoProgrammingDialog
                         open={bpmProgrammingDialogIsOpen}
-                        initialAddSubtractOption={tempoProgrammingAddSubtractOption}
-                        initialIsActive={tempoProgrammingIsActive}
-                        initialBPMToChange={tempoProgrammingBPMToChange}
-                        initialGoalBPM={tempoProgrammingGoalBPM}
-                        initialMeasuresToChangeBPM={tempoProgrammingMeasuresToChangeBPM}
-                        handleSetTempoProgramming={handleSetTempoProgramming}
+                        initialAddSubtractOption={tempoProgrammingSettings.addSubtractOption}
+                        initialIsActive={tempoProgrammingSettings.isActive}
+                        initialBPMToChange={tempoProgrammingSettings.bpmToChange}
+                        initialGoalBPM={tempoProgrammingSettings.goalBPM}
+                        initialMeasuresToChangeBPM={tempoProgrammingSettings.measuresToChangeBPM}
+                        handleSetTempoProgrammingSettings={handleSetTempoProgrammingSettings}
                         handleClose={handleCloseBPMProgrammingDialog}
                     />
                 }
@@ -305,7 +260,7 @@ const Metronome = () => {
                 }
                 {
                     deleteTemplateDialogIsOpen &&
-                    <ConfirmDialog
+                    <ConfirmationDialog
                         open={deleteTemplateDialogIsOpen}
                         title={t("deleteTemplate")}
                         message={t("deleteTemplateQuestion")}

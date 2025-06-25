@@ -9,6 +9,7 @@ import {
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
+import type { TempoProgrammingSettings } from "../types";
 
 const initialTempoProgrammingIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingIsActive, DEFAULT_TEMPO_PROGRAMMING_IS_ACTIVE);
 const initialTempoProgrammingBPMToChange = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingBPMToChange, DEFAULT_TEMPO_PROGRAMMING_BPM_TO_CHANGE);
@@ -50,12 +51,12 @@ const useTempoProgramming = () => {
         handleSyncValue: handleSyncBPMToChange,
     } = useStateRefLocalStorageSync<number>(initialTempoProgrammingBPMToChange, LOCAL_STORAGE_KEYS.tempoProgrammingBPMToChange);
 
-    const handleSetTempoProgramming = (newBPMToChange: number, newGoalBPM: number, newMeasuresToChangeBPM: number, newAddSubtractOption: string, newIsActive: boolean) => {
-        handleSyncBPMToChange(newBPMToChange);
-        handleSyncGoalBPM(newGoalBPM);
-        handleSyncMeasuresToChangeBPM(newMeasuresToChangeBPM);
-        handleSyncBPMProgrammingIsActive(newIsActive);
-        handleSyncAddSubtractOption(newAddSubtractOption);
+    const handleSetTempoProgrammingSettings = (newSettings: TempoProgrammingSettings) => {
+        handleSyncBPMToChange(newSettings.bpmToChange);
+        handleSyncGoalBPM(newSettings.goalBPM);
+        handleSyncMeasuresToChangeBPM(newSettings.measuresToChangeBPM);
+        handleSyncBPMProgrammingIsActive(newSettings.isActive);
+        handleSyncAddSubtractOption(newSettings.addSubtractOption);
     }
 
     const getProgrammedBPM: GetProgrammedBPMType = (currentMeasure, currentBPM) => {
@@ -83,13 +84,17 @@ const useTempoProgramming = () => {
         return nextBPMValue;
     }
 
-    return {
+    const settings = {
         isActive,
-        addSubtractOption,
         bpmToChange,
-        measuresToChangeBPM,
         goalBPM,
-        handleSetTempoProgramming,
+        measuresToChangeBPM,
+        addSubtractOption,
+    };
+
+    return {
+        settings,
+        handleSetTempoProgrammingSettings,
         getProgrammedBPM,
     };
 }

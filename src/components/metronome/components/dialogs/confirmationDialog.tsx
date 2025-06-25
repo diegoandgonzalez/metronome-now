@@ -8,7 +8,7 @@ type Props = {
     handleClose: () => void,
 }
 
-const ConfirmDialog = (props: Props) => {
+const ConfirmationDialog = (props: Props) => {
 
     const {
         open,
@@ -32,4 +32,4 @@ const ConfirmDialog = (props: Props) => {
     );
 }
 
-export default ConfirmDialog;
+export default ConfirmationDialog;

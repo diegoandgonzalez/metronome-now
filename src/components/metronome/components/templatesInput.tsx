@@ -44,14 +44,14 @@ const TemplatesInput = (props: Props) => {
                 <option value={""}>{t("noTemplate")}</option>
                 {
                     templates
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((template) => {
-                        return (
-                            <option key={template.id} value={template.id}>
-                                {template.name}
-                            </option>
-                        )
-                    })
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((template) => {
+                            return (
+                                <option key={template.id} value={template.id}>
+                                    {template.name}
+                                </option>
+                            )
+                        })
                 }
             </select>
             <button

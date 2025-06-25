@@ -7,18 +7,18 @@ export type MetronomeSettings = {
 }
 
 export type TimerSettings = {
-    timerSecondsIsActive: boolean,
-    timerSecondsToStop: number,
-    timerMeasuresIsActive: boolean,
-    timerMeasuresToStop: number,
+    secondsIsActive: boolean,
+    secondsToStop: number,
+    measuresIsActive: boolean,
+    measuresToStop: number,
 }
 
 export type TempoProgrammingSettings = {
-    tempoProgrammingIsActive: boolean,
-    tempoProgrammingBPMToChange: number,
-    tempoProgrammingGoalBPM: number,
-    tempoProgrammingMeasuresToChangeBPM: number,
-    tempoProgrammingAddSubtractOption: string,
+    isActive: boolean,
+    bpmToChange: number,
+    goalBPM: number,
+    measuresToChangeBPM: number,
+    addSubtractOption: string,
 }
 
 export type Template = {
