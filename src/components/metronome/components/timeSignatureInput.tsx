@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { BEATS_PER_MEASURE, NOTE_VALUES } from "../../../utils/constants";
+import { BEATS_PER_MEASURE_OPTIONS, NOTE_VALUE_OPTIONS } from "../../../utils/constants";
 
 type Props = {
   noteValue: number,
@@ -31,7 +31,7 @@ const TimeSignatureInput = (props: Props) => {
         }}
       >
         {
-          BEATS_PER_MEASURE.map((_, index) => {
+          BEATS_PER_MEASURE_OPTIONS.map((_, index) => {
             return (
               <option key={index} value={index + 1}>{index + 1}</option>
             )
@@ -49,7 +49,7 @@ const TimeSignatureInput = (props: Props) => {
         }}
       >
         {
-          NOTE_VALUES.map((item) => {
+          NOTE_VALUE_OPTIONS.map((item) => {
             return (
               <option key={item} value={item}>{item}</option>
             )

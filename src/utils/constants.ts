@@ -1,19 +1,19 @@
 export const LOOK_AHEAD = 25; // ms
 
 export const DEFAULT_COUNTDOWN_AMOUNT = 0;
-export const COUNTDOWN_ARRAY = [0, 1, 2, 3, 4];
+export const COUNTDOWN_OPTIONS = [0, 1, 2, 3, 4];
 
 export const ADD_OPTION = "add";
 export const SUBTRACT_OPTION = "subtract";
-export const ADD_SUBTRACT_ARRAY = [ADD_OPTION, SUBTRACT_OPTION];
+export const ADD_SUBTRACT_OPTIONS = [ADD_OPTION, SUBTRACT_OPTION];
 
 /**
  * Number of different types of beat types
  */
 export const BEAT_TYPES_AMOUNT = 3;
 
-export const BEATS_PER_MEASURE = Array.from({ length: 16 }, (_, i) => i + 1);
-export const NOTE_VALUES = [2, 4, 8, 16];
+export const BEATS_PER_MEASURE_OPTIONS = Array.from({ length: 16 }, (_, i) => i + 1);
+export const NOTE_VALUE_OPTIONS = [2, 4, 8, 16];
 
 export const DEFAULT_BPM = 120;
 export const MIN_BPM = 30;
@@ -50,4 +50,4 @@ export const THEMES = {
 export const DEFAULT_THEME = THEMES.dark;
 export const DEFAULT_LANGUAGE = "en";
 
-export const LANGUAGES_ARRAY = ["en", "es", "it", "fr", "de", "pt"];
+export const LANGUAGE_OPTIONS = ["en", "es", "it", "fr", "de", "pt"];

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { COUNTDOWN_ARRAY } from "../../../utils/constants";
+import { COUNTDOWN_OPTIONS } from "../../../utils/constants";
 
 type Props = {
     initialAmount: number,
@@ -30,7 +30,7 @@ const CountdownInput = (props: Props) => {
                 }}
             >
                 {
-                    COUNTDOWN_ARRAY.map((item) => {
+                    COUNTDOWN_OPTIONS.map((item) => {
                         return (
                             <option key={item} value={item}>{item}</option>
                         )

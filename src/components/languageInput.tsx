@@ -1,6 +1,6 @@
 import { LOCAL_STORAGE_KEYS } from "../utils/localStorage";
 import { useTranslation } from "react-i18next";
-import { LANGUAGES_ARRAY } from "../utils/constants";
+import { LANGUAGE_OPTIONS } from "../utils/constants";
 import useStateRefLocalStorageSync from "../utils/hooks/useStateRefLocalStorageSync";
 
 const LanguageInput = () => {
@@ -27,7 +27,7 @@ const LanguageInput = () => {
             }}
         >
             {
-                LANGUAGES_ARRAY.map((item) => {
+                LANGUAGE_OPTIONS.map((item) => {
                     return (
                         <option key={item} value={item}>{t(item)}</option>
                     )

@@ -3,7 +3,7 @@ import Dialog from "../../../dialog/dialog";
 import { useTranslation } from "react-i18next";
 import {
     ADD_OPTION,
-    ADD_SUBTRACT_ARRAY,
+    ADD_SUBTRACT_OPTIONS,
     MAX_BPM,
     MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
     MIN_BPM,
@@ -128,7 +128,7 @@ const TempoProgrammingDialog = (props: Props) => {
                 title={t("selectHowBPMchanges")}
             >
                 {
-                    ADD_SUBTRACT_ARRAY
+                    ADD_SUBTRACT_OPTIONS
                         .map((item) => {
                             return (
                                 <option key={item} value={item}>{t(item)}</option>
