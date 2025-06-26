@@ -68,16 +68,6 @@ const TempoProgrammingDialog = (props: Props) => {
             return;
         }
 
-        if (!formattedGoalBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeEmpty"));
-            return;
-        }
-
-        if (formattedGoalBPM < 0) {
-            handleOpenSnackbar(t("goalBPMCannotBeNegative"));
-            return;
-        }
-
         if (formattedMeasuresToChangeBPM < 0) {
             handleOpenSnackbar(t("measuresToChangeBPMCannotBeNegative"));
             return;
@@ -85,6 +75,21 @@ const TempoProgrammingDialog = (props: Props) => {
 
         if (formattedMeasuresToChangeBPM > MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM) {
             handleOpenSnackbar(t("measuresToChangeBPMHasToBeLessThan", { value: MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM }));
+            return;
+        }
+
+        if (!formattedGoalBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeEmpty"));
+            return;
+        }
+
+        if (formattedGoalBPM < MIN_BPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeLessThan", { value: MIN_BPM }));
+            return;
+        }
+
+        if (formattedGoalBPM > MAX_BPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeGreaterThan", { value: MAX_BPM }));
             return;
         }
 
