@@ -63,7 +63,7 @@ const CreateUpdateTemplateDialog = (props: Props) => {
                     type="text"
                     value={templateName}
                     onChange={(e) => {
-                        setTemplateName(e.target.value.substring(0, 20));
+                        setTemplateName(e.target.value.substring(0, 30));
                     }}
                 />
             </label>
