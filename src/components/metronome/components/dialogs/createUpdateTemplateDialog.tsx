@@ -59,6 +59,7 @@ const CreateUpdateTemplateDialog = (props: Props) => {
             <label>
                 {t("templateName")}:
                 <input
+                    className="templateNameInput"
                     type="text"
                     value={templateName}
                     onChange={(e) => {

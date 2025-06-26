@@ -137,7 +137,7 @@ const Metronome = () => {
 
     return (
         <>
-            <header className="header">
+            <header>
                 <Title handleClick={handleOpenAboutDialog} />
                 <div>
                     <LanguageInput />

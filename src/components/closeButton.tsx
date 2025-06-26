@@ -11,7 +11,7 @@ const CloseButton = (props: Props) => {
     } = props;
 
     return (
-        <button className="closeIcon" onClick={handleClose}>
+        <button className="closeButton" onClick={handleClose}>
             {<CloseIcon />}
         </button>
     )

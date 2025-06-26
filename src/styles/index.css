@@ -1,7 +1,12 @@
 *,
-::after,
-::before {
+*::before,
+*::after {
     box-sizing: border-box;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
 }
 
 :root {
@@ -15,21 +20,22 @@
 }
 
 :root[data-theme="dark"] {
-    --background: #1c1a1e;
+    --backgroundColor: #1c1a1e;
     --textColor: white;
 }
 
 :root[data-theme="light"] {
-    --background: #fafafa;
+    --backgroundColor: #fafafa;
     --textColor: black;
 }
 
 body {
-    background-color: var(--background);
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    margin: 0px;
+    background-color: var(--backgroundColor);
+    font-family: "Space Grotesk", sans-serif;
+    color: var(--textColor);
 }
 
-body,
 h1,
 p,
 input,
@@ -37,28 +43,34 @@ label,
 button,
 option,
 select {
+    font-family: inherit;
+    font-size: 100%;
     margin: 0px;
-    font-family: "Space Grotesk", sans-serif;
-    color: var(--textColor);
+    color: inherit;
+}
+
+button,
+select {
+    text-transform: none;
 }
 
 input {
     accent-color: var(--accentColor);
-}
-
-input[type="text"] {
     background: transparent;
-    outline: 0;
-    border: 0;
+    border: 0px;
     border-radius: 0px;
     border-bottom: 1px solid var(--textColor);
     font-size: 18px;
-    flex: 1;
+}
+
+input[type="text"],
+input[type="number"] {
+    outline: 0px;
 }
 
 input[type="checkbox"] {
     margin: 0px 5px;
-    scale: 1.5;
+    scale: 1.25;
     cursor: pointer;
 }
 
@@ -72,21 +84,14 @@ input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
-h1 {
-    cursor: pointer;
-    font-size: 24px;
-    text-align: center;
-    text-wrap: nowrap;
-}
-
 button {
     border: 0px;
     cursor: pointer;
     color: white;
-}
 
-button:hover {
-    scale: 1.03;
+    &:hover {
+        scale: 1.03;
+    }
 }
 
 b {
@@ -96,15 +101,14 @@ b {
 select {
     font-size: 18px;
     font-weight: 600;
-    background: transparent;
-    border: 0;
-    outline: 0;
+    background: var(--backgroundColor);
+    border: 0px;
     cursor: pointer;
 }
 
 option {
     text-align: center;
-    background-color: var(--background);
+    background-color: var(--backgroundColor);
 }
 
 label {
@@ -119,7 +123,7 @@ label {
     padding: 20px;
     border: 0px;
     border-radius: 10px;
-    background-color: var(--background);
+    background-color: var(--backgroundColor);
     position: fixed;
     top: 50%;
     left: 50%;
@@ -169,10 +173,13 @@ label {
         border: 0px;
         border-radius: 0px;
         border-bottom: 1px solid;
-        outline: 0px;
         background-color: transparent;
         font-size: 20px;
         max-width: 100px;
+    }
+
+    .templateNameInput {
+        flex: 1;
     }
 }
 
@@ -186,9 +193,8 @@ label {
     z-index: 1;
 }
 
-.closeIcon {
+.closeButton {
     background: 0px;
-    outline: 0px;
     border: 0px;
     margin: 0px;
     padding: 0px;
@@ -206,7 +212,15 @@ header {
 
     div {
         display: flex;
+        align-items: center;
         gap: 10px;
+    }
+
+    h1 {
+        cursor: pointer;
+        font-size: 24px;
+        text-align: center;
+        text-wrap: nowrap;
     }
 
     .themeChanger {
@@ -267,7 +281,6 @@ header {
         .timeSignatureInput {
             background-color: transparent;
             border: 0px;
-            outline: 0px;
             cursor: pointer;
             font-size: 20px;
         }
@@ -291,27 +304,28 @@ header {
             text-align: center;
             font-size: 18px;
             border: 0px;
+
+            &[data-beat-type="0"] {
+                background-color: var(--accentColor);
+                background: radial-gradient(var(--accentColor), var(--accentColor2));
+            }
+
+            &[data-beat-type="1"] {
+                background-color: var(--noAccentColor);
+                background: radial-gradient(var(--noAccentColor), var(--noAccentColor2));
+            }
+
+            &[data-beat-type="2"] {
+                background-color: var(--mutedColor);
+                background: radial-gradient(var(--mutedColor), var(--mutedColor2));
+            }
+
+            &[data-is-current-beat="true"] {
+                scale: 1.2;
+                filter: brightness(120%);
+            }
         }
 
-        .beat[data-beat-type="0"] {
-            background-color: var(--accentColor);
-            background: radial-gradient(var(--accentColor), var(--accentColor2));
-        }
-
-        .beat[data-beat-type="1"] {
-            background-color: var(--noAccentColor);
-            background: radial-gradient(var(--noAccentColor), var(--noAccentColor2));
-        }
-
-        .beat[data-beat-type="2"] {
-            background-color: var(--mutedColor);
-            background: radial-gradient(var(--mutedColor), var(--mutedColor2));
-        }
-
-        .beat[data-is-current-beat="true"] {
-            scale: 1.2;
-            filter: brightness(120%);
-        }
     }
 
     .bpmInputContainer {
@@ -346,14 +360,13 @@ header {
             font-size: 75px;
             text-align: center;
             background: transparent;
-            outline: 0px;
             border: 0px;
-        }
 
-        .bpmInput[type=range] {
-            cursor: pointer;
-            min-width: 200px;
-            margin: 15px 0px;
+            &[type=range] {
+                cursor: pointer;
+                min-width: 200px;
+                margin: 15px 0px;
+            }
         }
     }
 
@@ -382,11 +395,12 @@ header {
                 border-radius: 50%;
                 padding: 10px;
                 background-color: var(--accentColor);
+
+                &[data-is-off="true"] {
+                    background-color: var(--mutedColor);
+                }
             }
 
-            .iconButton[data-is-off="true"] {
-                background-color: var(--mutedColor);
-            }
         }
     }
 
@@ -444,21 +458,21 @@ header {
         justify-content: space-between;
         gap: 20px;
         color: white;
+
+        &[data-type="success"] {
+            background-color: var(--successColor);
+        }
     }
 
-    .snackbarContent[data-type="success"] {
-        background-color: var(--successColor);
-    }
-
-    .closeIcon {
+    .closeButton {
         color: white;
     }
-}
 
-.snackbar[data-is-open="true"] {
-    visibility: visible;
-    -webkit-animation: fadein 0.1s;
-    animation: fadein 0.1s;
+    &[data-is-open="true"] {
+        visibility: visible;
+        -webkit-animation: fadein 0.1s;
+        animation: fadein 0.1s;
+    }
 }
 
 @-webkit-keyframes fadein {
