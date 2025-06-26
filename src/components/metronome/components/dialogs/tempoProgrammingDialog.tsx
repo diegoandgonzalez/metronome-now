@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Dialog from "../../../dialog/dialog";
 import { useTranslation } from "react-i18next";
 import {
     ADD_OPTION,
@@ -10,6 +9,7 @@ import {
     MIN_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
 } from "../../../../utils/constants";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
+import FormDialog from "../../../dialog/formDialog";
 import type { TempoProgrammingSettings } from "../../types";
 
 type Props = {
@@ -101,7 +101,7 @@ const TempoProgrammingDialog = (props: Props) => {
     }
 
     return (
-        <Dialog
+        <FormDialog
             open={open}
             title={t("bpmProgramming")}
             handleClose={handleClose}
@@ -172,7 +172,7 @@ const TempoProgrammingDialog = (props: Props) => {
                 />
                 {t("bpm")}
             </label>
-        </Dialog>
+        </FormDialog>
     );
 }
 

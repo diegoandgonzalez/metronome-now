@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import CloseButton from "../closeButton";
 import useExecuteOnKeyPressed from "../../utils/hooks/useExecuteOnKeyPressed";
 import { createPortal } from "react-dom";
@@ -8,7 +7,6 @@ type Props = {
     title?: string,
     children?: React.ReactNode,
     handleClose: () => void,
-    handleSubmit?: () => void,
 }
 
 const Dialog = (props: Props) => {
@@ -18,10 +16,7 @@ const Dialog = (props: Props) => {
         title,
         children,
         handleClose,
-        handleSubmit,
     } = props;
-
-    const { t } = useTranslation();
 
     useExecuteOnKeyPressed("Escape", handleClose);
 
@@ -39,14 +34,6 @@ const Dialog = (props: Props) => {
                 <div className="dialogBody">
                     {children}
                 </div>
-                {
-                    Boolean(handleSubmit) &&
-                    <div className="dialogButtonContainer">
-                        <button onClick={handleSubmit}>
-                            {t("accept")}
-                        </button>
-                    </div>
-                }
             </div>
             <div className="backdrop" onClick={handleClose} />
         </>,

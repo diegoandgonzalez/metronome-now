@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Dialog from "../../../dialog/dialog";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
+import FormDialog from "../../../dialog/formDialog";
 
 type Props = {
     open: boolean,
@@ -47,7 +47,7 @@ const CreateUpdateTemplateDialog = (props: Props) => {
     const isCreate = !Boolean(initialValue);
 
     return (
-        <Dialog
+        <FormDialog
             open={open}
             title={t(isCreate ? "createTemplate" : "updateTemplate")}
             handleClose={handleClose}
@@ -66,7 +66,7 @@ const CreateUpdateTemplateDialog = (props: Props) => {
                     }}
                 />
             </label>
-        </Dialog>
+        </FormDialog>
     );
 }
 

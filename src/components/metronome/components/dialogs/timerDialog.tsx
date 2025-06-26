@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Dialog from "../../../dialog/dialog";
+import FormDialog from "../../../dialog/formDialog";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
 import { MAX_MEASURES_TO_STOP, MAX_MINUTES_TO_STOP, MAX_SECONDS_TO_STOP } from "../../../../utils/constants";
@@ -106,7 +106,7 @@ const TimerDialog = (props: Props) => {
     }
 
     return (
-        <Dialog
+        <FormDialog
             open={open}
             title={t("timer")}
             handleClose={handleClose}
@@ -166,7 +166,7 @@ const TimerDialog = (props: Props) => {
                 />
                 {t("measures")}
             </label>
-        </Dialog>
+        </FormDialog>
     );
 }
 

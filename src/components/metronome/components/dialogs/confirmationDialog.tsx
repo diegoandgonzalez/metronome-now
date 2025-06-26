@@ -1,4 +1,4 @@
-import Dialog from "../../../dialog/dialog";
+import FormDialog from "../../../dialog/formDialog";
 
 type Props = {
     open: boolean,
@@ -19,7 +19,7 @@ const ConfirmationDialog = (props: Props) => {
     } = props;
 
     return (
-        <Dialog
+        <FormDialog
             open={open}
             title={title}
             handleClose={handleClose}
@@ -28,7 +28,7 @@ const ConfirmationDialog = (props: Props) => {
             <p>
                 {message}
             </p>
-        </Dialog>
+        </FormDialog>
     );
 }
 
