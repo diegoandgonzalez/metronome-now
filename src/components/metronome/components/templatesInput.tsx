@@ -30,9 +30,12 @@ const TemplatesInput = (props: Props) => {
 
     const { t } = useTranslation();
 
+    const selectedTemplateName = templates.find((item) => item.id === value)?.name || t("noTemplate");
+
     return (
         <div className="templatesInputContainer">
             <select
+                title={selectedTemplateName}
                 disabled={disabled}
                 className="templatesInput"
                 value={value}
