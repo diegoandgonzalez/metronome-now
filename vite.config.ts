@@ -23,6 +23,12 @@ export default defineConfig({
         start_url: "/",
         icons: [
           {
+            src: "/images/icons/desktop-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any"
+          },
+          {
             src: "/images/icons/android-chrome-512x512.png",
             sizes: "512x512",
             type: "image/png",
