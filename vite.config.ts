@@ -23,17 +23,11 @@ export default defineConfig({
         start_url: "/",
         icons: [
           {
-            src: "/images/icons/desktop-512x512.png",
+            src: "/images/icons/android-chrome-512x512.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any"
+            purpose: "maskable"
           },
-          // {
-          //   src: "/images/icons/android-chrome-512x512.png",
-          //   sizes: "512x512",
-          //   type: "image/png",
-          //   purpose: "maskable"
-          // },
           {
             src: "/images/icons/android-chrome-192x192.png",
             sizes: "192x192",
@@ -50,13 +44,13 @@ export default defineConfig({
         screenshots: [
           {
             src: "/images/screenshots/mobile_screencap.png",
-            sizes: "374x694",
+            sizes: "387x732",
             type: "image/png",
             label: "Metronome now"
           },
           {
             src: "/images/screenshots/desktop_screencap.png",
-            sizes: "1275x717",
+            sizes: "1275x696",
             type: "image/png",
             form_factor: "wide",
             label: "Metronome now"
