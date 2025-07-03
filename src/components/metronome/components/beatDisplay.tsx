@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
+  isPlaying: boolean,
   beatTypes: number[],
   beatsPerMeasure: number
   currentBeatInMeasure: number
@@ -11,6 +12,7 @@ type Props = {
 const BeatDisplay = (props: Props) => {
 
   const {
+    isPlaying,
     beatTypes,
     beatsPerMeasure,
     currentBeatInMeasure,
@@ -47,6 +49,7 @@ const BeatDisplay = (props: Props) => {
                       className="beat"
                       data-beat-type={String(beatType)}
                       data-is-current-beat={String(isCurrentBeat)}
+                      data-beat-is-stopped={String(!isPlaying)}
                       title={t("clickToToggleBeatType")}
                       onClick={(e) => {
                         handleClick(beatIndex);

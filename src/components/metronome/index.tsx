@@ -157,6 +157,7 @@ const Metronome = () => {
                     />
                 </div>
                 <BeatDisplay
+                    isPlaying={isPlaying}
                     beatTypes={metronomeSettings.beatTypes}
                     beatsPerMeasure={metronomeSettings.beatsPerMeasure}
                     currentBeatInMeasure={currentBeatInMeasure}

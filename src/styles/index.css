@@ -320,9 +320,13 @@ header {
                 background: radial-gradient(var(--mutedColor), var(--mutedColor2));
             }
 
+            &[data-beat-is-stopped="true"] {
+                filter: brightness(130%);
+            }
+
             &[data-is-current-beat="true"] {
-                scale: 1.2;
-                filter: brightness(120%);
+                scale: 1.15;
+                filter: brightness(130%);
             }
         }
 
