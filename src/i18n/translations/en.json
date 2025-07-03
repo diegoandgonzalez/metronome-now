@@ -65,5 +65,6 @@
     "databaseError": "Database error",
     "noTemplate": "No template",
     "nameRequired": "Name is required",
-    "nameInUse": "Name already in use"
+    "nameInUse": "Name already in use",
+    "currentMeasure": "Current measure"
 }

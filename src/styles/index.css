@@ -417,6 +417,8 @@ header {
     .clockContainer {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 5px;
         margin: 10px;
 
@@ -430,6 +432,7 @@ header {
             background: transparent;
             display: flex;
             align-items: center;
+            color: var(--textColor);
         }
     }
 }

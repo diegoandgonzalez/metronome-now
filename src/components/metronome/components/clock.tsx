@@ -4,22 +4,26 @@ import PauseIcon from "../../../assets/icons/pauseIcon";
 import PlayIcon from "../../../assets/icons/playIcon";
 
 type Props = {
-  hidePauseButton: boolean,
+  isPlayingCountdown: boolean,
   isPlaying: boolean,
   isPaused: boolean,
   value: number,
-  secondsToStop?: number,
+  secondsToStop: number,
+  currentMeasure: number,
+  measureToStop: number,
   handleClick: () => void,
 };
 
 const Clock = (props: Props) => {
 
   const {
-    hidePauseButton,
+    isPlayingCountdown,
     isPlaying,
     isPaused,
     value,
     secondsToStop,
+    currentMeasure,
+    measureToStop,
     handleClick,
   } = props;
 
@@ -28,7 +32,7 @@ const Clock = (props: Props) => {
   return (
     <div className="clockContainer">
       {
-        isPlaying && !hidePauseButton &&
+        isPlaying && !isPlayingCountdown &&
         <button
           className="pauseButton"
           title={t(isPaused ? "resume" : "pause")}
@@ -50,6 +54,25 @@ const Clock = (props: Props) => {
             {formatMsToHHMMSS(secondsToStop as number * 1000)}
           </p>
         </>
+      }
+      {
+        Boolean(currentMeasure) && !isPlayingCountdown &&
+        <p>
+          (
+          <span title={t("currentMeasure")}>
+            {currentMeasure}
+          </span>
+          {
+            Boolean(measureToStop) &&
+            <>
+              <span>/</span>
+              <span title={t("timerValue")}>
+                {measureToStop}
+              </span>
+            </>
+          }
+          )
+        </p>
       }
     </div>
   );

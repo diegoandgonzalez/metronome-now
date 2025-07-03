@@ -46,6 +46,7 @@ const Metronome = () => {
         isPaused,
         currentTime,
         currentBeatInMeasure,
+        currentMeasure,
         settings: metronomeSettings,
         handleStartMetronome,
         handleStopMetronome,
@@ -165,11 +166,13 @@ const Metronome = () => {
                 />
                 <div className="clockCountdownContainer">
                     <Clock
-                        hidePauseButton={isPlayingCountdown}
+                        isPlayingCountdown={isPlayingCountdown}
                         isPlaying={isPlaying}
                         isPaused={isPaused}
                         value={currentTime}
                         secondsToStop={timerSettings.secondsIsActive ? timerSettings.secondsToStop : 0}
+                        currentMeasure={currentMeasure < 0 ? 0 : currentMeasure + 1}
+                        measureToStop={timerSettings.measuresIsActive ? timerSettings.measuresToStop : 0}
                         handleClick={handleTogglePauseMetronome}
                     />
                     <CountdownInput

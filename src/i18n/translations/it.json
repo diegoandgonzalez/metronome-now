@@ -65,5 +65,6 @@
     "databaseError": "Errore del database",
     "noTemplate": "Nessun modello",
     "nameRequired": "Il nome è obbligatorio",
-    "nameInUse": "Il nome è già in uso"
+    "nameInUse": "Il nome è già in uso",
+    "currentMeasure": "Battuta attuale"
 }
