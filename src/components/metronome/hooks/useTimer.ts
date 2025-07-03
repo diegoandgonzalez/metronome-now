@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
     DEFAULT_TIMER_SECONDS_TO_STOP,
     DEFAULT_TIMER_SECONDS_IS_ACTIVE,
@@ -14,7 +13,7 @@ const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STO
 const initialTimerSecondsToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_TIMER_SECONDS_TO_STOP);
 const initialTimerMeasuresToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresToStop, DEFAULT_TIMER_MEASURES_TO_STOP);
 
-const useTimer = (currentTime: number, currentMeasure: number, callback: () => void) => {
+const useTimer = () => {
 
     const {
         value: secondsIsActive,
@@ -42,16 +41,6 @@ const useTimer = (currentTime: number, currentMeasure: number, callback: () => v
         handleSyncMeasuresToStop(newSettings.measuresToStop ?? DEFAULT_TIMER_MEASURES_TO_STOP);
         handleSyncMeasuresIsActive(newSettings.measuresIsActive ?? DEFAULT_TIMER_MEASURES_IS_ACTIVE);
     }
-
-    useEffect(() => {
-        if (secondsIsActive && currentTime) {
-            if (currentTime >= (secondsToStop * 1000)) callback();
-        }
-
-        if (measuresIsActive && currentMeasure) {
-            if (currentMeasure >= measuresToStop) callback();
-        }
-    }, [currentTime, secondsIsActive, secondsToStop, callback])
 
     const settings = {
         secondsIsActive,

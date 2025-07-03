@@ -36,6 +36,11 @@ const Metronome = () => {
     } = useTempoProgramming();
 
     const {
+        settings: timerSettings,
+        handleSetTimerSettings,
+    } = useTimer();
+
+    const {
         isPlayingCountdown,
         isPlaying,
         isPaused,
@@ -52,12 +57,7 @@ const Metronome = () => {
         handleToggleBeatType,
         handleSetCountdownAmount,
         handleSetMetronomeSettings,
-    } = useMetronome(getProgrammedBPM);
-
-    const {
-        settings: timerSettings,
-        handleSetTimerSettings,
-    } = useTimer(currentTime, currentMeasure, handleStopMetronome);
+    } = useMetronome(getProgrammedBPM, timerSettings);
 
     const handleUpdateByTemplateSelection: MetronomeTimerTempoProgrammingFunction = (newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
         handleStopMetronome();

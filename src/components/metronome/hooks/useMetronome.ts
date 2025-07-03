@@ -16,7 +16,7 @@ import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalSt
 import useTimeMeasure from "./useTimeMeasure";
 import { type GetProgrammedBPMType } from "./useTempoProgramming";
 import useAudio from "./useAudio";
-import type { MetronomeSettings } from "../types";
+import type { MetronomeSettings, TimerSettings } from "../types";
 
 const initialCountdownAmount = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownAmount, DEFAULT_COUNTDOWN_AMOUNT);
 const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_BPM);
@@ -24,7 +24,7 @@ const initialBeatsPerMeasure = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_K
 const initialNoteValue = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.noteValue, DEFAULT_NOTE_VALUE);
 const initialBeatTypes = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatTypes, createDefaultBeatTypesArray(initialBeatsPerMeasure));
 
-const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
+const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: TimerSettings) => {
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -61,15 +61,21 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         handleSyncValue: handleSyncNoteValue,
     } = useStateRefLocalStorageSync<number>(initialNoteValue, LOCAL_STORAGE_KEYS.noteValue);
 
+    const {
+        value: measureNumber,
+        valueRef: measureNumberRef,
+        handleSyncValue: handleSyncMeasureNumber,
+    } = useStateRefLocalStorageSync<number>(STOPPED_METRONOME_BEAT_INDEX); // counter of measures from 0 to infinity
+
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(STOPPED_METRONOME_BEAT_INDEX); // circular number inside measure size
     const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX); // counter of beats from 0 to infinity
-    const measureNumberRef = useRef(0); // counter of measures from 0 to infinity
 
     const timeoutRef = useRef<number>(null);
     const nextNoteTimeRef = useRef(0);
 
     const {
         currentTime,
+        currentTimeRef,
         startTimeMeasure,
         stopTimeMeasure,
         togglePauseTimeMeasure,
@@ -81,40 +87,11 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         playAudio,
     } = useAudio();
 
-    const scheduleNote = (time: number) => {
-        const newCurrentBeatInMeasure = beatNumberRef.current % beatsPerMeasureRef.current;
-        const lastBeatOfMeasure = beatsPerMeasureRef.current - 1;
-        const beatType = beatTypesRef.current[newCurrentBeatInMeasure];
+    const scheduleNote = (beatInMeasureToPlay: number) => {
+        const beatType = beatTypesRef.current[beatInMeasureToPlay];
         const audioToPlay = [clickAudioRef.current.clickAccent, clickAudioRef.current.clickNormal, clickAudioRef.current.clickMuted][beatType];
-
-        playAudio(audioToPlay, time);
-
-        setCurrentBeatInMeasure(newCurrentBeatInMeasure);
-
-        if (newCurrentBeatInMeasure === lastBeatOfMeasure) {
-            measureNumberRef.current++;
-        }
-
-        const hasCountdown = Boolean(countdownAmountRef.current);
-
-        // if has countdown, but it's not finished, and it's first beat of final countdown measure, set countdown as finished and reset beat and measure number
-        if (hasCountdown && !countdownHasFinished.current && newCurrentBeatInMeasure === 0 && measureNumberRef.current === countdownAmountRef.current) {
-            countdownHasFinished.current = true;
-            beatNumberRef.current = 0;
-            measureNumberRef.current = 0;
-            startTimeMeasure();
-        }
-
-        if (!hasCountdown || (hasCountdown && countdownHasFinished.current)) {
-            if (newCurrentBeatInMeasure === 0 && beatNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
-                if (getProgrammedBPM) {
-                    handleSyncBPM(getProgrammedBPM(measureNumberRef.current, bpmRef.current));
-                }
-            }
-        }
-
-        beatNumberRef.current++;
-    };
+        playAudio(audioToPlay, nextNoteTimeRef.current);
+    }
 
     const scheduler = () => {
         if (!audioContextRef.current) return;
@@ -123,8 +100,54 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         const secondsPerBeat = 60.0 / (bpmRef.current / noteValueRatio);
 
         while (nextNoteTimeRef.current <= audioContextRef.current.currentTime) {
-            scheduleNote(nextNoteTimeRef.current);
+            const newCurrentBeatInMeasure = beatNumberRef.current % beatsPerMeasureRef.current;
+            const isFirstBeatInMeasure = newCurrentBeatInMeasure === 0;
+            const isLastBeatInMeasure = newCurrentBeatInMeasure === beatsPerMeasureRef.current - 1;
+            const hasCountdown = Boolean(countdownAmountRef.current);
 
+            scheduleNote(newCurrentBeatInMeasure);
+
+            // if has countdown and didn't finish
+            // and first beat after playing every countdown measure
+            // reset and start time measure
+            if (hasCountdown && !countdownHasFinished.current && isFirstBeatInMeasure && measureNumberRef.current === (countdownAmountRef.current - 1)) {
+                countdownHasFinished.current = true;
+                beatNumberRef.current = 0;
+                handleSyncMeasureNumber(STOPPED_METRONOME_BEAT_INDEX);
+                startTimeMeasure();
+            }
+
+            if (!hasCountdown || (hasCountdown && countdownHasFinished.current)) {
+                if (isFirstBeatInMeasure && beatNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
+                    if (getProgrammedBPM) {
+                        handleSyncBPM(getProgrammedBPM(measureNumberRef.current + 1, bpmRef.current));
+                    }
+                }
+
+                if (timerSettings) {
+                    if (timerSettings.secondsIsActive) {
+                        if (currentTimeRef.current >= (timerSettings.secondsToStop * 1000)) {
+                            handleStopMetronome();
+                            return;
+                        }
+                    }
+
+                    if (timerSettings.measuresIsActive) {
+                        if (measureNumberRef.current === (timerSettings.measuresToStop - 1) && isLastBeatInMeasure) {
+                            handleStopMetronome();
+                            return;
+                        }
+                    }
+                }
+            }
+
+            setCurrentBeatInMeasure(newCurrentBeatInMeasure);
+
+            if (isFirstBeatInMeasure) {
+                handleSyncMeasureNumber(measureNumberRef.current + 1);
+            }
+
+            beatNumberRef.current++;
             nextNoteTimeRef.current += secondsPerBeat;
         }
 
@@ -163,7 +186,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         setIsPaused(false);
         setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
         beatNumberRef.current = STOPPED_METRONOME_BEAT_INDEX;
-        measureNumberRef.current = 0;
+        handleSyncMeasureNumber(STOPPED_METRONOME_BEAT_INDEX);
         stopTimeMeasure();
     };
 
@@ -235,7 +258,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType) => {
         isPaused,
         currentTime,
         currentBeatInMeasure,
-        currentMeasure: measureNumberRef.current,
+        currentMeasure: measureNumber,
         settings,
         handleStartMetronome,
         handleStopMetronome,

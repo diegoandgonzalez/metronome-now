@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { setValueInLocalStorage, type LocalStorageValueType } from "../localStorage";
 
-const useStateRefLocalStorageSync = <Type>(initialValue: Type, localStorageKey: string) => {
+const useStateRefLocalStorageSync = <Type>(initialValue: Type, localStorageKey?: string) => {
 
     const [value, setValue] = useState(initialValue);
     const valueRef = useRef(initialValue);
@@ -9,7 +9,10 @@ const useStateRefLocalStorageSync = <Type>(initialValue: Type, localStorageKey: 
     const handleSyncValue = (newValue: Type) => {
         valueRef.current = newValue;
         setValue(newValue);
-        setValueInLocalStorage(localStorageKey, newValue as LocalStorageValueType);
+        
+        if (localStorageKey) {
+            setValueInLocalStorage(localStorageKey, newValue as LocalStorageValueType);
+        }
     }
 
     return {
