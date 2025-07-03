@@ -93,6 +93,35 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
         playAudio(audioToPlay, nextNoteTimeRef.current);
     }
 
+    const checkAndStopCountdown = (isFirstBeatInMeasure: boolean) => {
+        // if has countdown and didn't finish
+        // and first beat after playing every countdown measure
+        // reset and start time measure
+        if (Boolean(countdownAmountRef.current) && !countdownHasFinished.current && isFirstBeatInMeasure && measureNumberRef.current === countdownAmountRef.current) {
+            countdownHasFinished.current = true;
+            beatNumberRef.current = 0;
+            handleSyncMeasureNumber(0);
+            startTimeMeasure();
+        }
+    }
+
+    const checkShouldStopByTimerSettings = (isLastBeatInMeasure: boolean): boolean => {
+        if (timerSettings) {
+            if (timerSettings.secondsIsActive) {
+                if (currentTimeRef.current >= (timerSettings.secondsToStop * 1000)) return true;
+                return false;
+            }
+
+            if (timerSettings.measuresIsActive) {
+                // stop metronome on last beat of last programmed measure
+                if (isLastBeatInMeasure && measureNumberRef.current === (timerSettings.measuresToStop - 1)) return true;
+                return false;
+            }
+        }
+
+        return false;
+    }
+
     const scheduler = () => {
         if (!audioContextRef.current) return;
 
@@ -107,44 +136,25 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
 
             scheduleNote(newCurrentBeatInMeasure);
 
-            // if has countdown and didn't finish
-            // and first beat after playing every countdown measure
-            // reset and start time measure
-            if (hasCountdown && !countdownHasFinished.current && isFirstBeatInMeasure && measureNumberRef.current === (countdownAmountRef.current - 1)) {
-                countdownHasFinished.current = true;
-                beatNumberRef.current = 0;
-                handleSyncMeasureNumber(STOPPED_METRONOME_BEAT_INDEX);
-                startTimeMeasure();
-            }
-
-            if (!hasCountdown || (hasCountdown && countdownHasFinished.current)) {
-                if (isFirstBeatInMeasure && beatNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
-                    if (getProgrammedBPM) {
-                        handleSyncBPM(getProgrammedBPM(measureNumberRef.current + 1, bpmRef.current));
-                    }
-                }
-
-                if (timerSettings) {
-                    if (timerSettings.secondsIsActive) {
-                        if (currentTimeRef.current >= (timerSettings.secondsToStop * 1000)) {
-                            handleStopMetronome();
-                            return;
-                        }
-                    }
-
-                    if (timerSettings.measuresIsActive) {
-                        if (measureNumberRef.current === (timerSettings.measuresToStop - 1) && isLastBeatInMeasure) {
-                            handleStopMetronome();
-                            return;
-                        }
-                    }
-                }
-            }
-
             setCurrentBeatInMeasure(newCurrentBeatInMeasure);
 
             if (isFirstBeatInMeasure) {
                 handleSyncMeasureNumber(measureNumberRef.current + 1);
+            }
+
+            checkAndStopCountdown(isFirstBeatInMeasure);
+
+            if (!hasCountdown || (hasCountdown && countdownHasFinished.current)) {
+                if (isFirstBeatInMeasure && measureNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
+                    if (getProgrammedBPM) {
+                        handleSyncBPM(getProgrammedBPM(measureNumberRef.current, bpmRef.current));
+                    }
+                }
+
+                if (checkShouldStopByTimerSettings(isLastBeatInMeasure)) {
+                    handleStopMetronome();
+                    return;
+                }
             }
 
             beatNumberRef.current++;

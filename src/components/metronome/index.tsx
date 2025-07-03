@@ -46,7 +46,6 @@ const Metronome = () => {
         isPaused,
         currentTime,
         currentBeatInMeasure,
-        currentMeasure,
         settings: metronomeSettings,
         handleStartMetronome,
         handleStopMetronome,
