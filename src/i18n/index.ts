@@ -10,7 +10,7 @@ import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../utils/
 import { DEFAULT_LANGUAGE } from "../utils/constants";
 
 const browserLanguage = (() => {
-    let auxLang = navigator.language;
+    const auxLang = navigator.language;
     
     if (auxLang.includes("-")) return auxLang.substring(0, auxLang.indexOf("-"));
     return auxLang;

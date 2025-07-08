@@ -27,7 +27,7 @@ const useTimeMeasure = () => {
     }
 
     return () => clearInterval(interval);
-  }, [isRunning, startTime]);
+  }, [isRunning, startTime, currentTimeRef, handleSyncCurrentTime]);
 
   const togglePauseTimeMeasure = () => {
     isPaused.current = !isPaused.current;

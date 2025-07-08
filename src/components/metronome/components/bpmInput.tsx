@@ -28,7 +28,7 @@ const BPMInput = (props: Props) => {
   const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
 
   const handleSubmit = (newValue = localBPM) => {
-    let valueToSubmit = parseInt(newValue);
+    const valueToSubmit = parseInt(newValue);
     if (isNaN(valueToSubmit) || valueToSubmit < MIN_BPM || valueToSubmit > MAX_BPM) {
       handleOpenSnackbar(t("bpmMustBeInRange", { min: MIN_BPM, max: MAX_BPM }));
       setLocalBPM(String(value));

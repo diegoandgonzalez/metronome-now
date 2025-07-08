@@ -21,7 +21,7 @@ const Snackbar = () => {
         }
 
         return () => clearTimeout(timeout);
-    }, [secondsToClose, handleClose])
+    }, [open, secondsToClose, handleClose])
 
     return (
         <div

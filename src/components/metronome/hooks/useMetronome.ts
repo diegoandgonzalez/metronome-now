@@ -236,7 +236,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
     }
 
     const handleToggleBeatType = (beatToAccent: number) => {
-        let newAccentedBeats = [...beatTypes];
+        const newAccentedBeats = [...beatTypes];
         newAccentedBeats[beatToAccent] = (newAccentedBeats[beatToAccent] + 1) % BEAT_TYPES_AMOUNT;
 
         handleSetBeatTypes(newAccentedBeats);

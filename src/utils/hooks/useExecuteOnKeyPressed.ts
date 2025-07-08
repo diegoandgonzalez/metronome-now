@@ -12,7 +12,7 @@ const useExecuteOnKeyPressed = (keyCode: string, callback: () => void) => {
     return () => {
       document.removeEventListener("keyup", executeCallback);
     }
-  }, [callback])
+  }, [keyCode, callback])
 };
 
 export default useExecuteOnKeyPressed;

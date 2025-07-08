@@ -44,7 +44,7 @@ const CreateUpdateTemplateDialog = (props: Props) => {
         handleClose();
     }
 
-    const isCreate = !Boolean(initialValue);
+    const isCreate = !initialValue;
 
     return (
         <FormDialog

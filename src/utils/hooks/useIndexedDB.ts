@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 
+type DataBase = IDBDatabase | null;
+
 const useIndexedDB = <T>(databaseName: string, storeName: string, version: number, keyPath: string) => {
 
     const [isReady, setIsReady] = useState(false);
-    const [database, setDatabase] = useState<IDBDatabase | null>(null);
+    const [database, setDatabase] = useState<DataBase>(null);
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
@@ -13,6 +15,7 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
         }
 
         const openRequest = indexedDB.open(databaseName, version);
+        let auxDatabase: DataBase = null;
 
         openRequest.onupgradeneeded = (event) => {
             const db = (event.target as IDBOpenDBRequest).result;
@@ -23,18 +26,19 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
         };
 
         openRequest.onsuccess = (event) => {
-            setDatabase((event.target as IDBOpenDBRequest).result);
+            auxDatabase = (event.target as IDBOpenDBRequest).result;
+            setDatabase(auxDatabase);
             setIsReady(true);
         };
-        
+
         openRequest.onerror = () => {
             setError(openRequest.error ?? new Error("databaseError"));
             setIsReady(false);
         };
 
         return () => {
-            if (database) {
-                database.close();
+            if (auxDatabase) {
+                auxDatabase.close();
             }
         };
     }, [databaseName, storeName, version, keyPath]);
