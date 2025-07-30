@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MAX_BPM, MIN_BPM } from "../../../utils/constants";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
-import useTapToBPM from "../hooks/useTapToBPM";
+import useTapTempo from "../hooks/useTapTempo";
 
 type Props = {
   value: number,
@@ -17,7 +17,7 @@ const BPMInput = (props: Props) => {
   } = props;
 
   const [localBPM, setLocalBPM] = useState(String(value));
-  const { tap } = useTapToBPM();
+  const { tap } = useTapTempo();
 
   // so that when the BPM changes from outside, input fields update with that value
   useEffect(() => {
