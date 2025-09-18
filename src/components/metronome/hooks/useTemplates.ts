@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import useSnackbarContext from "../../snackbar/useSnackbarContext";
-import type { Template, MetronomeTimerTempoProgrammingFunction, TemplateMetronomeTimerTempoProgrammingFunction } from "../types";
 import { useTranslation } from "react-i18next";
+import useSnackbarContext from "../../snackbar/useSnackbarContext";
+import type { SettingsFunction, Template, TemplateFunction } from "../types";
 import useIndexedDB from "../../../utils/hooks/useIndexedDB";
 
-const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammingFunction) => {
+const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
 
     const {
         getAllItems: getAllItemsFromDB,
@@ -45,19 +45,17 @@ const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammi
         setSelectedTemplateID(newTemplateID);
 
         const templateSelected = templates.find((item) => item.id === newTemplateID);
-        if (!templateSelected) return;
+
         if (onTemplateSelectionCallback) {
-            onTemplateSelectionCallback(templateSelected.metronomeSettings, templateSelected.timerSettings, templateSelected.tempoProgrammigSettings);
+            onTemplateSelectionCallback(templateSelected?.settings);
         }
     }
 
-    const handleCreateTemplate: TemplateMetronomeTimerTempoProgrammingFunction = (newtemplateName, newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
+    const handleCreateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
         const newTemplate: Template = {
             id: uuidv4(),
             name: newtemplateName,
-            metronomeSettings: newMetronomeSettings,
-            timerSettings: newTimerSettings,
-            tempoProgrammigSettings: newTempoProgrammingSettings,
+            settings: newSettings,
         }
 
         addItemToDB(newTemplate)
@@ -74,14 +72,12 @@ const useTemplates = (onTemplateSelectionCallback?: MetronomeTimerTempoProgrammi
             });
     }
 
-    const handleUpdateTemplate: TemplateMetronomeTimerTempoProgrammingFunction = (newtemplateName, newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
+    const handleUpdateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
         const auxSelectedTemplate = templates.find((template) => template.id === selectedTemplateID);
         if (!auxSelectedTemplate) return;
 
         auxSelectedTemplate.name = newtemplateName;
-        auxSelectedTemplate.metronomeSettings = newMetronomeSettings;
-        auxSelectedTemplate.timerSettings = newTimerSettings;
-        auxSelectedTemplate.tempoProgrammigSettings = newTempoProgrammingSettings;
+        auxSelectedTemplate.settings = newSettings;
 
         updateItemInDB(auxSelectedTemplate)
             .then(() => {

@@ -1,31 +1,31 @@
 import { useTranslation } from "react-i18next";
-import BPMInput from "./components/bpmInput";
-import TimeSignatureInput from "./components/timeSignatureInput";
-import BeatDisplay from "./components/beatDisplay";
-import Clock from "./components/clock";
-import useMetronome from "./hooks/useMetronome";
-import IconButton from "./components/iconButton";
+import type { SettingsFunction } from "./types";
+import { MAIN_ICON_SIZE } from "../../utils/constants";
 import StopIcon from "../../assets/icons/stopIcon";
 import PlayIcon from "../../assets/icons/playIcon";
 import AddSubtractIcon from "../../assets/icons/addSubtractIcon";
 import StopperIcon from "../../assets/icons/stopperIcon";
+import BPMInput from "./components/bpmInput";
+import TimeSignatureInput from "./components/timeSignatureInput";
+import BeatDisplay from "./components/beatDisplay";
+import Clock from "./components/clock";
+import IconButton from "./components/iconButton";
 import TempoProgrammingDialog from "./components/dialogs/tempoProgrammingDialog";
 import TimerDialog from "./components/dialogs/timerDialog";
-import useDialog from "../dialog/useDialog";
-import useExecuteOnKeyPressed from "../../utils/hooks/useExecuteOnKeyPressed";
-import { MAIN_ICON_SIZE } from "../../utils/constants";
-import useTimer from "./hooks/useTimer";
-import useTempoProgramming from "./hooks/useTempoProgramming";
 import Title from "./components/title";
-import LanguageInput from "../languageInput";
-import ThemeButton from "../themeButton";
 import CountdownInput from "./components/countdownInput";
 import TemplatesInput from "./components/templatesInput";
-import type { MetronomeTimerTempoProgrammingFunction } from "./types";
-import useTemplates from "./hooks/useTemplates";
 import CreateUpdateTemplateDialog from "./components/dialogs/createUpdateTemplateDialog";
 import ConfirmationDialog from "./components/dialogs/confirmationDialog";
 import AboutDialog from "./components/dialogs/aboutDialog";
+import useDialog from "../dialog/useDialog";
+import LanguageInput from "../languageInput";
+import ThemeButton from "../themeButton";
+import useExecuteOnKeyPressed from "../../utils/hooks/useExecuteOnKeyPressed";
+import useTimer from "./hooks/useTimer";
+import useTempoProgramming from "./hooks/useTempoProgramming";
+import useMetronome from "./hooks/useMetronome";
+import useTemplates from "./hooks/useTemplates";
 
 const Metronome = () => {
 
@@ -59,11 +59,11 @@ const Metronome = () => {
         handleSetMetronomeSettings,
     } = useMetronome(getProgrammedBPM, timerSettings);
 
-    const handleUpdateByTemplateSelection: MetronomeTimerTempoProgrammingFunction = (newMetronomeSettings, newTimerSettings, newTempoProgrammingSettings) => {
+    const handleUpdateByTemplateSelection: SettingsFunction = (newSettings) => {
         handleStopMetronome();
-        handleSetMetronomeSettings(newMetronomeSettings);
-        handleSetTimerSettings(newTimerSettings);
-        handleSetTempoProgrammingSettings(newTempoProgrammingSettings);
+        handleSetMetronomeSettings(newSettings?.metronomeSettings);
+        handleSetTimerSettings(newSettings?.timerSettings);
+        handleSetTempoProgrammingSettings(newSettings?.tempoProgrammingSettings);
     }
 
     const {
@@ -134,6 +134,12 @@ const Metronome = () => {
     useExecuteOnKeyPressed("Space", handleToggleMetronome);
 
     const { t } = useTranslation();
+
+    const settings = {
+        metronomeSettings,
+        timerSettings,
+        tempoProgrammingSettings,
+    }
 
     return (
         <>
@@ -254,7 +260,7 @@ const Metronome = () => {
                         open={createTemplateDialogIsOpen}
                         initialValue={""}
                         templateNames={templates.map((item) => item.name)}
-                        handleSetTemplate={(newTemplateName) => handleCreateTemplate(newTemplateName, metronomeSettings, timerSettings, tempoProgrammingSettings)}
+                        handleSetTemplate={(newTemplateName) => handleCreateTemplate(newTemplateName, settings)}
                         handleClose={handleCloseCreateTemplateDialog}
                     />
                 }
@@ -264,7 +270,7 @@ const Metronome = () => {
                         open={updateTemplateDialogIsOpen}
                         initialValue={templates.find((item) => item.id === selectedTemplateID)?.name || ""}
                         templateNames={templates.map((item) => item.name)}
-                        handleSetTemplate={(newTemplateName) => handleUpdateTemplate(newTemplateName, metronomeSettings, timerSettings, tempoProgrammingSettings)}
+                        handleSetTemplate={(newTemplateName) => handleUpdateTemplate(newTemplateName, settings)}
                         handleClose={handleCloseUpdateTemplateDialog}
                     />
                 }

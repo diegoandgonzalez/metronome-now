@@ -1,28 +1,21 @@
 import { useRef, useState } from "react";
 import {
-    DEFAULT_BPM,
-    MAX_BPM,
-    MIN_BPM,
-    DEFAULT_BEATS_PER_MEASURE,
-    LOOK_AHEAD,
-    STOPPED_METRONOME_BEAT_INDEX,
-    BEAT_TYPES_AMOUNT,
-    DEFAULT_NOTE_VALUE,
-    DEFAULT_COUNTDOWN_AMOUNT,
+    METRONOME_CONSTANTS,
+    DEFAULT_SETTINGS,
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
-import { createDefaultBeatTypesArray, getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
+import { getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 import useTimeMeasure from "./useTimeMeasure";
 import { type GetProgrammedBPMType } from "./useTempoProgramming";
 import useAudio from "./useAudio";
 import type { MetronomeSettings, TimerSettings } from "../types";
 
-const initialCountdownAmount = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownAmount, DEFAULT_COUNTDOWN_AMOUNT);
-const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_BPM);
-const initialBeatsPerMeasure = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatsPerMeasure, DEFAULT_BEATS_PER_MEASURE);
-const initialNoteValue = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.noteValue, DEFAULT_NOTE_VALUE);
-const initialBeatTypes = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatTypes, createDefaultBeatTypesArray(initialBeatsPerMeasure));
+const initialCountdownAmount = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownAmount, DEFAULT_SETTINGS.metronomeSettings.countdownAmount);
+const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_SETTINGS.metronomeSettings.bpm);
+const initialBeatsPerMeasure = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatsPerMeasure, DEFAULT_SETTINGS.metronomeSettings.beatsPerMeasure);
+const initialNoteValue = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.noteValue, DEFAULT_SETTINGS.metronomeSettings.noteValue);
+const initialBeatTypes = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatTypes, DEFAULT_SETTINGS.metronomeSettings.beatTypes);
 
 const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: TimerSettings) => {
 
@@ -65,10 +58,10 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
         value: measureNumber,
         valueRef: measureNumberRef,
         handleSyncValue: handleSyncMeasureNumber,
-    } = useStateRefLocalStorageSync<number>(STOPPED_METRONOME_BEAT_INDEX); // counter of measures from 0 to infinity
+    } = useStateRefLocalStorageSync<number>(METRONOME_CONSTANTS.stoppedBeatIndex); // counter of measures from 0 to infinity
 
-    const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(STOPPED_METRONOME_BEAT_INDEX); // circular number inside measure size
-    const beatNumberRef = useRef(STOPPED_METRONOME_BEAT_INDEX); // counter of beats from 0 to infinity
+    const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(METRONOME_CONSTANTS.stoppedBeatIndex); // circular number inside measure size
+    const beatNumberRef = useRef(METRONOME_CONSTANTS.stoppedBeatIndex); // counter of beats from 0 to infinity
 
     const timeoutRef = useRef<number>(null);
     const nextNoteTimeRef = useRef(0);
@@ -161,7 +154,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
             nextNoteTimeRef.current += secondsPerBeat;
         }
 
-        timeoutRef.current = window.setTimeout(scheduler, LOOK_AHEAD);
+        timeoutRef.current = window.setTimeout(scheduler, METRONOME_CONSTANTS.lookAhead);
     };
 
     const setNextNoteTimeToStartOrResume = () => {
@@ -194,9 +187,9 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
         clearTimeoutRefToStopOrPause();
         setIsPlaying(false);
         setIsPaused(false);
-        setCurrentBeatInMeasure(STOPPED_METRONOME_BEAT_INDEX);
-        beatNumberRef.current = STOPPED_METRONOME_BEAT_INDEX;
-        handleSyncMeasureNumber(STOPPED_METRONOME_BEAT_INDEX);
+        setCurrentBeatInMeasure(METRONOME_CONSTANTS.stoppedBeatIndex);
+        beatNumberRef.current = METRONOME_CONSTANTS.stoppedBeatIndex;
+        handleSyncMeasureNumber(METRONOME_CONSTANTS.stoppedBeatIndex);
         stopTimeMeasure();
     };
 
@@ -215,7 +208,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
     }
 
     const handleSetBPM = (value: number) => {
-        if (value < MIN_BPM || value > MAX_BPM) return;
+        if (value < METRONOME_CONSTANTS.minBPM || value > METRONOME_CONSTANTS.maxBPM) return;
         handleSyncBPM(value);
     }
 
@@ -237,7 +230,7 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
 
     const handleToggleBeatType = (beatToAccent: number) => {
         const newAccentedBeats = [...beatTypes];
-        newAccentedBeats[beatToAccent] = (newAccentedBeats[beatToAccent] + 1) % BEAT_TYPES_AMOUNT;
+        newAccentedBeats[beatToAccent] = (newAccentedBeats[beatToAccent] + 1) % METRONOME_CONSTANTS.beatTypesAmount;
 
         handleSetBeatTypes(newAccentedBeats);
     }
@@ -246,12 +239,12 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
         handleSyncCountdownAmount(newAmount);
     }
 
-    const handleSetMetronomeSettings = (newMetronomeSettings: MetronomeSettings) => {
-        handleSetBPM(newMetronomeSettings.bpm ?? DEFAULT_BPM);
-        handleSetBeatsPerMeasure(newMetronomeSettings.beatsPerMeasure ?? DEFAULT_BEATS_PER_MEASURE);
-        handleSetNoteValue(newMetronomeSettings.noteValue ?? DEFAULT_NOTE_VALUE);
-        handleSetBeatTypes(newMetronomeSettings.beatTypes ?? createDefaultBeatTypesArray(DEFAULT_BEATS_PER_MEASURE));
-        handleSetCountdownAmount(newMetronomeSettings.countdownAmount ?? DEFAULT_COUNTDOWN_AMOUNT);
+    const handleSetMetronomeSettings = (newMetronomeSettings: MetronomeSettings = DEFAULT_SETTINGS.metronomeSettings) => {
+        handleSetBPM(newMetronomeSettings.bpm);
+        handleSetBeatsPerMeasure(newMetronomeSettings.beatsPerMeasure);
+        handleSetNoteValue(newMetronomeSettings.noteValue);
+        handleSetBeatTypes(newMetronomeSettings.beatTypes);
+        handleSetCountdownAmount(newMetronomeSettings.countdownAmount);
     }
 
     const settings = {

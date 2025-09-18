@@ -21,23 +21,17 @@ export type TempoProgrammingSettings = {
     addSubtractOption: string,
 }
 
+export type Settings = {
+    metronomeSettings: MetronomeSettings,
+    timerSettings: TimerSettings,
+    tempoProgrammingSettings: TempoProgrammingSettings,
+}
+
 export type Template = {
     id: string,
     name: string,
-    metronomeSettings: MetronomeSettings,
-    timerSettings: TimerSettings,
-    tempoProgrammigSettings: TempoProgrammingSettings,
+    settings: Settings,
 }
 
-export type MetronomeTimerTempoProgrammingFunction = (
-    newMetronomeSettings: MetronomeSettings,
-    newTimerSettings: TimerSettings,
-    newTempoProgrammingSettings: TempoProgrammingSettings
-) => void;
-
-export type TemplateMetronomeTimerTempoProgrammingFunction = (
-    newTemplateName: string,
-    newMetronomeSettings: MetronomeSettings,
-    newTimerSettings: TimerSettings,
-    newTempoProgrammingSettings: TempoProgrammingSettings
-) => void;
+export type SettingsFunction = (newSettings?: Settings) => void;
+export type TemplateFunction = (newTemplateName: string, newSettings: Settings) => void;

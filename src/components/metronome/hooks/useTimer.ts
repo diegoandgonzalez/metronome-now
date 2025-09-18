@@ -1,17 +1,12 @@
-import {
-    DEFAULT_TIMER_SECONDS_TO_STOP,
-    DEFAULT_TIMER_SECONDS_IS_ACTIVE,
-    DEFAULT_TIMER_MEASURES_IS_ACTIVE,
-    DEFAULT_TIMER_MEASURES_TO_STOP,
-} from "../../../utils/constants";
+import { DEFAULT_SETTINGS } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 import type { TimerSettings } from "../types";
 
-const initialTimerSecondsIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsIsActive, DEFAULT_TIMER_SECONDS_IS_ACTIVE);
-const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresIsActive, DEFAULT_TIMER_MEASURES_IS_ACTIVE);
-const initialTimerSecondsToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_TIMER_SECONDS_TO_STOP);
-const initialTimerMeasuresToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresToStop, DEFAULT_TIMER_MEASURES_TO_STOP);
+const initialTimerSecondsIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsIsActive, DEFAULT_SETTINGS.timerSettings.secondsIsActive);
+const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresIsActive, DEFAULT_SETTINGS.timerSettings.measuresIsActive);
+const initialTimerSecondsToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_SETTINGS.timerSettings.secondsToStop);
+const initialTimerMeasuresToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresToStop, DEFAULT_SETTINGS.timerSettings.measuresToStop);
 
 const useTimer = () => {
 
@@ -35,11 +30,11 @@ const useTimer = () => {
         handleSyncValue: handleSyncMeasuresToStop,
     } = useStateRefLocalStorageSync<number>(initialTimerMeasuresToStop, LOCAL_STORAGE_KEYS.timerMeasuresToStop);
 
-    const handleSetTimerSettings = (newSettings: TimerSettings) => {
-        handleSyncSecondsToStop(newSettings.secondsToStop ?? DEFAULT_TIMER_SECONDS_TO_STOP);
-        handleSyncSecondsIsActive(newSettings.secondsIsActive ?? DEFAULT_TIMER_SECONDS_IS_ACTIVE);
-        handleSyncMeasuresToStop(newSettings.measuresToStop ?? DEFAULT_TIMER_MEASURES_TO_STOP);
-        handleSyncMeasuresIsActive(newSettings.measuresIsActive ?? DEFAULT_TIMER_MEASURES_IS_ACTIVE);
+    const handleSetTimerSettings = (newSettings: TimerSettings = DEFAULT_SETTINGS.timerSettings) => {
+        handleSyncSecondsToStop(newSettings.secondsToStop);
+        handleSyncSecondsIsActive(newSettings.secondsIsActive);
+        handleSyncMeasuresToStop(newSettings.measuresToStop);
+        handleSyncMeasuresIsActive(newSettings.measuresIsActive);
     }
 
     const settings = {

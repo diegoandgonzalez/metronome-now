@@ -2,7 +2,7 @@ import { useState } from "react";
 import FormDialog from "../../../dialog/formDialog";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
-import { MAX_MEASURES_TO_STOP, MAX_MINUTES_TO_STOP, MAX_SECONDS_TO_STOP } from "../../../../utils/constants";
+import { TIMER_CONSTANTS } from "../../../../utils/constants";
 import type { TimerSettings } from "../../types";
 
 type Props = {
@@ -127,7 +127,7 @@ const TimerDialog = (props: Props) => {
                     className="dialogInput"
                     type="number"
                     min={0}
-                    max={MAX_MINUTES_TO_STOP}
+                    max={TIMER_CONSTANTS.maxMinutesToStop}
                     value={minutes}
                     onChange={(e) => setMinutes(e.target.value.substring(0, 2))}
                     autoComplete="off"
@@ -137,7 +137,7 @@ const TimerDialog = (props: Props) => {
                     className="dialogInput"
                     type="number"
                     min={0}
-                    max={MAX_SECONDS_TO_STOP}
+                    max={TIMER_CONSTANTS.maxSecondsToStop}
                     value={seconds}
                     onChange={(e) => setSeconds(e.target.value.substring(0, 2))}
                     autoComplete="off"
@@ -159,7 +159,7 @@ const TimerDialog = (props: Props) => {
                     className="dialogInput"
                     type="number"
                     min={0}
-                    max={MAX_MEASURES_TO_STOP}
+                    max={TIMER_CONSTANTS.maxMeasuresToStop}
                     value={measures}
                     onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
                     autoComplete="off"

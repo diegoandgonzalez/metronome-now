@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-    ADD_OPTION,
-    ADD_SUBTRACT_OPTIONS,
-    MAX_BPM,
-    MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
-    MIN_BPM,
-    MIN_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM,
-} from "../../../../utils/constants";
+import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS } from "../../../../utils/constants";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import FormDialog from "../../../dialog/formDialog";
 import type { TempoProgrammingSettings } from "../../types";
@@ -53,18 +46,18 @@ const TempoProgrammingDialog = (props: Props) => {
         const formattedGoalBPM = Math.round(Number(goalBPM));
         const formattedMeasuresToChangeBPM = Math.round(Number(measuresToChangeBPM));
 
-        if (formattedBPMToChange < 0 && addSubtractOption === ADD_OPTION) {
+        if (formattedBPMToChange < 0 && addSubtractOption === TEMPO_PROGRAMMING_CONSTANTS.actions.add) {
             handleOpenSnackbar(t("bpmToChangeCannotBeNegative"));
             return;
         }
 
-        if (formattedBPMToChange < (MAX_BPM * -1)) {
-            handleOpenSnackbar(t("bpmToChangeCannotBeLessThan", { value: MAX_BPM * -1 }));
+        if (formattedBPMToChange < (METRONOME_CONSTANTS.maxBPM * -1)) {
+            handleOpenSnackbar(t("bpmToChangeCannotBeLessThan", { value: METRONOME_CONSTANTS.maxBPM * -1 }));
             return;
         }
 
-        if (formattedBPMToChange > MAX_BPM) {
-            handleOpenSnackbar(t("bpmToChangeCannotBeGreaterThan", { value: MAX_BPM }));
+        if (formattedBPMToChange > METRONOME_CONSTANTS.maxBPM) {
+            handleOpenSnackbar(t("bpmToChangeCannotBeGreaterThan", { value: METRONOME_CONSTANTS.maxBPM }));
             return;
         }
 
@@ -73,8 +66,8 @@ const TempoProgrammingDialog = (props: Props) => {
             return;
         }
 
-        if (formattedMeasuresToChangeBPM > MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM) {
-            handleOpenSnackbar(t("measuresToChangeBPMHasToBeLessThan", { value: MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM }));
+        if (formattedMeasuresToChangeBPM > TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM) {
+            handleOpenSnackbar(t("measuresToChangeBPMHasToBeLessThan", { value: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM }));
             return;
         }
 
@@ -83,13 +76,13 @@ const TempoProgrammingDialog = (props: Props) => {
             return;
         }
 
-        if (formattedGoalBPM < MIN_BPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeLessThan", { value: MIN_BPM }));
+        if (formattedGoalBPM < METRONOME_CONSTANTS.minBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeLessThan", { value: METRONOME_CONSTANTS.minBPM }));
             return;
         }
 
-        if (formattedGoalBPM > MAX_BPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeGreaterThan", { value: MAX_BPM }));
+        if (formattedGoalBPM > METRONOME_CONSTANTS.maxBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeGreaterThan", { value: METRONOME_CONSTANTS.maxBPM }));
             return;
         }
 
@@ -133,7 +126,7 @@ const TempoProgrammingDialog = (props: Props) => {
                 title={t("selectHowBPMchanges")}
             >
                 {
-                    ADD_SUBTRACT_OPTIONS
+                    [TEMPO_PROGRAMMING_CONSTANTS.actions.add, TEMPO_PROGRAMMING_CONSTANTS.actions.subtract]
                         .map((item) => {
                             return (
                                 <option key={item} value={item}>{t(item)}</option>
@@ -146,7 +139,7 @@ const TempoProgrammingDialog = (props: Props) => {
                     className="dialogInput"
                     type="number"
                     min={0}
-                    max={MAX_BPM}
+                    max={METRONOME_CONSTANTS.maxBPM}
                     value={bpmToChange}
                     onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
                     autoComplete="off"
@@ -157,8 +150,8 @@ const TempoProgrammingDialog = (props: Props) => {
                 <input
                     className="dialogInput"
                     type="number"
-                    min={MIN_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM}
-                    max={MAX_TEMPO_PROGRAMMING_MEASURES_TO_CHANGE_BPM}
+                    min={TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM}
+                    max={TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM}
                     value={measuresToChangeBPM}
                     onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
                     autoComplete="off"
@@ -169,8 +162,8 @@ const TempoProgrammingDialog = (props: Props) => {
                 <input
                     className="dialogInput"
                     type="number"
-                    min={MIN_BPM}
-                    max={MAX_BPM}
+                    min={METRONOME_CONSTANTS.minBPM}
+                    max={METRONOME_CONSTANTS.maxBPM}
                     value={goalBPM}
                     onChange={(e) => setGoalBPM(e.target.value.substring(0, 3))}
                     autoComplete="off"

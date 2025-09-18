@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MAX_BPM, MIN_BPM } from "../../../utils/constants";
+import { METRONOME_CONSTANTS } from "../../../utils/constants";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
 import useTapTempo from "../hooks/useTapTempo";
@@ -29,8 +29,8 @@ const BPMInput = (props: Props) => {
 
   const handleSubmit = (newValue = localBPM) => {
     const valueToSubmit = parseInt(newValue);
-    if (isNaN(valueToSubmit) || valueToSubmit < MIN_BPM || valueToSubmit > MAX_BPM) {
-      handleOpenSnackbar(t("bpmMustBeInRange", { min: MIN_BPM, max: MAX_BPM }));
+    if (isNaN(valueToSubmit) || valueToSubmit < METRONOME_CONSTANTS.minBPM || valueToSubmit > METRONOME_CONSTANTS.maxBPM) {
+      handleOpenSnackbar(t("bpmMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
       setLocalBPM(String(value));
       return;
     }
@@ -45,8 +45,8 @@ const BPMInput = (props: Props) => {
         type="number"
         className="bpmInput"
         title={t("clickToEditBPM")}
-        min={MIN_BPM}
-        max={MAX_BPM}
+        min={METRONOME_CONSTANTS.minBPM}
+        max={METRONOME_CONSTANTS.maxBPM}
         value={localBPM}
         onChange={(e) => setLocalBPM(e.target.value.substring(0, 3))}
         onMouseEnter={(e) => e.currentTarget.focus()}
@@ -67,7 +67,7 @@ const BPMInput = (props: Props) => {
           onClick={(e) => {
             e.currentTarget.blur();
             const newBPM = Number(localBPM) - 1;
-            if (newBPM < MIN_BPM) return;
+            if (newBPM < METRONOME_CONSTANTS.minBPM) return;
             handleSubmit(String(newBPM));
           }}
         >
@@ -76,8 +76,8 @@ const BPMInput = (props: Props) => {
         <input
           type="range"
           className="bpmInput"
-          min={MIN_BPM}
-          max={MAX_BPM}
+          min={METRONOME_CONSTANTS.minBPM}
+          max={METRONOME_CONSTANTS.maxBPM}
           value={value}
           onChange={(e) => handleSubmit(e.target.value)}
         />
@@ -87,7 +87,7 @@ const BPMInput = (props: Props) => {
           onClick={(e) => {
             e.currentTarget.blur();
             const newBPM = Number(localBPM) + 1;
-            if (newBPM > MAX_BPM) return;
+            if (newBPM > METRONOME_CONSTANTS.maxBPM) return;
             handleSubmit(String(newBPM));
           }}
         >
