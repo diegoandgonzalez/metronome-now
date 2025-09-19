@@ -1,32 +1,44 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS } from "../../../../utils/constants";
+import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS, TIMER_CONSTANTS } from "../../../../utils/constants";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import FormDialog from "../../../dialog/formDialog";
-import type { TempoProgrammingSettings } from "../../types";
+import type { TempoProgrammingSettings, TimerSettings } from "../../types";
 
 type Props = {
     open: boolean,
+    handleClose: () => void,
+
     initialAddSubtractOption: string,
     initialIsActive: boolean
     initialBPMToChange: number,
     initialGoalBPM: number,
     initialMeasuresToChangeBPM: number,
     handleSetTempoProgrammingSettings: (newSettings: TempoProgrammingSettings) => void,
-    handleClose: () => void,
+
+    initialSecondsIsActive: boolean
+    initialMeasuresIsActive: boolean
+    initialSecondsToStop: number,
+    initialMeasuresToStop: number,
+    handleSetTimerSettings: (newSettings: TimerSettings) => void,
 }
 
-const TempoProgrammingDialog = (props: Props) => {
+const TempoProgrammingTimerDialog = (props: Props) => {
 
     const {
         open,
+        handleClose,
         initialIsActive,
         initialAddSubtractOption,
         initialBPMToChange,
         initialGoalBPM,
         initialMeasuresToChangeBPM,
         handleSetTempoProgrammingSettings,
-        handleClose,
+        initialSecondsIsActive,
+        initialMeasuresIsActive,
+        initialSecondsToStop,
+        initialMeasuresToStop,
+        handleSetTimerSettings,
     } = props;
 
     const { t } = useTranslation();
@@ -41,10 +53,22 @@ const TempoProgrammingDialog = (props: Props) => {
     const [measuresToChangeBPM, setMeasuresToChangeBPM] = useState<number | string>(initialMeasuresToChangeBPM);
     const [addSubtractOption, setAddSubtractOption] = useState<string>(initialAddSubtractOption);
 
+    const [isSecondsActive, setIsSecondsActive] = useState(initialSecondsIsActive);
+    const [isMeasuresActive, setIsMeasuresActive] = useState(initialMeasuresIsActive);
+    const [seconds, setSeconds] = useState<number | string>(initialSecondsToStop % 60);
+    const [minutes, setMinutes] = useState<number | string>(Math.floor(initialSecondsToStop / 60));
+    const [measures, setMeasures] = useState<number | string>(initialMeasuresToStop);
+
+
     const handleSubmit = () => {
         const formattedBPMToChange = Math.round(Number(bpmToChange));
         const formattedGoalBPM = Math.round(Number(goalBPM));
         const formattedMeasuresToChangeBPM = Math.round(Number(measuresToChangeBPM));
+
+        const formattedSeconds = Math.round(Number(seconds));
+        const formattedMinutes = Math.round(Number(minutes));
+        const formattedMeasures = Math.round(Number(measures));
+        const totalSeconds = formattedMinutes * 60 + formattedSeconds;
 
         if (formattedBPMToChange < 0 && addSubtractOption === TEMPO_PROGRAMMING_CONSTANTS.actions.add) {
             handleOpenSnackbar(t("bpmToChangeCannotBeNegative"));
@@ -86,7 +110,22 @@ const TempoProgrammingDialog = (props: Props) => {
             return;
         }
 
-        const newSettings = {
+        if (!formattedSeconds && !formattedMinutes) {
+            handleOpenSnackbar(t("timeCannotBeEmpty"));
+            return;
+        }
+
+        if (formattedSeconds < 0 || formattedMinutes < 0) {
+            handleOpenSnackbar(t("timeMustBePositiveValue"));
+            return;
+        }
+
+        if (!formattedMeasures || formattedMeasures < 0) {
+            handleOpenSnackbar(t("measuresMustBePositiveValue"));
+            return;
+        }
+
+        const newTempoProgrammingSettings = {
             isActive: isActive,
             bpmToChange: formattedBPMToChange,
             goalBPM: formattedGoalBPM,
@@ -94,17 +133,26 @@ const TempoProgrammingDialog = (props: Props) => {
             addSubtractOption: addSubtractOption,
         }
 
-        handleSetTempoProgrammingSettings(newSettings);
+        const newTimerSettings = {
+            secondsIsActive: isSecondsActive,
+            secondsToStop: totalSeconds,
+            measuresIsActive: isMeasuresActive,
+            measuresToStop: formattedMeasures,
+        }
+
+        handleSetTimerSettings(newTimerSettings);
+        handleSetTempoProgrammingSettings(newTempoProgrammingSettings);
         handleClose();
     }
 
     return (
         <FormDialog
             open={open}
-            title={t("bpmProgramming")}
+            title={t("settings")}
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
+            <h4>{t("bpmProgramming")}</h4>
             <label>
                 <input
                     type="checkbox"
@@ -146,7 +194,7 @@ const TempoProgrammingDialog = (props: Props) => {
                 />
                 {t("bpmEvery")}
             </label>
-            <label >
+            <label>
                 <input
                     className="dialogInput"
                     type="number"
@@ -170,8 +218,63 @@ const TempoProgrammingDialog = (props: Props) => {
                 />
                 {t("bpm")}
             </label>
-        </FormDialog>
+            <h4>{t("timer")}</h4>
+            <label>
+                <input
+                    type="checkbox"
+                    checked={isSecondsActive}
+                    onChange={(e) => {
+                        e.currentTarget.blur();
+                        setIsSecondsActive((prev) => !prev);
+                        setIsMeasuresActive(false);
+                    }}
+                />
+                {t("stopIn")}
+                <input
+                    className="dialogInput"
+                    type="number"
+                    min={0}
+                    max={TIMER_CONSTANTS.maxMinutesToStop}
+                    value={minutes}
+                    onChange={(e) => setMinutes(e.target.value.substring(0, 2))}
+                    autoComplete="off"
+                />
+                {t("minutes")}
+                <input
+                    className="dialogInput"
+                    type="number"
+                    min={0}
+                    max={TIMER_CONSTANTS.maxSecondsToStop}
+                    value={seconds}
+                    onChange={(e) => setSeconds(e.target.value.substring(0, 2))}
+                    autoComplete="off"
+                />
+                {t("seconds")}
+            </label>
+            <label>
+                <input
+                    type="checkbox"
+                    checked={isMeasuresActive}
+                    onChange={(e) => {
+                        e.currentTarget.blur();
+                        setIsMeasuresActive((prev) => !prev);
+                        setIsSecondsActive(false);
+                    }}
+                />
+                {t("stopIn")}
+                <input
+                    className="dialogInput"
+                    type="number"
+                    min={0}
+                    max={TIMER_CONSTANTS.maxMeasuresToStop}
+                    value={measures}
+                    onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
+                    autoComplete="off"
+                />
+                {t("measures")}
+            </label>
+        </FormDialog >
     );
 }
 
-export default TempoProgrammingDialog;
+export default TempoProgrammingTimerDialog;

@@ -11,6 +11,7 @@
     "minutes": "min",
     "seconds": "sec",
     "accept": "Accept",
+    "bpmProgrammingAndTimer": "Tempo programming and timer",
     "bpmProgramming": "Tempo programming",
     "tempoProgrammingIsActive": "Tempo programming is active",
     "measures": "measures",
@@ -51,6 +52,7 @@
     "bpmEvery": "bpm every",
     "measuresUntil": "measures until",
     "bpm": "bpm",
+    "templates": "Templates",
     "createTemplate": "Create template",
     "updateTemplate": "Update template",
     "deleteTemplate": "Delete template",
@@ -66,5 +68,6 @@
     "noTemplate": "No template",
     "nameRequired": "Name is required",
     "nameInUse": "Name already in use",
-    "currentMeasure": "Current measure"
+    "currentMeasure": "Current measure",
+    "settings": "Settings"
 }

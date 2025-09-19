@@ -12,8 +12,6 @@ const initialTempoProgrammingGoalBPM = getValueFromLocalStorageOrDefault(LOCAL_S
 const initialTempoProgrammingMeasuresToChangeBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingMeasuresToChangeBPM, DEFAULT_SETTINGS.tempoProgrammingSettings.measuresToChangeBPM);
 const initialTempoProgrammingAddSubtractOption = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingAddSubtractOption, DEFAULT_SETTINGS.tempoProgrammingSettings.addSubtractOption);
 
-export type GetProgrammedBPMType = (currentMeasure: number, currentBPM: number) => number;
-
 const useTempoProgramming = () => {
 
     const {
@@ -54,7 +52,7 @@ const useTempoProgramming = () => {
         handleSyncAddSubtractOption(newSettings.addSubtractOption);
     }
 
-    const getProgrammedBPM: GetProgrammedBPMType = (currentMeasure, currentBPM) => {
+    const getProgrammedBPM = (currentMeasure: number, currentBPM: number) => {
         let nextBPMValue = currentBPM;
 
         if (!isActiveRef.current) return nextBPMValue;

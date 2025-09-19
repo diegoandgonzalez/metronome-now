@@ -7,9 +7,10 @@ import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../
 import { getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 import useTimeMeasure from "./useTimeMeasure";
-import { type GetProgrammedBPMType } from "./useTempoProgramming";
+import useTempoProgramming from "./useTempoProgramming";
 import useAudio from "./useAudio";
-import type { MetronomeSettings, TimerSettings } from "../types";
+import type { MetronomeSettings, Settings } from "../types";
+import useTimer from "./useTimer";
 
 const initialCountdownAmount = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownAmount, DEFAULT_SETTINGS.metronomeSettings.countdownAmount);
 const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_SETTINGS.metronomeSettings.bpm);
@@ -17,7 +18,7 @@ const initialBeatsPerMeasure = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_K
 const initialNoteValue = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.noteValue, DEFAULT_SETTINGS.metronomeSettings.noteValue);
 const initialBeatTypes = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatTypes, DEFAULT_SETTINGS.metronomeSettings.beatTypes);
 
-const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: TimerSettings) => {
+const useMetronome = () => {
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -79,6 +80,17 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
         clickAudioRef,
         playAudio,
     } = useAudio();
+
+    const {
+        settings: tempoProgrammingSettings,
+        handleSetTempoProgrammingSettings,
+        getProgrammedBPM,
+    } = useTempoProgramming();
+
+    const {
+        settings: timerSettings,
+        handleSetTimerSettings,
+    } = useTimer();
 
     const scheduleNote = (beatInMeasureToPlay: number) => {
         const beatType = beatTypesRef.current[beatInMeasureToPlay];
@@ -247,13 +259,20 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
         handleSetCountdownAmount(newMetronomeSettings.countdownAmount);
     }
 
-    const settings = {
+    const metronomeSettings: MetronomeSettings = {
         bpm,
         beatsPerMeasure,
         noteValue,
         beatTypes,
         countdownAmount,
     };
+
+    const settings: Settings = {
+        metronomeSettings,
+        tempoProgrammingSettings,
+        timerSettings
+    }
+
 
     return {
         isPlayingCountdown: isPlaying && Boolean(countdownAmount) && !countdownHasFinished.current,
@@ -272,6 +291,8 @@ const useMetronome = (getProgrammedBPM?: GetProgrammedBPMType, timerSettings?: T
         handleToggleBeatType,
         handleSetCountdownAmount,
         handleSetMetronomeSettings,
+        handleSetTempoProgrammingSettings,
+        handleSetTimerSettings,
     };
 }
 

@@ -11,6 +11,7 @@
     "minutes": "min",
     "seconds": "seg",
     "accept": "Aceptar",
+    "bpmProgrammingAndTimer": "Programación de tempo y temporizador",
     "bpmProgramming": "Programación de tempo",
     "tempoProgrammingIsActive": "Programación de tempo activada",
     "measures": "compases",
@@ -51,6 +52,7 @@
     "bpmEvery": "bpm cada",
     "measuresUntil": "compases hasta",
     "bpm": "bpm",
+    "templates": "Plantillas",
     "createTemplate": "Crear plantilla",
     "updateTemplate": "Actualizar plantilla",
     "deleteTemplate": "Eliminar plantilla",
@@ -66,5 +68,6 @@
     "noTemplate": "Sin plantilla",
     "nameRequired": "El nombre es obligatorio",
     "nameInUse": "El nombre ya está en uso",
-    "currentMeasure": "Compás actual"
+    "currentMeasure": "Compás actual",
+    "settings": "Configuración"
 }
