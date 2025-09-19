@@ -128,7 +128,7 @@ const Metronome = () => {
             <div className="metronomeContainer">
                 <div>
                     <BPMInput
-                        value={settings.metronomeSettings.bpm}
+                        initialBPM={settings.metronomeSettings.bpm}
                         handleChange={handleSetBPM}
                     />
                     <TimeSignatureInput

@@ -5,37 +5,37 @@ import { useTranslation } from "react-i18next";
 import useTapTempo from "../hooks/useTapTempo";
 
 type Props = {
-  value: number,
+  initialBPM: number,
   handleChange: (value: number) => void,
 }
 
 const BPMInput = (props: Props) => {
 
   const {
-    value,
+    initialBPM,
     handleChange,
   } = props;
 
-  const [localBPM, setLocalBPM] = useState(String(value));
+  const [bpm, setBPM] = useState(String(initialBPM));
   const { tap } = useTapTempo();
 
   // so that when the BPM changes from outside, input fields update with that value
   useEffect(() => {
-    setLocalBPM(String(value));
-  }, [value])
+    setBPM(String(initialBPM));
+  }, [initialBPM])
 
   const { t } = useTranslation();
   const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
 
-  const handleSubmit = (newValue = localBPM) => {
+  const handleSubmit = (newValue = bpm) => {
     const valueToSubmit = parseInt(newValue);
     if (isNaN(valueToSubmit) || valueToSubmit < METRONOME_CONSTANTS.minBPM || valueToSubmit > METRONOME_CONSTANTS.maxBPM) {
       handleOpenSnackbar(t("bpmMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
-      setLocalBPM(String(value));
+      setBPM(String(initialBPM));
       return;
     }
 
-    setLocalBPM(String(valueToSubmit));
+    setBPM(String(valueToSubmit));
     handleChange(valueToSubmit);
   }
 
@@ -47,8 +47,8 @@ const BPMInput = (props: Props) => {
         title={t("clickToEditBPM")}
         min={METRONOME_CONSTANTS.minBPM}
         max={METRONOME_CONSTANTS.maxBPM}
-        value={localBPM}
-        onChange={(e) => setLocalBPM(e.target.value.substring(0, 3))}
+        value={bpm}
+        onChange={(e) => setBPM(e.target.value.substring(0, 3))}
         onMouseEnter={(e) => e.currentTarget.focus()}
         onMouseLeave={(e) => e.currentTarget.blur()}
         onKeyDown={(e) => {
@@ -66,27 +66,31 @@ const BPMInput = (props: Props) => {
           title={t("subtractBPM", { value: 1 })}
           onClick={(e) => {
             e.currentTarget.blur();
-            const newBPM = Number(localBPM) - 1;
+            const newBPM = Number(bpm) - 1;
             if (newBPM < METRONOME_CONSTANTS.minBPM) return;
             handleSubmit(String(newBPM));
           }}
         >
           - 1
         </button>
-        <input
-          type="range"
-          className="bpmInput"
-          min={METRONOME_CONSTANTS.minBPM}
-          max={METRONOME_CONSTANTS.maxBPM}
-          value={value}
-          onChange={(e) => handleSubmit(e.target.value)}
-        />
+        <button
+          className="bpmInputButton"
+          title={t("tapTempoToCalculateBPM")}
+          onClick={(e) => {
+            e.currentTarget.blur();
+            const tappedBPM = tap();
+            if (!tappedBPM) return;
+            handleSubmit(String(tappedBPM))
+          }}
+        >
+          👆 {t("tapToGetBPM")}
+        </button>
         <button
           className="bpmInputButton"
           title={t("addBPM", { value: 1 })}
           onClick={(e) => {
             e.currentTarget.blur();
-            const newBPM = Number(localBPM) + 1;
+            const newBPM = Number(bpm) + 1;
             if (newBPM > METRONOME_CONSTANTS.maxBPM) return;
             handleSubmit(String(newBPM));
           }}
@@ -94,18 +98,6 @@ const BPMInput = (props: Props) => {
           + 1
         </button>
       </div>
-      <button
-        className="bpmTapButton"
-        title={t("tapTempoToCalculateBPM")}
-        onClick={(e) => {
-          e.currentTarget.blur();
-          const tappedBPM = tap();
-          if (!tappedBPM) return;
-          handleSubmit(String(tappedBPM))
-        }}
-      >
-        👆 {t("tapToGetBPM")}
-      </button>
     </div>
   );
 };

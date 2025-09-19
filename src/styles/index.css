@@ -335,18 +335,11 @@ header {
     .bpmInputContainer {
         display: flex;
         flex-direction: column;
-        margin-bottom: 10px;
+        margin-bottom: 25px;
         align-items: center;
 
-        .bpmTapButton {
-            background: var(--accentColor);
-            border-radius: 10px;
-            margin: 15px;
-            padding: 5px 10px;
-            font-size: 16px;
-        }
-
         .bpmInputButtonContainer {
+            margin-top: 10px;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -365,12 +358,6 @@ header {
             text-align: center;
             background: transparent;
             border: 0px;
-
-            &[type=range] {
-                cursor: pointer;
-                min-width: 200px;
-                margin: 15px 0px;
-            }
         }
     }
 
