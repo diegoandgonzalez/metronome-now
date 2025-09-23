@@ -37,7 +37,8 @@ const FormDialog = (props: Props) => {
                     {children}
                     <div className="dialogButtonContainer">
                         <button type="submit">
-                            {t("accept")}
+                            {t("accept") // TODO: poner boton cancelar?
+                            }
                         </button>
                     </div>
                 </form>

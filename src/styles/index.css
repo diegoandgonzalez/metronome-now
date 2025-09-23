@@ -35,6 +35,8 @@ body {
     background-color: var(--backgroundColor);
     font-family: "Space Grotesk", sans-serif;
     color: var(--textColor);
+
+    scrollbar-color: var(--accentColor) transparent;
 }
 
 h1,
@@ -119,9 +121,10 @@ label {
 }
 
 .dialog {
+    /* TODO: transicion fade in? */
     margin: 0px;
     padding: 20px;
-    border: 0px;
+    border: 1px solid var(--mutedColor2);
     border-radius: 10px;
     background-color: var(--backgroundColor);
     position: fixed;
@@ -130,9 +133,12 @@ label {
     transform: translate(-50%, -50%);
     color: var(--textColor);
     min-width: 370px;
+    max-width: calc(100vw - 100px);
     font-size: 18px;
     overflow: hidden;
     z-index: 2;
+    max-height: 600px;
+    overflow: auto;
 
     .dialogHeader {
         display: flex;
@@ -234,6 +240,66 @@ header {
     }
 }
 
+.templatesDialogContainer {
+    .createContainer {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    button {
+        flex: none;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border: 1px solid var(--accentColor);
+        border-radius: 10px;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .listItem {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+
+            .playContainer {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                div {
+                    cursor: pointer;
+
+                    &[data-is-selected="true"] {
+                        color: var(--accentColor);
+                    }
+
+                    .templateName {
+                        font-size: 22px;
+                    }
+
+                    .templateDescription {
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            .actionsContainer {
+                display: flex;
+                gap: 15px;
+            }
+        }
+    }
+}
+
 .metronomeContainer {
     display: flex;
     flex-direction: column;
@@ -242,28 +308,8 @@ header {
     padding: 10px;
     max-width: 500px;
 
-    .templatesInputContainer {
-        height: 40px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-
-        .templatesInput {
-            margin-right: 10px;
-            min-width: 160px;
-            max-width: 200px;
-            text-overflow: ellipsis;
-        }
-
-        .templatesButton {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accentColor);
-            border-radius: 10px;
-        }
+    .templateLabel {
+        margin-bottom: 15px;
     }
 
     .countdownInputContainer {

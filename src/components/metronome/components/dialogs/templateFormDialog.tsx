@@ -2,22 +2,23 @@ import { useState } from "react";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
 import FormDialog from "../../../dialog/formDialog";
+import type { Template } from "../../types";
 
 type Props = {
     open: boolean,
     initialValue: string,
-    templateNames: string[],
-    handleSetTemplate: (newName: string) => void,
+    templates: Template[],
+    handleSubmit: (newName: string) => void,
     handleClose: () => void,
 }
 
-const CreateUpdateTemplateDialog = (props: Props) => {
+const TemplateFormDialog = (props: Props) => {
 
     const {
         open,
         initialValue,
-        templateNames,
-        handleSetTemplate,
+        templates,
+        handleSubmit,
         handleClose,
     } = props;
 
@@ -29,18 +30,18 @@ const CreateUpdateTemplateDialog = (props: Props) => {
 
     const { t } = useTranslation();
 
-    const handleSubmit = () => {
+    const submit = () => {
         if (!templateName) {
             handleOpenSnackbar(t("nameRequired"));
             return;
         }
 
-        if (templateName !== initialValue && templateNames.includes(templateName)) {
+        if (templateName !== initialValue && templates.some((template) => template.name === templateName)) {
             handleOpenSnackbar(t("nameInUse"));
             return;
         }
 
-        handleSetTemplate(templateName);
+        handleSubmit(templateName);
         handleClose();
     }
 
@@ -51,7 +52,7 @@ const CreateUpdateTemplateDialog = (props: Props) => {
             open={open}
             title={t(isCreate ? "createTemplate" : "updateTemplate")}
             handleClose={handleClose}
-            handleSubmit={handleSubmit}
+            handleSubmit={submit}
         >
             <p>
                 {t(isCreate ? "newTemplateExplanation" : "updateTemplateQuestion")}
@@ -71,4 +72,4 @@ const CreateUpdateTemplateDialog = (props: Props) => {
     );
 }
 
-export default CreateUpdateTemplateDialog;
+export default TemplateFormDialog;

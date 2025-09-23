@@ -273,7 +273,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 />
                 {t("measures")}
             </label>
-        </FormDialog >
+        </FormDialog>
     );
 }
 
