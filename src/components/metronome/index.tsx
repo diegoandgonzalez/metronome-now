@@ -216,16 +216,9 @@ const Metronome = () => {
                     bpmProgrammingTimerDialogIsOpen &&
                     <TempoProgrammingTimerDialog
                         open={bpmProgrammingTimerDialogIsOpen}
-                        initialAddSubtractOption={settings.tempoProgrammingSettings.addSubtractOption}
-                        initialIsActive={settings.tempoProgrammingSettings.isActive}
-                        initialBPMToChange={settings.tempoProgrammingSettings.bpmToChange}
-                        initialGoalBPM={settings.tempoProgrammingSettings.goalBPM}
-                        initialMeasuresToChangeBPM={settings.tempoProgrammingSettings.measuresToChangeBPM}
+                        initialTempoProgrammingSettings={settings.tempoProgrammingSettings}
+                        initialTimerSettings={settings.timerSettings}
                         handleSetTempoProgrammingSettings={handleSetTempoProgrammingSettings}
-                        initialSecondsIsActive={settings.timerSettings.secondsIsActive}
-                        initialMeasuresIsActive={settings.timerSettings.measuresIsActive}
-                        initialSecondsToStop={settings.timerSettings.secondsToStop}
-                        initialMeasuresToStop={settings.timerSettings.measuresToStop}
                         handleSetTimerSettings={handleSetTimerSettings}
                         handleClose={handleCloseBPMProgrammingTimerDialog}
                     />

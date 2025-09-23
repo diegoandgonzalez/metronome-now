@@ -7,38 +7,22 @@ import type { TempoProgrammingSettings, TimerSettings } from "../../types";
 
 type Props = {
     open: boolean,
-    handleClose: () => void,
-
-    initialAddSubtractOption: string,
-    initialIsActive: boolean
-    initialBPMToChange: number,
-    initialGoalBPM: number,
-    initialMeasuresToChangeBPM: number,
+    initialTempoProgrammingSettings: TempoProgrammingSettings,
+    initialTimerSettings: TimerSettings,
     handleSetTempoProgrammingSettings: (newSettings: TempoProgrammingSettings) => void,
-
-    initialSecondsIsActive: boolean
-    initialMeasuresIsActive: boolean
-    initialSecondsToStop: number,
-    initialMeasuresToStop: number,
     handleSetTimerSettings: (newSettings: TimerSettings) => void,
+    handleClose: () => void,
 }
 
 const TempoProgrammingTimerDialog = (props: Props) => {
 
     const {
         open,
-        handleClose,
-        initialIsActive,
-        initialAddSubtractOption,
-        initialBPMToChange,
-        initialGoalBPM,
-        initialMeasuresToChangeBPM,
+        initialTempoProgrammingSettings,
+        initialTimerSettings,
         handleSetTempoProgrammingSettings,
-        initialSecondsIsActive,
-        initialMeasuresIsActive,
-        initialSecondsToStop,
-        initialMeasuresToStop,
         handleSetTimerSettings,
+        handleClose,
     } = props;
 
     const { t } = useTranslation();
@@ -47,17 +31,17 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         handleOpen: handleOpenSnackbar,
     } = useSnackbarContext();
 
-    const [isActive, setIsActive] = useState(initialIsActive);
-    const [bpmToChange, setBPMToChange] = useState<number | string>(initialBPMToChange);
-    const [goalBPM, setGoalBPM] = useState<number | string>(initialGoalBPM);
-    const [measuresToChangeBPM, setMeasuresToChangeBPM] = useState<number | string>(initialMeasuresToChangeBPM);
-    const [addSubtractOption, setAddSubtractOption] = useState<string>(initialAddSubtractOption);
+    const [isActive, setIsActive] = useState(initialTempoProgrammingSettings.isActive);
+    const [addSubtractOption, setAddSubtractOption] = useState<string>(initialTempoProgrammingSettings.addSubtractOption);
+    const [bpmToChange, setBPMToChange] = useState<number | string>(initialTempoProgrammingSettings.bpmToChange);
+    const [measuresToChangeBPM, setMeasuresToChangeBPM] = useState<number | string>(initialTempoProgrammingSettings.measuresToChangeBPM);
+    const [goalBPM, setGoalBPM] = useState<number | string>(initialTempoProgrammingSettings.goalBPM);
 
-    const [isSecondsActive, setIsSecondsActive] = useState(initialSecondsIsActive);
-    const [isMeasuresActive, setIsMeasuresActive] = useState(initialMeasuresIsActive);
-    const [seconds, setSeconds] = useState<number | string>(initialSecondsToStop % 60);
-    const [minutes, setMinutes] = useState<number | string>(Math.floor(initialSecondsToStop / 60));
-    const [measures, setMeasures] = useState<number | string>(initialMeasuresToStop);
+    const [isSecondsActive, setIsSecondsActive] = useState(initialTimerSettings.secondsIsActive);
+    const [isMeasuresActive, setIsMeasuresActive] = useState(initialTimerSettings.measuresIsActive);
+    const [seconds, setSeconds] = useState<number | string>(initialTimerSettings.secondsToStop % 60);
+    const [minutes, setMinutes] = useState<number | string>(Math.floor(initialTimerSettings.secondsToStop / 60));
+    const [measures, setMeasures] = useState<number | string>(initialTimerSettings.measuresToStop);
 
 
     const handleSubmit = () => {
@@ -127,10 +111,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
         const newTempoProgrammingSettings = {
             isActive: isActive,
-            bpmToChange: formattedBPMToChange,
-            goalBPM: formattedGoalBPM,
-            measuresToChangeBPM: formattedMeasuresToChangeBPM,
             addSubtractOption: addSubtractOption,
+            bpmToChange: formattedBPMToChange,
+            measuresToChangeBPM: formattedMeasuresToChangeBPM,
+            goalBPM: formattedGoalBPM,
         }
 
         const newTimerSettings = {
@@ -176,10 +160,15 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 title={t("selectHowBPMchanges")}
             >
                 {
-                    [TEMPO_PROGRAMMING_CONSTANTS.actions.add, TEMPO_PROGRAMMING_CONSTANTS.actions.subtract]
+                    [
+                        TEMPO_PROGRAMMING_CONSTANTS.actions.add,
+                        TEMPO_PROGRAMMING_CONSTANTS.actions.subtract,
+                    ]
                         .map((item) => {
                             return (
-                                <option key={item} value={item}>{t(item)}</option>
+                                <option key={item} value={item}>
+                                    {t(item)}
+                                </option>
                             )
                         })
                 }
