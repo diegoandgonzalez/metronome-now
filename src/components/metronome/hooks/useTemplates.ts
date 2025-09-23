@@ -58,7 +58,7 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     const handleSelectTemplateToPlay = (newTemplateID: string) => {
         setSelectedTemplateIDToPlay(newTemplateID);
 
-        const templateSelected = templates.find((item) => item.id === newTemplateID);
+        const templateSelected = templates.find((template) => template.id === newTemplateID);
 
         if (onTemplateSelectionCallback) {
             onTemplateSelectionCallback(templateSelected?.settings);

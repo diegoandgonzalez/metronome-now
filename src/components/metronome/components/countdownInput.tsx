@@ -30,9 +30,9 @@ const CountdownInput = (props: Props) => {
                 }}
             >
                 {
-                    METRONOME_CONSTANTS.countdownOptions.map((item) => {
+                    METRONOME_CONSTANTS.countdownOptions.map((countdown) => {
                         return (
-                            <option key={item} value={item}>{item}</option>
+                            <option key={countdown} value={countdown}>{countdown}</option>
                         )
                     })
                 }

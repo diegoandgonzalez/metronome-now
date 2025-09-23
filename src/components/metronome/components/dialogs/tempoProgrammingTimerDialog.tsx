@@ -164,10 +164,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                         TEMPO_PROGRAMMING_CONSTANTS.actions.add,
                         TEMPO_PROGRAMMING_CONSTANTS.actions.subtract,
                     ]
-                        .map((item) => {
+                        .map((option) => {
                             return (
-                                <option key={item} value={item}>
-                                    {t(item)}
+                                <option key={option} value={option}>
+                                    {t(option)}
                                 </option>
                             )
                         })

@@ -28,9 +28,9 @@ const LanguageInput = () => {
             }}
         >
             {
-                LANGUAGE_OPTIONS.map((item) => {
+                LANGUAGE_OPTIONS.map((language) => {
                     return (
-                        <option key={item} value={item}>{t(item)}</option>
+                        <option key={language} value={language}>{t(language)}</option>
                     )
                 })
             }

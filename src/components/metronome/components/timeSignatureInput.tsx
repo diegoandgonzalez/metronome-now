@@ -51,9 +51,9 @@ const TimeSignatureInput = (props: Props) => {
         }}
       >
         {
-          METRONOME_CONSTANTS.noteValueOptions.map((item) => {
+          METRONOME_CONSTANTS.noteValueOptions.map((noteValue) => {
             return (
-              <option key={item} value={item}>{item}</option>
+              <option key={noteValue} value={noteValue}>{noteValue}</option>
             )
           })
         }
