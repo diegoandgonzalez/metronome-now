@@ -17,12 +17,12 @@ const CountdownInput = (props: Props) => {
 
     return (
         <label
-            htmlFor="countdownInput"
+            htmlFor="countdown"
             className="countdownInputContainer"
         >
             {t("countdown")}:
             <select
-                id="countdownInput"
+                id="countdown"
                 value={initialAmount}
                 onChange={(e) => {
                     e.currentTarget.blur();

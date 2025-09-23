@@ -60,6 +60,7 @@ const TemplateFormDialog = (props: Props) => {
             <label>
                 {t("templateName")}:
                 <input
+                    id="templateName"
                     className="templateNameInput"
                     type="text"
                     value={templateName}

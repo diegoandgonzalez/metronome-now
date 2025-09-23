@@ -22,6 +22,7 @@ const TimeSignatureInput = (props: Props) => {
   return (
     <div className="timeSignatureInputContainer">
       <select
+        id="beatsPerMeasure"
         className="timeSignatureInput"
         title={t("beatsPerMeasure")}
         value={beatsPerMeasure}
@@ -40,6 +41,7 @@ const TimeSignatureInput = (props: Props) => {
       </select>
       <p>/</p>
       <select
+        id="noteValue"
         className="timeSignatureInput"
         title={t("beatValue")}
         value={noteValue}

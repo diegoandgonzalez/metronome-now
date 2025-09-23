@@ -155,6 +155,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             <h4>{t("bpmProgramming")}</h4>
             <label>
                 <input
+                    id="tempoProgrammingIsActive"
                     type="checkbox"
                     checked={isActive}
                     onChange={(e) => {
@@ -166,6 +167,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 {t("tempoProgrammingIsActive")}
             </label>
             <select
+                id="addSubtractOption"
                 value={addSubtractOption}
                 onChange={(e) => {
                     e.currentTarget.blur();
@@ -184,6 +186,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             </select>
             <label>
                 <input
+                    id="bpmToChange"
                     className="dialogInput"
                     type="number"
                     min={0}
@@ -196,6 +199,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             </label>
             <label>
                 <input
+                    id="measuresToChangeBPM"
                     className="dialogInput"
                     type="number"
                     min={TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM}
@@ -208,6 +212,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             </label>
             <label>
                 <input
+                    id="goalBPM"
                     className="dialogInput"
                     type="number"
                     min={METRONOME_CONSTANTS.minBPM}
@@ -221,6 +226,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             <h4>{t("timer")}</h4>
             <label>
                 <input
+                    id="isSecondsActive"
                     type="checkbox"
                     checked={isSecondsActive}
                     onChange={(e) => {
@@ -231,6 +237,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 />
                 {t("stopIn")}
                 <input
+                    id="minutes"
                     className="dialogInput"
                     type="number"
                     min={0}
@@ -241,6 +248,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 />
                 {t("minutes")}
                 <input
+                    id="seconds"
                     className="dialogInput"
                     type="number"
                     min={0}
@@ -253,6 +261,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             </label>
             <label>
                 <input
+                    id="isMeasuresActive"
                     type="checkbox"
                     checked={isMeasuresActive}
                     onChange={(e) => {
@@ -263,6 +272,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 />
                 {t("stopIn")}
                 <input
+                    id="measures"
                     className="dialogInput"
                     type="number"
                     min={0}
