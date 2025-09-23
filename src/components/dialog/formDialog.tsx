@@ -36,9 +36,11 @@ const FormDialog = (props: Props) => {
                 >
                     {children}
                     <div className="dialogButtonContainer">
+                        <button onClick={handleClose}>
+                            {t("cancel")}
+                        </button>
                         <button type="submit">
-                            {t("accept") // TODO: poner boton cancelar?
-                            }
+                            {t("accept")}
                         </button>
                     </div>
                 </form>
