@@ -311,6 +311,10 @@ header {
 
     .templateLabel {
         margin-bottom: 15px;
+
+        &[data-is-hidden="true"] {
+            visibility: hidden;
+        }
     }
 
     .countdownInputContainer {

@@ -53,6 +53,7 @@
     "bpmEvery": "BPM alle",
     "measuresUntil": "Takte bis",
     "bpm": "BPM",
+    "template": "Vorlage",
     "templates": "Vorlagen",
     "selectTemplate": "Vorlage auswählen",
     "createTemplate": "Vorlage erstellen",

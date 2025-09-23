@@ -53,6 +53,7 @@
     "bpmEvery": "bpm a cada",
     "measuresUntil": "compassos até",
     "bpm": "bpm",
+    "template": "Modelo",
     "templates": "Modelos",
     "selectTemplate": "Selecionar modelo",
     "createTemplate": "Criar modelo",

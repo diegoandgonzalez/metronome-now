@@ -53,6 +53,7 @@
     "bpmEvery": "bpm every",
     "measuresUntil": "measures until",
     "bpm": "bpm",
+    "template": "Template",
     "templates": "Templates",
     "selectTemplate": "Select template",
     "createTemplate": "Create template",

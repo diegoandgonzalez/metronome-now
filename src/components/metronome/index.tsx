@@ -57,8 +57,8 @@ const Metronome = () => {
     const {
         isDBReady,
         templates,
-        selectedTemplateIDToPlay,
-        selectedTemplateIDToChange,
+        selectedTemplateIdToPlay,
+        selectedTemplateIdToChange,
         templateFormDialogIsOpen,
         templateDeleteDialogIsOpen,
         handleSelectTemplateToPlay,
@@ -102,7 +102,7 @@ const Metronome = () => {
     }
 
     const handleSubmitCreateUpdateTemplate = (newTemplateName: string) => {
-        if (selectedTemplateIDToChange) {
+        if (selectedTemplateIdToChange) {
             handleUpdateTemplate(newTemplateName, settings);
             return;
         }
@@ -127,8 +127,8 @@ const Metronome = () => {
         settings.timerSettings.measuresIsActive
     );
 
-    const selectedTemplateToPlayName = templates.find((template) => template.id === selectedTemplateIDToPlay)?.name || "";
-    const selectedTemplateToChangeName = templates.find((template) => template.id === selectedTemplateIDToChange)?.name || "";
+    const selectedTemplateToPlayName = templates.find((template) => template.id === selectedTemplateIdToPlay)?.name || "";
+    const selectedTemplateToChangeName = templates.find((template) => template.id === selectedTemplateIdToChange)?.name || "";
 
     return (
         <>
@@ -140,7 +140,7 @@ const Metronome = () => {
                 </div>
             </header>
             <div className="metronomeContainer">
-                <p className="templateLabel">
+                <p className="templateLabel" data-is-hidden={String(!selectedTemplateToPlayName)} title={t("template")}>
                     {selectedTemplateToPlayName || t("noTemplate")}
                 </p>
                 <div>
@@ -202,7 +202,7 @@ const Metronome = () => {
                         </IconButton>
                         <IconButton
                             title={t("templates")}
-                            isActive={Boolean(selectedTemplateIDToPlay)}
+                            isActive={Boolean(selectedTemplateIdToPlay)}
                             handleClick={() => {
                                 handleOpenTemplateDialog();
                                 handleStopMetronome();
@@ -228,7 +228,7 @@ const Metronome = () => {
                     <TemplatesDialog
                         open={templateDialogIsOpen}
                         disabled={!isDBReady}
-                        value={selectedTemplateIDToPlay}
+                        value={selectedTemplateIdToPlay}
                         templates={templates}
                         handleSelectTemplate={(templateId) => {
                             handleSelectTemplateToPlay(templateId);

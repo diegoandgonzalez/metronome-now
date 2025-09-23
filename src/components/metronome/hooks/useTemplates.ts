@@ -5,6 +5,10 @@ import useSnackbarContext from "../../snackbar/useSnackbarContext";
 import type { SettingsFunction, Template, TemplateFunction } from "../types";
 import useIndexedDB from "../../../utils/hooks/useIndexedDB";
 import useDialog from "../../dialog/useDialog";
+import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
+import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
+
+const initialSelectedTemplateIdToPlay = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, "");
 
 const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
 
@@ -18,8 +22,13 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     } = useIndexedDB<Template>("MetronomeNowDB", "Templates", 1, "id");
 
     const [templates, setTemplates] = useState<Template[]>([]);
-    const [selectedTemplateIDToPlay, setSelectedTemplateIDToPlay] = useState("");
-    const [selectedTemplateIDToChange, setSelectedTemplateIDToChange] = useState("");
+
+    const {
+        value: selectedTemplateIdToPlay,
+        handleSyncValue: setSelectedTemplateIdToPlay,
+    } = useStateRefLocalStorageSync<string>(initialSelectedTemplateIdToPlay, LOCAL_STORAGE_KEYS.template);
+
+    const [selectedTemplateIdToChange, setSelectedTemplateIdToChange] = useState("");
 
     const {
         dialogIsOpen: templateFormDialogIsOpen,
@@ -56,7 +65,7 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     }, [getAllItemsFromDB, isDBReady, handleOpenSnackbar]);
 
     const handleSelectTemplateToPlay = (newTemplateID: string) => {
-        setSelectedTemplateIDToPlay(newTemplateID);
+        setSelectedTemplateIdToPlay(newTemplateID);
 
         const templateSelected = templates.find((template) => template.id === newTemplateID);
 
@@ -72,22 +81,22 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     }
 
     const handleOpenUpdateTemplate = (newTemplateID: string) => {
-        setSelectedTemplateIDToChange(newTemplateID);
+        setSelectedTemplateIdToChange(newTemplateID);
         handleOpenTemplateFormDialog();
     }
 
     const handleCloseTemplateForm = () => {
-        setSelectedTemplateIDToChange("");
+        setSelectedTemplateIdToChange("");
         handleCloseTemplateFormDialog();
     }
 
     const handleOpenDeleteTemplate = (newTemplateID: string) => {
-        setSelectedTemplateIDToChange(newTemplateID);
+        setSelectedTemplateIdToChange(newTemplateID);
         handleOpenDeleteTemplateDialog();
     }
 
     const handleCloseDeleteTemplate = () => {
-        setSelectedTemplateIDToChange("");
+        setSelectedTemplateIdToChange("");
         handleCloseDeleteTemplateDialog();
     }
 
@@ -103,7 +112,7 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
                         setTemplates(newTemplates);
-                        setSelectedTemplateIDToPlay(newTemplate.id);
+                        setSelectedTemplateIdToPlay(newTemplate.id);
                         handleOpenSnackbar(t("templateCreated"), 0, "success");
                     })
             })
@@ -113,7 +122,7 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     }
 
     const handleUpdateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
-        const auxSelectedTemplate = templates.find((template) => template.id === selectedTemplateIDToChange);
+        const auxSelectedTemplate = templates.find((template) => template.id === selectedTemplateIdToChange);
         if (!auxSelectedTemplate) return;
 
         auxSelectedTemplate.name = newtemplateName;
@@ -133,12 +142,12 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     }
 
     const handleDeleteTemplate = () => {
-        deleteItemInDB(selectedTemplateIDToChange)
+        deleteItemInDB(selectedTemplateIdToChange)
             .then(() => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
                         setTemplates(newTemplates);
-                        setSelectedTemplateIDToChange("");
+                        setSelectedTemplateIdToChange("");
                         handleSelectTemplateToPlay("");
                         handleOpenSnackbar(t("templateDeleted"), 0, "success");
                     })
@@ -151,8 +160,8 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     return {
         isDBReady,
         templates,
-        selectedTemplateIDToPlay,
-        selectedTemplateIDToChange,
+        selectedTemplateIdToPlay,
+        selectedTemplateIdToChange,
         templateFormDialogIsOpen,
         templateDeleteDialogIsOpen,
         handleSelectTemplateToPlay,
