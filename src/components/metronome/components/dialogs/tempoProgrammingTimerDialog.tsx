@@ -212,6 +212,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 />
                 {t("bpm")}
             </label>
+            <hr/>
             <h4>{t("timer")}</h4>
             <label>
                 <input
