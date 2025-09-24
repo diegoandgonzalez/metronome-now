@@ -17,8 +17,8 @@ export default defineConfig({
         name: "Metronome Now",
         short_name: "Metronome Now",
         description: "Online metronome for your everyday needs",
-        theme_color: "#d63444",
-        background_color: "#201E23",
+        theme_color: "#d42b3c",
+        background_color: "#1c1a1e",
         scope: "/",
         start_url: "/",
         icons: [
@@ -44,16 +44,29 @@ export default defineConfig({
         screenshots: [
           {
             src: "/images/screenshots/mobile_screencap.png",
-            sizes: "387x732",
+            sizes: "386x731",
             type: "image/png",
-            label: "Metronome now"
+            label: "Metronome Now"
+          },
+          {
+            src: "/images/screenshots/mobile_screencap_2.png",
+            sizes: "387x730",
+            type: "image/png",
+            label: "Metronome Now - Templates"
           },
           {
             src: "/images/screenshots/desktop_screencap.png",
-            sizes: "1275x696",
+            sizes: "1276x715",
             type: "image/png",
             form_factor: "wide",
-            label: "Metronome now"
+            label: "Metronome Now"
+          },
+          {
+            src: "/images/screenshots/desktop_screencap_2.png",
+            sizes: "1279x719",
+            type: "image/png",
+            form_factor: "wide",
+            label: "Metronome Now - Templates"
           },
         ]
       }
