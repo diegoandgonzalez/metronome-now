@@ -33,7 +33,7 @@ const TemplatesDialog = (props: Props) => {
 
     const { t } = useTranslation();
 
-    const getTemplateDescription = (metronomeSettings: MetronomeSettings) => {
+    const getTemplateDescription = (metronomeSettings: MetronomeSettings = DEFAULT_SETTINGS.metronomeSettings) => {
         return `${metronomeSettings.bpm} bpm - ${metronomeSettings.beatsPerMeasure}/${metronomeSettings.noteValue}`;
     }
 
@@ -74,7 +74,7 @@ const TemplatesDialog = (props: Props) => {
                                         editable={true}
                                         selected={value === template.id}
                                         name={template.name}
-                                        description={getTemplateDescription(template.settings.metronomeSettings)}
+                                        description={getTemplateDescription(template.settings?.metronomeSettings)}
                                         handleSelectTemplate={() => handleSelectTemplate(template.id)}
                                         handleUpdateTemplate={() => handleUpdateTemplate(template.id)}
                                         handleDeleteTemplate={() => handleDeleteTemplate(template.id)}
