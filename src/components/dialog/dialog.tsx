@@ -35,7 +35,7 @@ const Dialog = (props: Props) => {
                     {children}
                 </div>
             </div>
-            <div className="backdrop" />
+            <div className="backdrop" onClick={handleClose} />
         </>,
         document.body
     )
