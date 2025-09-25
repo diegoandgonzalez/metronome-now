@@ -8,7 +8,7 @@ import useDialog from "../../dialog/useDialog";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 
-const initialSelectedTemplateIdToPlay = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, "");
+const storedSelectedTemplateIdToPlay = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, "");
 
 const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
 
@@ -26,7 +26,7 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     const {
         value: selectedTemplateIdToPlay,
         handleSyncValue: setSelectedTemplateIdToPlay,
-    } = useStateRefLocalStorageSync<string>(initialSelectedTemplateIdToPlay, LOCAL_STORAGE_KEYS.template);
+    } = useStateRefLocalStorageSync<string>("", LOCAL_STORAGE_KEYS.template);
 
     const [selectedTemplateIdToChange, setSelectedTemplateIdToChange] = useState("");
 
@@ -57,12 +57,18 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
     useEffect(() => {
         if (!isDBReady) return;
 
-        getAllItemsFromDB()
-            .then(setTemplates)
-            .catch((error) => {
-                handleOpenSnackbar(error);
-            });
-    }, [getAllItemsFromDB, isDBReady, handleOpenSnackbar]);
+        if (!templates.length) {
+            getAllItemsFromDB()
+                .then((fetchedTemplates) => {
+                    setTemplates(fetchedTemplates);
+                    const storedTemplateIdExists = Boolean(storedSelectedTemplateIdToPlay) && fetchedTemplates.some((template) => template.id === storedSelectedTemplateIdToPlay);
+                    setSelectedTemplateIdToPlay(storedTemplateIdExists ? storedSelectedTemplateIdToPlay : "");
+                })
+                .catch((error) => {
+                    handleOpenSnackbar(error);
+                });
+        }
+    }, [isDBReady, templates, getAllItemsFromDB, setSelectedTemplateIdToPlay, handleOpenSnackbar]);
 
     const handleSelectTemplateToPlay = (newTemplateID: string) => {
         setSelectedTemplateIdToPlay(newTemplateID);
