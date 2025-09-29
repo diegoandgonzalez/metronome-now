@@ -247,6 +247,8 @@ header {
 }
 
 .templatesDialogContainer {
+    width: 400px;
+
     .createContainer {
         display: flex;
         justify-content: flex-end;
@@ -285,7 +287,7 @@ header {
                 align-items: center;
                 gap: 15px;
                 cursor: pointer;
-                
+
                 &[data-is-selected="true"] {
                     color: var(--accentColor);
                 }
