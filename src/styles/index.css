@@ -263,6 +263,11 @@ header {
         border-radius: 10px;
     }
 
+    .searchTemplateInputContainer {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
     .list {
         display: flex;
         flex-direction: column;
@@ -279,21 +284,18 @@ header {
                 display: flex;
                 align-items: center;
                 gap: 15px;
+                cursor: pointer;
+                
+                &[data-is-selected="true"] {
+                    color: var(--accentColor);
+                }
 
-                div {
-                    cursor: pointer;
+                .templateName {
+                    font-size: 22px;
+                }
 
-                    &[data-is-selected="true"] {
-                        color: var(--accentColor);
-                    }
-
-                    .templateName {
-                        font-size: 22px;
-                    }
-
-                    .templateDescription {
-                        font-size: 14px;
-                    }
+                .templateDescription {
+                    font-size: 14px;
                 }
             }
 

@@ -29,17 +29,18 @@ const TemplateItem = (props: Props) => {
 
     return (
         <div className="listItem">
-            <div className="playContainer">
-                <button
-                    title={t("selectTemplate")}
-                    onClick={(e) => {
-                        e.currentTarget.blur();
-                        handleSelectTemplate();
-                    }}
-                >
+            <div
+                className="playContainer"
+                data-is-selected={String(selected)}
+                onClick={() => {
+                    if (selected) return;
+                    handleSelectTemplate();
+                }}
+            >
+                <button title={t("selectTemplate")}>
                     <PlayIcon size={16} />
                 </button>
-                <div data-is-selected={String(selected)} onClick={handleSelectTemplate}>
+                <div>
                     <p className="templateName">
                         {name}
                     </p>
@@ -51,17 +52,20 @@ const TemplateItem = (props: Props) => {
             {
                 editable &&
                 <div className="actionsContainer">
-                    <button
-                        title={t("updateTemplate")}
-                        onClick={(e) => {
-                            e.currentTarget.blur();
-                            if (handleUpdateTemplate) {
-                                handleUpdateTemplate();
-                            }
-                        }}
-                    >
-                        <EditIcon size={16} />
-                    </button>
+                    {
+                        selected &&
+                        <button
+                            title={t("updateTemplate")}
+                            onClick={(e) => {
+                                e.currentTarget.blur();
+                                if (handleUpdateTemplate) {
+                                    handleUpdateTemplate();
+                                }
+                            }}
+                        >
+                            <EditIcon size={16} />
+                        </button>
+                    }
                     <button
                         title={t("deleteTemplate")}
                         onClick={(e) => {

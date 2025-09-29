@@ -5,7 +5,7 @@ import useStateRefLocalStorageSync from "../utils/hooks/useStateRefLocalStorageS
 
 const LanguageInput = () => {
 
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
 
     const {
         value: language,
@@ -30,7 +30,7 @@ const LanguageInput = () => {
             {
                 LANGUAGE_OPTIONS.map((language) => {
                     return (
-                        <option key={language} value={language}>{t(language)}</option>
+                        <option key={language.value} value={language.value}>{language.name}</option>
                     )
                 })
             }

@@ -30,7 +30,16 @@ export const TEMPO_PROGRAMMING_CONSTANTS = {
 export const ICON_SIZE = 40;
 export const MAIN_ICON_SIZE = 55;
 
-export const LANGUAGE_OPTIONS = ["en", "es", "it", "fr", "de", "pt"];
+export const TEMPLATE_NAME_MAX_LENGTH = 40;
+
+export const LANGUAGE_OPTIONS = [
+    { value: "en", name: "English" },
+    { value: "es", name: "Español" },
+    { value: "it", name: "Italiano" },
+    { value: "pt", name: "Português" },
+    { value: "fr", name: "Français" },
+    { value: "de", name: "Deutsch" },
+];
 export const DEFAULT_LANGUAGE = "en";
 
 export const THEMES = {

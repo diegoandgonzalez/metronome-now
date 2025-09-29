@@ -1,10 +1,4 @@
 {
-    "en": "English",
-    "es": "Español",
-    "it": "Italiano",
-    "pt": "Português",
-    "fr": "Français",
-    "de": "Deutsch",
     "timer": "Temporizador",
     "timerIsActive": "Temporizador activado",
     "stopIn": "Detener en",
@@ -59,6 +53,7 @@
     "createTemplate": "Crear plantilla",
     "updateTemplate": "Actualizar plantilla",
     "deleteTemplate": "Eliminar plantilla",
+    "searchTemplate": "Buscar plantilla",
     "deleteTemplateQuestion": "¿Deseas eliminar la plantilla {{templateName}}?",
     "updateTemplateQuestion": "¿Deseas actualizar la plantilla con la configuración actual?",
     "templateSelected": "Plantilla seleccionada",

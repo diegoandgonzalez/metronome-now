@@ -1,14 +1,15 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { MetronomeSettings, Template } from "../../../types";
 import Dialog from "../../../../dialog/dialog";
 import CreateIcon from "../../../../../assets/icons/createIcon";
-import { DEFAULT_SETTINGS } from "../../../../../utils/constants";
+import { DEFAULT_SETTINGS, TEMPLATE_NAME_MAX_LENGTH } from "../../../../../utils/constants";
 import TemplateItem from "./templateItem";
 
 type Props = {
     open: boolean,
     disabled: boolean,
-    value: string
+    selectedTemplateId: string
     templates: Template[],
     handleSelectTemplate: (templateId: string) => void,
     handleCreateTemplate: () => void,
@@ -22,7 +23,7 @@ const TemplatesDialog = (props: Props) => {
     const {
         open,
         disabled,
-        value,
+        selectedTemplateId,
         templates,
         handleSelectTemplate,
         handleCreateTemplate,
@@ -30,6 +31,8 @@ const TemplatesDialog = (props: Props) => {
         handleDeleteTemplate,
         handleClose,
     } = props;
+
+    const [searchValue, setSearchValue] = useState("");
 
     const { t } = useTranslation();
 
@@ -44,6 +47,16 @@ const TemplatesDialog = (props: Props) => {
             handleClose={handleClose}
         >
             <div className="templatesDialogContainer">
+                <div className="searchTemplateInputContainer">
+                    <input
+                        id="searchTemplate"
+                        className="templateNameInput"
+                        type="text"
+                        placeholder={t("searchTemplate")}
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
+                    />
+                </div>
                 <div className="createContainer">
                     <button
                         disabled={disabled}
@@ -59,20 +72,21 @@ const TemplatesDialog = (props: Props) => {
                 <div className="list">
                     <TemplateItem
                         editable={false}
-                        selected={value === ""}
+                        selected={selectedTemplateId === ""}
                         name={t("noTemplate")}
                         description={getTemplateDescription(DEFAULT_SETTINGS.metronomeSettings)}
                         handleSelectTemplate={() => handleSelectTemplate("")}
                     />
                     {
                         templates
-                            .sort((a, b) => a.name.localeCompare(b.name))
+                            .filter((template) => template.name.toLowerCase().includes(searchValue.toLowerCase()))
+                            .sort((a, b) => -a.name.localeCompare(b.name))
                             .map((template) => {
                                 return (
                                     <TemplateItem
                                         key={template.id}
                                         editable={true}
-                                        selected={value === template.id}
+                                        selected={selectedTemplateId === template.id}
                                         name={template.name}
                                         description={getTemplateDescription(template.settings?.metronomeSettings)}
                                         handleSelectTemplate={() => handleSelectTemplate(template.id)}

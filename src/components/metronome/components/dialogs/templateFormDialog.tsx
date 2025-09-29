@@ -3,6 +3,7 @@ import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
 import FormDialog from "../../../dialog/formDialog";
 import type { Template } from "../../types";
+import { TEMPLATE_NAME_MAX_LENGTH } from "../../../../utils/constants";
 
 type Props = {
     open: boolean,
@@ -65,7 +66,7 @@ const TemplateFormDialog = (props: Props) => {
                     type="text"
                     value={templateName}
                     onChange={(e) => {
-                        setTemplateName(e.target.value.substring(0, 30));
+                        setTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH));
                     }}
                 />
             </label>
