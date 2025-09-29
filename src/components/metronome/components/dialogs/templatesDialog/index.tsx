@@ -80,7 +80,7 @@ const TemplatesDialog = (props: Props) => {
                     {
                         templates
                             .filter((template) => template.name.toLowerCase().includes(searchValue.toLowerCase()))
-                            .sort((a, b) => -a.name.localeCompare(b.name))
+                            .sort((a, b) => a.name.localeCompare(b.name))
                             .map((template) => {
                                 return (
                                     <TemplateItem
