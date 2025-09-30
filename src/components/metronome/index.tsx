@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import type { SettingsFunction } from "./types";
+import type { Template } from "./types";
 import { MAIN_ICON_SIZE } from "../../utils/constants";
 import StopIcon from "../../assets/icons/stopIcon";
 import PlayIcon from "../../assets/icons/playIcon";
@@ -47,11 +47,12 @@ const Metronome = () => {
         handleSetTimerSettings,
     } = useMetronome();
 
-    const handleUpdateAllSettings: SettingsFunction = (newSettings) => {
+    const onTemplateSelectionCallback = (newTemplateSelected?: Template) => {
+        document.title = `${newTemplateSelected?.name ? newTemplateSelected.name + " - " : ""} Metronome Now`;
         handleStopMetronome();
-        handleSetMetronomeSettings(newSettings?.metronomeSettings);
-        handleSetTimerSettings(newSettings?.timerSettings);
-        handleSetTempoProgrammingSettings(newSettings?.tempoProgrammingSettings);
+        handleSetMetronomeSettings(newTemplateSelected?.settings?.metronomeSettings);
+        handleSetTimerSettings(newTemplateSelected?.settings?.timerSettings);
+        handleSetTempoProgrammingSettings(newTemplateSelected?.settings?.tempoProgrammingSettings);
     }
 
     const {
@@ -70,7 +71,7 @@ const Metronome = () => {
         handleCreateTemplate,
         handleUpdateTemplate,
         handleDeleteTemplate,
-    } = useTemplates(handleUpdateAllSettings);
+    } = useTemplates(onTemplateSelectionCallback);
 
     const {
         dialogIsOpen: templateDialogIsOpen,

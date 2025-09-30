@@ -33,5 +33,4 @@ export type Template = {
     settings: Settings,
 }
 
-export type SettingsFunction = (newSettings?: Settings) => void;
 export type TemplateFunction = (newTemplateName: string, newSettings: Settings) => void;

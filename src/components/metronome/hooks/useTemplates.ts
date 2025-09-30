@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useTranslation } from "react-i18next";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
-import type { SettingsFunction, Template, TemplateFunction } from "../types";
+import type { Template, TemplateFunction } from "../types";
 import useIndexedDB from "../../../utils/hooks/useIndexedDB";
 import useDialog from "../../dialog/useDialog";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
@@ -10,7 +10,7 @@ import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalSt
 
 const storedSelectedTemplateIdToPlay = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, "");
 
-const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
+const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) => {
 
     const {
         getAllItems: getAllItemsFromDB,
@@ -75,10 +75,7 @@ const useTemplates = (onTemplateSelectionCallback?: SettingsFunction) => {
 
         const templateSelected = templates.find((template) => template.id === newTemplateID);
 
-        if (onTemplateSelectionCallback) {
-            onTemplateSelectionCallback(templateSelected?.settings);
-        }
-
+        onTemplateSelectionCallback(templateSelected);
         handleOpenSnackbar(t("templateSelected"), 0, "success");
     }
 
