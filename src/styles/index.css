@@ -247,7 +247,7 @@ header {
 }
 
 .templatesDialogContainer {
-    width: 400px;
+    width: 500px;
 
     .createContainer {
         display: flex;
@@ -278,6 +278,7 @@ header {
         .listItem {
             display: grid;
             grid-template-columns: 1fr auto;
+            align-items: center;
             gap: 20px;
 
             .playContainer {
@@ -307,6 +308,13 @@ header {
     }
 }
 
+@media (max-width: 650px) {
+    .templatesDialogContainer {
+        min-width: 300px;
+        max-width: 100%;
+    }
+}
+
 [data-is-hidden="true"] {
     visibility: hidden;
 }
@@ -322,6 +330,7 @@ header {
 
     .templateLabel {
         margin-bottom: 15px;
+        text-align: center;
     }
 
     .countdownInputContainer {
