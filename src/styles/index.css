@@ -276,11 +276,9 @@ header {
         gap: 15px;
 
         .listItem {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 30px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
 
             .playContainer {
                 display: flex;
@@ -309,6 +307,10 @@ header {
     }
 }
 
+[data-is-hidden="true"] {
+    visibility: hidden;
+}
+
 .metronomeContainer {
     display: flex;
     flex-direction: column;
@@ -317,12 +319,9 @@ header {
     padding: 10px;
     max-width: 500px;
 
+
     .templateLabel {
         margin-bottom: 15px;
-
-        &[data-is-hidden="true"] {
-            visibility: hidden;
-        }
     }
 
     .countdownInputContainer {
@@ -388,7 +387,6 @@ header {
                 filter: brightness(130%);
             }
         }
-
     }
 
     .bpmInputContainer {

@@ -49,36 +49,31 @@ const TemplateItem = (props: Props) => {
                     </p>
                 </div>
             </div>
-            {
-                editable &&
-                <div className="actionsContainer">
-                    {
-                        selected &&
-                        <button
-                            title={t("updateTemplate")}
-                            onClick={(e) => {
-                                e.currentTarget.blur();
-                                if (handleUpdateTemplate) {
-                                    handleUpdateTemplate();
-                                }
-                            }}
-                        >
-                            <EditIcon size={16} />
-                        </button>
-                    }
-                    <button
-                        title={t("deleteTemplate")}
-                        onClick={(e) => {
-                            e.currentTarget.blur();
-                            if (handleDeleteTemplate) {
-                                handleDeleteTemplate();
-                            }
-                        }}
-                    >
-                        <DeleteIcon size={16} />
-                    </button>
-                </div>
-            }
+            <div className="actionsContainer" data-is-hidden={String(!editable)}>
+                <button
+                data-is-hidden={String(!(editable && selected))}
+                    title={t("updateTemplate")}
+                    onClick={(e) => {
+                        e.currentTarget.blur();
+                        if (handleUpdateTemplate) {
+                            handleUpdateTemplate();
+                        }
+                    }}
+                >
+                    <EditIcon size={16} />
+                </button>
+                <button
+                    title={t("deleteTemplate")}
+                    onClick={(e) => {
+                        e.currentTarget.blur();
+                        if (handleDeleteTemplate) {
+                            handleDeleteTemplate();
+                        }
+                    }}
+                >
+                    <DeleteIcon size={16} />
+                </button>
+            </div>
         </div>
     );
 }
