@@ -17,6 +17,8 @@
     --mutedColor: #3e3e3e;
     --mutedColor2: #222;
     --successColor: #27be59;
+
+    scrollbar-color: var(--accentColor) transparent;
 }
 
 :root[data-theme="dark"] {
@@ -35,8 +37,6 @@ body {
     background-color: var(--backgroundColor);
     font-family: "Space Grotesk", sans-serif;
     color: var(--textColor);
-
-    scrollbar-color: var(--accentColor) transparent;
 }
 
 h1,
