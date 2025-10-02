@@ -72,7 +72,7 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(newBPM));
           }}
         >
-          - 1
+          -
         </button>
         <button
           className="bpmInputButton"
@@ -84,7 +84,7 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(tappedBPM))
           }}
         >
-          👆 {t("tapToGetBPM")}
+          {t("tapToGetBPM")}
         </button>
         <button
           className="bpmInputButton"
@@ -96,7 +96,7 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(newBPM));
           }}
         >
-          + 1
+          +
         </button>
       </div>
     </div>

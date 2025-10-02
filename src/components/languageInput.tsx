@@ -20,7 +20,6 @@ const LanguageInput = () => {
     return (
         <select
             id="language"
-            className="languageInput"
             value={language}
             onChange={(e) => {
                 e.currentTarget.blur();

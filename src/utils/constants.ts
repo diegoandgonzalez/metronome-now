@@ -28,7 +28,7 @@ export const TEMPO_PROGRAMMING_CONSTANTS = {
 }
 
 export const ICON_SIZE = 40;
-export const MAIN_ICON_SIZE = 55;
+export const MAIN_ICON_SIZE = 65;
 
 export const TEMPLATE_NAME_MAX_LENGTH = 40;
 

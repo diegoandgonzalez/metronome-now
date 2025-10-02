@@ -23,7 +23,6 @@ const TimeSignatureInput = (props: Props) => {
     <div className="timeSignatureInputContainer">
       <select
         id="beatsPerMeasure"
-        className="timeSignatureInput"
         title={t("beatsPerMeasure")}
         value={beatsPerMeasure}
         onChange={(e) => {
@@ -42,7 +41,6 @@ const TimeSignatureInput = (props: Props) => {
       <p>/</p>
       <select
         id="noteValue"
-        className="timeSignatureInput"
         title={t("beatValue")}
         value={noteValue}
         onChange={(e) => {
@@ -58,7 +56,6 @@ const TimeSignatureInput = (props: Props) => {
           })
         }
       </select>
-
     </div>
   );
 };

@@ -12,7 +12,7 @@
 :root {
     --accentColor: #d42b3c;
     --accentColor2: #66171E;
-    --noAccentColor: #ccc;
+    --noAccentColor: #b1b1b1;
     --noAccentColor2: #6B6B6B;
     --mutedColor: #3e3e3e;
     --mutedColor2: #222;
@@ -24,11 +24,15 @@
 :root[data-theme="dark"] {
     --backgroundColor: #1c1a1e;
     --textColor: white;
+    --semitransparentColor: rgba(60, 60, 60, 0.2);
+    --semitransparentColor2: rgba(255, 255, 255, 0.8);
 }
 
 :root[data-theme="light"] {
     --backgroundColor: #fafafa;
     --textColor: black;
+    --semitransparentColor: rgba(0, 0, 0, 0.1);
+    --semitransparentColor2: rgba(0, 0, 0, 0.8);
 }
 
 body {
@@ -59,16 +63,11 @@ select {
 
 input {
     accent-color: var(--accentColor);
-    background: transparent;
-    border: 0px;
-    border-radius: 0px;
-    border-bottom: 1px solid var(--textColor);
+    background: var(--semitransparentColor);
+    border: 1px solid var(--semitransparentColor2);
+    border-radius: 10px;
+    padding: 8px 10px;
     font-size: 18px;
-}
-
-input[type="text"],
-input[type="number"] {
-    outline: 0px;
 }
 
 input[type="checkbox"] {
@@ -106,11 +105,15 @@ b {
 }
 
 select {
-    font-size: 18px;
-    font-weight: 600;
-    background: var(--backgroundColor);
-    border: 0px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
     cursor: pointer;
+    background: var(--semitransparentColor);
+    border: 1px solid var(--semitransparentColor2);
+    border-radius: 10px;
+    padding: 8px 10px;
 }
 
 option {
@@ -121,6 +124,7 @@ option {
 label {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
 }
 
@@ -144,7 +148,7 @@ hr {
     font-size: 18px;
     overflow: hidden;
     z-index: 2;
-    max-height: 600px;
+    max-height: 95%;
     overflow: auto;
 
     .dialogHeader {
@@ -165,7 +169,7 @@ hr {
         .dialogForm {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
     }
 
@@ -186,12 +190,8 @@ hr {
     }
 
     .dialogInput {
-        border: 0px;
-        border-radius: 0px;
-        border-bottom: 1px solid;
-        background-color: transparent;
         font-size: 20px;
-        max-width: 100px;
+        width: 58px;
     }
 
     .templateNameInput {
@@ -243,10 +243,6 @@ header {
         background-color: transparent;
         font-size: 20px;
         padding: 0px;
-    }
-
-    .languageInput {
-        font-size: 16px;
     }
 }
 
@@ -329,6 +325,7 @@ header {
     align-items: center;
     margin: 0px auto;
     padding: 10px;
+    min-width: 300px;
     max-width: 500px;
 
 
@@ -340,7 +337,8 @@ header {
     .countdownInputContainer {
         display: flex;
         align-items: center;
-        gap: 5px;
+        justify-content: center;
+        gap: 15px;
     }
 
     .timeSignatureInputContainer {
@@ -348,13 +346,6 @@ header {
         align-items: center;
         justify-content: center;
         gap: 10px;
-
-        .timeSignatureInput {
-            background-color: transparent;
-            border: 0px;
-            cursor: pointer;
-            font-size: 20px;
-        }
     }
 
     .beatContainer {
@@ -412,13 +403,13 @@ header {
             margin-top: 10px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
 
             .bpmInputButton {
                 background: var(--accentColor);
                 border-radius: 10px;
                 padding: 8px 15px;
-                font-size: 16px;
+                font-size: 18px;
                 white-space: nowrap;
             }
         }
@@ -428,6 +419,8 @@ header {
             text-align: center;
             background: transparent;
             border: 0px;
+            outline: 0px;
+            width: 100%;
         }
     }
 
@@ -447,7 +440,7 @@ header {
             flex-direction: row;
             align-items: center;
             justify-content: space-evenly;
-            gap: 30px;
+            gap: 10px;
 
             .iconButton {
                 display: flex;
