@@ -3,8 +3,9 @@ import type { Template } from "./types";
 import { MAIN_ICON_SIZE } from "../../utils/constants";
 import StopIcon from "../../assets/icons/stopIcon";
 import PlayIcon from "../../assets/icons/playIcon";
-import SettingsIcon from "../../assets/icons/settingsIcon";
 import TemplateIcon from "../../assets/icons/templateIcon";
+import TimeIcon from "../../assets/icons/timeIcon";
+import SettingsIcon from "../../assets/icons/settingsIcon";
 import BPMInput from "./components/bpmInput";
 import TimeSignatureInput from "./components/timeSignatureInput";
 import BeatDisplay from "./components/beatDisplay";
@@ -17,14 +18,25 @@ import TemplateFormDialog from "./components/dialogs/templateFormDialog";
 import ConfirmationDialog from "./components/dialogs/confirmationDialog";
 import AboutDialog from "./components/dialogs/aboutDialog";
 import TemplatesDialog from "./components/dialogs/templatesDialog";
+import SettingsDialog from "../dialog/settingsDialog";
 import useDialog from "../dialog/useDialog";
-import LanguageInput from "../languageInput";
-import ThemeButton from "../themeButton";
 import useExecuteOnKeyPressed from "../../utils/hooks/useExecuteOnKeyPressed";
 import useMetronome from "./hooks/useMetronome";
 import useTemplates from "./hooks/useTemplates";
+import useLanguage from "../../utils/hooks/useLanguage";
+import useTheme from "../../utils/hooks/useTheme";
 
 const Metronome = () => {
+
+    const {
+        language,
+        handleChangeLanguage,
+    } = useLanguage();
+
+    const {
+        theme,
+        handleChangeTheme,
+    } = useTheme();
 
     const {
         isPlayingCountdown,
@@ -91,6 +103,12 @@ const Metronome = () => {
         handleCloseDialog: handleCloseAboutDialog,
     } = useDialog();
 
+    const {
+        dialogIsOpen: settingsDialogIsOpen,
+        handleOpenDialog: handleOpenSettingsDialog,
+        handleCloseDialog: handleCloseSettingsDialog,
+    } = useDialog();
+
     const handleToggleMetronome = () => {
         if (someDialogIsOpen) return;
 
@@ -135,10 +153,15 @@ const Metronome = () => {
         <>
             <header>
                 <Title handleClick={handleOpenAboutDialog} />
-                <div>
-                    <LanguageInput />
-                    <ThemeButton />
-                </div>
+                <IconButton
+                    isActive
+                    title={t("settings")}
+                    handleClick={() => {
+                        handleOpenSettingsDialog();
+                    }}
+                >
+                    <SettingsIcon size={20} />
+                </IconButton>
             </header>
             <div className="metronomeContainer">
                 <p className="templateLabel" data-is-hidden={String(!selectedTemplateToPlayName)} title={t("template")}>
@@ -192,7 +215,7 @@ const Metronome = () => {
                                 handleStopMetronome();
                             }}
                         >
-                            <SettingsIcon />
+                            <TimeIcon />
                         </IconButton>
                         <IconButton
                             title={t(isPlaying ? "stop" : "play")}
@@ -261,6 +284,17 @@ const Metronome = () => {
                             handleCloseDeleteTemplate();
                         }}
                         handleClose={handleCloseDeleteTemplate}
+                    />
+                }
+                {
+                    settingsDialogIsOpen &&
+                    <SettingsDialog
+                        open={settingsDialogIsOpen}
+                        language={language}
+                        theme={theme}
+                        handleChangeLanguage={handleChangeLanguage}
+                        handleChangeTheme={handleChangeTheme}
+                        handleClose={handleCloseSettingsDialog}
                     />
                 }
                 {

@@ -1,4 +1,6 @@
 {
+    "dark": "Tema oscuro",
+    "light": "Tema claro",
     "timer": "Temporizador",
     "timerIsActive": "Temporizador activado",
     "stopIn": "Detener en",

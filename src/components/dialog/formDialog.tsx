@@ -3,6 +3,7 @@ import Dialog from "./dialog";
 
 type Props = {
     open: boolean,
+    hideActions?: boolean,
     title?: string,
     children?: React.ReactNode,
     handleClose: () => void,
@@ -13,6 +14,7 @@ const FormDialog = (props: Props) => {
 
     const {
         open,
+        hideActions,
         title,
         children,
         handleClose,
@@ -35,14 +37,17 @@ const FormDialog = (props: Props) => {
                     noValidate
                 >
                     {children}
-                    <div className="dialogButtonContainer">
-                        <button onClick={handleClose}>
-                            {t("cancel")}
-                        </button>
-                        <button type="submit">
-                            {t("accept")}
-                        </button>
-                    </div>
+                    {
+                        !hideActions &&
+                        <div className="dialogButtonContainer">
+                            <button type="button" onClick={handleClose}>
+                                {t("cancel")}
+                            </button>
+                            <button type="submit">
+                                {t("accept")}
+                            </button>
+                        </div>
+                    }
                 </form>
             }
             handleClose={handleClose}

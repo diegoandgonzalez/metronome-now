@@ -22,15 +22,14 @@ const useTheme = () => {
         document.documentElement.setAttribute("data-theme", initialTheme);
     }, [])
 
-    const toggleTheme = () => {
-        const newTheme = theme === THEMES.dark ? THEMES.light : THEMES.dark;
+    const handleChangeTheme = (newTheme: string) => {
         handleSyncTheme(newTheme);
         document.documentElement.setAttribute("data-theme", newTheme);
     }
 
     return {
         theme,
-        toggleTheme,
+        handleChangeTheme,
     }
 }
 

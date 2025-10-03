@@ -249,12 +249,6 @@ header {
         text-align: center;
         text-wrap: nowrap;
     }
-
-    .themeChanger {
-        background-color: transparent;
-        font-size: 20px;
-        padding: 0px;
-    }
 }
 
 .templatesDialogContainer {
@@ -328,6 +322,19 @@ header {
 
 [data-is-hidden="true"] {
     visibility: hidden;
+}
+
+.iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: var(--accentColor);
+
+    &[data-is-off="true"] {
+        background-color: var(--mutedColor);
+    }
 }
 
 .metronomeContainer {
@@ -451,20 +458,6 @@ header {
             align-items: center;
             justify-content: space-evenly;
             gap: 10px;
-
-            .iconButton {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                padding: 10px;
-                background-color: var(--accentColor);
-
-                &[data-is-off="true"] {
-                    background-color: var(--mutedColor);
-                }
-            }
-
         }
     }
 
