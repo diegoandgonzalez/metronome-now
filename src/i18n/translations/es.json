@@ -56,7 +56,6 @@
     "searchTemplate": "Buscar plantilla",
     "deleteTemplateQuestion": "¿Deseas eliminar la plantilla {{templateName}}?",
     "updateTemplateQuestion": "¿Deseas actualizar la plantilla con la configuración actual?",
-    "templateSelected": "Plantilla seleccionada",
     "templateCreated": "Plantilla creada",
     "templateUpdated": "Plantilla actualizada",
     "templateDeleted": "Plantilla eliminada",

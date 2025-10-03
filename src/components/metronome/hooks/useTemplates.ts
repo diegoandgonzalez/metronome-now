@@ -76,7 +76,6 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         const templateSelected = templates.find((template) => template.id === newTemplateID);
 
         onTemplateSelectionCallback(templateSelected);
-        handleOpenSnackbar(t("templateSelected"), 0, "success");
     }
 
     const handleOpenCreateTemplate = () => {

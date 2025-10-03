@@ -56,7 +56,6 @@
     "searchTemplate": "Rechercher un modèle",
     "deleteTemplateQuestion": "Voulez-vous supprimer le modèle {{templateName}} ?",
     "updateTemplateQuestion": "Voulez-vous mettre à jour le modèle avec la configuration actuelle ?",
-    "templateSelected": "Modèle sélectionné",
     "templateCreated": "Modèle créé",
     "templateUpdated": "Modèle mis à jour",
     "templateDeleted": "Modèle supprimé",

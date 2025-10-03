@@ -56,7 +56,6 @@
     "searchTemplate": "Search template",
     "deleteTemplateQuestion": "Do you want to delete the template {{templateName}}?",
     "updateTemplateQuestion": "Do you want to update the template with the current settings?",
-    "templateSelected": "Template selected",
     "templateCreated": "Template created",
     "templateUpdated": "Template updated",
     "templateDeleted": "Template deleted",

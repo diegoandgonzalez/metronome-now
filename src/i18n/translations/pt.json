@@ -56,7 +56,6 @@
     "searchTemplate": "Buscar modelo",
     "deleteTemplateQuestion": "Deseja excluir o modelo {{templateName}}?",
     "updateTemplateQuestion": "Deseja atualizar o modelo com a configuração atual?",
-    "templateSelected": "Modelo selecionado",
     "templateCreated": "Modelo criado",
     "templateUpdated": "Modelo atualizado",
     "templateDeleted": "Modelo excluído",
