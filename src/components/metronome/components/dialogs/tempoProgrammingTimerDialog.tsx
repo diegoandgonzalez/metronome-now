@@ -212,12 +212,12 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 />
                 {t("bpm")}
             </label>
-            <hr/>
+            <hr />
             <h4>{t("timer")}</h4>
             <label>
                 <input
                     id="isSecondsActive"
-                    type="checkbox"
+                    type="radio"
                     checked={isSecondsActive}
                     onChange={(e) => {
                         e.currentTarget.blur();
@@ -252,7 +252,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             <label>
                 <input
                     id="isMeasuresActive"
-                    type="checkbox"
+                    type="radio"
                     checked={isMeasuresActive}
                     onChange={(e) => {
                         e.currentTarget.blur();

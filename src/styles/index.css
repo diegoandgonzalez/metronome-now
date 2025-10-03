@@ -70,22 +70,23 @@ input {
     padding: 8px 10px;
     font-size: 18px;
 
-    &[type="checkbox"] {
+    &[type="checkbox"],
+    &[type="radio"] {
         margin: 0px 5px;
         scale: 1.25;
         cursor: pointer;
     }
-    
+
     &[type="number"],
     &[type="text"] {
         outline: none;
     }
-    
+
     &[type="number"] {
         -moz-appearance: textfield;
         appearance: textfield;
     }
-    
+
     &[type="number"]::-webkit-outer-spin-button,
     &[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -128,6 +129,11 @@ label {
     flex-wrap: wrap;
     align-items: center;
     gap: 10px;
+
+    &:has(input[type="checkbox"]),
+    &:has(input[type="radio"]) {
+        cursor: pointer;
+    }
 }
 
 hr {
