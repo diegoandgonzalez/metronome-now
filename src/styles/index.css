@@ -101,6 +101,10 @@ button {
     &:active {
         filter: brightness(110%);
     }
+
+    &:hover {
+        scale: 1.03;
+    }
 }
 
 b {
@@ -143,7 +147,6 @@ hr {
 .dialog {
     margin: 0px;
     padding: 20px;
-    border: 1px solid var(--mutedColor2);
     border-radius: var(--borderRadius);
     background-color: var(--backgroundColor);
     position: fixed;
