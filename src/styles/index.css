@@ -1,12 +1,8 @@
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
 * {
+    box-sizing: border-box;
     margin: 0px;
     padding: 0px;
+    scrollbar-color: var(--accentColor) transparent;
 }
 
 :root {
@@ -16,9 +12,8 @@
     --noAccentColor2: #6B6B6B;
     --mutedColor: #3e3e3e;
     --mutedColor2: #222;
-    --successColor: #27be59;
-
-    scrollbar-color: var(--accentColor) transparent;
+    --successColor: #1c8d42;
+    --borderRadius: 10px;
 }
 
 :root[data-theme="dark"] {
@@ -58,42 +53,49 @@ select {
 
 button,
 select {
+    outline: none;
     text-transform: none;
+
+    &:focus-visible {
+        outline: 2px solid var(--textColor);
+        border-radius: var(--borderRadius);
+    }
 }
 
 input {
     accent-color: var(--accentColor);
     background: var(--semitransparentColor);
     border: 1px solid var(--semitransparentColor2);
-    border-radius: 10px;
+    border-radius: var(--borderRadius);
     padding: 8px 10px;
     font-size: 18px;
-}
 
-input[type="checkbox"] {
-    margin: 0px 5px;
-    scale: 1.25;
-    cursor: pointer;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-}
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+    &[type="checkbox"] {
+        margin: 0px 5px;
+        scale: 1.25;
+        cursor: pointer;
+    }
+    
+    &[type="number"],
+    &[type="text"] {
+        outline: none;
+    }
+    
+    &[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+    
+    &[type="number"]::-webkit-outer-spin-button,
+    &[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 }
 
 button {
     border: 0px;
     cursor: pointer;
     color: white;
-
-    &:hover {
-        scale: 1.03;
-    }
 
     &:active {
         filter: brightness(110%);
@@ -112,7 +114,7 @@ select {
     cursor: pointer;
     background: var(--semitransparentColor);
     border: 1px solid var(--semitransparentColor2);
-    border-radius: 10px;
+    border-radius: var(--borderRadius);
     padding: 8px 10px;
 }
 
@@ -136,7 +138,7 @@ hr {
     margin: 0px;
     padding: 20px;
     border: 1px solid var(--mutedColor2);
-    border-radius: 10px;
+    border-radius: var(--borderRadius);
     background-color: var(--backgroundColor);
     position: fixed;
     top: 50%;
@@ -182,10 +184,10 @@ hr {
         gap: 10px;
 
         button {
-            background-color: var(--accentColor);
-            padding: 8px 16px;
-            border-radius: 10px;
             font-size: 16px;
+            padding: 8px 16px;
+            background-color: var(--accentColor);
+            border-radius: var(--borderRadius);
         }
     }
 
@@ -262,7 +264,7 @@ header {
         align-items: center;
         justify-content: center;
         background-color: var(--accentColor);
-        border-radius: 10px;
+        border-radius: var(--borderRadius);
     }
 
     .searchTemplateInputContainer {
@@ -327,7 +329,6 @@ header {
     padding: 10px;
     min-width: 300px;
     max-width: 500px;
-
 
     .templateLabel {
         margin-bottom: 15px;
@@ -407,7 +408,7 @@ header {
 
             .bpmInputButton {
                 background: var(--accentColor);
-                border-radius: 10px;
+                border-radius: var(--borderRadius);
                 padding: 8px 15px;
                 font-size: 18px;
                 white-space: nowrap;
@@ -508,7 +509,7 @@ header {
         min-width: 300px;
         padding: 15px 20px;
         border: 0px;
-        border-radius: 10px;
+        border-radius: var(--borderRadius);
         background-color: var(--accentColor);
         display: flex;
         align-items: center;
