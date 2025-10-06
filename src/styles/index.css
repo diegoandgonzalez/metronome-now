@@ -17,23 +17,23 @@
 }
 
 :root[data-theme="dark"] {
-    --backgroundColor: #1c1a1e;
     --textColor: white;
-    --semitransparentColor: rgba(60, 60, 60, 0.2);
-    --semitransparentColor2: rgba(255, 255, 255, 0.8);
+    --mainColor: #19171c;
+    --secondaryColor: #232027;
+    --tertiaryColor: #403946;
 }
 
 :root[data-theme="light"] {
-    --backgroundColor: #fafafa;
     --textColor: black;
-    --semitransparentColor: rgba(0, 0, 0, 0.1);
-    --semitransparentColor2: rgba(0, 0, 0, 0.8);
+    --mainColor: #f2f2f2;
+    --secondaryColor: #dbdbdb;
+    --tertiaryColor: #a1a1a1;
 }
 
 body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     margin: 0px;
-    background-color: var(--backgroundColor);
+    background-color: var(--mainColor);
     font-family: "Space Grotesk", sans-serif;
     color: var(--textColor);
 }
@@ -64,8 +64,8 @@ select {
 
 input {
     accent-color: var(--accentColor);
-    background: var(--semitransparentColor);
-    border: 1px solid var(--semitransparentColor2);
+    background: var(--secondaryColor);
+    border: 1px solid var(--tertiaryColor);
     border-radius: var(--borderRadius);
     padding: 8px 10px;
     font-size: 18px;
@@ -117,15 +117,15 @@ select {
     -moz-appearance: none;
 
     cursor: pointer;
-    background: var(--semitransparentColor);
-    border: 1px solid var(--semitransparentColor2);
+    background: var(--secondaryColor);
+    border: 1px solid var(--tertiaryColor);
     border-radius: var(--borderRadius);
     padding: 8px 10px;
 }
 
 option {
     text-align: center;
-    background-color: var(--backgroundColor);
+    background-color: var(--mainColor);
 }
 
 label {
@@ -148,7 +148,7 @@ hr {
     margin: 0px;
     padding: 20px;
     border-radius: var(--borderRadius);
-    background-color: var(--backgroundColor);
+    background-color: var(--mainColor);
     position: fixed;
     top: 50%;
     left: 50%;
@@ -161,19 +161,19 @@ hr {
     z-index: 2;
     max-height: 95%;
     overflow: auto;
-
+    
     .dialogHeader {
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
         gap: 10px;
-
+        
         .dialogTitle {
             font-size: 25px;
             font-weight: 600;
         }
     }
-
+    
     .dialogBody {
         margin-top: 30px;
 
@@ -252,12 +252,7 @@ header {
 }
 
 .templatesDialogContainer {
-    width: 500px;
-
-    .createContainer {
-        display: flex;
-        justify-content: flex-end;
-    }
+    width: 350px;
 
     button {
         flex: none;
@@ -270,34 +265,39 @@ header {
         border-radius: var(--borderRadius);
     }
 
-    .searchTemplateInputContainer {
+    .headerContainer {
         display: flex;
         margin-bottom: 20px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
     }
 
     .list {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
 
         .listItem {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
             gap: 20px;
+            padding: 15px;
+            border-radius: var(--borderRadius);
+            background-color: var(--secondaryColor);
+            border: 1px solid var(--tertiaryColor);
+
+            &[data-is-selected="true"] {
+                border-color: var(--accentColor);
+                color: var(--accentColor);
+                font-weight: 500;
+            }
 
             .playContainer {
-                display: flex;
-                align-items: center;
-                gap: 15px;
                 cursor: pointer;
 
-                &[data-is-selected="true"] {
-                    color: var(--accentColor);
-                }
-
                 .templateName {
-                    font-size: 22px;
+                    font-size: 20px;
                 }
 
                 .templateDescription {
@@ -307,7 +307,14 @@ header {
 
             .actionsContainer {
                 display: flex;
-                gap: 15px;
+                justify-content: flex-end;
+                gap: 10px;
+
+                button {
+                    font-size: 14px;
+                    width: auto;
+                    padding: 10px;
+                }
             }
         }
     }

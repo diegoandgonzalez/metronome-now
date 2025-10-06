@@ -47,7 +47,7 @@ const TemplatesDialog = (props: Props) => {
             handleClose={handleClose}
         >
             <div className="templatesDialogContainer">
-                <div className="searchTemplateInputContainer">
+                <div className="headerContainer">
                     <input
                         id="searchTemplate"
                         className="templateNameInput"
@@ -56,8 +56,6 @@ const TemplatesDialog = (props: Props) => {
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
                     />
-                </div>
-                <div className="createContainer">
                     <button
                         disabled={disabled}
                         title={t("createTemplate")}

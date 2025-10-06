@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import EditIcon from "../../../../../assets/icons/editIcon";
 import DeleteIcon from "../../../../../assets/icons/deleteIcon";
-import PlayIcon from "../../../../../assets/icons/playIcon";
+import DuplicateIcon from "../../../../../assets/icons/duplicateIcon";
 
 type Props = {
     selected: boolean,
@@ -28,19 +28,18 @@ const TemplateItem = (props: Props) => {
     const { t } = useTranslation();
 
     return (
-        <div className="listItem">
+        <div
+            className="listItem"
+            data-is-selected={String(selected)}
+        >
             <div
                 className="playContainer"
-                data-is-selected={String(selected)}
                 onClick={() => {
                     if (selected) return;
                     handleSelectTemplate();
                 }}
             >
-                <button title={t("selectTemplate")}>
-                    <PlayIcon size={16} />
-                </button>
-                <div>
+                <div title={name}>
                     <p className="templateName">
                         {name}
                     </p>
@@ -49,31 +48,44 @@ const TemplateItem = (props: Props) => {
                     </p>
                 </div>
             </div>
-            <div className="actionsContainer" data-is-hidden={String(!editable)}>
-                <button
-                data-is-hidden={String(!(editable && selected))}
-                    title={t("updateTemplate")}
-                    onClick={(e) => {
-                        e.currentTarget.blur();
-                        if (handleUpdateTemplate) {
-                            handleUpdateTemplate();
-                        }
-                    }}
-                >
-                    <EditIcon size={16} />
-                </button>
-                <button
-                    title={t("deleteTemplate")}
-                    onClick={(e) => {
-                        e.currentTarget.blur();
-                        if (handleDeleteTemplate) {
-                            handleDeleteTemplate();
-                        }
-                    }}
-                >
-                    <DeleteIcon size={16} />
-                </button>
-            </div>
+            {
+                editable && selected &&
+                <div className="actionsContainer">
+                    <button
+                        title={t("updateTemplate")}
+                        onClick={(e) => {
+                            e.currentTarget.blur();
+                            if (handleUpdateTemplate) {
+                                handleUpdateTemplate();
+                            }
+                        }}
+                    >
+                        <EditIcon size={16} />
+                    </button>
+                    {/* <button
+                        title={t("duplicateTemplate")}
+                        onClick={(e) => {
+                            e.currentTarget.blur();
+                            if (handleUpdateTemplate) {
+                                handleUpdateTemplate();
+                            }
+                        }}
+                    >
+                        <DuplicateIcon size={16} />
+                    </button> */}
+                    <button
+                        title={t("deleteTemplate")}
+                        onClick={(e) => {
+                            e.currentTarget.blur();
+                            if (handleDeleteTemplate) {
+                                handleDeleteTemplate();
+                            }
+                        }}
+                    >
+                        <DeleteIcon size={16} />
+                    </button>
+                </div>
+            }
         </div>
     );
 }
