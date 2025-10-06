@@ -343,7 +343,7 @@ header {
     align-items: center;
     margin: 0px auto;
     padding: 10px;
-    min-width: 300px;
+    min-width: 350px;
     max-width: 500px;
 
     .templateLabel {
