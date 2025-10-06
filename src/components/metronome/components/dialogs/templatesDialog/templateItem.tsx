@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import EditIcon from "../../../../../assets/icons/editIcon";
 import DeleteIcon from "../../../../../assets/icons/deleteIcon";
 import DuplicateIcon from "../../../../../assets/icons/duplicateIcon";
+import DotsMenu from "../../../../dotsMenu";
 
 type Props = {
     selected: boolean,
@@ -49,41 +50,30 @@ const TemplateItem = (props: Props) => {
                 </div>
             </div>
             {
-                editable && selected &&
+                editable &&
                 <div className="actionsContainer">
-                    <button
-                        title={t("updateTemplate")}
-                        onClick={(e) => {
-                            e.currentTarget.blur();
-                            if (handleUpdateTemplate) {
-                                handleUpdateTemplate();
+                    <DotsMenu
+                        options={[
+                            {
+                                name: t("updateTemplate"),
+                                icon: <EditIcon size={15} />,
+                                onClick: () => {
+                                    if (handleUpdateTemplate) {
+                                        handleUpdateTemplate();
+                                    }
+                                },
+                            },
+                            {
+                                name: t("deleteTemplate"),
+                                icon: <DeleteIcon size={15} />,
+                                onClick: () => {
+                                    if (handleDeleteTemplate) {
+                                        handleDeleteTemplate();
+                                    }
+                                },
                             }
-                        }}
-                    >
-                        <EditIcon size={16} />
-                    </button>
-                    {/* <button
-                        title={t("duplicateTemplate")}
-                        onClick={(e) => {
-                            e.currentTarget.blur();
-                            if (handleUpdateTemplate) {
-                                handleUpdateTemplate();
-                            }
-                        }}
-                    >
-                        <DuplicateIcon size={16} />
-                    </button> */}
-                    <button
-                        title={t("deleteTemplate")}
-                        onClick={(e) => {
-                            e.currentTarget.blur();
-                            if (handleDeleteTemplate) {
-                                handleDeleteTemplate();
-                            }
-                        }}
-                    >
-                        <DeleteIcon size={16} />
-                    </button>
+                        ]}
+                    />
                 </div>
             }
         </div>
