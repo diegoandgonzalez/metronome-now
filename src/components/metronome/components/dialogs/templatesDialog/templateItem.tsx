@@ -55,7 +55,7 @@ const TemplateItem = (props: Props) => {
                     <DotsMenu
                         options={[
                             {
-                                name: t("updateTemplate"),
+                                label: t("updateTemplate"),
                                 icon: <EditIcon size={15} />,
                                 onClick: () => {
                                     if (handleUpdateTemplate) {
@@ -64,7 +64,7 @@ const TemplateItem = (props: Props) => {
                                 },
                             },
                             {
-                                name: t("deleteTemplate"),
+                                label: t("deleteTemplate"),
                                 icon: <DeleteIcon size={15} />,
                                 onClick: () => {
                                     if (handleDeleteTemplate) {

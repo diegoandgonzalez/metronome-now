@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 
 type Props = {
     options: {
-        name: string,
+        label: string,
         icon?: React.ReactNode,
         onClick: () => void,
     }[],
@@ -16,6 +16,7 @@ const DotsMenu = ({ options }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
     const firstItemToFocusRef = useRef<HTMLButtonElement>(null);
+    const triggerButtonRef = useRef<HTMLButtonElement>(null);
 
     useLayoutEffect(() => {
         const closeMenu = () => setOpen(false);
@@ -29,18 +30,31 @@ const DotsMenu = ({ options }: Props) => {
             }
         };
 
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        };
+
         if (open) {
             document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("keydown", handleEscape);
             window.addEventListener("scroll", closeMenu, true);
         } else {
             document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("keydown", handleEscape);
             window.removeEventListener("scroll", closeMenu, true);
         }
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("keydown", handleEscape);
             window.removeEventListener("scroll", closeMenu, true);
         };
+    }, [open]);
+
+    useLayoutEffect(() => {
+        if (!open) triggerButtonRef.current?.focus();
     }, [open]);
 
     useLayoutEffect(() => {
@@ -62,29 +76,50 @@ const DotsMenu = ({ options }: Props) => {
         firstItemToFocusRef.current?.focus();
     }, [open]);
 
-    const handleLoopTabKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key !== "Tab") return;
+    const handleNavigationKeys = (event: React.KeyboardEvent<HTMLDivElement>) => {
 
         const focusable = Array.from(menuRef.current!.querySelectorAll<HTMLButtonElement>("button"));
         if (focusable.length === 0) return;
 
-        const firstItem = focusable[0];
-        const lastItem = focusable[focusable.length - 1];
+        const currentIndex = focusable.indexOf(document.activeElement as HTMLButtonElement);
 
-        if (!event.shiftKey && document.activeElement === lastItem) {
-            event.preventDefault();
-            firstItem.focus();
-        }
+        const focusNext = () => focusable[(currentIndex + 1) % focusable.length].focus();
+        const focusPrevious = () => focusable[(currentIndex - 1 + focusable.length) % focusable.length].focus();
+        const focusFirst = () => focusable[0].focus();
+        const focusLast = () => focusable[focusable.length - 1].focus();
 
-        if (event.shiftKey && document.activeElement === firstItem) {
-            event.preventDefault();
-            lastItem.focus();
+        switch (event.key) {
+            case "Tab":
+                event.preventDefault();
+                if (event.shiftKey) {
+                    focusPrevious();
+                    break;
+                }
+                focusNext();
+                break;
+            case "ArrowDown":
+                event.preventDefault();
+                focusNext();
+                break;
+            case "ArrowUp":
+                focusPrevious();
+                break;
+            case "Home":
+                event.preventDefault();
+                focusFirst();
+                break;
+            case "End":
+                event.preventDefault();
+                focusLast();
+                break;
+            default: break;
         }
     };
 
     return (
         <div ref={containerRef}>
             <button
+                ref={triggerButtonRef}
                 className="dotsMenuButton"
                 onClick={() => setOpen((prev) => !prev)}
             >
@@ -100,7 +135,7 @@ const DotsMenu = ({ options }: Props) => {
                             top: position.top,
                             left: position.left,
                         }}
-                        onKeyDown={handleLoopTabKeyDown}
+                        onKeyDown={handleNavigationKeys}
                     >
                         {
                             options.map((option, index) => (
@@ -115,7 +150,7 @@ const DotsMenu = ({ options }: Props) => {
                                     }}
                                 >
                                     {option.icon}
-                                    {option.name}
+                                    {option.label}
                                 </button>
                             ))
                         }
