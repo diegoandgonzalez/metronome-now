@@ -339,6 +339,10 @@ header {
     &[data-is-off="true"] {
         background-color: var(--mutedColor);
     }
+
+    &:focus {
+        border-radius: 50%;
+    }
 }
 
 .metronomeContainer {
