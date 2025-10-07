@@ -40,10 +40,17 @@ const FormDialog = (props: Props) => {
                     {
                         !hideActions &&
                         <div className="dialogButtonContainer">
-                            <button type="button" onClick={handleClose}>
+                            <button
+                                title={t("cancel")}
+                                type="button"
+                                onClick={handleClose}
+                            >
                                 {t("cancel")}
                             </button>
-                            <button type="submit">
+                            <button
+                                title={t("accept")}
+                                type="submit"
+                            >
                                 {t("accept")}
                             </button>
                         </div>
