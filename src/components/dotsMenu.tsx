@@ -147,6 +147,7 @@ const DotsMenu = ({ options }: Props) => {
                                 <button
                                     key={index}
                                     ref={index === 0 ? firstItemToFocusRef : null}
+                                    title={option.label}
                                     className="menuItem"
                                     onClick={() => {
                                         option.onClick();
