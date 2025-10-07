@@ -510,7 +510,7 @@ header {
 .dotsMenuButton {
     background: transparent !important;
     font-size: 20px;
-    color: var(--textColor);
+    color: inherit;
 
     &:hover {
         scale: 1;
