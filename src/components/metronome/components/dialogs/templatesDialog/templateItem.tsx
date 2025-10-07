@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import EditIcon from "../../../../../assets/icons/editIcon";
 import DeleteIcon from "../../../../../assets/icons/deleteIcon";
 import DotsMenu from "../../../../dotsMenu";
+import DuplicateIcon from "../../../../../assets/icons/duplicateIcon";
+import OverwriteIcon from "../../../../../assets/icons/overwriteIcon";
 
 type Props = {
     selected: boolean,
@@ -61,8 +63,17 @@ const TemplateItem = (props: Props) => {
                     <DotsMenu
                         options={[
                             {
-                                label: t("updateTemplate"),
+                                key: "rename",
+                                label: t("rename"),
                                 icon: <EditIcon size={15} />,
+                                onClick: () => {
+                                    
+                                },
+                            },
+                            {
+                                key: "update",
+                                label: t("saveChanges"),
+                                icon: <OverwriteIcon size={15} />,
                                 onClick: () => {
                                     if (handleUpdateTemplate) {
                                         handleUpdateTemplate();
@@ -70,7 +81,16 @@ const TemplateItem = (props: Props) => {
                                 },
                             },
                             {
-                                label: t("deleteTemplate"),
+                                key: "duplicate",
+                                label: t("duplicate"),
+                                icon: <DuplicateIcon size={15} />,
+                                onClick: () => {
+                                    
+                                },
+                            },
+                            {
+                                key: "delete",
+                                label: t("delete"),
                                 icon: <DeleteIcon size={15} />,
                                 onClick: () => {
                                     if (handleDeleteTemplate) {
@@ -78,7 +98,10 @@ const TemplateItem = (props: Props) => {
                                     }
                                 },
                             }
-                        ]}
+                        ].filter((option) => {
+                            if (!selected && option.key === "update") return false;
+                            return true;
+                        })}
                     />
                 </div>
             }
