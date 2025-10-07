@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { MetronomeSettings, Template } from "../../../types";
 import Dialog from "../../../../dialog/dialog";
@@ -33,11 +33,6 @@ const TemplatesDialog = (props: Props) => {
     } = props;
 
     const [searchValue, setSearchValue] = useState("");
-    const searchInputRef = useRef<HTMLInputElement | null>(null);
-
-    useLayoutEffect(() => {
-        searchInputRef.current?.focus();
-    }, [open]);
 
     const { t } = useTranslation();
 
@@ -54,7 +49,7 @@ const TemplatesDialog = (props: Props) => {
             <div className="templatesDialogContainer">
                 <div className="headerContainer">
                     <input
-                        ref={searchInputRef}
+                        autoFocus
                         id="searchTemplate"
                         className="templateNameInput"
                         type="text"
