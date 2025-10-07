@@ -253,6 +253,7 @@ header {
 
 .templatesDialogContainer {
     width: 350px;
+    height: 500px;
 
     button {
         flex: none;
@@ -277,6 +278,7 @@ header {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        padding-bottom: 20px;
 
         .listItem {
             display: grid;
@@ -519,6 +521,8 @@ header {
     border: 1px solid var(--tertiaryColor);
     padding: 5px;
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
 
     button {
         background-color: transparent;
@@ -528,7 +532,7 @@ header {
         position: relative;
         color: var(--textColor);
         font-size: 16px;
-        padding: 10px;
+        padding: 10px 15px;
         width: 100%;
         background: transparent;
         display: flex;
@@ -542,23 +546,7 @@ header {
             scale: 1;
             background-color: var(--secondaryColor);
         }
-
-        &:last-child::after {
-            display: none;
-        }
-
-        &::after {
-            content: "";
-            height: 1px;
-            width: 80%;
-            position: absolute;
-            transform: translateX(-50%);
-            left: 50%;
-            bottom: 0;
-            background: var(--tertiaryColor);
-        }
     }
-
 }
 
 

@@ -83,9 +83,7 @@ const DotsMenu = ({ options }: Props) => {
     };
 
     return (
-        <div
-            ref={containerRef}
-        >
+        <div ref={containerRef}>
             <button
                 className="dotsMenuButton"
                 onClick={() => setOpen((prev) => !prev)}
