@@ -61,7 +61,6 @@ const TemplateFormDialog = (props: Props) => {
             <label>
                 {t("templateName")}:
                 <input
-                    autoFocus
                     id="templateName"
                     className="templateNameInput"
                     type="text"

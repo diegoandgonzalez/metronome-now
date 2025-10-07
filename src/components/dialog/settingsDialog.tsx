@@ -33,7 +33,6 @@ const SettingsDialog = (props: Props) => {
             handleClose={handleClose}
         >
             <select
-                autoFocus
                 id="language"
                 value={language}
                 onChange={(e) => handleChangeLanguage(e.target.value)}

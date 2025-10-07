@@ -49,7 +49,6 @@ const TemplatesDialog = (props: Props) => {
             <div className="templatesDialogContainer">
                 <div className="headerContainer">
                     <input
-                        autoFocus
                         id="searchTemplate"
                         className="templateNameInput"
                         type="text"

@@ -139,7 +139,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             <h4>{t("bpmProgramming")}</h4>
             <label>
                 <input
-                    autoFocus
                     id="tempoProgrammingIsActive"
                     type="checkbox"
                     checked={isActive}
