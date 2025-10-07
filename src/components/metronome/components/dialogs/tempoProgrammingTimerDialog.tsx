@@ -142,10 +142,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     id="tempoProgrammingIsActive"
                     type="checkbox"
                     checked={isActive}
-                    onChange={(e) => {
-                        e.currentTarget.blur();
-                        setIsActive((prev) => !prev);
-                    }}
+                    onChange={() => setIsActive((prev) => !prev)}
                     title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
                 />
                 {t("tempoProgrammingIsActive")}
@@ -153,10 +150,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             <select
                 id="addSubtractOption"
                 value={addSubtractOption}
-                onChange={(e) => {
-                    e.currentTarget.blur();
-                    setAddSubtractOption(e.target.value);
-                }}
+                onChange={(e) => setAddSubtractOption(e.target.value)}
                 title={t("selectHowBPMchanges")}
             >
                 {
@@ -219,8 +213,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     id="isSecondsActive"
                     type="radio"
                     checked={isSecondsActive}
-                    onChange={(e) => {
-                        e.currentTarget.blur();
+                    onChange={() => {
                         setIsSecondsActive((prev) => !prev);
                         setIsMeasuresActive(false);
                     }}
@@ -254,8 +247,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     id="isMeasuresActive"
                     type="radio"
                     checked={isMeasuresActive}
-                    onChange={(e) => {
-                        e.currentTarget.blur();
+                    onChange={() => {
                         setIsMeasuresActive((prev) => !prev);
                         setIsSecondsActive(false);
                     }}

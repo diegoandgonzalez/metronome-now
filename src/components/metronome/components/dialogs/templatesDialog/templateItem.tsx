@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import EditIcon from "../../../../../assets/icons/editIcon";
 import DeleteIcon from "../../../../../assets/icons/deleteIcon";
-import DuplicateIcon from "../../../../../assets/icons/duplicateIcon";
 import DotsMenu from "../../../../dotsMenu";
 
 type Props = {

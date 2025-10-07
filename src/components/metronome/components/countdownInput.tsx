@@ -24,10 +24,7 @@ const CountdownInput = (props: Props) => {
             <select
                 id="countdown"
                 value={initialAmount}
-                onChange={(e) => {
-                    e.currentTarget.blur();
-                    handleClick(Number(e.target.value));
-                }}
+                onChange={(e) => handleClick(Number(e.target.value))}
             >
                 {
                     METRONOME_CONSTANTS.countdownOptions.map((countdown) => {

@@ -33,12 +33,10 @@ const SettingsDialog = (props: Props) => {
             handleClose={handleClose}
         >
             <select
+                autoFocus
                 id="language"
                 value={language}
-                onChange={(e) => {
-                    e.currentTarget.blur();
-                    handleChangeLanguage(e.target.value);
-                }}
+                onChange={(e) => handleChangeLanguage(e.target.value)}
             >
                 {
                     LANGUAGE_OPTIONS.map((language) => {
@@ -51,10 +49,7 @@ const SettingsDialog = (props: Props) => {
             <select
                 id="theme"
                 value={theme}
-                onChange={(e) => {
-                    e.currentTarget.blur();
-                    handleChangeTheme(e.target.value);
-                }}
+                onChange={(e) => handleChangeTheme(e.target.value)}
             >
                 {
                     Object.keys(THEMES).map((themeKey) => {

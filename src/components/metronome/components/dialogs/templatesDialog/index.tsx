@@ -60,10 +60,7 @@ const TemplatesDialog = (props: Props) => {
                     <button
                         disabled={disabled}
                         title={t("createTemplate")}
-                        onClick={(e) => {
-                            e.currentTarget.blur();
-                            handleCreateTemplate();
-                        }}
+                        onClick={handleCreateTemplate}
                     >
                         <CreateIcon size={16} />
                     </button>

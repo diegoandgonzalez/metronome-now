@@ -25,10 +25,7 @@ const TimeSignatureInput = (props: Props) => {
         id="beatsPerMeasure"
         title={t("beatsPerMeasure")}
         value={beatsPerMeasure}
-        onChange={(e) => {
-          e.currentTarget.blur();
-          handleSetBeatsPerMeasure(Number(e.target.value));
-        }}
+        onChange={(e) => handleSetBeatsPerMeasure(Number(e.target.value))}
       >
         {
           METRONOME_CONSTANTS.beatsPerMeasureOptions.map((_, index) => {
@@ -43,10 +40,7 @@ const TimeSignatureInput = (props: Props) => {
         id="noteValue"
         title={t("beatValue")}
         value={noteValue}
-        onChange={(e) => {
-          e.currentTarget.blur();
-          handleSetNoteValue(Number(e.target.value));
-        }}
+        onChange={(e) => handleSetNoteValue(Number(e.target.value))}
       >
         {
           METRONOME_CONSTANTS.noteValueOptions.map((noteValue) => {

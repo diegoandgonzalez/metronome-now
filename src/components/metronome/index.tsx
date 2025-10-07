@@ -20,7 +20,7 @@ import AboutDialog from "./components/dialogs/aboutDialog";
 import TemplatesDialog from "./components/dialogs/templatesDialog";
 import SettingsDialog from "../dialog/settingsDialog";
 import useDialog from "../dialog/useDialog";
-import useExecuteOnKeyPressed from "../../utils/hooks/useExecuteOnKeyPressed";
+import useExecuteOnShiftComboPressed from "../../utils/hooks/useExecuteOnShiftComboPressed";
 import useMetronome from "./hooks/useMetronome";
 import useTemplates from "./hooks/useTemplates";
 import useLanguage from "../../utils/hooks/useLanguage";
@@ -129,7 +129,7 @@ const Metronome = () => {
         handleCreateTemplate(newTemplateName, settings);
     }
 
-    useExecuteOnKeyPressed("Space", handleToggleMetronome);
+    useExecuteOnShiftComboPressed("P", handleToggleMetronome);
 
     const { t } = useTranslation();
 

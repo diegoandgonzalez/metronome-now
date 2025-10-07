@@ -21,10 +21,7 @@ const IconButton = (props: Props) => {
             data-is-off={String(!isActive)}
             title={title || ""}
             className="iconButton"
-            onClick={(e) => {
-                e.currentTarget.blur();
-                handleClick();
-            }}
+            onClick={handleClick}
         >
             {children}
         </button>

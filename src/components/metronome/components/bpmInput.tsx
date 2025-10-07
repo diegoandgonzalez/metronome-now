@@ -54,7 +54,6 @@ const BPMInput = (props: Props) => {
         onMouseLeave={(e) => e.currentTarget.blur()}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            e.currentTarget.blur();
             handleSubmit();
           }
         }}
@@ -65,8 +64,7 @@ const BPMInput = (props: Props) => {
         <button
           className="bpmInputButton"
           title={t("subtractBPM", { value: 1 })}
-          onClick={(e) => {
-            e.currentTarget.blur();
+          onClick={() => {
             const newBPM = Number(bpm) - 1;
             if (newBPM < METRONOME_CONSTANTS.minBPM) return;
             handleSubmit(String(newBPM));
@@ -77,8 +75,7 @@ const BPMInput = (props: Props) => {
         <button
           className="bpmInputButton"
           title={t("tapTempoToCalculateBPM")}
-          onClick={(e) => {
-            e.currentTarget.blur();
+          onClick={() => {
             const tappedBPM = tap();
             if (!tappedBPM) return;
             handleSubmit(String(tappedBPM))
@@ -89,8 +86,7 @@ const BPMInput = (props: Props) => {
         <button
           className="bpmInputButton"
           title={t("addBPM", { value: 1 })}
-          onClick={(e) => {
-            e.currentTarget.blur();
+          onClick={() => {
             const newBPM = Number(bpm) + 1;
             if (newBPM > METRONOME_CONSTANTS.maxBPM) return;
             handleSubmit(String(newBPM));

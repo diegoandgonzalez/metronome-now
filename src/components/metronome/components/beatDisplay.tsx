@@ -51,10 +51,7 @@ const BeatDisplay = (props: Props) => {
                       data-is-current-beat={String(isCurrentBeat)}
                       data-beat-is-stopped={String(!isPlaying)}
                       title={t("clickToToggleBeatType")}
-                      onClick={(e) => {
-                        handleClick(beatIndex);
-                        e.currentTarget.blur();
-                      }}
+                      onClick={() => handleClick(beatIndex)}
                     />
                   )
                 })

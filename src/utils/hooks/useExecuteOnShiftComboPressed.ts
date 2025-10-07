@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 
-const useExecuteOnKeyPressed = (keyCode: string, callback: () => void) => {
+const useExecuteOnShiftComboPressed = (keyCode: string, callback: () => void) => {
 
   useEffect(() => {
     const executeCallback = (event: KeyboardEvent) => {
-      if (event.code === keyCode && callback) callback();
+      if (event.key === keyCode && event.shiftKey) {
+        event.preventDefault();
+        callback();
+      }
     }
 
     document.addEventListener("keyup", executeCallback);
@@ -15,4 +18,4 @@ const useExecuteOnKeyPressed = (keyCode: string, callback: () => void) => {
   }, [keyCode, callback])
 };
 
-export default useExecuteOnKeyPressed;
+export default useExecuteOnShiftComboPressed;

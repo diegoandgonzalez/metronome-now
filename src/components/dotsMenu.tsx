@@ -148,14 +148,12 @@ const DotsMenu = ({ options }: Props) => {
                                     key={index}
                                     ref={index === 0 ? firstItemToFocusRef : null}
                                     className="menuItem"
-                                    onClick={(e) => {
-                                        e.currentTarget.blur();
+                                    onClick={() => {
                                         option.onClick();
                                         setOpen(false);
                                     }}
                                     onKeyDown={(e) => {
                                         if (e.key === "Enter" || e.key === " ") {
-                                            e.currentTarget.blur();
                                             option.onClick();
                                             setOpen(false);
                                         }
