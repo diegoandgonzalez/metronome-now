@@ -30,16 +30,23 @@ const TemplateItem = (props: Props) => {
 
     return (
         <div
+            role="button"
+            tabIndex={0}
             className="listItem"
             data-is-selected={String(selected)}
-        >
-            <div
-                className="playContainer"
-                onClick={() => {
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
                     if (selected) return;
                     handleSelectTemplate();
-                }}
-            >
+                }
+            }}
+            onClick={() => {
+                if (selected) return;
+                handleSelectTemplate();
+            }}
+        >
+            <div className="playContainer">
                 <div title={name}>
                     <p className="templateName">
                         {name}

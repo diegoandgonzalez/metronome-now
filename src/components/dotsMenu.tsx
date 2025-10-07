@@ -32,29 +32,29 @@ const DotsMenu = ({ options }: Props) => {
 
         const handleEscape = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
+                event.stopImmediatePropagation();
+                event.preventDefault();
                 closeMenu();
+                triggerButtonRef.current?.focus();
+                return;
             }
-        };
+        }
 
         if (open) {
             document.addEventListener("mousedown", handleClickOutside);
-            document.addEventListener("keydown", handleEscape);
+            document.addEventListener("keydown", handleEscape, true);
             window.addEventListener("scroll", closeMenu, true);
         } else {
             document.removeEventListener("mousedown", handleClickOutside);
-            document.removeEventListener("keydown", handleEscape);
+            document.removeEventListener("keydown", handleEscape, true);
             window.removeEventListener("scroll", closeMenu, true);
         }
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
-            document.removeEventListener("keydown", handleEscape);
+            document.removeEventListener("keydown", handleEscape, true);
             window.removeEventListener("scroll", closeMenu, true);
         };
-    }, [open]);
-
-    useLayoutEffect(() => {
-        if (!open) triggerButtonRef.current?.focus();
     }, [open]);
 
     useLayoutEffect(() => {
@@ -77,7 +77,6 @@ const DotsMenu = ({ options }: Props) => {
     }, [open]);
 
     const handleNavigationKeys = (event: React.KeyboardEvent<HTMLDivElement>) => {
-
         const focusable = Array.from(menuRef.current!.querySelectorAll<HTMLButtonElement>("button"));
         if (focusable.length === 0) return;
 
@@ -122,6 +121,12 @@ const DotsMenu = ({ options }: Props) => {
                 ref={triggerButtonRef}
                 className="dotsMenuButton"
                 onClick={() => setOpen((prev) => !prev)}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setOpen((prev) => !prev);
+                    }
+                }}
             >
                 {"⋮"}
             </button>
@@ -147,6 +152,13 @@ const DotsMenu = ({ options }: Props) => {
                                         e.currentTarget.blur();
                                         option.onClick();
                                         setOpen(false);
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter" || e.key === " ") {
+                                            e.currentTarget.blur();
+                                            option.onClick();
+                                            setOpen(false);
+                                        }
                                     }}
                                 >
                                     {option.icon}

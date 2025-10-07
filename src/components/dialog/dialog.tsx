@@ -1,6 +1,5 @@
-import CloseButton from "../closeButton";
-import useExecuteOnKeyPressed from "../../utils/hooks/useExecuteOnKeyPressed";
 import { createPortal } from "react-dom";
+import CloseButton from "../closeButton";
 
 type Props = {
     open: boolean,
@@ -17,8 +16,6 @@ const Dialog = (props: Props) => {
         children,
         handleClose,
     } = props;
-
-    useExecuteOnKeyPressed("Escape", handleClose);
 
     if (!open) return;
 
