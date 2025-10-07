@@ -26,7 +26,7 @@
 :root[data-theme="light"] {
     --textColor: black;
     --mainColor: #f2f2f2;
-    --secondaryColor: #dbdbdb;
+    --secondaryColor: #e6e6e6;
     --tertiaryColor: #a1a1a1;
 }
 
@@ -175,7 +175,7 @@ hr {
     }
 
     .dialogBody {
-        margin-top: 30px;
+        margin-top: 20px;
 
         .dialogForm {
             display: flex;
@@ -501,44 +501,66 @@ header {
     }
 }
 
-.dotsMenuContainer {
-    position: relative;
+.dotsMenuButton {
+    background: transparent !important;
+    font-size: 20px;
+    color: var(--textColor);
 
-    button {
-        color: var(--textColor);
-        background: transparent;
-        font-size: 20px;
-    }
-
-    .menu {
-        position: absolute;
-        right: 0;
-        width: 200px;
-        background: var(--mainColor);
-        border-radius: var(--borderRadius);
-        border: 1px solid var(--tertiaryColor);
-        padding: 5px;
-        z-index: 3;
-
-        .menuItem {
-            color: var(--textColor);
-            font-size: 14px;
-            padding: 10px;
-            width: 100%;
-            background: transparent;
-            display: flex;
-            justify-content: flex-start;
-            gap: 10px;
-            border-radius: var(--borderRadius);
-            text-align: start;
-
-            &:hover {
-                scale: 1;
-                background-color: var(--secondaryColor);
-            }
-        }
+    &:hover {
+        scale: 1;
     }
 }
+
+.menu {
+    position: absolute;
+    width: 230px;
+    background: var(--mainColor);
+    border-radius: var(--borderRadius);
+    border: 1px solid var(--tertiaryColor);
+    padding: 5px;
+    z-index: 1000;
+
+    button {
+        background-color: transparent;
+    }
+
+    .menuItem {
+        position: relative;
+        color: var(--textColor);
+        font-size: 16px;
+        padding: 10px;
+        width: 100%;
+        background: transparent;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 15px;
+        border-radius: var(--borderRadius);
+        text-align: start;
+
+        &:hover {
+            scale: 1;
+            background-color: var(--secondaryColor);
+        }
+
+        &:last-child::after {
+            display: none;
+        }
+
+        &::after {
+            content: "";
+            height: 1px;
+            width: 80%;
+            position: absolute;
+            transform: translateX(-50%);
+            left: 50%;
+            bottom: 0;
+            background: var(--tertiaryColor);
+        }
+    }
+
+}
+
 
 .snackbar {
     visibility: hidden;
