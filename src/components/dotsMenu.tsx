@@ -120,8 +120,12 @@ const DotsMenu = ({ options }: Props) => {
             <button
                 ref={triggerButtonRef}
                 className="dotsMenuButton"
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setOpen((prev) => !prev);
+                }}
                 onKeyDown={(e) => {
+                    e.stopPropagation();
                     if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         setOpen((prev) => !prev);
@@ -149,7 +153,8 @@ const DotsMenu = ({ options }: Props) => {
                                     ref={index === 0 ? firstItemToFocusRef : null}
                                     title={option.label}
                                     className="menuItem"
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                        e.stopPropagation();
                                         option.onClick();
                                         setOpen(false);
                                     }}
