@@ -34,13 +34,6 @@ const Dialog = (props: Props) => {
             }
 
             const handleKeyDown = (e: KeyboardEvent) => {
-                if (e.key === "Escape") {
-                    e.stopImmediatePropagation();
-                    e.preventDefault();
-                    handleClose();
-                    return;
-                }
-
                 if (e.key === "Tab") {
                     const first = focusable[0];
                     const last = focusable[focusable.length - 1];
@@ -66,7 +59,7 @@ const Dialog = (props: Props) => {
                 previouslyFocusedElement.current?.focus();
             };
         }
-    }, [open, handleClose]);
+    }, [open]);
 
     if (!open) return;
 
