@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import FormDialog from "../../../dialog/formDialog";
-import type { Template, TemplateFormData } from "../../types";
+import type { Template, TemplateFormAction, TemplateFormData } from "../../types";
 import { TEMPLATE_NAME_MAX_LENGTH } from "../../../../utils/constants";
 
 type Props = {
@@ -11,6 +11,24 @@ type Props = {
     templates: Template[],
     handleSubmit: (newName: string) => void,
     handleClose: () => void,
+}
+
+const getTitleKey = (action: TemplateFormAction) => {
+    if (action === "CREATE") return "createTemplate";
+    if (action === "UPDATE") return "updateTemplate";
+    if (action === "RENAME") return "renameTemplate";
+    if (action === "DUPLICATE") return "duplicateTemplate";
+    if (action === "DELETE") return "deleteTemplate";
+    return "";
+}
+
+const getDescriptionKey = (action: TemplateFormAction) => {
+    if (action === "CREATE") return "newTemplateExplanation";
+    if (action === "UPDATE") return "updateTemplateQuestion";
+    if (action === "RENAME") return "renameTemplateQuestion";
+    if (action === "DUPLICATE") return "newTemplateDuplicatedExplanation";
+    if (action === "DELETE") return "deleteTemplateQuestion";
+    return "";
 }
 
 const TemplateFormDialog = (props: Props) => {
@@ -25,9 +43,10 @@ const TemplateFormDialog = (props: Props) => {
 
     const { templateId, action } = data;
 
+    const originalTemplateName = templates.find((template) => template.id === templateId)?.name || "";
     const initialName = (() => {
         if (action === "CREATE" || action === "DUPLICATE") return "";
-        return templates.find((template) => template.id === templateId)?.name || "";
+        return originalTemplateName;
     })();
 
     const [newTemplateName, setNewTemplateName] = useState(initialName);
@@ -56,30 +75,12 @@ const TemplateFormDialog = (props: Props) => {
     return (
         <FormDialog
             open={open}
-            title={
-                (() => {
-                    if (action === "CREATE") return "Crear";
-                    if (action === "UPDATE") return "Actualizar configuración";
-                    if (action === "RENAME") return "Renombrar";
-                    if (action === "DUPLICATE") return "DUPLICAR";
-                    if (action === "DELETE") return "ELIMINAR";
-                    return "";
-                })()
-            }
+            title={t(getTitleKey(action))}
             handleClose={handleClose}
             handleSubmit={submit}
         >
             <p>
-                {
-                    t((() => {
-                        if (action === "CREATE") return "newTemplateExplanation";
-                        if (action === "UPDATE") return "updateTemplateQuestion";
-                        if (action === "RENAME") return "¿Deseas renombrar la plantilla?";
-                        if (action === "DUPLICATE") return "Se creará una nueva plantilla con la configuración de la plantilla seleccionada.";
-                        if (action === "DELETE") return "¿Deseas eliminar la plantilla?";
-                        return "";
-                    })())
-                }
+                {t(getDescriptionKey(action), { templateName: originalTemplateName })}
             </p>
             {
                 ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
@@ -89,6 +90,8 @@ const TemplateFormDialog = (props: Props) => {
                         id="templateName"
                         className="templateNameInput"
                         type="text"
+                        title={t("enterTemplateName")}
+                        placeholder={t("enterTemplateName")}
                         value={newTemplateName}
                         onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
                     />

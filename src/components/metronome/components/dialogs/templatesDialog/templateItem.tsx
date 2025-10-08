@@ -68,25 +68,25 @@ const TemplateItem = (props: Props) => {
                         options={[
                             {
                                 key: "rename",
-                                label: t("rename"),
+                                label: t("renameTemplate"),
                                 icon: <EditIcon size={15} />,
                                 onClick: () => handleRenameTemplate?.(),
                             },
                             {
                                 key: "update",
-                                label: t("saveChanges"),
+                                label: t("updateTemplate"),
                                 icon: <OverwriteIcon size={15} />,
                                 onClick: () => handleUpdateTemplate?.(),
                             },
                             {
                                 key: "duplicate",
-                                label: t("duplicate"),
+                                label: t("duplicateTemplate"),
                                 icon: <DuplicateIcon size={15} />,
                                 onClick: () => handleDuplicateTemplate?.(),
                             },
                             {
                                 key: "delete",
-                                label: t("delete"),
+                                label: t("deleteTemplate"),
                                 icon: <DeleteIcon size={15} />,
                                 onClick: () => handleDeleteTemplate?.(),
                             }
