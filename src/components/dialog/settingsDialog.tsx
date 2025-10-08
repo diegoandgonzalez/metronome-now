@@ -33,19 +33,6 @@ const SettingsDialog = (props: Props) => {
             handleClose={handleClose}
         >
             <select
-                id="language"
-                value={language}
-                onChange={(e) => handleChangeLanguage(e.target.value)}
-            >
-                {
-                    LANGUAGE_OPTIONS.map((language) => {
-                        return (
-                            <option key={language.value} value={language.value}>{language.name}</option>
-                        )
-                    })
-                }
-            </select>
-            <select
                 id="theme"
                 value={theme}
                 onChange={(e) => handleChangeTheme(e.target.value)}
@@ -54,6 +41,19 @@ const SettingsDialog = (props: Props) => {
                     Object.keys(THEMES).map((themeKey) => {
                         return (
                             <option key={themeKey} value={themeKey}>{t(themeKey)}</option>
+                        )
+                    })
+                }
+            </select>
+            <select
+                id="language"
+                value={language}
+                onChange={(e) => handleChangeLanguage(e.target.value)}
+            >
+                {
+                    LANGUAGE_OPTIONS.map((language) => {
+                        return (
+                            <option key={language.value} value={language.value}>{language.name}</option>
                         )
                     })
                 }

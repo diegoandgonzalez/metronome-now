@@ -139,15 +139,15 @@ const Metronome = () => {
         <>
             <header className="mainHeader">
                 <Title handleClick={handleOpenAboutDialog} />
-                <IconButton
-                    isActive
+                <button
+                    className="settingsButton"
                     title={t("settings")}
-                    handleClick={() => {
+                    onClick={() => {
                         handleOpenSettingsDialog();
                     }}
                 >
-                    <SettingsIcon size={20} />
-                </IconButton>
+                    <SettingsIcon size={25} />
+                </button>
             </header>
             <div className="metronomeContainer">
                 <p className="templateLabel" data-is-hidden={String(!selectedTemplateToPlayName)} title={t("template")}>
