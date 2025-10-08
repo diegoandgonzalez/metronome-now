@@ -216,7 +216,7 @@ hr {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
 
@@ -274,13 +274,16 @@ header {
         gap: 20px;
     }
 
-    .list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding-bottom: 20px;
+    ol {
+        list-style-type: none;
 
-        .listItem {
+        li {
+            &:not(:last-child) {
+                margin-bottom: 10px;
+            }
+        }
+
+        .templateItem {
             display: grid;
             grid-template-columns: 1fr auto;
             align-items: center;
@@ -289,6 +292,7 @@ header {
             border-radius: var(--borderRadius);
             background-color: var(--secondaryColor);
             border: 1px solid var(--tertiaryColor);
+            cursor: pointer;
 
             &[data-is-selected="true"] {
                 border-color: var(--accentColor);
@@ -296,16 +300,12 @@ header {
                 font-weight: 500;
             }
 
-            .playContainer {
-                cursor: pointer;
+            .templateName {
+                font-size: 20px;
+            }
 
-                .templateName {
-                    font-size: 20px;
-                }
-
-                .templateDescription {
-                    font-size: 14px;
-                }
+            .templateDescription {
+                font-size: 14px;
             }
 
             .actionsContainer {
