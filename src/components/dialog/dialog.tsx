@@ -67,20 +67,22 @@ const Dialog = (props: Props) => {
         <>
             <div
                 ref={dialogRef}
+                className="dialog"
                 role="dialog"
                 aria-modal="true"
                 tabIndex={-1}
-                className="dialog"
             >
-                <div className="dialogHeader">
-                    <p className="dialogTitle">
-                        {title}
-                    </p>
-                    <CloseButton handleClose={handleClose} />
-                </div>
-                <div className="dialogBody">
-                    {children}
-                </div>
+                <section>
+                    <header>
+                        <h2>
+                            {title}
+                        </h2>
+                        <CloseButton handleClose={handleClose} />
+                    </header>
+                    <div className="dialogBody">
+                        {children}
+                    </div>
+                </section>
             </div>
             <div className="backdrop" onClick={handleClose} />
         </>,

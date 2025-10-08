@@ -152,7 +152,6 @@ const DotsMenu = ({ options }: Props) => {
                                     key={index}
                                     ref={index === 0 ? firstItemToFocusRef : null}
                                     title={option.label}
-                                    className="menuItem"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         option.onClick();

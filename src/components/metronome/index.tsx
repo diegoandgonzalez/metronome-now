@@ -137,7 +137,7 @@ const Metronome = () => {
 
     return (
         <>
-            <header>
+            <header className="mainHeader">
                 <Title handleClick={handleOpenAboutDialog} />
                 <IconButton
                     isActive
@@ -172,7 +172,7 @@ const Metronome = () => {
                     currentBeatInMeasure={currentBeatInMeasure}
                     handleClick={handleToggleBeatType}
                 />
-                <div className="clockCountdownContainer">
+                <div className="clockAndCountdownContainer">
                     <Clock
                         isPlayingCountdown={isPlayingCountdown}
                         isPlaying={isPlaying}
@@ -191,37 +191,35 @@ const Metronome = () => {
                         }}
                     />
                 </div>
-                <footer>
-                    <div className="mainActionsContainer">
-                        <IconButton
-                            title={t("bpmProgrammingAndTimer")}
-                            isActive={settingsIsActive}
-                            handleClick={() => {
-                                handleOpenBPMProgrammingTimerDialog();
-                                handleStopMetronome();
-                            }}
-                        >
-                            <TimeIcon />
-                        </IconButton>
-                        <IconButton
-                            title={t(isPlaying ? "stop" : "play")}
-                            isActive
-                            handleClick={handleToggleMetronome}
-                        >
-                            {isPlaying ? <StopIcon size={MAIN_ICON_SIZE} /> : <PlayIcon size={MAIN_ICON_SIZE} />}
-                        </IconButton>
-                        <IconButton
-                            title={t("templates")}
-                            isActive={Boolean(selectedTemplateIdToPlay)}
-                            handleClick={() => {
-                                handleOpenTemplateDialog();
-                                handleStopMetronome();
-                            }}
-                        >
-                            <TemplateIcon />
-                        </IconButton>
-                    </div>
-                </footer>
+                <div className="mainActionsContainer">
+                    <IconButton
+                        title={t("bpmProgrammingAndTimer")}
+                        isActive={settingsIsActive}
+                        handleClick={() => {
+                            handleOpenBPMProgrammingTimerDialog();
+                            handleStopMetronome();
+                        }}
+                    >
+                        <TimeIcon />
+                    </IconButton>
+                    <IconButton
+                        title={t(isPlaying ? "stop" : "play")}
+                        isActive
+                        handleClick={handleToggleMetronome}
+                    >
+                        {isPlaying ? <StopIcon size={MAIN_ICON_SIZE} /> : <PlayIcon size={MAIN_ICON_SIZE} />}
+                    </IconButton>
+                    <IconButton
+                        title={t("templates")}
+                        isActive={Boolean(selectedTemplateIdToPlay)}
+                        handleClick={() => {
+                            handleOpenTemplateDialog();
+                            handleStopMetronome();
+                        }}
+                    >
+                        <TemplateIcon />
+                    </IconButton>
+                </div>
                 {
                     bpmProgrammingTimerDialogIsOpen &&
                     <TempoProgrammingTimerDialog

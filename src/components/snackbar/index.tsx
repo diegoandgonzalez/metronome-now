@@ -28,10 +28,7 @@ const Snackbar = () => {
             className="snackbar"
             data-is-open={String(open)}
         >
-            <div
-                className="snackbarContent"
-                data-type={type}
-            >
+            <div data-type={type}>
                 {text}
                 <CloseButton handleClose={handleClose} />
             </div>

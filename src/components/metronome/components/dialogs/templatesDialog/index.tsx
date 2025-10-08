@@ -50,8 +50,8 @@ const TemplatesDialog = (props: Props) => {
             title={t("templates")}
             handleClose={handleClose}
         >
-            <div className="templatesDialogContainer">
-                <div className="headerContainer">
+            <div className="templatesDialogContent">
+                <div className="templatesDialogHeader">
                     <input
                         id="searchTemplate"
                         className="templateNameInput"

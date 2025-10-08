@@ -144,6 +144,19 @@ hr {
     visibility: hidden;
 }
 
+form,
+fieldset {
+    border: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+legend {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
 .dialog {
     margin: 0px;
     padding: 20px;
@@ -162,13 +175,13 @@ hr {
     max-height: 95%;
     overflow: auto;
 
-    .dialogHeader {
+    header {
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
         gap: 10px;
 
-        .dialogTitle {
+        h2 {
             font-size: 25px;
             font-weight: 600;
         }
@@ -176,16 +189,10 @@ hr {
 
     .dialogBody {
         margin-top: 20px;
-
-        .dialogForm {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
     }
 
     .dialogButtonContainer {
-        margin-top: 10px;
+        margin-top: 20px;
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
@@ -199,15 +206,15 @@ hr {
             border-radius: var(--borderRadius);
         }
     }
+}
 
-    .dialogInput {
-        font-size: 20px;
-        width: 60px;
-    }
+.dialogInput {
+    font-size: 20px;
+    width: 60px;
+}
 
-    .templateNameInput {
-        flex: 1;
-    }
+.templateNameInput {
+    flex: 1;
 }
 
 .backdrop {
@@ -229,7 +236,7 @@ hr {
     color: var(--textColor);
 }
 
-header {
+.mainHeader {
     padding: 20px;
     padding-bottom: 0px;
     display: flex;
@@ -251,7 +258,7 @@ header {
     }
 }
 
-.templatesDialogContainer {
+.templatesDialogContent {
     width: 350px;
     height: 500px;
 
@@ -266,7 +273,7 @@ header {
         border-radius: var(--borderRadius);
     }
 
-    .headerContainer {
+    .templatesDialogHeader {
         display: flex;
         margin-bottom: 20px;
         align-items: center;
@@ -278,42 +285,9 @@ header {
         list-style-type: none;
 
         li {
-            &:not(:last-child) {
-                margin-bottom: 10px;
-            }
+            padding-bottom: 10px;
         }
 
-        .templateItem {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: center;
-            gap: 20px;
-            padding: 15px;
-            border-radius: var(--borderRadius);
-            background-color: var(--secondaryColor);
-            border: 1px solid var(--tertiaryColor);
-            cursor: pointer;
-
-            &[data-is-selected="true"] {
-                border-color: var(--accentColor);
-                color: var(--accentColor);
-                font-weight: 500;
-            }
-
-            .templateName {
-                font-size: 20px;
-            }
-
-            .templateDescription {
-                font-size: 14px;
-            }
-
-            .actionsContainer {
-                display: flex;
-                justify-content: flex-end;
-                gap: 10px;
-            }
-        }
     }
 }
 
@@ -321,6 +295,32 @@ header {
     .templatesDialogContainer {
         min-width: 300px;
         max-width: 100%;
+    }
+}
+
+.templateItem {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    border-radius: var(--borderRadius);
+    background-color: var(--secondaryColor);
+    border: 1px solid var(--tertiaryColor);
+    cursor: pointer;
+
+    &[data-is-selected="true"] {
+        border-color: var(--accentColor);
+        color: var(--accentColor);
+        font-weight: 500;
+    }
+
+    .templateName {
+        font-size: 20px;
+    }
+
+    .templateDescription {
+        font-size: 14px;
     }
 }
 
@@ -449,27 +449,19 @@ header {
         }
     }
 
-    footer {
-        margin-top: 30px;
+    .mainActionsContainer {
         width: 100%;
+        max-width: 280px;
+        margin: 10px;
+        margin-top: 30px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        gap: 20px;
-
-        .mainActionsContainer {
-            width: 100%;
-            max-width: 280px;
-            margin: 10px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-evenly;
-            gap: 10px;
-        }
+        justify-content: space-evenly;
+        gap: 10px;
     }
 
-    .clockCountdownContainer {
+    .clockAndCountdownContainer {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -530,9 +522,6 @@ header {
 
     button {
         background-color: transparent;
-    }
-
-    .menuItem {
         position: relative;
         color: var(--textColor);
         font-size: 16px;
@@ -553,7 +542,6 @@ header {
     }
 }
 
-
 .snackbar {
     visibility: hidden;
     position: fixed;
@@ -562,7 +550,7 @@ header {
     left: 50%;
     transform: translateX(-50%);
 
-    .snackbarContent {
+    div {
         min-width: 300px;
         padding: 15px 20px;
         border: 1px solid var(--tertiaryColor);

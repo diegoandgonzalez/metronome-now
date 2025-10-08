@@ -28,15 +28,17 @@ const FormDialog = (props: Props) => {
             open={open}
             title={title}
             children={
-                <form
-                    className="dialogForm"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        handleSubmit();
-                    }}
-                    noValidate
-                >
-                    {children}
+                <>
+                    <form
+                        id="formDialog"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit();
+                        }}
+                        noValidate
+                    >
+                        {children}
+                    </form>
                     {
                         !hideActions &&
                         <div className="dialogButtonContainer">
@@ -48,6 +50,7 @@ const FormDialog = (props: Props) => {
                                 {t("cancel")}
                             </button>
                             <button
+                                form="formDialog"
                                 title={t("accept")}
                                 type="submit"
                             >
@@ -55,7 +58,7 @@ const FormDialog = (props: Props) => {
                             </button>
                         </div>
                     }
-                </form>
+                </>
             }
             handleClose={handleClose}
         />

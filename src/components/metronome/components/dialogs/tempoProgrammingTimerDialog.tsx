@@ -136,135 +136,139 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <h4>{t("bpmProgramming")}</h4>
-            <label>
-                <input
-                    id="tempoProgrammingIsActive"
-                    type="checkbox"
-                    checked={isActive}
-                    onChange={() => setIsActive((prev) => !prev)}
-                    title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
-                />
-                {t("tempoProgrammingIsActive")}
-            </label>
-            <select
-                id="addSubtractOption"
-                value={addSubtractOption}
-                onChange={(e) => setAddSubtractOption(e.target.value)}
-                title={t("selectHowBPMchanges")}
-            >
-                {
-                    [
-                        TEMPO_PROGRAMMING_CONSTANTS.actions.add,
-                        TEMPO_PROGRAMMING_CONSTANTS.actions.subtract,
-                    ]
-                        .map((option) => {
-                            return (
-                                <option key={option} value={option}>
-                                    {t(option)}
-                                </option>
-                            )
-                        })
-                }
-            </select>
-            <label>
-                <input
-                    id="bpmToChange"
-                    className="dialogInput"
-                    type="number"
-                    min={0}
-                    max={METRONOME_CONSTANTS.maxBPM}
-                    value={bpmToChange}
-                    onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
-                    autoComplete="off"
-                />
-                {t("bpmEvery")}
-            </label>
-            <label>
-                <input
-                    id="measuresToChangeBPM"
-                    className="dialogInput"
-                    type="number"
-                    min={TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM}
-                    max={TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM}
-                    value={measuresToChangeBPM}
-                    onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
-                    autoComplete="off"
-                />
-                {t("measuresUntil")}
-            </label>
-            <label>
-                <input
-                    id="goalBPM"
-                    className="dialogInput"
-                    type="number"
-                    min={METRONOME_CONSTANTS.minBPM}
-                    max={METRONOME_CONSTANTS.maxBPM}
-                    value={goalBPM}
-                    onChange={(e) => setGoalBPM(e.target.value.substring(0, 3))}
-                    autoComplete="off"
-                />
-                {t("bpm")}
-            </label>
+            <fieldset>
+                <legend>{t("bpmProgramming")}</legend>
+                <label>
+                    <input
+                        id="tempoProgrammingIsActive"
+                        type="checkbox"
+                        checked={isActive}
+                        onChange={() => setIsActive((prev) => !prev)}
+                        title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
+                    />
+                    {t("tempoProgrammingIsActive")}
+                </label>
+                <select
+                    id="addSubtractOption"
+                    value={addSubtractOption}
+                    onChange={(e) => setAddSubtractOption(e.target.value)}
+                    title={t("selectHowBPMchanges")}
+                >
+                    {
+                        [
+                            TEMPO_PROGRAMMING_CONSTANTS.actions.add,
+                            TEMPO_PROGRAMMING_CONSTANTS.actions.subtract,
+                        ]
+                            .map((option) => {
+                                return (
+                                    <option key={option} value={option}>
+                                        {t(option)}
+                                    </option>
+                                )
+                            })
+                    }
+                </select>
+                <label>
+                    <input
+                        id="bpmToChange"
+                        className="dialogInput"
+                        type="number"
+                        min={0}
+                        max={METRONOME_CONSTANTS.maxBPM}
+                        value={bpmToChange}
+                        onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
+                        autoComplete="off"
+                    />
+                    {t("bpmEvery")}
+                </label>
+                <label>
+                    <input
+                        id="measuresToChangeBPM"
+                        className="dialogInput"
+                        type="number"
+                        min={TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM}
+                        max={TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM}
+                        value={measuresToChangeBPM}
+                        onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
+                        autoComplete="off"
+                    />
+                    {t("measuresUntil")}
+                </label>
+                <label>
+                    <input
+                        id="goalBPM"
+                        className="dialogInput"
+                        type="number"
+                        min={METRONOME_CONSTANTS.minBPM}
+                        max={METRONOME_CONSTANTS.maxBPM}
+                        value={goalBPM}
+                        onChange={(e) => setGoalBPM(e.target.value.substring(0, 3))}
+                        autoComplete="off"
+                    />
+                    {t("bpm")}
+                </label>
+            </fieldset>
             <hr />
-            <h4>{t("timer")}</h4>
-            <label>
-                <input
-                    id="isSecondsActive"
-                    type="radio"
-                    checked={isSecondsActive}
-                    onChange={() => {
-                        setIsSecondsActive((prev) => !prev);
-                        setIsMeasuresActive(false);
-                    }}
-                />
-                {t("stopIn")}
-                <input
-                    id="minutes"
-                    className="dialogInput"
-                    type="number"
-                    min={0}
-                    max={TIMER_CONSTANTS.maxMinutesToStop}
-                    value={minutes}
-                    onChange={(e) => setMinutes(e.target.value.substring(0, 2))}
-                    autoComplete="off"
-                />
-                {t("minutes")}
-                <input
-                    id="seconds"
-                    className="dialogInput"
-                    type="number"
-                    min={0}
-                    max={TIMER_CONSTANTS.maxSecondsToStop}
-                    value={seconds}
-                    onChange={(e) => setSeconds(e.target.value.substring(0, 2))}
-                    autoComplete="off"
-                />
-                {t("seconds")}
-            </label>
-            <label>
-                <input
-                    id="isMeasuresActive"
-                    type="radio"
-                    checked={isMeasuresActive}
-                    onChange={() => {
-                        setIsMeasuresActive((prev) => !prev);
-                        setIsSecondsActive(false);
-                    }}
-                />
-                {t("stopIn")}
-                <input
-                    id="measures"
-                    className="dialogInput"
-                    type="number"
-                    min={0}
-                    max={TIMER_CONSTANTS.maxMeasuresToStop}
-                    value={measures}
-                    onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
-                    autoComplete="off"
-                />
-                {t("measures")}
-            </label>
+            <fieldset>
+                <legend>{t("timer")}</legend>
+                <label>
+                    <input
+                        id="isSecondsActive"
+                        type="radio"
+                        checked={isSecondsActive}
+                        onChange={() => {
+                            setIsSecondsActive((prev) => !prev);
+                            setIsMeasuresActive(false);
+                        }}
+                    />
+                    {t("stopIn")}
+                    <input
+                        id="minutes"
+                        className="dialogInput"
+                        type="number"
+                        min={0}
+                        max={TIMER_CONSTANTS.maxMinutesToStop}
+                        value={minutes}
+                        onChange={(e) => setMinutes(e.target.value.substring(0, 2))}
+                        autoComplete="off"
+                    />
+                    {t("minutes")}
+                    <input
+                        id="seconds"
+                        className="dialogInput"
+                        type="number"
+                        min={0}
+                        max={TIMER_CONSTANTS.maxSecondsToStop}
+                        value={seconds}
+                        onChange={(e) => setSeconds(e.target.value.substring(0, 2))}
+                        autoComplete="off"
+                    />
+                    {t("seconds")}
+                </label>
+                <label>
+                    <input
+                        id="isMeasuresActive"
+                        type="radio"
+                        checked={isMeasuresActive}
+                        onChange={() => {
+                            setIsMeasuresActive((prev) => !prev);
+                            setIsSecondsActive(false);
+                        }}
+                    />
+                    {t("stopIn")}
+                    <input
+                        id="measures"
+                        className="dialogInput"
+                        type="number"
+                        min={0}
+                        max={TIMER_CONSTANTS.maxMeasuresToStop}
+                        value={measures}
+                        onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
+                        autoComplete="off"
+                    />
+                    {t("measures")}
+                </label>
+            </fieldset>
         </FormDialog>
     );
 }
