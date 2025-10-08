@@ -34,3 +34,6 @@ export type Template = {
 }
 
 export type TemplateFunction = (newTemplateName: string, newSettings: Settings) => void;
+
+export type TemplateFormAction = "CREATE" | "RENAME" | "UPDATE" | "DELETE" | "DUPLICATE";
+export type TemplateFormData = | { action: "CREATE"; templateId: "" } | { action: Exclude<TemplateFormAction, "CREATE">; templateId: string };

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useTranslation } from "react-i18next";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
-import type { Template, TemplateFunction } from "../types";
+import type { Template, TemplateFormData, TemplateFunction } from "../types";
 import useIndexedDB from "../../../utils/hooks/useIndexedDB";
 import useDialog from "../../dialog/useDialog";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
@@ -28,18 +28,12 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         handleSyncValue: setSelectedTemplateIdToPlay,
     } = useStateRefLocalStorageSync<string>("", LOCAL_STORAGE_KEYS.template);
 
-    const [selectedTemplateIdToChange, setSelectedTemplateIdToChange] = useState("");
+    const [templateFormData, setTemplateFormData] = useState<TemplateFormData | null>(null);
 
     const {
         dialogIsOpen: templateFormDialogIsOpen,
         handleOpenDialog: handleOpenTemplateFormDialog,
         handleCloseDialog: handleCloseTemplateFormDialog,
-    } = useDialog();
-
-    const {
-        dialogIsOpen: templateDeleteDialogIsOpen,
-        handleOpenDialog: handleOpenDeleteTemplateDialog,
-        handleCloseDialog: handleCloseDeleteTemplateDialog,
     } = useDialog();
 
     const {
@@ -79,27 +73,69 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
     }
 
     const handleOpenCreateTemplate = () => {
-        handleOpenTemplateFormDialog();
-    }
-
-    const handleOpenUpdateTemplate = (newTemplateID: string) => {
-        setSelectedTemplateIdToChange(newTemplateID);
+        setTemplateFormData({ templateId: "", action: "CREATE" });
         handleOpenTemplateFormDialog();
     }
 
     const handleCloseTemplateForm = () => {
-        setSelectedTemplateIdToChange("");
+        setTemplateFormData(null);
         handleCloseTemplateFormDialog();
     }
 
-    const handleOpenDeleteTemplate = (newTemplateID: string) => {
-        setSelectedTemplateIdToChange(newTemplateID);
-        handleOpenDeleteTemplateDialog();
+    const handleOpenUpdateTemplate = (newTemplateID: string) => {
+        setTemplateFormData({ templateId: newTemplateID, action: "UPDATE" });
+        handleOpenTemplateFormDialog();
     }
 
-    const handleCloseDeleteTemplate = () => {
-        setSelectedTemplateIdToChange("");
-        handleCloseDeleteTemplateDialog();
+    const handleOpenDeleteTemplate = (newTemplateID: string) => {
+        setTemplateFormData({ templateId: newTemplateID, action: "DELETE" });
+        handleOpenTemplateFormDialog();
+    }
+
+    const handleOpenDuplicateTemplate = (newTemplateID: string) => {
+        setTemplateFormData({ templateId: newTemplateID, action: "DUPLICATE" });
+        handleOpenTemplateFormDialog();
+    }
+
+    const handleOpenRenameTemplate = (newTemplateID: string) => {
+        setTemplateFormData({ templateId: newTemplateID, action: "RENAME" });
+        handleOpenTemplateFormDialog();
+    }
+
+    const handleSubmitActionTemplate: TemplateFunction = (newtemplateName, newSettings) => {
+        if (!templateFormData) return;
+
+        const {
+            action,
+            templateId,
+        } = templateFormData;
+
+        const originalTemplateData = templates.find((template) => template.id === templateId);
+
+        if (action === "CREATE") {
+            handleCreateTemplate(newtemplateName, newSettings);
+            return;
+        }
+
+        if (action === "DUPLICATE") {
+            handleCreateTemplate(newtemplateName, originalTemplateData?.settings || newSettings);
+            return;
+        }
+
+        if (action === "RENAME") {
+            handleUpdateTemplate(newtemplateName, originalTemplateData?.settings || newSettings);
+            return;
+        }
+
+        if (action === "UPDATE") {
+            handleUpdateTemplate(originalTemplateData?.name || "", newSettings);
+            return;
+        }
+
+        if (action === "DELETE") {
+            handleDeleteTemplate();
+            return;
+        }
     }
 
     const handleCreateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
@@ -124,7 +160,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
     }
 
     const handleUpdateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
-        const auxSelectedTemplate = templates.find((template) => template.id === selectedTemplateIdToChange);
+        const auxSelectedTemplate = templates.find((template) => template.id === templateFormData?.templateId);
         if (!auxSelectedTemplate) return;
 
         auxSelectedTemplate.name = newtemplateName;
@@ -144,12 +180,12 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
     }
 
     const handleDeleteTemplate = () => {
-        deleteItemInDB(selectedTemplateIdToChange)
+        deleteItemInDB(templateFormData?.templateId || "")
             .then(() => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
                         setTemplates(newTemplates);
-                        setSelectedTemplateIdToChange("");
+                        setTemplateFormData(null);
                         handleSelectTemplateToPlay("");
                         handleOpenSnackbar(t("templateDeleted"), 0, "success");
                     })
@@ -163,18 +199,16 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         isDBReady,
         templates,
         selectedTemplateIdToPlay,
-        selectedTemplateIdToChange,
         templateFormDialogIsOpen,
-        templateDeleteDialogIsOpen,
+        templateFormData,
         handleSelectTemplateToPlay,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
-        handleCloseTemplateForm,
         handleOpenDeleteTemplate,
-        handleCloseDeleteTemplate,
-        handleCreateTemplate,
-        handleUpdateTemplate,
-        handleDeleteTemplate,
+        handleOpenRenameTemplate,
+        handleOpenDuplicateTemplate,
+        handleCloseTemplateForm,
+        handleSubmitActionTemplate,
     };
 }
 

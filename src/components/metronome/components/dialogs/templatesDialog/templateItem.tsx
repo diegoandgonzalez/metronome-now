@@ -11,7 +11,9 @@ type Props = {
     name: string,
     description: string,
     handleSelectTemplate: () => void,
+    handleRenameTemplate?: () => void,
     handleUpdateTemplate?: () => void,
+    handleDuplicateTemplate?: () => void,
     handleDeleteTemplate?: () => void,
 }
 
@@ -23,7 +25,9 @@ const TemplateItem = (props: Props) => {
         name,
         description,
         handleSelectTemplate,
+        handleRenameTemplate,
         handleUpdateTemplate,
+        handleDuplicateTemplate,
         handleDeleteTemplate,
     } = props;
 
@@ -66,37 +70,25 @@ const TemplateItem = (props: Props) => {
                                 key: "rename",
                                 label: t("rename"),
                                 icon: <EditIcon size={15} />,
-                                onClick: () => {
-                                    
-                                },
+                                onClick: () => handleRenameTemplate?.(),
                             },
                             {
                                 key: "update",
                                 label: t("saveChanges"),
                                 icon: <OverwriteIcon size={15} />,
-                                onClick: () => {
-                                    if (handleUpdateTemplate) {
-                                        handleUpdateTemplate();
-                                    }
-                                },
+                                onClick: () => handleUpdateTemplate?.(),
                             },
                             {
                                 key: "duplicate",
                                 label: t("duplicate"),
                                 icon: <DuplicateIcon size={15} />,
-                                onClick: () => {
-                                    
-                                },
+                                onClick: () => handleDuplicateTemplate?.(),
                             },
                             {
                                 key: "delete",
                                 label: t("delete"),
                                 icon: <DeleteIcon size={15} />,
-                                onClick: () => {
-                                    if (handleDeleteTemplate) {
-                                        handleDeleteTemplate();
-                                    }
-                                },
+                                onClick: () => handleDeleteTemplate?.(),
                             }
                         ].filter((option) => {
                             if (!selected && option.key === "update") return false;

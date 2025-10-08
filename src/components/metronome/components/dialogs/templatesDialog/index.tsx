@@ -13,7 +13,9 @@ type Props = {
     templates: Template[],
     handleSelectTemplate: (templateId: string) => void,
     handleCreateTemplate: () => void,
+    handleRenameTemplate: (templateId: string) => void,
     handleUpdateTemplate: (templateId: string) => void,
+    handleDuplicateTemplate: (templateId: string) => void,
     handleDeleteTemplate: (templateId: string) => void,
     handleClose: () => void,
 }
@@ -27,7 +29,9 @@ const TemplatesDialog = (props: Props) => {
         templates,
         handleSelectTemplate,
         handleCreateTemplate,
+        handleRenameTemplate,
         handleUpdateTemplate,
+        handleDuplicateTemplate,
         handleDeleteTemplate,
         handleClose,
     } = props;
@@ -85,7 +89,9 @@ const TemplatesDialog = (props: Props) => {
                                         name={template.name}
                                         description={getTemplateDescription(template.settings?.metronomeSettings)}
                                         handleSelectTemplate={() => handleSelectTemplate(template.id)}
+                                        handleRenameTemplate={() => handleRenameTemplate(template.id)}
                                         handleUpdateTemplate={() => handleUpdateTemplate(template.id)}
+                                        handleDuplicateTemplate={() => handleDuplicateTemplate(template.id)}
                                         handleDeleteTemplate={() => handleDeleteTemplate(template.id)}
                                     />
                                 )

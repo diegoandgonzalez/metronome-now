@@ -1,13 +1,13 @@
 import { useState } from "react";
-import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
+import useSnackbarContext from "../../../snackbar/useSnackbarContext";
 import FormDialog from "../../../dialog/formDialog";
-import type { Template } from "../../types";
+import type { Template, TemplateFormData } from "../../types";
 import { TEMPLATE_NAME_MAX_LENGTH } from "../../../../utils/constants";
 
 type Props = {
     open: boolean,
-    initialValue: string,
+    data: TemplateFormData,
     templates: Template[],
     handleSubmit: (newName: string) => void,
     handleClose: () => void,
@@ -17,13 +17,20 @@ const TemplateFormDialog = (props: Props) => {
 
     const {
         open,
-        initialValue,
+        data,
         templates,
         handleSubmit,
         handleClose,
     } = props;
 
-    const [templateName, setTemplateName] = useState(initialValue);
+    const { templateId, action } = data;
+
+    const initialName = (() => {
+        if (action === "CREATE" || action === "DUPLICATE") return "";
+        return templates.find((template) => template.id === templateId)?.name || "";
+    })();
+
+    const [newTemplateName, setNewTemplateName] = useState(initialName);
 
     const {
         handleOpen: handleOpenSnackbar,
@@ -32,44 +39,61 @@ const TemplateFormDialog = (props: Props) => {
     const { t } = useTranslation();
 
     const submit = () => {
-        if (!templateName) {
+        if (!newTemplateName) {
             handleOpenSnackbar(t("nameRequired"));
             return;
         }
 
-        if (templateName !== initialValue && templates.some((template) => template.name === templateName)) {
+        if (newTemplateName !== initialName && templates.some((template) => template.name === newTemplateName)) {
             handleOpenSnackbar(t("nameInUse"));
             return;
         }
 
-        handleSubmit(templateName);
+        handleSubmit(newTemplateName);
         handleClose();
     }
-
-    const isCreate = !initialValue;
 
     return (
         <FormDialog
             open={open}
-            title={t(isCreate ? "createTemplate" : "updateTemplate")}
+            title={
+                (() => {
+                    if (action === "CREATE") return "Crear";
+                    if (action === "UPDATE") return "Actualizar configuración";
+                    if (action === "RENAME") return "Renombrar";
+                    if (action === "DUPLICATE") return "DUPLICAR";
+                    if (action === "DELETE") return "ELIMINAR";
+                    return "";
+                })()
+            }
             handleClose={handleClose}
             handleSubmit={submit}
         >
             <p>
-                {t(isCreate ? "newTemplateExplanation" : "updateTemplateQuestion")}
+                {
+                    t((() => {
+                        if (action === "CREATE") return "newTemplateExplanation";
+                        if (action === "UPDATE") return "updateTemplateQuestion";
+                        if (action === "RENAME") return "¿Deseas renombrar la plantilla?";
+                        if (action === "DUPLICATE") return "Se creará una nueva plantilla con la configuración de la plantilla seleccionada.";
+                        if (action === "DELETE") return "¿Deseas eliminar la plantilla?";
+                        return "";
+                    })())
+                }
             </p>
-            <label>
-                {t("templateName")}:
-                <input
-                    id="templateName"
-                    className="templateNameInput"
-                    type="text"
-                    value={templateName}
-                    onChange={(e) => {
-                        setTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH));
-                    }}
-                />
-            </label>
+            {
+                ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
+                <label>
+                    {t("templateName")}:
+                    <input
+                        id="templateName"
+                        className="templateNameInput"
+                        type="text"
+                        value={newTemplateName}
+                        onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
+                    />
+                </label>
+            }
         </FormDialog>
     );
 }
