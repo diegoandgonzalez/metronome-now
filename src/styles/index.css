@@ -259,8 +259,7 @@ legend {
 }
 
 .templatesDialogContent {
-    width: 350px;
-    height: 500px;
+    max-width: 560px;
 
     button {
         flex: none;
