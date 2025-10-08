@@ -15,7 +15,6 @@ import TempoProgrammingTimerDialog from "./components/dialogs/tempoProgrammingTi
 import Title from "./components/title";
 import CountdownInput from "./components/countdownInput";
 import TemplateFormDialog from "./components/dialogs/templateFormDialog";
-import ConfirmationDialog from "./components/dialogs/confirmationDialog";
 import AboutDialog from "./components/dialogs/aboutDialog";
 import TemplatesDialog from "./components/dialogs/templatesDialog";
 import SettingsDialog from "../dialog/settingsDialog";
@@ -71,18 +70,16 @@ const Metronome = () => {
         isDBReady,
         templates,
         selectedTemplateIdToPlay,
-        selectedTemplateIdToChange,
         templateFormDialogIsOpen,
-        templateDeleteDialogIsOpen,
+        templateFormData,
         handleSelectTemplateToPlay,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
-        handleCloseTemplateForm,
         handleOpenDeleteTemplate,
-        handleCloseDeleteTemplate,
-        handleCreateTemplate,
-        handleUpdateTemplate,
-        handleDeleteTemplate,
+        handleOpenRenameTemplate,
+        handleOpenDuplicateTemplate,
+        handleCloseTemplateForm,
+        handleSubmitActionTemplate,
     } = useTemplates(onTemplateSelectionCallback);
 
     const {
@@ -120,15 +117,6 @@ const Metronome = () => {
         handleStartMetronome();
     }
 
-    const handleSubmitCreateUpdateTemplate = (newTemplateName: string) => {
-        if (selectedTemplateIdToChange) {
-            handleUpdateTemplate(newTemplateName, settings);
-            return;
-        }
-
-        handleCreateTemplate(newTemplateName, settings);
-    }
-
     useExecuteOnShiftComboPressed("P", handleToggleMetronome);
 
     const { t } = useTranslation();
@@ -136,8 +124,7 @@ const Metronome = () => {
     const someDialogIsOpen = (
         bpmProgrammingTimerDialogIsOpen ||
         templateDialogIsOpen ||
-        templateFormDialogIsOpen ||
-        templateDeleteDialogIsOpen
+        templateFormDialogIsOpen
     );
 
     const settingsIsActive = (
@@ -147,7 +134,6 @@ const Metronome = () => {
     );
 
     const selectedTemplateToPlayName = templates.find((template) => template.id === selectedTemplateIdToPlay)?.name || "";
-    const selectedTemplateToChangeName = templates.find((template) => template.id === selectedTemplateIdToChange)?.name || "";
 
     return (
         <>
@@ -248,17 +234,17 @@ const Metronome = () => {
                     />
                 }
                 {
-                    templateDialogIsOpen && !templateDeleteDialogIsOpen && !templateFormDialogIsOpen &&
+                    templateDialogIsOpen && !templateFormDialogIsOpen &&
                     <TemplatesDialog
                         open={templateDialogIsOpen}
                         disabled={!isDBReady}
                         selectedTemplateId={selectedTemplateIdToPlay}
                         templates={templates}
-                        handleSelectTemplate={(templateId) => {
-                            handleSelectTemplateToPlay(templateId);
-                        }}
+                        handleSelectTemplate={(templateId) => handleSelectTemplateToPlay(templateId)}
                         handleCreateTemplate={handleOpenCreateTemplate}
+                        handleRenameTemplate={handleOpenRenameTemplate}
                         handleUpdateTemplate={handleOpenUpdateTemplate}
+                        handleDuplicateTemplate={handleOpenDuplicateTemplate}
                         handleDeleteTemplate={handleOpenDeleteTemplate}
                         handleClose={handleCloseTemplateDialog}
                     />
@@ -267,23 +253,10 @@ const Metronome = () => {
                     templateFormDialogIsOpen &&
                     <TemplateFormDialog
                         open={templateFormDialogIsOpen}
-                        initialValue={selectedTemplateToChangeName}
+                        data={templateFormData!}
                         templates={templates}
-                        handleSubmit={handleSubmitCreateUpdateTemplate}
+                        handleSubmit={(newName) => handleSubmitActionTemplate(newName, settings)}
                         handleClose={handleCloseTemplateForm}
-                    />
-                }
-                {
-                    templateDeleteDialogIsOpen &&
-                    <ConfirmationDialog
-                        open={templateDeleteDialogIsOpen}
-                        title={t("deleteTemplate")}
-                        message={t("deleteTemplateQuestion", { templateName: selectedTemplateToChangeName })}
-                        handleSubmit={() => {
-                            handleDeleteTemplate();
-                            handleCloseDeleteTemplate();
-                        }}
-                        handleClose={handleCloseDeleteTemplate}
                     />
                 }
                 {

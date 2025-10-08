@@ -13,7 +13,9 @@ type Props = {
     templates: Template[],
     handleSelectTemplate: (templateId: string) => void,
     handleCreateTemplate: () => void,
+    handleRenameTemplate: (templateId: string) => void,
     handleUpdateTemplate: (templateId: string) => void,
+    handleDuplicateTemplate: (templateId: string) => void,
     handleDeleteTemplate: (templateId: string) => void,
     handleClose: () => void,
 }
@@ -27,7 +29,9 @@ const TemplatesDialog = (props: Props) => {
         templates,
         handleSelectTemplate,
         handleCreateTemplate,
+        handleRenameTemplate,
         handleUpdateTemplate,
+        handleDuplicateTemplate,
         handleDeleteTemplate,
         handleClose,
     } = props;
@@ -64,34 +68,39 @@ const TemplatesDialog = (props: Props) => {
                         <CreateIcon size={16} />
                     </button>
                 </div>
-                <div className="list">
-                    <TemplateItem
-                        editable={false}
-                        selected={selectedTemplateId === ""}
-                        name={t("noTemplate")}
-                        description={getTemplateDescription(DEFAULT_SETTINGS.metronomeSettings)}
-                        handleSelectTemplate={() => handleSelectTemplate("")}
-                    />
+                <ol>
+                    <li>
+                        <TemplateItem
+                            editable={false}
+                            selected={selectedTemplateId === ""}
+                            name={t("noTemplate")}
+                            description={getTemplateDescription(DEFAULT_SETTINGS.metronomeSettings)}
+                            handleSelectTemplate={() => handleSelectTemplate("")}
+                        />
+                    </li>
                     {
                         templates
                             .filter((template) => template.name.toLowerCase().includes(searchValue.toLowerCase()))
                             .sort((a, b) => a.name.localeCompare(b.name))
                             .map((template) => {
                                 return (
-                                    <TemplateItem
-                                        key={template.id}
-                                        editable={true}
-                                        selected={selectedTemplateId === template.id}
-                                        name={template.name}
-                                        description={getTemplateDescription(template.settings?.metronomeSettings)}
-                                        handleSelectTemplate={() => handleSelectTemplate(template.id)}
-                                        handleUpdateTemplate={() => handleUpdateTemplate(template.id)}
-                                        handleDeleteTemplate={() => handleDeleteTemplate(template.id)}
-                                    />
+                                    <li key={template.id}>
+                                        <TemplateItem
+                                            editable={true}
+                                            selected={selectedTemplateId === template.id}
+                                            name={template.name}
+                                            description={getTemplateDescription(template.settings?.metronomeSettings)}
+                                            handleSelectTemplate={() => handleSelectTemplate(template.id)}
+                                            handleRenameTemplate={() => handleRenameTemplate(template.id)}
+                                            handleUpdateTemplate={() => handleUpdateTemplate(template.id)}
+                                            handleDuplicateTemplate={() => handleDuplicateTemplate(template.id)}
+                                            handleDeleteTemplate={() => handleDeleteTemplate(template.id)}
+                                        />
+                                    </li>
                                 )
                             })
                     }
-                </div>
+                </ol>
             </div>
         </Dialog>
     );
