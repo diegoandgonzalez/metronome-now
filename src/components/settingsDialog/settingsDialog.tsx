@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { LANGUAGE_OPTIONS, THEMES } from "../../utils/constants";
-import FormDialog from "./formDialog";
+import FormDialog from "../dialog/formDialog";
 
 type Props = {
     open: boolean,

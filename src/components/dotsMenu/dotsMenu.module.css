@@ -1,0 +1,44 @@
+.toggleButton {
+    background: transparent;
+    font-size: 20px;
+    height: 36px;
+    width: 36px;
+    color: inherit;
+
+    &:hover {
+        scale: 1;
+    }
+}
+
+.menu {
+    position: absolute;
+    background: var(--mainColor);
+    border-radius: var(--borderRadius);
+    border: 1px solid var(--tertiaryColor);
+    padding: 5px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+
+    button {
+        background-color: transparent;
+        position: relative;
+        color: var(--textColor);
+        font-size: 18px;
+        padding: 10px 15px;
+        padding-right: 20px;
+        width: 100%;
+        background: transparent;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 15px;
+        border-radius: var(--borderRadius);
+        text-align: start;
+
+        &:hover {
+            scale: 1;
+            background-color: var(--secondaryColor);
+        }
+    }
+}

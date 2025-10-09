@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { formatMsToHHMMSS } from "../../../utils/format";
-import PauseIcon from "../../../assets/icons/pauseIcon";
-import PlayIcon from "../../../assets/icons/playIcon";
+import { formatMsToHHMMSS } from "../../utils/format";
+import PauseIcon from "../../assets/icons/pauseIcon";
+import PlayIcon from "../../assets/icons/playIcon";
+import styles from "./clock.module.css";
 
 type Props = {
-  isPlayingCountdown: boolean,
+  showOnlyClock: boolean,
   isPlaying: boolean,
   isPaused: boolean,
   value: number,
@@ -17,7 +18,7 @@ type Props = {
 const Clock = (props: Props) => {
 
   const {
-    isPlayingCountdown,
+    showOnlyClock,
     isPlaying,
     isPaused,
     value,
@@ -30,33 +31,30 @@ const Clock = (props: Props) => {
   const { t } = useTranslation();
 
   return (
-    <div className="clockContainer">
+    <div className={styles.clockContainer}>
       {
-        isPlaying && !isPlayingCountdown &&
+        isPlaying && !showOnlyClock &&
         <button
-          className="pauseButton"
           title={t(isPaused ? "resume" : "pause")}
           onClick={handleClick}
         >
-          {
-            isPaused ? <PlayIcon size={20} /> : <PauseIcon size={20} />
-          }
+          {isPaused ? <PlayIcon size={20} /> : <PauseIcon size={20} />}
         </button>
       }
-      <p className="clock" title={t("playedTime")}>
+      <p className={styles.clock} title={t("playedTime")}>
         {formatMsToHHMMSS(value)}
       </p>
       {
         Boolean(secondsToStop) &&
         <>
-          <p>/</p>
-          <p className="clock" title={t("timerValue")}>
+          <span>/</span>
+          <p className={styles.clock} title={t("timerValue")}>
             {formatMsToHHMMSS(secondsToStop as number * 1000)}
           </p>
         </>
       }
       {
-        Boolean(currentMeasure) && !isPlayingCountdown &&
+        Boolean(currentMeasure) && !showOnlyClock &&
         <p>
           (
           <span title={t("currentMeasure")}>

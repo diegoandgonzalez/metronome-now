@@ -1,29 +1,29 @@
 import { useTranslation } from "react-i18next";
-import type { Template } from "./types";
+import type { Template } from "../../utils/types";
 import { MAIN_ICON_SIZE } from "../../utils/constants";
 import StopIcon from "../../assets/icons/stopIcon";
 import PlayIcon from "../../assets/icons/playIcon";
 import TemplateIcon from "../../assets/icons/templateIcon";
 import TimeIcon from "../../assets/icons/timeIcon";
-import SettingsIcon from "../../assets/icons/settingsIcon";
-import BPMInput from "./components/bpmInput";
-import TimeSignatureInput from "./components/timeSignatureInput";
-import BeatDisplay from "./components/beatDisplay";
-import Clock from "./components/clock";
-import IconButton from "./components/iconButton";
-import TempoProgrammingTimerDialog from "./components/dialogs/tempoProgrammingTimerDialog";
-import Title from "./components/title";
-import CountdownInput from "./components/countdownInput";
-import TemplateFormDialog from "./components/dialogs/templateFormDialog";
-import AboutDialog from "./components/dialogs/aboutDialog";
-import TemplatesDialog from "./components/dialogs/templatesDialog";
-import SettingsDialog from "../dialog/settingsDialog";
+import Header from "../header";
+import BPMInput from "../bpmInput";
+import TimeSignatureInput from "../timeSignatureInput";
+import BeatIndicator from "../beatIndicator";
+import Clock from "../clock";
+import IconButton from "../iconButton";
+import TempoProgrammingTimerDialog from "../tempoProgrammingTimerDialog";
+import CountdownInput from "../countdownInput";
+import TemplateFormDialog from "../templateFormDialog";
+import AboutDialog from "../aboutDialog";
+import TemplatesDialog from "../templatesDialog";
+import SettingsDialog from "../settingsDialog/settingsDialog";
 import useDialog from "../dialog/useDialog";
 import useExecuteOnShiftComboPressed from "../../utils/hooks/useExecuteOnShiftComboPressed";
-import useMetronome from "./hooks/useMetronome";
-import useTemplates from "./hooks/useTemplates";
 import useLanguage from "../../utils/hooks/useLanguage";
 import useTheme from "../../utils/hooks/useTheme";
+import useMetronome from "./hooks/useMetronome";
+import useTemplates from "./hooks/useTemplates";
+import styles from "./metronome.module.css";
 
 const Metronome = () => {
 
@@ -137,20 +137,16 @@ const Metronome = () => {
 
     return (
         <>
-            <header className="mainHeader">
-                <Title handleClick={handleOpenAboutDialog} />
-                <button
-                    className="settingsButton"
-                    title={t("settings")}
-                    onClick={() => {
-                        handleOpenSettingsDialog();
-                    }}
+            <Header
+                handleTitleClick={handleOpenAboutDialog}
+                handleSettingsClick={handleOpenSettingsDialog}
+            />
+            <div className={styles.metronomeContainer}>
+                <p
+                    className={styles.templateLabel}
+                    data-is-hidden={String(!selectedTemplateToPlayName)}
+                    title={t("template")}
                 >
-                    <SettingsIcon size={25} />
-                </button>
-            </header>
-            <div className="metronomeContainer">
-                <p className="templateLabel" data-is-hidden={String(!selectedTemplateToPlayName)} title={t("template")}>
                     {selectedTemplateToPlayName || t("noTemplate")}
                 </p>
                 <div>
@@ -165,16 +161,16 @@ const Metronome = () => {
                         handleSetNoteValue={handleSetNoteValue}
                     />
                 </div>
-                <BeatDisplay
+                <BeatIndicator
                     isPlaying={isPlaying}
                     beatTypes={settings.metronomeSettings.beatTypes}
                     beatsPerMeasure={settings.metronomeSettings.beatsPerMeasure}
                     currentBeatInMeasure={currentBeatInMeasure}
                     handleClick={handleToggleBeatType}
                 />
-                <div className="clockAndCountdownContainer">
+                <div className={styles.clockAndCountdownContainer}>
                     <Clock
-                        isPlayingCountdown={isPlayingCountdown}
+                        showOnlyClock={isPlayingCountdown}
                         isPlaying={isPlaying}
                         isPaused={isPaused}
                         value={currentTime}
@@ -191,7 +187,7 @@ const Metronome = () => {
                         }}
                     />
                 </div>
-                <div className="mainActionsContainer">
+                <div className={styles.mainActionsContainer}>
                     <IconButton
                         title={t("bpmProgrammingAndTimer")}
                         isActive={settingsIsActive}

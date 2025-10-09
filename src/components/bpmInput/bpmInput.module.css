@@ -1,0 +1,30 @@
+.bpmInputContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+    align-items: center;
+
+    .bpmInputButtonContainer {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        button {
+            background: var(--accentColor);
+            border-radius: var(--borderRadius);
+            padding: 8px 15px;
+            font-size: 18px;
+            white-space: nowrap;
+        }
+    }
+
+    input {
+        font-size: 75px;
+        text-align: center;
+        background: transparent;
+        border: 0px;
+        outline: 0px;
+        width: 100%;
+    }
+}

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import CloseButton from "../closeButton";
 import useSnackbarContext from "./useSnackbarContext";
+import styles from "./snackbar.module.css";
 
 const Snackbar = () => {
 
@@ -25,7 +26,7 @@ const Snackbar = () => {
 
     return (
         <div
-            className="snackbar"
+            className={styles.snackbar}
             data-is-open={String(open)}
         >
             <div data-type={type}>

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { METRONOME_CONSTANTS } from "../../../utils/constants";
+import { METRONOME_CONSTANTS } from "../../utils/constants";
+import styles from "./countdownInput.module.css";
 
 type Props = {
     initialAmount: number,
@@ -17,8 +18,8 @@ const CountdownInput = (props: Props) => {
 
     return (
         <label
+            className={styles.countdownInputContainer}
             htmlFor="countdown"
-            className="countdownInputContainer"
         >
             {t("countdown")}:
             <select

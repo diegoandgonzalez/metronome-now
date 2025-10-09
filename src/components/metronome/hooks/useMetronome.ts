@@ -9,7 +9,7 @@ import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalSt
 import useTimeMeasure from "./useTimeMeasure";
 import useTempoProgramming from "./useTempoProgramming";
 import useAudio from "./useAudio";
-import type { MetronomeSettings, Settings } from "../types";
+import type { MetronomeSettings, Settings } from "../../../utils/types";
 import useTimer from "./useTimer";
 
 const initialCountdownAmount = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownAmount, DEFAULT_SETTINGS.metronomeSettings.countdownAmount);

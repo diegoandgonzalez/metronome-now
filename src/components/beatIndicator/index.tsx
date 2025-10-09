@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import styles from "./beatIndicator.module.css";
 
 type Props = {
   isPlaying: boolean,
@@ -9,7 +10,7 @@ type Props = {
   handleClick: (beatIndex: number) => void,
 };
 
-const BeatDisplay = (props: Props) => {
+const BeatIndicator = (props: Props) => {
 
   const {
     isPlaying,
@@ -32,7 +33,7 @@ const BeatDisplay = (props: Props) => {
   }, [beatsPerMeasure]);
 
   return (
-    <div className="beatContainer">
+    <div className={styles.beatIndicator}>
       {
         splitBeatArray.map((beatArray, beatArrayIndex) => {
           return (
@@ -46,7 +47,6 @@ const BeatDisplay = (props: Props) => {
                   return (
                     <button
                       key={beatIndex}
-                      className="beat"
                       data-beat-type={String(beatType)}
                       data-is-current-beat={String(isCurrentBeat)}
                       data-beat-is-stopped={String(!isPlaying)}
@@ -64,4 +64,4 @@ const BeatDisplay = (props: Props) => {
   );
 };
 
-export default BeatDisplay;
+export default BeatIndicator;

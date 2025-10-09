@@ -1,0 +1,158 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    scrollbar-color: var(--accentColor) transparent;
+}
+
+:root {
+    --accentColor: #d42b3c;
+    --accentColor2: #66171E;
+    --noAccentColor: #b1b1b1;
+    --noAccentColor2: #6B6B6B;
+    --mutedColor: #3e3e3e;
+    --mutedColor2: #222;
+    --successColor: #1c8d42;
+    --borderRadius: 10px;
+}
+
+:root[data-theme="dark"] {
+    --textColor: white;
+    --mainColor: #19171c;
+    --secondaryColor: #232027;
+    --tertiaryColor: #403946;
+}
+
+:root[data-theme="light"] {
+    --textColor: black;
+    --mainColor: #f2f2f2;
+    --secondaryColor: #e6e6e6;
+    --tertiaryColor: #a1a1a1;
+}
+
+body {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    margin: 0px;
+    background-color: var(--mainColor);
+    font-family: "Space Grotesk", sans-serif;
+    color: var(--textColor);
+}
+
+h1,
+p,
+input,
+label,
+button,
+option,
+select {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0px;
+    color: inherit;
+}
+
+button,
+select {
+    outline: none;
+    text-transform: none;
+
+    &:focus-visible {
+        outline: 2px solid var(--textColor);
+        border-radius: var(--borderRadius);
+    }
+}
+
+input {
+    accent-color: var(--accentColor);
+    background: var(--secondaryColor);
+    border: 1px solid var(--tertiaryColor);
+    border-radius: var(--borderRadius);
+    padding: 8px 10px;
+    font-size: 18px;
+
+    &[type="checkbox"],
+    &[type="radio"] {
+        margin: 0px 5px;
+        scale: 1.25;
+        cursor: pointer;
+    }
+
+    &[type="number"],
+    &[type="text"] {
+        outline: none;
+    }
+
+    &[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
+    &[type="number"]::-webkit-outer-spin-button,
+    &[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+}
+
+button {
+    border: 0px;
+    cursor: pointer;
+    color: white;
+
+    &:active {
+        filter: brightness(110%);
+    }
+
+    &:hover {
+        scale: 1.03;
+    }
+}
+
+b {
+    color: var(--accentColor);
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    cursor: pointer;
+    background: var(--secondaryColor);
+    border: 1px solid var(--tertiaryColor);
+    border-radius: var(--borderRadius);
+    padding: 8px 10px;
+}
+
+option {
+    text-align: center;
+    background-color: var(--mainColor);
+}
+
+label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+
+    &:has(input[type="checkbox"]),
+    &:has(input[type="radio"]) {
+        cursor: pointer;
+    }
+}
+
+hr {
+    visibility: hidden;
+}
+
+form,
+fieldset {
+    border: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+legend {
+    font-weight: 600;
+    margin-bottom: 15px;
+}

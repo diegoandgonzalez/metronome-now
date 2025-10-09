@@ -1,4 +1,4 @@
-import Dialog from "../../../dialog/dialog";
+import Dialog from "../dialog/dialog";
 
 type Props = {
     open: boolean,

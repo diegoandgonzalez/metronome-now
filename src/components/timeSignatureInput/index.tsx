@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { METRONOME_CONSTANTS } from "../../../utils/constants";
+import { METRONOME_CONSTANTS } from "../../utils/constants";
+import styles from "./timeSignatureInput.module.css";
 
 type Props = {
   noteValue: number,
@@ -20,7 +21,7 @@ const TimeSignatureInput = (props: Props) => {
   const { t } = useTranslation();
 
   return (
-    <div className="timeSignatureInputContainer">
+    <div className={styles.timeSignatureInputContainer}>
       <select
         id="beatsPerMeasure"
         title={t("beatsPerMeasure")}

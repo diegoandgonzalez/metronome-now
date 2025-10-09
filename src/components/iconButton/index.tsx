@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import styles from "./iconButton.module.css";
 
 type Props = {
     title?: string,
@@ -20,7 +21,7 @@ const IconButton = (props: Props) => {
         <button
             data-is-off={String(!isActive)}
             title={title || ""}
-            className="iconButton"
+            className={styles.iconButton}
             onClick={handleClick}
         >
             {children}

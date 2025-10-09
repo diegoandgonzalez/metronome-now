@@ -4,7 +4,7 @@ import {
 } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
-import type { TempoProgrammingSettings } from "../types";
+import type { TempoProgrammingSettings } from "../../../utils/types";
 
 const initialTempoProgrammingIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingIsActive, DEFAULT_SETTINGS.tempoProgrammingSettings.isActive);
 const initialTempoProgrammingBPMToChange = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.tempoProgrammingBPMToChange, DEFAULT_SETTINGS.tempoProgrammingSettings.bpmToChange);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useTranslation } from "react-i18next";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
-import type { Template, TemplateFormData, TemplateFunction } from "../types";
+import type { Template, TemplateFormData, TemplateFunction } from "../../../utils/types";
 import useIndexedDB from "../../../utils/hooks/useIndexedDB";
 import useDialog from "../../dialog/useDialog";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";

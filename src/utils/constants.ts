@@ -1,4 +1,4 @@
-import type { Settings } from "../components/metronome/types";
+import type { Settings } from "./types";
 import { createDefaultBeatTypesArray } from "./beatTypes";
 
 export const METRONOME_CONSTANTS = {

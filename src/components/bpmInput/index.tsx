@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { METRONOME_CONSTANTS } from "../../../utils/constants";
-import useSnackbarContext from "../../snackbar/useSnackbarContext";
+import { METRONOME_CONSTANTS } from "../../utils/constants";
+import useSnackbarContext from "../snackbar/useSnackbarContext";
 import { useTranslation } from "react-i18next";
-import useTapTempo from "../hooks/useTapTempo";
+import useTapTempo from "../metronome/hooks/useTapTempo";
+import styles from "./bpmInput.module.css";
 
 type Props = {
   initialBPM: number,
@@ -40,11 +41,10 @@ const BPMInput = (props: Props) => {
   }
 
   return (
-    <div className="bpmInputContainer">
+    <div className={styles.bpmInputContainer}>
       <input
         id="bpm"
         type="number"
-        className="bpmInput"
         title={t("clickToEditBPM")}
         min={METRONOME_CONSTANTS.minBPM}
         max={METRONOME_CONSTANTS.maxBPM}
@@ -60,9 +60,8 @@ const BPMInput = (props: Props) => {
         onBlur={() => handleSubmit()}
         autoComplete="off"
       />
-      <div className="bpmInputButtonContainer">
+      <div className={styles.bpmInputButtonContainer}>
         <button
-          className="bpmInputButton"
           title={t("subtractBPM", { value: 1 })}
           onClick={() => {
             const newBPM = Number(bpm) - 1;
@@ -73,7 +72,6 @@ const BPMInput = (props: Props) => {
           -
         </button>
         <button
-          className="bpmInputButton"
           title={t("tapTempoToCalculateBPM")}
           onClick={() => {
             const tappedBPM = tap();
@@ -84,7 +82,6 @@ const BPMInput = (props: Props) => {
           {t("tapToGetBPM")}
         </button>
         <button
-          className="bpmInputButton"
           title={t("addBPM", { value: 1 })}
           onClick={() => {
             const newBPM = Number(bpm) + 1;

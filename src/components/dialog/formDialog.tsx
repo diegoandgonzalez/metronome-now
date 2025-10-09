@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import Dialog from "./dialog";
+import styles from "./dialog.module.css";
 
 type Props = {
     open: boolean,
@@ -41,7 +42,7 @@ const FormDialog = (props: Props) => {
                     </form>
                     {
                         !hideActions &&
-                        <div className="dialogButtonContainer">
+                        <div className={styles.dialogActionContainer}>
                             <button
                                 title={t("cancel")}
                                 type="button"

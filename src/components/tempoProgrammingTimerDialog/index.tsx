@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS, TIMER_CONSTANTS } from "../../../../utils/constants";
-import useSnackbarContext from "../../../snackbar/useSnackbarContext";
-import FormDialog from "../../../dialog/formDialog";
-import type { TempoProgrammingSettings, TimerSettings } from "../../types";
+import type { TempoProgrammingSettings, TimerSettings } from "../../utils/types";
+import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS, TIMER_CONSTANTS } from "../../utils/constants";
+import useSnackbarContext from "../snackbar/useSnackbarContext";
+import FormDialog from "../dialog/formDialog";
+import styles from "./tempoProgrammingTimerDialog.module.css";
 
 type Props = {
     open: boolean,
@@ -42,7 +43,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
     const [seconds, setSeconds] = useState<number | string>(initialTimerSettings.secondsToStop % 60);
     const [minutes, setMinutes] = useState<number | string>(Math.floor(initialTimerSettings.secondsToStop / 60));
     const [measures, setMeasures] = useState<number | string>(initialTimerSettings.measuresToStop);
-
 
     const handleSubmit = () => {
         const formattedBPMToChange = Math.round(Number(bpmToChange));
@@ -136,7 +136,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
         >
-            <fieldset>
+            <fieldset className={styles.inputContainer}>
                 <legend>{t("bpmProgramming")}</legend>
                 <label>
                     <input
@@ -171,7 +171,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 <label>
                     <input
                         id="bpmToChange"
-                        className="dialogInput"
                         type="number"
                         min={0}
                         max={METRONOME_CONSTANTS.maxBPM}
@@ -184,7 +183,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 <label>
                     <input
                         id="measuresToChangeBPM"
-                        className="dialogInput"
                         type="number"
                         min={TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM}
                         max={TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM}
@@ -197,7 +195,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 <label>
                     <input
                         id="goalBPM"
-                        className="dialogInput"
                         type="number"
                         min={METRONOME_CONSTANTS.minBPM}
                         max={METRONOME_CONSTANTS.maxBPM}
@@ -209,7 +206,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                 </label>
             </fieldset>
             <hr />
-            <fieldset>
+            <fieldset className={styles.inputContainer}>
                 <legend>{t("timer")}</legend>
                 <label>
                     <input
@@ -224,7 +221,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     {t("stopIn")}
                     <input
                         id="minutes"
-                        className="dialogInput"
                         type="number"
                         min={0}
                         max={TIMER_CONSTANTS.maxMinutesToStop}
@@ -235,7 +231,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     {t("minutes")}
                     <input
                         id="seconds"
-                        className="dialogInput"
                         type="number"
                         min={0}
                         max={TIMER_CONSTANTS.maxSecondsToStop}
@@ -258,7 +253,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     {t("stopIn")}
                     <input
                         id="measures"
-                        className="dialogInput"
                         type="number"
                         min={0}
                         max={TIMER_CONSTANTS.maxMeasuresToStop}

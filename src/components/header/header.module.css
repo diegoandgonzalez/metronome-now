@@ -1,0 +1,33 @@
+.header {
+    padding: 20px;
+    padding-bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    h1 {
+        cursor: pointer;
+        font-size: 24px;
+        text-align: center;
+        text-wrap: nowrap;
+    }
+
+    b {
+        color: var(--accentColor);
+    }
+
+    button {
+        display: flex;
+        align-items: center;
+        background-color: transparent;
+        color: var(--textColor);
+        padding: 5px;
+    }
+}

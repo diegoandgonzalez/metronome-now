@@ -1,7 +1,7 @@
 import { DEFAULT_SETTINGS } from "../../../utils/constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
-import type { TimerSettings } from "../types";
+import type { TimerSettings } from "../../../utils/types";
 
 const initialTimerSecondsIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsIsActive, DEFAULT_SETTINGS.timerSettings.secondsIsActive);
 const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresIsActive, DEFAULT_SETTINGS.timerSettings.measuresIsActive);

@@ -1,0 +1,8 @@
+.inputContainer {
+    input {
+        &[type="number"] {
+            font-size: 20px;
+            width: 60px;
+        }
+    }
+}

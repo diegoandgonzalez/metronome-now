@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import useSnackbarContext from "../../../snackbar/useSnackbarContext";
-import FormDialog from "../../../dialog/formDialog";
-import type { Template, TemplateFormAction, TemplateFormData } from "../../types";
-import { TEMPLATE_NAME_MAX_LENGTH } from "../../../../utils/constants";
+import useSnackbarContext from "../snackbar/useSnackbarContext";
+import FormDialog from "../dialog/formDialog";
+import type { Template, TemplateFormAction, TemplateFormData } from "../../utils/types";
+import { TEMPLATE_NAME_MAX_LENGTH } from "../../utils/constants";
+import styles from "./templateFormDialog.module.css";
 
 type Props = {
     open: boolean,
@@ -88,7 +89,7 @@ const TemplateFormDialog = (props: Props) => {
                     {t("templateName")}:
                     <input
                         id="templateName"
-                        className="templateNameInput"
+                        className={styles.templateNameInput}
                         type="text"
                         title={t("enterTemplateName")}
                         placeholder={t("enterTemplateName")}

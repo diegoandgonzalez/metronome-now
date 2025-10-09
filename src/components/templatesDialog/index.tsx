@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { MetronomeSettings, Template } from "../../../types";
-import Dialog from "../../../../dialog/dialog";
-import CreateIcon from "../../../../../assets/icons/createIcon";
-import { DEFAULT_SETTINGS, TEMPLATE_NAME_MAX_LENGTH } from "../../../../../utils/constants";
+import type { MetronomeSettings, Template } from "../../utils/types";
+import { DEFAULT_SETTINGS, TEMPLATE_NAME_MAX_LENGTH } from "../../utils/constants";
+import CreateIcon from "../../assets/icons/createIcon";
+import Dialog from "../dialog/dialog";
 import TemplateItem from "./templateItem";
+import styles from "./templatesDialog.module.css";
 
 type Props = {
     open: boolean,
@@ -50,17 +51,17 @@ const TemplatesDialog = (props: Props) => {
             title={t("templates")}
             handleClose={handleClose}
         >
-            <div className="templatesDialogContent">
-                <div className="templatesDialogHeader">
+            <div className={styles.templatesDialogContent}>
+                <div className={styles.templatesDialogHeader}>
                     <input
                         id="searchTemplate"
-                        className="templateNameInput"
                         type="text"
                         placeholder={t("searchTemplate")}
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
                     />
                     <button
+                        className={styles.createTemplateButton}
                         disabled={disabled}
                         title={t("createTemplate")}
                         onClick={handleCreateTemplate}

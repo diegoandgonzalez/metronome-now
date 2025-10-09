@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import CloseButton from "../closeButton";
+import styles from "./dialog.module.css";
 
 type Props = {
     open: boolean,
@@ -67,7 +68,7 @@ const Dialog = (props: Props) => {
         <>
             <div
                 ref={dialogRef}
-                className="dialog"
+                className={styles.dialog}
                 role="dialog"
                 aria-modal="true"
                 tabIndex={-1}
@@ -79,12 +80,12 @@ const Dialog = (props: Props) => {
                         </h2>
                         <CloseButton handleClose={handleClose} />
                     </header>
-                    <div className="dialogBody">
+                    <div className={styles.dialogBody}>
                         {children}
                     </div>
                 </section>
             </div>
-            <div className="backdrop" onClick={handleClose} />
+            <div className={styles.backdrop} onClick={handleClose} />
         </>,
         document.body
     )

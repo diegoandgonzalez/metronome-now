@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import styles from "./dotsMenu.module.css";
 
 type Props = {
     options: {
@@ -119,7 +120,7 @@ const DotsMenu = ({ options }: Props) => {
         <div ref={containerRef}>
             <button
                 ref={triggerButtonRef}
-                className="dotsMenuButton"
+                className={styles.toggleButton}
                 onClick={(e) => {
                     e.stopPropagation();
                     setOpen((prev) => !prev);
@@ -139,7 +140,7 @@ const DotsMenu = ({ options }: Props) => {
                 createPortal(
                     <div
                         ref={menuRef}
-                        className="menu"
+                        className={styles.menu}
                         style={{
                             top: position.top,
                             left: position.left,
