@@ -1,8 +1,14 @@
-.inputContainer {
-    input {
-        &[type="number"] {
-            font-size: 20px;
-            width: 60px;
+.tempoProgrammingTimerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .inputContainer {
+        input {
+            &[type="number"] {
+                font-size: 20px;
+                width: 60px;
+            }
         }
     }
 }

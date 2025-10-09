@@ -1,3 +1,9 @@
-.templateNameInput {
-    flex: 1;
+.templateFormDialog {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .templateNameInput {
+        flex: 1;
+    }
 }

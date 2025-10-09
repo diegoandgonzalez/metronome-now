@@ -140,11 +140,6 @@ label {
     }
 }
 
-hr {
-    visibility: hidden;
-}
-
-form,
 fieldset {
     border: 0px;
     display: flex;

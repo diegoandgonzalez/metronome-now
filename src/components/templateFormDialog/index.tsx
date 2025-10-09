@@ -80,12 +80,12 @@ const TemplateFormDialog = (props: Props) => {
             handleClose={handleClose}
             handleSubmit={submit}
         >
-            <p>
-                {t(getDescriptionKey(action), { templateName: originalTemplateName })}
-            </p>
-            {
-                ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
-                <label>
+            <div className={styles.templateFormDialog} style={{ maxWidth: 400 }}>
+                <p>
+                    {t(getDescriptionKey(action), { templateName: originalTemplateName })}
+                </p>
+                {
+                    ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
                     <input
                         id="templateName"
                         className={styles.templateNameInput}
@@ -95,8 +95,8 @@ const TemplateFormDialog = (props: Props) => {
                         value={newTemplateName}
                         onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
                     />
-                </label>
-            }
+                }
+            </div>
         </FormDialog>
     );
 }
