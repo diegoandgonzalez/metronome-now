@@ -1,8 +1,4 @@
 import { useTranslation } from "react-i18next";
-import EditIcon from "../../assets/icons/editIcon";
-import DeleteIcon from "../../assets/icons/deleteIcon";
-import DuplicateIcon from "../../assets/icons/duplicateIcon";
-import OverwriteIcon from "../../assets/icons/overwriteIcon";
 import DotsMenu from "../dotsMenu";
 import styles from "./templatesDialog.module.css";
 
@@ -68,25 +64,21 @@ const TemplateItem = (props: Props) => {
                             {
                                 key: "rename",
                                 label: t("renameTemplate"),
-                                icon: <EditIcon size={15} />,
                                 onClick: () => handleRenameTemplate?.(),
                             },
                             {
                                 key: "update",
                                 label: t("updateTemplate"),
-                                icon: <OverwriteIcon size={15} />,
                                 onClick: () => handleUpdateTemplate?.(),
                             },
                             {
                                 key: "duplicate",
                                 label: t("duplicateTemplate"),
-                                icon: <DuplicateIcon size={15} />,
                                 onClick: () => handleDuplicateTemplate?.(),
                             },
                             {
                                 key: "delete",
                                 label: t("deleteTemplate"),
-                                icon: <DeleteIcon size={15} />,
                                 onClick: () => handleDeleteTemplate?.(),
                             }
                         ]
