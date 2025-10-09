@@ -86,7 +86,6 @@ const TemplateFormDialog = (props: Props) => {
             {
                 ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
                 <label>
-                    {t("templateName")}:
                     <input
                         id="templateName"
                         className={styles.templateNameInput}

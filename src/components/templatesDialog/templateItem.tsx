@@ -63,22 +63,22 @@ const TemplateItem = (props: Props) => {
                         [
                             {
                                 key: "rename",
-                                label: t("renameTemplate"),
+                                label: t("rename"),
                                 onClick: () => handleRenameTemplate?.(),
                             },
                             {
                                 key: "update",
-                                label: t("updateTemplate"),
+                                label: t("update"),
                                 onClick: () => handleUpdateTemplate?.(),
                             },
                             {
                                 key: "duplicate",
-                                label: t("duplicateTemplate"),
+                                label: t("duplicate"),
                                 onClick: () => handleDuplicateTemplate?.(),
                             },
                             {
                                 key: "delete",
-                                label: t("deleteTemplate"),
+                                label: t("delete"),
                                 onClick: () => handleDeleteTemplate?.(),
                             }
                         ]
