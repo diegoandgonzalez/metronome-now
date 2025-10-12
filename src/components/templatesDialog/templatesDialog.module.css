@@ -27,7 +27,7 @@
     ol {
         list-style-type: none;
 
-        li {
+        li:not(:last-child) {
             padding-bottom: 10px;
         }
 
