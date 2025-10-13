@@ -4,7 +4,7 @@ import { MAIN_ICON_SIZE } from "../../utils/constants";
 import {
     RiPlayLargeFill,
     RiStopFill,
-    RiListUnordered,
+    RiPlayList2Fill,
     RiTimerLine,
 } from "react-icons/ri";
 import Header from "../header";
@@ -198,7 +198,7 @@ const Metronome = () => {
                             handleStopMetronome();
                         }}
                     >
-                        <RiTimerLine size={40} />
+                        <RiTimerLine size={35} />
                     </IconButton>
                     <IconButton
                         title={t(isPlaying ? "stop" : "play")}
@@ -214,7 +214,7 @@ const Metronome = () => {
                             handleStopMetronome();
                         }}
                     >
-                        <RiListUnordered size={40} />
+                        <RiPlayList2Fill size={35} />
                     </IconButton>
                 </div>
                 {

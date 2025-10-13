@@ -18,7 +18,7 @@
 
 :root[data-theme="dark"] {
     --textColor: white;
-    --mainColor: rgb(25, 23, 28);
+    --mainColor: #19171c;
     --secondaryColor: #232027;
     --tertiaryColor: #403946;
     --semitransparentColor: rgba(255, 255, 255, 0.05);
@@ -99,10 +99,6 @@ button {
     border: 0px;
     cursor: pointer;
     color: white;
-
-    &:hover {
-        filter: brightness(115%);
-    }
 }
 
 b {
