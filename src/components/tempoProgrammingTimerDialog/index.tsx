@@ -211,7 +211,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     <label>
                         <input
                             id="isSecondsActive"
-                            type="radio"
+                            type="checkbox"
                             checked={isSecondsActive}
                             onChange={() => {
                                 setIsSecondsActive((prev) => !prev);
@@ -243,7 +243,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     <label>
                         <input
                             id="isMeasuresActive"
-                            type="radio"
+                            type="checkbox"
                             checked={isMeasuresActive}
                             onChange={() => {
                                 setIsMeasuresActive((prev) => !prev);

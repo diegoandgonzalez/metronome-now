@@ -86,8 +86,7 @@ input {
     padding: 8px 10px;
     font-size: 18px;
 
-    &[type="checkbox"],
-    &[type="radio"] {
+    &[type="checkbox"] {
         margin: 0px 5px;
         scale: 1.25;
         cursor: pointer;
@@ -142,8 +141,7 @@ label {
     align-items: center;
     gap: 10px;
 
-    &:has(input[type="checkbox"]),
-    &:has(input[type="radio"]) {
+    &:has(input[type="checkbox"]) {
         cursor: pointer;
     }
 }
