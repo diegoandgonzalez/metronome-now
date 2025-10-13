@@ -18,9 +18,10 @@
 
 :root[data-theme="dark"] {
     --textColor: white;
-    --mainColor: #19171c;
+    --mainColor: rgb(25, 23, 28);
     --secondaryColor: #232027;
     --tertiaryColor: #403946;
+    --semitransparentColor: rgba(255, 255, 255, 0.07);
 }
 
 :root[data-theme="light"] {
@@ -28,6 +29,7 @@
     --mainColor: #f2f2f2;
     --secondaryColor: #e6e6e6;
     --tertiaryColor: #a1a1a1;
+    --semitransparentColor: rgba(0, 0, 0, 0.07);
 }
 
 body {
@@ -98,12 +100,8 @@ button {
     cursor: pointer;
     color: white;
 
-    &:active {
-        filter: brightness(110%);
-    }
-
     &:hover {
-        scale: 1.03;
+        filter: brightness(115%);
     }
 }
 

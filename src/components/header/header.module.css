@@ -1,5 +1,5 @@
 .header {
-    padding: 20px;
+    padding: 15px 20px;
     padding-bottom: 0px;
     display: flex;
     align-items: center;
@@ -21,13 +21,5 @@
 
     b {
         color: var(--accentColor);
-    }
-
-    button {
-        display: flex;
-        align-items: center;
-        background-color: transparent;
-        color: var(--textColor);
-        padding: 5px;
     }
 }

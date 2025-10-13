@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./dotsMenu.module.css";
+import IconButton from "../iconButton";
 
 type Props = {
     options: {
@@ -118,9 +119,10 @@ const DotsMenu = ({ options }: Props) => {
 
     return (
         <div ref={containerRef}>
-            <button
+            <IconButton
                 ref={triggerButtonRef}
-                className={styles.toggleButton}
+                variant="square"
+                color="transparent"
                 onClick={(e) => {
                     e.stopPropagation();
                     setOpen((prev) => !prev);
@@ -134,7 +136,7 @@ const DotsMenu = ({ options }: Props) => {
                 }}
             >
                 {"⋮"}
-            </button>
+            </IconButton>
             {
                 open &&
                 createPortal(

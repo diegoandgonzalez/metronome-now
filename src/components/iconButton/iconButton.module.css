@@ -2,15 +2,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
     padding: 10px;
-    background-color: var(--accentColor);
 
-    &[data-is-off="true"] {
+    &[data-color="transparent"] {
+        color: var(--textColor);
+        background-color: transparent;
+
+        &:hover {
+            background-color: var(--semitransparentColor);
+        }
+    }
+
+    &[data-color="main"] {
+        background-color: var(--accentColor);
+    }
+
+    &[data-color="secondary"] {
         background-color: var(--mutedColor);
     }
 
-    &:focus {
+    &[data-variant="round"] {
         border-radius: 50%;
+    }
+
+    &[data-variant="square"] {
+        border-radius: var(--borderRadius);
     }
 }

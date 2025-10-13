@@ -40,5 +40,9 @@
             scale: 1.15;
             filter: brightness(130%);
         }
+
+        &:focus {
+            border-radius: 50%;
+        }
     }
 }

@@ -1,32 +1,33 @@
 import type { ReactNode } from "react";
 import styles from "./iconButton.module.css";
+import React from "react";
 
-type Props = {
-    title?: string,
-    isActive: boolean
-    handleClick: () => void,
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    color?: "transparent" | "main" | "secondary";
+    variant?: "round" | "square",
     children: ReactNode,
-}
+};
 
-const IconButton = (props: Props) => {
+const IconButton = React.forwardRef<HTMLButtonElement, Props>((props, ref) => {
 
     const {
-        title,
-        isActive,
+        color = "main",
+        variant = "round",
         children,
-        handleClick,
+        ...rest
     } = props;
 
     return (
         <button
-            data-is-off={String(!isActive)}
-            title={title || ""}
+            ref={ref}
+            {...rest}
+            data-variant={variant}
+            data-color={color}
             className={styles.iconButton}
-            onClick={handleClick}
         >
             {children}
         </button>
     );
-}
+})
 
 export default IconButton;

@@ -3,6 +3,7 @@ import { formatMsToHHMMSS } from "../../utils/format";
 import PauseIcon from "../../assets/icons/pauseIcon";
 import PlayIcon from "../../assets/icons/playIcon";
 import styles from "./clock.module.css";
+import IconButton from "../iconButton";
 
 type Props = {
   showOnlyClock: boolean,
@@ -34,12 +35,13 @@ const Clock = (props: Props) => {
     <div className={styles.clockContainer}>
       {
         isPlaying && !showOnlyClock &&
-        <button
-          title={t(isPaused ? "resume" : "pause")}
+        <IconButton
+          color="transparent"
           onClick={handleClick}
+          title={t(isPaused ? "resume" : "pause")}
         >
           {isPaused ? <PlayIcon size={20} /> : <PauseIcon size={20} />}
-        </button>
+        </IconButton>
       }
       <p className={styles.clock} title={t("playedTime")}>
         {formatMsToHHMMSS(value)}

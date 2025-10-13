@@ -6,6 +6,7 @@ import CreateIcon from "../../assets/icons/createIcon";
 import Dialog from "../dialog/dialog";
 import TemplateItem from "./templateItem";
 import styles from "./templatesDialog.module.css";
+import IconButton from "../iconButton";
 
 type Props = {
     open: boolean,
@@ -60,14 +61,14 @@ const TemplatesDialog = (props: Props) => {
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
                     />
-                    <button
-                        className={styles.createTemplateButton}
+                    <IconButton
                         disabled={disabled}
+                        variant="square"
                         title={t("createTemplate")}
                         onClick={handleCreateTemplate}
                     >
                         <CreateIcon size={16} />
-                    </button>
+                    </IconButton>
                 </div>
                 <ol>
                     <li>

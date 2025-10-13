@@ -1,17 +1,6 @@
 .templatesDialogContent {
     max-width: 560px;
 
-    .createTemplateButton {
-        flex: none;
-        width: 41px;
-        height: 41px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--accentColor);
-        border-radius: var(--borderRadius);
-    }
-
     .templatesDialogHeader {
         display: flex;
         margin-bottom: 20px;

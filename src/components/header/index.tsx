@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import SettingsIcon from "../../assets/icons/settingsIcon";
 import styles from "./header.module.css";
+import IconButton from "../iconButton";
 
 type Props = {
     handleTitleClick: () => void,
@@ -24,12 +25,13 @@ const Header = (props: Props) => {
             >
                 Metronome <b>Now</b>
             </h1>
-            <button
+            <IconButton
                 title={t("settings")}
+                color="transparent"
                 onClick={handleSettingsClick}
             >
-                <SettingsIcon size={25} />
-            </button>
+                <SettingsIcon size={22} />
+            </IconButton>
         </header>
     );
 }

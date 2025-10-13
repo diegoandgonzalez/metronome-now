@@ -1,4 +1,5 @@
 .clockContainer {
+    height: 40px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;

@@ -117,7 +117,7 @@ const Metronome = () => {
         handleStartMetronome();
     }
 
-    useExecuteOnShiftComboPressed("P", handleToggleMetronome);
+    useExecuteOnShiftComboPressed("p", handleToggleMetronome);
 
     const { t } = useTranslation();
 
@@ -190,8 +190,8 @@ const Metronome = () => {
                 <div className={styles.mainActionsContainer}>
                     <IconButton
                         title={t("bpmProgrammingAndTimer")}
-                        isActive={settingsIsActive}
-                        handleClick={() => {
+                        color={settingsIsActive ? "main" : "secondary"}
+                        onClick={() => {
                             handleOpenBPMProgrammingTimerDialog();
                             handleStopMetronome();
                         }}
@@ -200,15 +200,14 @@ const Metronome = () => {
                     </IconButton>
                     <IconButton
                         title={t(isPlaying ? "stop" : "play")}
-                        isActive
-                        handleClick={handleToggleMetronome}
+                        onClick={handleToggleMetronome}
                     >
                         {isPlaying ? <StopIcon size={MAIN_ICON_SIZE} /> : <PlayIcon size={MAIN_ICON_SIZE} />}
                     </IconButton>
                     <IconButton
                         title={t("templates")}
-                        isActive={Boolean(selectedTemplateIdToPlay)}
-                        handleClick={() => {
+                        color={selectedTemplateIdToPlay ? "main" : "secondary"}
+                        onClick={() => {
                             handleOpenTemplateDialog();
                             handleStopMetronome();
                         }}
