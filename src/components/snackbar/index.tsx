@@ -36,7 +36,7 @@ const Snackbar = () => {
                     color="transparent"
                     onClick={handleClose}
                 >
-                    <MdClose />
+                    <MdClose size={20} />
                 </IconButton>
             </div>
         </div>
