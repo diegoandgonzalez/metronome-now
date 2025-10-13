@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { MdClose } from "react-icons/md";
 import IconButton from "../iconButton";
 import styles from "./dialog.module.css";
-import { MdClose } from "react-icons/md";
 
 type Props = {
     open: boolean,

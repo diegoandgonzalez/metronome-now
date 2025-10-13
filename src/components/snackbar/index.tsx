@@ -1,8 +1,8 @@
 import { useEffect } from "react";
+import { MdClose } from "react-icons/md";
 import useSnackbarContext from "./useSnackbarContext";
 import IconButton from "../iconButton";
 import styles from "./snackbar.module.css";
-import { MdClose } from "react-icons/md";
 
 const Snackbar = () => {
 
