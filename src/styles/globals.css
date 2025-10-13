@@ -21,7 +21,7 @@
     --mainColor: rgb(25, 23, 28);
     --secondaryColor: #232027;
     --tertiaryColor: #403946;
-    --semitransparentColor: rgba(255, 255, 255, 0.07);
+    --semitransparentColor: rgba(255, 255, 255, 0.05);
 }
 
 :root[data-theme="light"] {
