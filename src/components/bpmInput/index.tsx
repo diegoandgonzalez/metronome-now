@@ -72,7 +72,7 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(newBPM));
           }}
         >
-          <RiSubtractLine size={22} />
+          <RiSubtractLine size={20} />
         </IconButton>
         <IconButton
           variant="square"
@@ -94,7 +94,7 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(newBPM));
           }}
         >
-          <RiAddFill size={22} />
+          <RiAddFill size={20} />
         </IconButton>
       </div>
     </div>

@@ -10,9 +10,8 @@
         align-items: center;
         gap: 10px;
 
-        button {
-            font-size: 18px;
-            white-space: nowrap;
+        button:nth-child(2) {
+            padding: 10px 20px;
         }
     }
 
