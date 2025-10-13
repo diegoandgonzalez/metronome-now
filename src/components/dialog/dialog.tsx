@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import CloseButton from "../closeButton";
+import IconButton from "../iconButton";
+import CloseIcon from "../../assets/icons/closeIcon";
 import styles from "./dialog.module.css";
 
 type Props = {
@@ -78,7 +79,12 @@ const Dialog = (props: Props) => {
                         <h2>
                             {title}
                         </h2>
-                        <CloseButton handleClose={handleClose} />
+                        <IconButton
+                            color="transparent"
+                            onClick={handleClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>
                     </header>
                     <div className={styles.dialogBody}>
                         {children}

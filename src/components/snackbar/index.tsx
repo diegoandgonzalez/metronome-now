@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import CloseButton from "../closeButton";
 import useSnackbarContext from "./useSnackbarContext";
+import IconButton from "../iconButton";
+import CloseIcon from "../../assets/icons/closeIcon";
 import styles from "./snackbar.module.css";
 
 const Snackbar = () => {
@@ -31,7 +32,12 @@ const Snackbar = () => {
         >
             <div data-type={type}>
                 {text}
-                <CloseButton handleClose={handleClose} />
+                <IconButton
+                    color="transparent"
+                    onClick={handleClose}
+                >
+                    <CloseIcon />
+                </IconButton>
             </div>
         </div>
     )

@@ -8,19 +8,28 @@
     color: white;
 
     div {
+        min-height: 60px;
         min-width: 300px;
         padding: 15px 20px;
+        padding-right: 70px;
         border: 1px solid var(--tertiaryColor);
         border-radius: var(--borderRadius);
         background-color: var(--accentColor);
         display: flex;
         align-items: center;
-        justify-content: space-between;
         gap: 20px;
         color: inherit;
+        position: relative;
 
         &[data-type="success"] {
             background-color: var(--successColor);
+        }
+
+        button {
+            color: white !important;
+            position: absolute;
+            right: 0px;
+            margin-right: 10px;
         }
     }
 
