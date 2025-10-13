@@ -54,13 +54,15 @@ const TemplatesDialog = (props: Props) => {
         >
             <div className={styles.templatesDialogContent}>
                 <div className={styles.templatesDialogHeader}>
-                    <input
-                        id="searchTemplate"
-                        type="text"
-                        placeholder={t("searchTemplate")}
-                        value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
-                    />
+                    <search>
+                        <input
+                            id="searchTemplate"
+                            type="text"
+                            placeholder={t("searchTemplate")}
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
+                        />
+                    </search>
                     <IconButton
                         disabled={disabled}
                         variant="square"
