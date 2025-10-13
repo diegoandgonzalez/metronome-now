@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
+import { RiPauseFill, RiPlayFill } from "react-icons/ri";
 import { formatMsToHHMMSS } from "../../utils/format";
-import PauseIcon from "../../assets/icons/pauseIcon";
-import PlayIcon from "../../assets/icons/playIcon";
 import styles from "./clock.module.css";
 import IconButton from "../iconButton";
 
@@ -40,7 +39,7 @@ const Clock = (props: Props) => {
           onClick={handleClick}
           title={t(isPaused ? "resume" : "pause")}
         >
-          {isPaused ? <PlayIcon size={20} /> : <PauseIcon size={20} />}
+          {isPaused ? <RiPlayFill size={20} /> : <RiPauseFill size={20} />}
         </IconButton>
       }
       <p className={styles.clock} title={t("playedTime")}>

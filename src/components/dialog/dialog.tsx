@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import IconButton from "../iconButton";
-import CloseIcon from "../../assets/icons/closeIcon";
 import styles from "./dialog.module.css";
+import { MdClose } from "react-icons/md";
 
 type Props = {
     open: boolean,
@@ -83,7 +83,7 @@ const Dialog = (props: Props) => {
                             color="transparent"
                             onClick={handleClose}
                         >
-                            <CloseIcon />
+                            <MdClose size={24} />
                         </IconButton>
                     </header>
                     <div className={styles.dialogBody}>

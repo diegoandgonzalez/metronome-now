@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
 import type { Template } from "../../utils/types";
 import { MAIN_ICON_SIZE } from "../../utils/constants";
-import StopIcon from "../../assets/icons/stopIcon";
-import PlayIcon from "../../assets/icons/playIcon";
-import TemplateIcon from "../../assets/icons/templateIcon";
-import TimeIcon from "../../assets/icons/timeIcon";
+import {
+    RiPlayLargeFill,
+    RiStopFill,
+    RiListUnordered,
+    RiTimerLine,
+} from "react-icons/ri";
 import Header from "../header";
 import BPMInput from "../bpmInput";
 import TimeSignatureInput from "../timeSignatureInput";
@@ -196,13 +198,13 @@ const Metronome = () => {
                             handleStopMetronome();
                         }}
                     >
-                        <TimeIcon />
+                        <RiTimerLine size={40} />
                     </IconButton>
                     <IconButton
                         title={t(isPlaying ? "stop" : "play")}
                         onClick={handleToggleMetronome}
                     >
-                        {isPlaying ? <StopIcon size={MAIN_ICON_SIZE} /> : <PlayIcon size={MAIN_ICON_SIZE} />}
+                        {isPlaying ? <RiStopFill size={MAIN_ICON_SIZE} /> : <RiPlayLargeFill size={MAIN_ICON_SIZE} />}
                     </IconButton>
                     <IconButton
                         title={t("templates")}
@@ -212,7 +214,7 @@ const Metronome = () => {
                             handleStopMetronome();
                         }}
                     >
-                        <TemplateIcon />
+                        <RiListUnordered size={40} />
                     </IconButton>
                 </div>
                 {

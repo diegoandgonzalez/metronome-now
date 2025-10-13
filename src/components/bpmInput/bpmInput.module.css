@@ -11,9 +11,6 @@
         gap: 10px;
 
         button {
-            background: var(--accentColor);
-            border-radius: var(--borderRadius);
-            padding: 8px 15px;
             font-size: 18px;
             white-space: nowrap;
         }

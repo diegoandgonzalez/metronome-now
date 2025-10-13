@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { RiAddFill } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
 import type { MetronomeSettings, Template } from "../../utils/types";
 import { DEFAULT_SETTINGS, TEMPLATE_NAME_MAX_LENGTH } from "../../utils/constants";
-import CreateIcon from "../../assets/icons/createIcon";
 import Dialog from "../dialog/dialog";
 import TemplateItem from "./templateItem";
 import styles from "./templatesDialog.module.css";
@@ -69,7 +69,7 @@ const TemplatesDialog = (props: Props) => {
                         title={t("createTemplate")}
                         onClick={handleCreateTemplate}
                     >
-                        <CreateIcon size={16} />
+                        <RiAddFill size={20} />
                     </IconButton>
                 </div>
                 <ol>

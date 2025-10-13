@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import SettingsIcon from "../../assets/icons/settingsIcon";
+import { RiSettings5Fill } from "react-icons/ri";
 import styles from "./header.module.css";
 import IconButton from "../iconButton";
 
@@ -30,7 +30,7 @@ const Header = (props: Props) => {
                 color="transparent"
                 onClick={handleSettingsClick}
             >
-                <SettingsIcon size={22} />
+                <RiSettings5Fill size={24} />
             </IconButton>
         </header>
     );

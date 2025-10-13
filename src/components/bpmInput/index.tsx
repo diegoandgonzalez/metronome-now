@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { RiSubtractLine, RiAddFill } from "react-icons/ri";
 import { METRONOME_CONSTANTS } from "../../utils/constants";
 import useSnackbarContext from "../snackbar/useSnackbarContext";
-import { useTranslation } from "react-i18next";
 import useTapTempo from "../metronome/hooks/useTapTempo";
 import styles from "./bpmInput.module.css";
+import IconButton from "../iconButton";
 
 type Props = {
   initialBPM: number,
@@ -61,7 +63,8 @@ const BPMInput = (props: Props) => {
         autoComplete="off"
       />
       <div className={styles.bpmInputButtonContainer}>
-        <button
+        <IconButton
+          variant="square"
           title={t("subtractBPM", { value: 1 })}
           onClick={() => {
             const newBPM = Number(bpm) - 1;
@@ -69,9 +72,10 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(newBPM));
           }}
         >
-          -
-        </button>
-        <button
+          <RiSubtractLine size={22} />
+        </IconButton>
+        <IconButton
+          variant="square"
           title={t("tapTempoToCalculateBPM")}
           onClick={() => {
             const tappedBPM = tap();
@@ -79,9 +83,10 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(tappedBPM))
           }}
         >
-          {t("tapToGetBPM")}
-        </button>
-        <button
+        {t("tapToGetBPM")}
+        </IconButton>
+        <IconButton
+          variant="square"
           title={t("addBPM", { value: 1 })}
           onClick={() => {
             const newBPM = Number(bpm) + 1;
@@ -89,8 +94,8 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(newBPM));
           }}
         >
-          +
-        </button>
+          <RiAddFill size={22} />
+        </IconButton>
       </div>
     </div>
   );

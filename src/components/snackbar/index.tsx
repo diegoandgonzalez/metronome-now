@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import useSnackbarContext from "./useSnackbarContext";
 import IconButton from "../iconButton";
-import CloseIcon from "../../assets/icons/closeIcon";
 import styles from "./snackbar.module.css";
+import { MdClose } from "react-icons/md";
 
 const Snackbar = () => {
 
@@ -36,7 +36,7 @@ const Snackbar = () => {
                     color="transparent"
                     onClick={handleClose}
                 >
-                    <CloseIcon />
+                    <MdClose />
                 </IconButton>
             </div>
         </div>
