@@ -54,7 +54,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         if (!templates.length) {
             getAllItemsFromDB()
                 .then((fetchedTemplates) => {
-                    setTemplates(fetchedTemplates);
+                    setTemplates(fetchedTemplates.sort((a, b) => a.name.localeCompare(b.name)));
                     const storedTemplateIdExists = Boolean(storedSelectedTemplateIdToPlay) && fetchedTemplates.some((template) => template.id === storedSelectedTemplateIdToPlay);
                     setSelectedTemplateIdToPlay(storedTemplateIdExists ? storedSelectedTemplateIdToPlay : "");
                 })

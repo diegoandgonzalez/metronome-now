@@ -6,6 +6,7 @@ import useSnackbarContext from "../snackbar/useSnackbarContext";
 import useTapTempo from "../metronome/hooks/useTapTempo";
 import styles from "./bpmInput.module.css";
 import IconButton from "../iconButton";
+import useExecuteKeyPressed from "../../utils/hooks/useExecuteKeyPressed";
 
 type Props = {
   initialBPM: number,
@@ -42,6 +43,21 @@ const BPMInput = (props: Props) => {
     handleChange(valueToSubmit);
   }
 
+  const subtractOneBPM = () => {
+    const newBPM = Number(bpm) - 1;
+    if (newBPM < METRONOME_CONSTANTS.minBPM) return;
+    handleSubmit(String(newBPM));
+  }
+
+  const addOneBPM = () => {
+    const newBPM = Number(bpm) + 1;
+    if (newBPM > METRONOME_CONSTANTS.maxBPM) return;
+    handleSubmit(String(newBPM));
+  }
+
+  useExecuteKeyPressed("ArrowUp", addOneBPM);
+  useExecuteKeyPressed("ArrowDown", subtractOneBPM);
+
   return (
     <div className={styles.bpmInputContainer}>
       <input
@@ -65,12 +81,8 @@ const BPMInput = (props: Props) => {
       <div className={styles.bpmInputButtonContainer}>
         <IconButton
           variant="square"
-          title={t("subtractBPM", { value: 1 })}
-          onClick={() => {
-            const newBPM = Number(bpm) - 1;
-            if (newBPM < METRONOME_CONSTANTS.minBPM) return;
-            handleSubmit(String(newBPM));
-          }}
+          title={t("subtractBPM", { value: 1 }) + " (↓)"}
+          onClick={subtractOneBPM}
         >
           <RiSubtractLine size={20} />
         </IconButton>
@@ -87,12 +99,8 @@ const BPMInput = (props: Props) => {
         </IconButton>
         <IconButton
           variant="square"
-          title={t("addBPM", { value: 1 })}
-          onClick={() => {
-            const newBPM = Number(bpm) + 1;
-            if (newBPM > METRONOME_CONSTANTS.maxBPM) return;
-            handleSubmit(String(newBPM));
-          }}
+          title={t("addBPM", { value: 1 }) + " (↑)"}
+          onClick={addOneBPM}
         >
           <RiAddFill size={20} />
         </IconButton>

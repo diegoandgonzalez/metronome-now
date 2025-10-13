@@ -20,7 +20,7 @@ import AboutDialog from "../aboutDialog";
 import TemplatesDialog from "../templatesDialog";
 import SettingsDialog from "../settingsDialog/settingsDialog";
 import useDialog from "../dialog/useDialog";
-import useExecuteOnShiftComboPressed from "../../utils/hooks/useExecuteOnShiftComboPressed";
+import useExecuteKeyPressed from "../../utils/hooks/useExecuteKeyPressed";
 import useLanguage from "../../utils/hooks/useLanguage";
 import useTheme from "../../utils/hooks/useTheme";
 import useMetronome from "./hooks/useMetronome";
@@ -119,7 +119,25 @@ const Metronome = () => {
         handleStartMetronome();
     }
 
-    useExecuteOnShiftComboPressed("p", handleToggleMetronome);
+    const selectTemplateByShortcut = (index: number) => {
+        if (templates.length < index) return;
+        handleSelectTemplateToPlay(templates[index - 1]?.id);
+    }
+
+    useExecuteKeyPressed("p", handleToggleMetronome);
+    useExecuteKeyPressed("s", handleOpenSettingsDialog);
+    useExecuteKeyPressed("t", handleOpenTemplateDialog);
+    useExecuteKeyPressed("b", handleOpenBPMProgrammingTimerDialog);
+    useExecuteKeyPressed("0", () => selectTemplateByShortcut(0));
+    useExecuteKeyPressed("1", () => selectTemplateByShortcut(1));
+    useExecuteKeyPressed("2", () => selectTemplateByShortcut(2));
+    useExecuteKeyPressed("3", () => selectTemplateByShortcut(3));
+    useExecuteKeyPressed("4", () => selectTemplateByShortcut(4));
+    useExecuteKeyPressed("5", () => selectTemplateByShortcut(5));
+    useExecuteKeyPressed("6", () => selectTemplateByShortcut(6));
+    useExecuteKeyPressed("7", () => selectTemplateByShortcut(7));
+    useExecuteKeyPressed("8", () => selectTemplateByShortcut(8));
+    useExecuteKeyPressed("9", () => selectTemplateByShortcut(9));
 
     const { t } = useTranslation();
 
@@ -191,7 +209,7 @@ const Metronome = () => {
                 </div>
                 <div className={styles.mainActionsContainer}>
                     <IconButton
-                        title={t("bpmProgrammingAndTimer")}
+                        title={t("bpmProgrammingAndTimer") + " (b)"}
                         color={settingsIsActive ? "primary" : "secondary"}
                         onClick={() => {
                             handleOpenBPMProgrammingTimerDialog();
@@ -201,13 +219,13 @@ const Metronome = () => {
                         <RiTimerLine size={35} />
                     </IconButton>
                     <IconButton
-                        title={t(isPlaying ? "stop" : "play")}
+                        title={t(isPlaying ? "stop" : "play")  + " (p)"}
                         onClick={handleToggleMetronome}
                     >
                         {isPlaying ? <RiStopFill size={MAIN_ICON_SIZE} /> : <RiPlayLargeFill size={MAIN_ICON_SIZE} />}
                     </IconButton>
                     <IconButton
-                        title={t("templates")}
+                        title={t("templates") + " (t)"}
                         color={selectedTemplateIdToPlay ? "primary" : "secondary"}
                         onClick={() => {
                             handleOpenTemplateDialog();

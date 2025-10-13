@@ -26,7 +26,7 @@ const Header = (props: Props) => {
                 Metronome <b>Now</b>
             </h1>
             <IconButton
-                title={t("settings")}
+                title={t("settings") + " (s)"}
                 color="transparent"
                 onClick={handleSettingsClick}
             >
