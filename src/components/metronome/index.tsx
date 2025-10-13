@@ -192,7 +192,7 @@ const Metronome = () => {
                 <div className={styles.mainActionsContainer}>
                     <IconButton
                         title={t("bpmProgrammingAndTimer")}
-                        color={settingsIsActive ? "main" : "secondary"}
+                        color={settingsIsActive ? "primary" : "secondary"}
                         onClick={() => {
                             handleOpenBPMProgrammingTimerDialog();
                             handleStopMetronome();
@@ -208,7 +208,7 @@ const Metronome = () => {
                     </IconButton>
                     <IconButton
                         title={t("templates")}
-                        color={selectedTemplateIdToPlay ? "main" : "secondary"}
+                        color={selectedTemplateIdToPlay ? "primary" : "secondary"}
                         onClick={() => {
                             handleOpenTemplateDialog();
                             handleStopMetronome();
