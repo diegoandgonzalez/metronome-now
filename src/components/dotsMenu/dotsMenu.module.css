@@ -1,8 +1,8 @@
 .menu {
     position: absolute;
-    background: var(--mainColor);
+    background: var(--primaryBackgroundColor);
     border-radius: var(--borderRadius);
-    border: 1px solid var(--tertiaryColor);
+    border: 1px solid var(--borderColor);
     padding: 5px;
     z-index: 1000;
     display: flex;
@@ -23,9 +23,5 @@
         gap: 15px;
         border-radius: var(--borderRadius);
         text-align: start;
-
-        &:hover {
-            background-color: var(--semitransparentColor);
-        }
     }
 }

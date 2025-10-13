@@ -1,3 +1,44 @@
+:root {
+    --accentColor: #d42b3c;
+    --accentColor2: #66171E;
+
+    --noAccentColor: #b1b1b1;
+    --noAccentColor2: #6B6B6B;
+
+    --mutedColor: #3e3e3e;
+    --mutedColor2: #222;
+
+    --successColor: #1c8d42;
+
+    --borderRadius: 10px;
+}
+
+:root[data-theme="dark"] {
+    --textColor: white;
+
+    --primaryBackgroundColor: #19171c;
+    --secondaryBackgroundColor: #232027;
+
+    --borderColor: #403946;
+
+    --primaryButtonColor: var(--accentColor);
+    --secondaryButtonColor: #232027;
+    --iconButtonHoverColor: rgba(255, 255, 255, 0.05);
+}
+
+:root[data-theme="light"] {
+    --textColor: black;
+
+    --primaryBackgroundColor: #f2f2f2;
+    --secondaryBackgroundColor: #e6e6e6;
+
+    --borderColor: #a1a1a1;
+
+    --primaryButtonColor: var(--accentColor);
+    --secondaryButtonColor: #8c8c8c;
+    --iconButtonHoverColor: rgba(0, 0, 0, 0.07);
+}
+
 * {
     box-sizing: border-box;
     margin: 0px;
@@ -5,37 +46,10 @@
     scrollbar-color: var(--accentColor) transparent;
 }
 
-:root {
-    --accentColor: #d42b3c;
-    --accentColor2: #66171E;
-    --noAccentColor: #b1b1b1;
-    --noAccentColor2: #6B6B6B;
-    --mutedColor: #3e3e3e;
-    --mutedColor2: #222;
-    --successColor: #1c8d42;
-    --borderRadius: 10px;
-}
-
-:root[data-theme="dark"] {
-    --textColor: white;
-    --mainColor: #19171c;
-    --secondaryColor: #232027;
-    --tertiaryColor: #403946;
-    --semitransparentColor: rgba(255, 255, 255, 0.05);
-}
-
-:root[data-theme="light"] {
-    --textColor: black;
-    --mainColor: #f2f2f2;
-    --secondaryColor: #e6e6e6;
-    --tertiaryColor: #a1a1a1;
-    --semitransparentColor: rgba(0, 0, 0, 0.07);
-}
-
 body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     margin: 0px;
-    background-color: var(--mainColor);
+    background-color: var(--primaryBackgroundColor);
     font-family: "Space Grotesk", sans-serif;
     color: var(--textColor);
 }
@@ -66,8 +80,8 @@ select {
 
 input {
     accent-color: var(--accentColor);
-    background: var(--secondaryColor);
-    border: 1px solid var(--tertiaryColor);
+    background: var(--secondaryBackgroundColor);
+    border: 1px solid var(--borderColor);
     border-radius: var(--borderRadius);
     padding: 8px 10px;
     font-size: 18px;
@@ -111,15 +125,15 @@ select {
     -moz-appearance: none;
 
     cursor: pointer;
-    background: var(--secondaryColor);
-    border: 1px solid var(--tertiaryColor);
+    background: var(--secondaryBackgroundColor);
+    border: 1px solid var(--borderColor);
     border-radius: var(--borderRadius);
     padding: 8px 10px;
 }
 
 option {
     text-align: center;
-    background-color: var(--mainColor);
+    background-color: var(--primaryBackgroundColor);
 }
 
 label {

@@ -83,7 +83,7 @@ const BPMInput = (props: Props) => {
             handleSubmit(String(tappedBPM))
           }}
         >
-        {t("tapToGetBPM")}
+          {t("tapToGetBPM")}
         </IconButton>
         <IconButton
           variant="square"

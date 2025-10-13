@@ -3,7 +3,7 @@ import styles from "./iconButton.module.css";
 import React from "react";
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    color?: "transparent" | "main" | "secondary";
+    color?: "transparent" | "primary" | "secondary";
     variant?: "round" | "square",
     children: ReactNode,
 };
@@ -11,16 +11,16 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 const IconButton = React.forwardRef<HTMLButtonElement, Props>((props, ref) => {
 
     const {
-        color = "main",
+        color = "primary",
         variant = "round",
         children,
-        ...rest
+        ...htmlButtonElementProps
     } = props;
 
     return (
         <button
+            {...htmlButtonElementProps}
             ref={ref}
-            {...rest}
             data-variant={variant}
             data-color={color}
             className={styles.iconButton}

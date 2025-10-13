@@ -9,16 +9,17 @@
         background-color: transparent;
 
         &:hover {
-            background-color: var(--semitransparentColor);
+            background-color: var(--iconButtonHoverColor);
         }
     }
 
-    &[data-color="main"] {
-        background-color: var(--accentColor);
+    &[data-color="primary"] {
+        background-color: var(--primaryButtonColor);
     }
 
     &[data-color="secondary"] {
-        background-color: var(--mutedColor);
+        background-color: var(--secondaryButtonColor);
+        border: 1px solid var(--borderColor);
     }
 
     &[data-variant="round"] {
