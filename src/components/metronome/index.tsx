@@ -76,6 +76,9 @@ const Metronome = () => {
         templateFormDialogIsOpen,
         templateFormData,
         handleSelectTemplateToPlay,
+        handleSelectTemplateByPosition,
+        handleSelectPrevTemplate,
+        handleSelectNextTemplate,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
         handleOpenDeleteTemplate,
@@ -124,10 +127,12 @@ const Metronome = () => {
         handleStartMetronome();
     }
 
-    const selectTemplateByShortcut = (index: number) => {
-        if (templates.length < index) return;
-        handleSelectTemplateToPlay(templates[index - 1]?.id);
-    }
+    const someDialogIsOpen = (
+        bpmProgrammingTimerDialogIsOpen ||
+        templateDialogIsOpen ||
+        templateFormDialogIsOpen ||
+        shortcutsDialogIsOpen
+    );
 
     const executeIfNoDialogIsOpen = (callback: () => void) => {
         if (someDialogIsOpen) return;
@@ -141,25 +146,21 @@ const Metronome = () => {
     useExecuteKeyPressed("s", "keyup", () => executeIfNoDialogIsOpen(handleOpenSettingsDialog));
     useExecuteKeyPressed("t", "keyup", () => executeIfNoDialogIsOpen(handleOpenTemplateDialog));
     useExecuteKeyPressed("b", "keyup", () => executeIfNoDialogIsOpen(handleOpenBPMProgrammingTimerDialog));
-    useExecuteKeyPressed("0", "keyup", () => selectTemplateByShortcut(0));
-    useExecuteKeyPressed("1", "keyup", () => selectTemplateByShortcut(1));
-    useExecuteKeyPressed("2", "keyup", () => selectTemplateByShortcut(2));
-    useExecuteKeyPressed("3", "keyup", () => selectTemplateByShortcut(3));
-    useExecuteKeyPressed("4", "keyup", () => selectTemplateByShortcut(4));
-    useExecuteKeyPressed("5", "keyup", () => selectTemplateByShortcut(5));
-    useExecuteKeyPressed("6", "keyup", () => selectTemplateByShortcut(6));
-    useExecuteKeyPressed("7", "keyup", () => selectTemplateByShortcut(7));
-    useExecuteKeyPressed("8", "keyup", () => selectTemplateByShortcut(8));
-    useExecuteKeyPressed("9", "keyup", () => selectTemplateByShortcut(9));
+    useExecuteKeyPressed("0", "keyup", () => handleSelectTemplateByPosition(0));
+    useExecuteKeyPressed("1", "keyup", () => handleSelectTemplateByPosition(1));
+    useExecuteKeyPressed("2", "keyup", () => handleSelectTemplateByPosition(2));
+    useExecuteKeyPressed("3", "keyup", () => handleSelectTemplateByPosition(3));
+    useExecuteKeyPressed("4", "keyup", () => handleSelectTemplateByPosition(4));
+    useExecuteKeyPressed("5", "keyup", () => handleSelectTemplateByPosition(5));
+    useExecuteKeyPressed("6", "keyup", () => handleSelectTemplateByPosition(6));
+    useExecuteKeyPressed("7", "keyup", () => handleSelectTemplateByPosition(7));
+    useExecuteKeyPressed("8", "keyup", () => handleSelectTemplateByPosition(8));
+    useExecuteKeyPressed("9", "keyup", () => handleSelectTemplateByPosition(9));
+    useExecuteKeyPressed("9", "keyup", () => handleSelectTemplateByPosition(9));
+    useExecuteKeyPressed("ArrowLeft", "keydown", handleSelectPrevTemplate);
+    useExecuteKeyPressed("ArrowRight", "keydown", handleSelectNextTemplate);
 
     const { t } = useTranslation();
-
-    const someDialogIsOpen = (
-        bpmProgrammingTimerDialogIsOpen ||
-        templateDialogIsOpen ||
-        templateFormDialogIsOpen ||
-        shortcutsDialogIsOpen
-    );
 
     const settingsIsActive = (
         settings.tempoProgrammingSettings.isActive ||

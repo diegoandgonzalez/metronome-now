@@ -150,7 +150,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
             .then(() => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
-                        setTemplates(newTemplates);
+                        setTemplates(newTemplates.sort((a, b) => a.name.localeCompare(b.name)));
                         setSelectedTemplateIdToPlay(newTemplate.id);
                         handleOpenSnackbar(t("templateCreated"), 0, "success");
                     })
@@ -171,7 +171,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
             .then(() => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
-                        setTemplates(newTemplates);
+                        setTemplates(newTemplates.sort((a, b) => a.name.localeCompare(b.name)));
                         handleOpenSnackbar(t("templateUpdated"), 0, "success");
                     })
             })
@@ -185,7 +185,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
             .then(() => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
-                        setTemplates(newTemplates);
+                        setTemplates(newTemplates.sort((a, b) => a.name.localeCompare(b.name)));
                         setTemplateFormData(null);
                         handleSelectTemplateToPlay("");
                         handleOpenSnackbar(t("templateDeleted"), 0, "success");
@@ -196,6 +196,25 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
             });
     }
 
+    const handleSelectTemplateByPosition = (position: number) => {
+        if (templates.length < position) return;
+        handleSelectTemplateToPlay(templates[position - 1]?.id);
+    }
+
+    const handleSelectPrevTemplate = () => {
+        const templateIndex = templates.findIndex((template) => template.id === selectedTemplateIdToPlay);
+        const prevTemplateId = templates[templateIndex - 1]?.id || "";
+        handleSelectTemplateToPlay(prevTemplateId);
+    }
+
+    const handleSelectNextTemplate = () => {
+        const templateIndex = templates.findIndex((template) => template.id === selectedTemplateIdToPlay);
+        if (templateIndex === templates.length - 1) return;
+
+        const nextTemplateId = templates[templateIndex + 1].id;
+        handleSelectTemplateToPlay(nextTemplateId);
+    }
+
     return {
         isDBReady,
         templates,
@@ -203,6 +222,9 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         templateFormDialogIsOpen,
         templateFormData,
         handleSelectTemplateToPlay,
+        handleSelectTemplateByPosition,
+        handleSelectPrevTemplate,
+        handleSelectNextTemplate,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
         handleOpenDeleteTemplate,
