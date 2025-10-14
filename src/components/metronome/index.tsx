@@ -269,7 +269,10 @@ const Metronome = () => {
                         disabled={!isDBReady}
                         selectedTemplateId={selectedTemplateIdToPlay}
                         templates={templates}
-                        handleSelectTemplate={(templateId) => handleSelectTemplateToPlay(templateId)}
+                        handleSelectTemplate={(templateId) => {
+                            handleSelectTemplateToPlay(templateId);
+                            handleCloseTemplateDialog();
+                        }}
                         handleCreateTemplate={handleOpenCreateTemplate}
                         handleRenameTemplate={handleOpenRenameTemplate}
                         handleUpdateTemplate={handleOpenUpdateTemplate}

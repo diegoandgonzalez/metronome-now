@@ -61,6 +61,7 @@
     "deleteTemplateQuestion": "Voulez-vous supprimer le modèle {{templateName}} ?",
     "updateTemplateQuestion": "Voulez-vous mettre à jour le modèle avec les paramètres actuels ?",
     "renameTemplateQuestion": "Voulez-vous renommer le modèle ?",
+    "templateSelected": "Modèle sélectionné",
     "templateCreated": "Modèle créé",
     "templateUpdated": "Modèle mis à jour",
     "templateDeleted": "Modèle supprimé",

@@ -61,6 +61,7 @@
     "deleteTemplateQuestion": "¿Deseas eliminar la plantilla {{templateName}}?",
     "updateTemplateQuestion": "¿Deseas actualizar la plantilla con la configuración actual?",
     "renameTemplateQuestion": "¿Deseas renombrar la plantilla?",
+    "templateSelected": "Plantilla seleccionada",
     "templateCreated": "Plantilla creada",
     "templateUpdated": "Plantilla actualizada",
     "templateDeleted": "Plantilla eliminada",

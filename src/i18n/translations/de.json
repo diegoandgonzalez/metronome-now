@@ -61,6 +61,7 @@
     "deleteTemplateQuestion": "Möchten Sie die Vorlage {{templateName}} löschen?",
     "updateTemplateQuestion": "Möchten Sie die Vorlage mit den aktuellen Einstellungen aktualisieren?",
     "renameTemplateQuestion": "Möchten Sie die Vorlage umbenennen?",
+    "templateSelected": "Vorlage ausgewählt",
     "templateCreated": "Vorlage erstellt",
     "templateUpdated": "Vorlage aktualisiert",
     "templateDeleted": "Vorlage gelöscht",
