@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { RiAddFill } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
 import type { MetronomeSettings, Template } from "../../utils/types";
@@ -46,6 +46,10 @@ const TemplatesDialog = (props: Props) => {
         return `${metronomeSettings.bpm} bpm - ${metronomeSettings.beatsPerMeasure}/${metronomeSettings.noteValue}`;
     }
 
+    const selectedTemplate = useMemo(() => {
+        return templates.find((template) => template.id === selectedTemplateId);
+    }, [templates, selectedTemplateId])
+
     return (
         <Dialog
             open={open}
@@ -72,20 +76,40 @@ const TemplatesDialog = (props: Props) => {
                         <RiAddFill size={20} />
                     </IconButton>
                 </div>
-                <ol>
-                    <li>
+                {
+                    !searchValue &&
+                    <div className={styles.selectedTemplateContainer}>
                         <TemplateItem
-                            editable={false}
-                            selected={selectedTemplateId === ""}
-                            name={t("defaultTemplate")}
-                            description={getTemplateDescription(DEFAULT_SETTINGS.metronomeSettings)}
-                            handleSelectTemplate={() => handleSelectTemplate("")}
+                            editable={Boolean(selectedTemplate)}
+                            selected={true}
+                            name={selectedTemplate?.name || t("defaultTemplate")}
+                            description={getTemplateDescription(selectedTemplate?.settings?.metronomeSettings || DEFAULT_SETTINGS.metronomeSettings)}
+                            handleSelectTemplate={() => handleSelectTemplate(selectedTemplateId)}
+                            handleRenameTemplate={() => handleRenameTemplate(selectedTemplateId)}
+                            handleUpdateTemplate={() => handleUpdateTemplate(selectedTemplateId)}
+                            handleDuplicateTemplate={() => handleDuplicateTemplate(selectedTemplateId)}
+                            handleDeleteTemplate={() => handleDeleteTemplate(selectedTemplateId)}
                         />
-                    </li>
+                    </div>
+                }
+                <ol>
+                    {
+                        (selectedTemplate || (!selectedTemplate && searchValue)) &&
+                        <li>
+                            <TemplateItem
+                                editable={false}
+                                selected={selectedTemplateId === ""}
+                                name={t("defaultTemplate")}
+                                description={getTemplateDescription(DEFAULT_SETTINGS.metronomeSettings)}
+                                handleSelectTemplate={() => handleSelectTemplate("")}
+                            />
+                        </li>
+                    }
                     {
                         templates
                             .filter((template) => template.name.toLowerCase().includes(searchValue.toLowerCase()))
                             .map((template) => {
+                                if (selectedTemplateId === template.id && !searchValue) return null;
                                 return (
                                     <li key={template.id}>
                                         <TemplateItem

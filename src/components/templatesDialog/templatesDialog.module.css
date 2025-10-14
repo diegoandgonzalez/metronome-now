@@ -1,5 +1,5 @@
 .templatesDialogContent {
-    max-width: 560px;
+    max-width: 570px;
 
     .templatesDialogHeader {
         display: flex;
@@ -27,11 +27,10 @@
     }
 }
 
-@media (max-width: 650px) {
-    .templatesDialogContainer {
-        min-width: 300px;
-        max-width: 100%;
-    }
+.selectedTemplateContainer {
+    border-bottom: 1px solid var(--borderColor);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 .templateItem {
@@ -46,9 +45,7 @@
     cursor: pointer;
 
     &[data-is-selected="true"] {
-        border-color: var(--accentColor);
         color: var(--accentColor);
-        font-weight: 500;
     }
 
     .templateName {
