@@ -17,6 +17,7 @@ import TempoProgrammingTimerDialog from "../tempoProgrammingTimerDialog";
 import CountdownInput from "../countdownInput";
 import TemplateFormDialog from "../templateFormDialog";
 import AboutDialog from "../aboutDialog";
+import ShortcutsDialog from "../shortcutsDialog";
 import TemplatesDialog from "../templatesDialog";
 import SettingsDialog from "../settingsDialog/settingsDialog";
 import useDialog from "../dialog/useDialog";
@@ -108,9 +109,13 @@ const Metronome = () => {
         handleCloseDialog: handleCloseSettingsDialog,
     } = useDialog();
 
-    const handleToggleMetronome = () => {
-        if (someDialogIsOpen) return;
+    const {
+        dialogIsOpen: shortcutsDialogIsOpen,
+        handleOpenDialog: handleOpenShortcutsDialog,
+        handleCloseDialog: handleCloseShortcutsDialog,
+    } = useDialog();
 
+    const handleToggleMetronome = () => {
         if (isPlaying) {
             handleStopMetronome();
             return;
@@ -124,27 +129,36 @@ const Metronome = () => {
         handleSelectTemplateToPlay(templates[index - 1]?.id);
     }
 
-    useExecuteKeyPressed("p", handleToggleMetronome);
-    useExecuteKeyPressed("s", handleOpenSettingsDialog);
-    useExecuteKeyPressed("t", handleOpenTemplateDialog);
-    useExecuteKeyPressed("b", handleOpenBPMProgrammingTimerDialog);
-    useExecuteKeyPressed("0", () => selectTemplateByShortcut(0));
-    useExecuteKeyPressed("1", () => selectTemplateByShortcut(1));
-    useExecuteKeyPressed("2", () => selectTemplateByShortcut(2));
-    useExecuteKeyPressed("3", () => selectTemplateByShortcut(3));
-    useExecuteKeyPressed("4", () => selectTemplateByShortcut(4));
-    useExecuteKeyPressed("5", () => selectTemplateByShortcut(5));
-    useExecuteKeyPressed("6", () => selectTemplateByShortcut(6));
-    useExecuteKeyPressed("7", () => selectTemplateByShortcut(7));
-    useExecuteKeyPressed("8", () => selectTemplateByShortcut(8));
-    useExecuteKeyPressed("9", () => selectTemplateByShortcut(9));
+    const executeIfNoDialogIsOpen = (callback: () => void) => {
+        if (someDialogIsOpen) return;
+        callback();
+    }
+
+    useExecuteKeyPressed("d", "keyup", () => handleChangeTheme("dark"));
+    useExecuteKeyPressed("l", "keyup", () => handleChangeTheme("light"));
+    useExecuteKeyPressed("p", "keyup", handleToggleMetronome);
+    useExecuteKeyPressed("?", "keyup", () => executeIfNoDialogIsOpen(handleOpenShortcutsDialog));
+    useExecuteKeyPressed("s", "keyup", () => executeIfNoDialogIsOpen(handleOpenSettingsDialog));
+    useExecuteKeyPressed("t", "keyup", () => executeIfNoDialogIsOpen(handleOpenTemplateDialog));
+    useExecuteKeyPressed("b", "keyup", () => executeIfNoDialogIsOpen(handleOpenBPMProgrammingTimerDialog));
+    useExecuteKeyPressed("0", "keyup", () => selectTemplateByShortcut(0));
+    useExecuteKeyPressed("1", "keyup", () => selectTemplateByShortcut(1));
+    useExecuteKeyPressed("2", "keyup", () => selectTemplateByShortcut(2));
+    useExecuteKeyPressed("3", "keyup", () => selectTemplateByShortcut(3));
+    useExecuteKeyPressed("4", "keyup", () => selectTemplateByShortcut(4));
+    useExecuteKeyPressed("5", "keyup", () => selectTemplateByShortcut(5));
+    useExecuteKeyPressed("6", "keyup", () => selectTemplateByShortcut(6));
+    useExecuteKeyPressed("7", "keyup", () => selectTemplateByShortcut(7));
+    useExecuteKeyPressed("8", "keyup", () => selectTemplateByShortcut(8));
+    useExecuteKeyPressed("9", "keyup", () => selectTemplateByShortcut(9));
 
     const { t } = useTranslation();
 
     const someDialogIsOpen = (
         bpmProgrammingTimerDialogIsOpen ||
         templateDialogIsOpen ||
-        templateFormDialogIsOpen
+        templateFormDialogIsOpen ||
+        shortcutsDialogIsOpen
     );
 
     const settingsIsActive = (
@@ -159,6 +173,7 @@ const Metronome = () => {
         <>
             <Header
                 handleTitleClick={handleOpenAboutDialog}
+                handleShortcutsClick={handleOpenShortcutsDialog}
                 handleSettingsClick={handleOpenSettingsDialog}
             />
             <div className={styles.metronomeContainer}>
@@ -167,7 +182,7 @@ const Metronome = () => {
                     data-is-hidden={String(!selectedTemplateToPlayName)}
                     title={t("template")}
                 >
-                    {selectedTemplateToPlayName || t("noTemplate")}
+                    {selectedTemplateToPlayName || t("defaultTemplate")}
                 </p>
                 <div>
                     <BPMInput
@@ -219,7 +234,7 @@ const Metronome = () => {
                         <RiTimerLine size={35} />
                     </IconButton>
                     <IconButton
-                        title={t(isPlaying ? "stop" : "play")  + " (p)"}
+                        title={t(isPlaying ? "stop" : "play") + " (p)"}
                         onClick={handleToggleMetronome}
                     >
                         {isPlaying ? <RiStopFill size={MAIN_ICON_SIZE} /> : <RiPlayLargeFill size={MAIN_ICON_SIZE} />}
@@ -281,6 +296,13 @@ const Metronome = () => {
                         handleChangeLanguage={handleChangeLanguage}
                         handleChangeTheme={handleChangeTheme}
                         handleClose={handleCloseSettingsDialog}
+                    />
+                }
+                {
+                    shortcutsDialogIsOpen &&
+                    <ShortcutsDialog
+                        open={shortcutsDialogIsOpen}
+                        handleClose={handleCloseShortcutsDialog}
                     />
                 }
                 {

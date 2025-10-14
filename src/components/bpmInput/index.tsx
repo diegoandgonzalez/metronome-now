@@ -55,8 +55,8 @@ const BPMInput = (props: Props) => {
     handleSubmit(String(newBPM));
   }
 
-  useExecuteKeyPressed("ArrowUp", addOneBPM);
-  useExecuteKeyPressed("ArrowDown", subtractOneBPM);
+  useExecuteKeyPressed("ArrowUp", "keydown", addOneBPM);
+  useExecuteKeyPressed("ArrowDown", "keydown", subtractOneBPM);
 
   return (
     <div className={styles.bpmInputContainer}>
@@ -81,7 +81,7 @@ const BPMInput = (props: Props) => {
       <div className={styles.bpmInputButtonContainer}>
         <IconButton
           variant="square"
-          title={t("subtractBPM", { value: 1 }) + " (↓)"}
+          title={t("subtractBPM") + " (↓)"}
           onClick={subtractOneBPM}
         >
           <RiSubtractLine size={20} />
@@ -99,7 +99,7 @@ const BPMInput = (props: Props) => {
         </IconButton>
         <IconButton
           variant="square"
-          title={t("addBPM", { value: 1 }) + " (↑)"}
+          title={t("addBPM") + " (↑)"}
           onClick={addOneBPM}
         >
           <RiAddFill size={20} />

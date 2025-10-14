@@ -77,7 +77,7 @@ const TemplatesDialog = (props: Props) => {
                         <TemplateItem
                             editable={false}
                             selected={selectedTemplateId === ""}
-                            name={t("noTemplate")}
+                            name={t("defaultTemplate")}
                             description={getTemplateDescription(DEFAULT_SETTINGS.metronomeSettings)}
                             handleSelectTemplate={() => handleSelectTemplate("")}
                         />

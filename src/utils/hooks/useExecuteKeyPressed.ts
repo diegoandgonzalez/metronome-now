@@ -1,25 +1,25 @@
 import { useEffect } from "react";
 
-const useExecuteKeyPressed = (keyCode: string, callback: () => void) => {
+const useExecuteKeyPressed = (keyCode: string, eventType: "keydown" | "keyup", callback: () => void) => {
 
   useEffect(() => {
     const executeCallback = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
-      const isTyping = target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable;
-      if (isTyping) return;
+      const isNotTypingShortcut = target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable;
+      if (isNotTypingShortcut) return;
 
-      if (event.key.toUpperCase() === keyCode.toUpperCase() && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+      if (event.key.toUpperCase() === keyCode.toUpperCase() && !event.altKey && !event.ctrlKey && !event.metaKey) {
         event.preventDefault();
         callback();
       }
     }
 
-    document.addEventListener("keyup", executeCallback);
+    document.addEventListener(eventType, executeCallback);
 
     return () => {
-      document.removeEventListener("keyup", executeCallback);
+      document.removeEventListener(eventType, executeCallback);
     }
-  }, [keyCode, callback])
+  }, [keyCode, eventType, callback])
 };
 
 export default useExecuteKeyPressed;

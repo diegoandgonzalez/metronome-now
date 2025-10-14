@@ -65,6 +65,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
     }, [isDBReady, templates, getAllItemsFromDB, setSelectedTemplateIdToPlay, handleOpenSnackbar]);
 
     const handleSelectTemplateToPlay = (newTemplateID: string) => {
+        if (newTemplateID === selectedTemplateIdToPlay) return;
         setSelectedTemplateIdToPlay(newTemplateID);
 
         const templateSelected = templates.find((template) => template.id === newTemplateID);

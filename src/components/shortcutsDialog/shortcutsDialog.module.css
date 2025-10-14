@@ -1,0 +1,18 @@
+.shortcutsContainer {
+    div {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 50px;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid var(--borderColor);
+        }
+
+        b {
+            width: 60px;
+        }
+    }
+}

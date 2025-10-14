@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { RiSettings5Fill } from "react-icons/ri";
+import { RiSettings5Fill, RiQuestionFill } from "react-icons/ri";
 import styles from "./header.module.css";
 import IconButton from "../iconButton";
 
 type Props = {
     handleTitleClick: () => void,
+    handleShortcutsClick: () => void,
     handleSettingsClick: () => void,
 }
 
@@ -12,6 +13,7 @@ const Header = (props: Props) => {
 
     const {
         handleTitleClick,
+        handleShortcutsClick,
         handleSettingsClick,
     } = props;
 
@@ -25,13 +27,22 @@ const Header = (props: Props) => {
             >
                 Metronome <b>Now</b>
             </h1>
-            <IconButton
-                title={t("settings") + " (s)"}
-                color="transparent"
-                onClick={handleSettingsClick}
-            >
-                <RiSettings5Fill size={24} />
-            </IconButton>
+            <div>
+                <IconButton
+                    title={t("shortcuts") + " (?)"}
+                    color="transparent"
+                    onClick={handleShortcutsClick}
+                >
+                    <RiQuestionFill size={24} />
+                </IconButton>
+                <IconButton
+                    title={t("settings") + " (s)"}
+                    color="transparent"
+                    onClick={handleSettingsClick}
+                >
+                    <RiSettings5Fill size={24} />
+                </IconButton>
+            </div>
         </header>
     );
 }

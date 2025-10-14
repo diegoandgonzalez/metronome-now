@@ -48,7 +48,7 @@ const TemplateItem = (props: Props) => {
                 handleSelectTemplate();
             }}
         >
-            <div title={name}>
+            <div title={t("setTemplate") + " " + name}>
                 <p className={styles.templateName}>
                     {name}
                 </p>

@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { DEFAULT_THEME, THEMES } from "../constants";
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../localStorage";
 import useStateRefLocalStorageSync from "./useStateRefLocalStorageSync";
+import type { Theme } from "../types";
 
-const defaultTheme = (() => {
+const defaultTheme: Theme = (() => {
     if (!window.matchMedia) return DEFAULT_THEME;
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) return THEMES.dark;
     return "light";
@@ -22,7 +23,8 @@ const useTheme = () => {
         document.documentElement.setAttribute("data-theme", initialTheme);
     }, [])
 
-    const handleChangeTheme = (newTheme: string) => {
+    const handleChangeTheme = (newTheme: Theme) => {
+        if (newTheme === theme) return;
         handleSyncTheme(newTheme);
         document.documentElement.setAttribute("data-theme", newTheme);
     }
