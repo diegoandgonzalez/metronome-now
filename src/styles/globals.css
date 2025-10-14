@@ -112,6 +112,10 @@ button {
     border: 0px;
     cursor: pointer;
     color: white;
+
+    &:active {
+        filter: brightness(110%);
+    }
 }
 
 b {
