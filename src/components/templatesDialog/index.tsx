@@ -50,6 +50,10 @@ const TemplatesDialog = (props: Props) => {
         return templates.find((template) => template.id === selectedTemplateId);
     }, [templates, selectedTemplateId])
 
+    const filteredTemplates = useMemo(() => {
+        return templates.filter((template) => template.name.toLowerCase().includes(searchValue.toLowerCase()))
+    }, [templates, searchValue])
+
     return (
         <Dialog
             open={open}
@@ -78,7 +82,7 @@ const TemplatesDialog = (props: Props) => {
                 </div>
                 {
                     !searchValue &&
-                    <div className={styles.selectedTemplateContainer}>
+                    <div className={filteredTemplates.length ? styles.selectedTemplateContainer : ""}>
                         <TemplateItem
                             editable={Boolean(selectedTemplate)}
                             selected={true}
@@ -106,26 +110,24 @@ const TemplatesDialog = (props: Props) => {
                         </li>
                     }
                     {
-                        templates
-                            .filter((template) => template.name.toLowerCase().includes(searchValue.toLowerCase()))
-                            .map((template) => {
-                                if (selectedTemplateId === template.id && !searchValue) return null;
-                                return (
-                                    <li key={template.id}>
-                                        <TemplateItem
-                                            editable={true}
-                                            selected={selectedTemplateId === template.id}
-                                            name={template.name}
-                                            description={getTemplateDescription(template.settings?.metronomeSettings)}
-                                            handleSelectTemplate={() => handleSelectTemplate(template.id)}
-                                            handleRenameTemplate={() => handleRenameTemplate(template.id)}
-                                            handleUpdateTemplate={() => handleUpdateTemplate(template.id)}
-                                            handleDuplicateTemplate={() => handleDuplicateTemplate(template.id)}
-                                            handleDeleteTemplate={() => handleDeleteTemplate(template.id)}
-                                        />
-                                    </li>
-                                )
-                            })
+                        filteredTemplates.map((template) => {
+                            if (selectedTemplateId === template.id && !searchValue) return null;
+                            return (
+                                <li key={template.id}>
+                                    <TemplateItem
+                                        editable={true}
+                                        selected={selectedTemplateId === template.id}
+                                        name={template.name}
+                                        description={getTemplateDescription(template.settings?.metronomeSettings)}
+                                        handleSelectTemplate={() => handleSelectTemplate(template.id)}
+                                        handleRenameTemplate={() => handleRenameTemplate(template.id)}
+                                        handleUpdateTemplate={() => handleUpdateTemplate(template.id)}
+                                        handleDuplicateTemplate={() => handleDuplicateTemplate(template.id)}
+                                        handleDeleteTemplate={() => handleDeleteTemplate(template.id)}
+                                    />
+                                </li>
+                            )
+                        })
                     }
                 </ol>
             </div>
