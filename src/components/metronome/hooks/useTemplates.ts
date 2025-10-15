@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useTranslation } from "react-i18next";
 import useSnackbarContext from "../../snackbar/useSnackbarContext";
@@ -22,6 +22,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
     } = useIndexedDB<Template>("MetronomeNowDB", "Templates", 1, "id");
 
     const [templates, setTemplates] = useState<Template[]>([]);
+    const hasFetched = useRef<boolean>(false);
 
     const {
         value: selectedTemplateIdToPlay,
@@ -51,10 +52,11 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
     useEffect(() => {
         if (!isDBReady) return;
 
-        if (!templates.length) {
+        if (!hasFetched.current) {
             getAllItemsFromDB()
                 .then((fetchedTemplates) => {
-                    setTemplates(fetchedTemplates.sort((a, b) => a.name.localeCompare(b.name)));
+                    hasFetched.current = true;
+                    setTemplates(fetchedTemplates);
                     const storedTemplateIdExists = Boolean(storedSelectedTemplateIdToPlay) && fetchedTemplates.some((template) => template.id === storedSelectedTemplateIdToPlay);
                     setSelectedTemplateIdToPlay(storedTemplateIdExists ? storedSelectedTemplateIdToPlay : "");
                 })
@@ -62,7 +64,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
                     handleOpenSnackbar(error);
                 });
         }
-    }, [isDBReady, templates, getAllItemsFromDB, setSelectedTemplateIdToPlay, handleOpenSnackbar]);
+    }, [isDBReady, getAllItemsFromDB, setSelectedTemplateIdToPlay, handleOpenSnackbar]);
 
     const handleSelectTemplateToPlay = (newTemplateID: string) => {
         if (newTemplateID === selectedTemplateIdToPlay) return;
@@ -151,7 +153,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
             .then(() => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
-                        setTemplates(newTemplates.sort((a, b) => a.name.localeCompare(b.name)));
+                        setTemplates(newTemplates);
                         setSelectedTemplateIdToPlay(newTemplate.id);
                         handleOpenSnackbar(t("templateCreated"), 0, "success");
                     })
@@ -172,7 +174,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
             .then(() => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
-                        setTemplates(newTemplates.sort((a, b) => a.name.localeCompare(b.name)));
+                        setTemplates(newTemplates);
                         handleOpenSnackbar(t("templateUpdated"), 0, "success");
                     })
             })
@@ -186,7 +188,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
             .then(() => {
                 getAllItemsFromDB()
                     .then((newTemplates) => {
-                        setTemplates(newTemplates.sort((a, b) => a.name.localeCompare(b.name)));
+                        setTemplates(newTemplates);
                         setTemplateFormData(null);
                         handleSelectTemplateToPlay("");
                         handleOpenSnackbar(t("templateDeleted"), 0, "success");
@@ -216,9 +218,13 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         handleSelectTemplateToPlay(nextTemplateId);
     }
 
+    const sortedTemplates = useMemo(() => {
+        return templates.sort((a, b) => a.name.localeCompare(b.name));
+    }, [templates])
+
     return {
         isDBReady,
-        templates,
+        templates: sortedTemplates,
         selectedTemplateIdToPlay,
         templateFormDialogIsOpen,
         templateFormData,
