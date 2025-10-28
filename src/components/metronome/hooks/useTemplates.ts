@@ -66,7 +66,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         }
     }, [isDBReady, getAllItemsFromDB, setSelectedTemplateIdToPlay, handleOpenSnackbar]);
 
-    const handleSelectTemplateToPlay = (newTemplateID: string) => {
+    const handleSelectTemplateToPlayById = (newTemplateID: string) => {
         if (newTemplateID === selectedTemplateIdToPlay) return;
         setSelectedTemplateIdToPlay(newTemplateID);
 
@@ -74,6 +74,11 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
 
         onTemplateSelectionCallback(templateSelected);
         handleOpenSnackbar(t("templateSelected"), 0, "success");
+    }
+
+    const handleSelectTemplateToPlayByObject = (newTemplate?: Template) => {
+        setSelectedTemplateIdToPlay(newTemplate?.id || "");
+        onTemplateSelectionCallback(newTemplate);
     }
 
     const handleOpenCreateTemplate = () => {
@@ -154,7 +159,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
                 getAllItemsFromDB()
                     .then((newTemplates) => {
                         setTemplates(newTemplates);
-                        setSelectedTemplateIdToPlay(newTemplate.id);
+                        handleSelectTemplateToPlayByObject(newTemplate);
                         handleOpenSnackbar(t("templateCreated"), 0, "success");
                     })
             })
@@ -175,6 +180,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
                 getAllItemsFromDB()
                     .then((newTemplates) => {
                         setTemplates(newTemplates);
+                        handleSelectTemplateToPlayByObject(auxSelectedTemplate);
                         handleOpenSnackbar(t("templateUpdated"), 0, "success");
                     })
             })
@@ -189,8 +195,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
                 getAllItemsFromDB()
                     .then((newTemplates) => {
                         setTemplates(newTemplates);
-                        setTemplateFormData(null);
-                        handleSelectTemplateToPlay("");
+                        handleSelectTemplateToPlayByObject();
                         handleOpenSnackbar(t("templateDeleted"), 0, "success");
                     })
             })
@@ -201,13 +206,13 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
 
     const handleSelectTemplateByPosition = (position: number) => {
         if (templates.length < position) return;
-        handleSelectTemplateToPlay(templates[position - 1]?.id);
+        handleSelectTemplateToPlayById(templates[position - 1]?.id);
     }
 
     const handleSelectPrevTemplate = () => {
         const templateIndex = templates.findIndex((template) => template.id === selectedTemplateIdToPlay);
         const prevTemplateId = templates[templateIndex - 1]?.id || "";
-        handleSelectTemplateToPlay(prevTemplateId);
+        handleSelectTemplateToPlayById(prevTemplateId);
     }
 
     const handleSelectNextTemplate = () => {
@@ -215,7 +220,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         if (templateIndex === templates.length - 1) return;
 
         const nextTemplateId = templates[templateIndex + 1].id;
-        handleSelectTemplateToPlay(nextTemplateId);
+        handleSelectTemplateToPlayById(nextTemplateId);
     }
 
     const sortedTemplates = useMemo(() => {
@@ -228,7 +233,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         selectedTemplateIdToPlay,
         templateFormDialogIsOpen,
         templateFormData,
-        handleSelectTemplateToPlay,
+        handleSelectTemplateToPlayById,
         handleSelectTemplateByPosition,
         handleSelectPrevTemplate,
         handleSelectNextTemplate,

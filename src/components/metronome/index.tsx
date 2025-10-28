@@ -75,7 +75,7 @@ const Metronome = () => {
         selectedTemplateIdToPlay,
         templateFormDialogIsOpen,
         templateFormData,
-        handleSelectTemplateToPlay,
+        handleSelectTemplateToPlayById,
         handleSelectTemplateByPosition,
         handleSelectPrevTemplate,
         handleSelectNextTemplate,
@@ -270,7 +270,7 @@ const Metronome = () => {
                         selectedTemplateId={selectedTemplateIdToPlay}
                         templates={templates}
                         handleSelectTemplate={(templateId) => {
-                            handleSelectTemplateToPlay(templateId);
+                            handleSelectTemplateToPlayById(templateId);
                             handleCloseTemplateDialog();
                         }}
                         handleCreateTemplate={handleOpenCreateTemplate}
