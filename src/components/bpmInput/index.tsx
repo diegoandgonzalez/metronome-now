@@ -68,10 +68,9 @@ const BPMInput = (props: Props) => {
         max={METRONOME_CONSTANTS.maxBPM}
         value={bpm}
         onChange={(e) => setBPM(e.target.value.substring(0, 3))}
-        onMouseEnter={(e) => e.currentTarget.focus()}
-        onMouseLeave={(e) => e.currentTarget.blur()}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
+            e.currentTarget.blur();
             handleSubmit();
           }
         }}
