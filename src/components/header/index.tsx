@@ -28,13 +28,15 @@ const Header = (props: Props) => {
                 Metronome <b>Now</b>
             </h1>
             <div>
-                <IconButton
-                    title={t("shortcuts") + " (?)"}
-                    color="transparent"
-                    onClick={handleShortcutsClick}
-                >
-                    <RiQuestionFill size={24} />
-                </IconButton>
+                <div className={styles.shortcutButtonContainer}>
+                    <IconButton
+                        title={t("shortcuts") + " (?)"}
+                        color="transparent"
+                        onClick={handleShortcutsClick}
+                    >
+                        <RiQuestionFill size={24} />
+                    </IconButton>
+                </div>
                 <IconButton
                     title={t("settings") + " (s)"}
                     color="transparent"
