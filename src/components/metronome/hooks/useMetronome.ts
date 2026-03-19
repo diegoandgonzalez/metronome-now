@@ -6,13 +6,13 @@ import {
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import { getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
+import type { MetronomeSettings, Settings } from "../../../utils/types";
 import useTimeMeasure from "./useTimeMeasure";
 import useTempoProgramming from "./useTempoProgramming";
-import useAudio from "./useAudio";
-import type { MetronomeSettings, Settings } from "../../../utils/types";
 import useTimer from "./useTimer";
+import useAudio from "./useAudio";
 
-const initialCountdownAmount = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownAmount, DEFAULT_SETTINGS.metronomeSettings.countdownAmount);
+const initialCountdownLength = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownLength, DEFAULT_SETTINGS.metronomeSettings.countdownLength);
 const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_SETTINGS.metronomeSettings.bpm);
 const initialBeatsPerMeasure = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatsPerMeasure, DEFAULT_SETTINGS.metronomeSettings.beatsPerMeasure);
 const initialNoteValue = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.noteValue, DEFAULT_SETTINGS.metronomeSettings.noteValue);
@@ -23,13 +23,13 @@ const useMetronome = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
 
-    const countdownHasFinished = useRef(false);
+    const isInCountdownRef = useRef(false);
 
     const {
-        value: countdownAmount,
-        valueRef: countdownAmountRef,
-        handleSyncValue: handleSyncCountdownAmount,
-    } = useStateRefLocalStorageSync<number>(initialCountdownAmount, LOCAL_STORAGE_KEYS.countdownAmount);
+        value: countdownLength,
+        valueRef: countdownLengthRef,
+        handleSyncValue: handleSyncCountdownLength,
+    } = useStateRefLocalStorageSync<number>(initialCountdownLength, LOCAL_STORAGE_KEYS.countdownLength);
 
     const {
         value: bpm,
@@ -59,13 +59,11 @@ const useMetronome = () => {
         value: measureNumber,
         valueRef: measureNumberRef,
         handleSyncValue: handleSyncMeasureNumber,
-    } = useStateRefLocalStorageSync<number>(METRONOME_CONSTANTS.stoppedBeatIndex); // counter of measures from 0 to infinity
+    } = useStateRefLocalStorageSync<number>(METRONOME_CONSTANTS.stoppedBeatIndex);
 
-    const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(METRONOME_CONSTANTS.stoppedBeatIndex); // circular number inside measure size
-    const beatNumberRef = useRef(METRONOME_CONSTANTS.stoppedBeatIndex); // counter of beats from 0 to infinity
-
-    const timeoutRef = useRef<number>(null);
-    const nextNoteTimeRef = useRef(0);
+    const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(METRONOME_CONSTANTS.stoppedBeatIndex);
+    const beatNumberRef = useRef(METRONOME_CONSTANTS.stoppedBeatIndex);
+    const timeToNextNoteRef = useRef(0);
 
     const {
         currentTime,
@@ -74,12 +72,6 @@ const useMetronome = () => {
         stopTimeMeasure,
         togglePauseTimeMeasure,
     } = useTimeMeasure();
-
-    const {
-        audioContextRef,
-        clickAudioRef,
-        playAudio,
-    } = useAudio();
 
     const {
         settings: tempoProgrammingSettings,
@@ -92,132 +84,15 @@ const useMetronome = () => {
         handleSetTimerSettings,
     } = useTimer();
 
-    const scheduleNote = (beatInMeasureToPlay: number) => {
-        const beatType = beatTypesRef.current[beatInMeasureToPlay];
-        const audioToPlay = [clickAudioRef.current.clickAccent, clickAudioRef.current.clickNormal, clickAudioRef.current.clickMuted][beatType];
-        playAudio(audioToPlay, nextNoteTimeRef.current);
-    }
+    const onTickRef = useRef<() => void>(() => { });
 
-    const checkAndStopCountdown = (isFirstBeatInMeasure: boolean) => {
-        // if has countdown and didn't finish
-        // and first beat after playing every countdown measure
-        // reset and start time measure
-        if (Boolean(countdownAmountRef.current) && !countdownHasFinished.current && isFirstBeatInMeasure && measureNumberRef.current === countdownAmountRef.current) {
-            countdownHasFinished.current = true;
-            beatNumberRef.current = 0;
-            handleSyncMeasureNumber(0);
-            startTimeMeasure();
-        }
-    }
-
-    const checkShouldStopByTimerSettings = (isLastBeatInMeasure: boolean): boolean => {
-        if (timerSettings) {
-            if (timerSettings.secondsIsActive) {
-                if (currentTimeRef.current >= (timerSettings.secondsToStop * 1000)) return true;
-                return false;
-            }
-
-            if (timerSettings.measuresIsActive) {
-                // stop metronome on last beat of last programmed measure
-                if (isLastBeatInMeasure && measureNumberRef.current === (timerSettings.measuresToStop - 1)) return true;
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    const scheduler = () => {
-        if (!audioContextRef.current) return;
-
-        const noteValueRatio = 4 / noteValueRef.current;
-        const secondsPerBeat = 60.0 / (bpmRef.current / noteValueRatio);
-
-        while (nextNoteTimeRef.current <= audioContextRef.current.currentTime) {
-            const newCurrentBeatInMeasure = beatNumberRef.current % beatsPerMeasureRef.current;
-            const isFirstBeatInMeasure = newCurrentBeatInMeasure === 0;
-            const isLastBeatInMeasure = newCurrentBeatInMeasure === beatsPerMeasureRef.current - 1;
-            const hasCountdown = Boolean(countdownAmountRef.current);
-
-            scheduleNote(newCurrentBeatInMeasure);
-
-            setCurrentBeatInMeasure(newCurrentBeatInMeasure);
-
-            if (isFirstBeatInMeasure) {
-                handleSyncMeasureNumber(measureNumberRef.current + 1);
-            }
-
-            checkAndStopCountdown(isFirstBeatInMeasure);
-
-            if (!hasCountdown || (hasCountdown && countdownHasFinished.current)) {
-                if (isFirstBeatInMeasure && measureNumberRef.current !== 0) { // if start of measure (and not the first measure playing)
-                    if (getProgrammedBPM) {
-                        handleSyncBPM(getProgrammedBPM(measureNumberRef.current, bpmRef.current));
-                    }
-                }
-
-                if (checkShouldStopByTimerSettings(isLastBeatInMeasure)) {
-                    handleStopMetronome();
-                    return;
-                }
-            }
-
-            beatNumberRef.current++;
-            nextNoteTimeRef.current += secondsPerBeat;
-        }
-
-        timeoutRef.current = window.setTimeout(scheduler, METRONOME_CONSTANTS.lookAhead);
-    };
-
-    const setNextNoteTimeToStartOrResume = () => {
-        if (!audioContextRef.current) return;
-        nextNoteTimeRef.current = audioContextRef.current.currentTime;
-    }
-
-    const clearTimeoutRefToStopOrPause = () => {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-            timeoutRef.current = null;
-        }
-    }
-
-    const handleStartMetronome = () => {
-        setNextNoteTimeToStartOrResume();
-        beatNumberRef.current = 0;
-        countdownHasFinished.current = false;
-        setCurrentBeatInMeasure(0);
-
-        scheduler();
-        setIsPlaying(true);
-
-        if (!countdownAmount) { // if countdown is active, startTimeMeasure is executed in scheduleNote after countdown
-            startTimeMeasure();
-        }
-    };
-
-    const handleStopMetronome = () => {
-        clearTimeoutRefToStopOrPause();
-        setIsPlaying(false);
-        setIsPaused(false);
-        setCurrentBeatInMeasure(METRONOME_CONSTANTS.stoppedBeatIndex);
-        beatNumberRef.current = METRONOME_CONSTANTS.stoppedBeatIndex;
-        handleSyncMeasureNumber(METRONOME_CONSTANTS.stoppedBeatIndex);
-        stopTimeMeasure();
-    };
-
-    const handleTogglePauseMetronome = () => {
-        // it works similar to handleToggleMetronome except it doesn't reset clock, beat and measure positions
-        if (!isPaused) {
-            clearTimeoutRefToStopOrPause();
-            togglePauseTimeMeasure();
-        } else {
-            setNextNoteTimeToStartOrResume();
-            togglePauseTimeMeasure();
-            scheduler();
-        }
-
-        setIsPaused((prev) => !prev);
-    }
+    const {
+        audioContextRef,
+        initAudio,
+        startWorklet,
+        stopWorklet,
+        playAudio,
+    } = useAudio(onTickRef);
 
     const handleSetBPM = (value: number) => {
         if (value < METRONOME_CONSTANTS.minBPM || value > METRONOME_CONSTANTS.maxBPM) return;
@@ -243,12 +118,11 @@ const useMetronome = () => {
     const handleToggleBeatType = (beatToAccent: number) => {
         const newAccentedBeats = [...beatTypes];
         newAccentedBeats[beatToAccent] = (newAccentedBeats[beatToAccent] + 1) % METRONOME_CONSTANTS.beatTypesAmount;
-
         handleSetBeatTypes(newAccentedBeats);
     }
 
-    const handleSetCountdownAmount = (newAmount: number) => {
-        handleSyncCountdownAmount(newAmount);
+    const handleSetCountdownLength = (newLength: number) => {
+        handleSyncCountdownLength(newLength);
     }
 
     const handleSetMetronomeSettings = (newMetronomeSettings: MetronomeSettings = DEFAULT_SETTINGS.metronomeSettings) => {
@@ -256,26 +130,117 @@ const useMetronome = () => {
         handleSetBeatsPerMeasure(newMetronomeSettings.beatsPerMeasure);
         handleSetNoteValue(newMetronomeSettings.noteValue);
         handleSetBeatTypes(newMetronomeSettings.beatTypes);
-        handleSetCountdownAmount(newMetronomeSettings.countdownAmount);
+        handleSetCountdownLength(newMetronomeSettings.countdownLength);
     }
+
+    const handleStartMetronome = async () => {
+        await initAudio();
+
+        if (!audioContextRef.current) return;
+
+        timeToNextNoteRef.current = audioContextRef.current.currentTime;
+        beatNumberRef.current = 0;
+        isInCountdownRef.current = Boolean(countdownLengthRef.current);
+        setCurrentBeatInMeasure(0);
+
+        startWorklet();
+        setIsPlaying(true);
+
+        if (!isInCountdownRef.current) { // if countdown is active, startTimeMeasure is executed after countdown
+            startTimeMeasure();
+        }
+    }
+
+    const handleTogglePauseMetronome = () => { // it works similar to handleToggleMetronome except it doesn't reset clock, beat and measure positions
+        if (!isPaused) {
+            stopWorklet();
+            togglePauseTimeMeasure();
+        } else {
+            if (!audioContextRef.current) return;
+            timeToNextNoteRef.current = audioContextRef.current.currentTime;
+            togglePauseTimeMeasure();
+            startWorklet();
+        }
+
+        setIsPaused((prev) => !prev);
+    }
+
+    const handleStopMetronome = () => {
+        stopWorklet();
+        setIsPlaying(false);
+        setIsPaused(false);
+        setCurrentBeatInMeasure(METRONOME_CONSTANTS.stoppedBeatIndex);
+        beatNumberRef.current = METRONOME_CONSTANTS.stoppedBeatIndex;
+        handleSyncMeasureNumber(METRONOME_CONSTANTS.stoppedBeatIndex);
+        stopTimeMeasure();
+    }
+
+    const finishCountdown = () => {
+        isInCountdownRef.current = false;
+        beatNumberRef.current = 0;
+        handleSyncMeasureNumber(0);
+        startTimeMeasure();
+    }
+
+    const schedulePendingBeats = () => {
+        if (!audioContextRef.current) return;
+
+        const noteValueRatio = 4 / noteValueRef.current;
+        const secondsPerBeat = 60.0 / (bpmRef.current / noteValueRatio);
+
+        while (timeToNextNoteRef.current <= audioContextRef.current.currentTime) {
+            const newCurrentBeatInMeasure = beatNumberRef.current % beatsPerMeasureRef.current;
+            const newBeatType = beatTypesRef.current[newCurrentBeatInMeasure];
+            const isFirstBeatInMeasure = newCurrentBeatInMeasure === 0;
+            const isLastBeatInMeasure = newCurrentBeatInMeasure === beatsPerMeasureRef.current - 1;
+
+            playAudio(newBeatType, timeToNextNoteRef.current);
+            setCurrentBeatInMeasure(newCurrentBeatInMeasure);
+
+            if (isFirstBeatInMeasure) {
+                handleSyncMeasureNumber(measureNumberRef.current + 1);
+            }
+
+            const shouldFinishCountdown = isInCountdownRef.current && measureNumberRef.current === countdownLengthRef.current && isFirstBeatInMeasure;
+            if (shouldFinishCountdown) {
+                finishCountdown();
+            }
+
+            if (!isInCountdownRef.current) {
+                if (measureNumberRef.current !== 0 && isFirstBeatInMeasure) {
+                    handleSyncBPM(getProgrammedBPM(measureNumberRef.current, bpmRef.current));
+                }
+
+                const shouldStopMetronomeBySeconds = timerSettings?.secondsIsActive && currentTimeRef.current >= (timerSettings.secondsToStop * 1000);
+                const shouldStopMetronomeByMeasures = timerSettings?.measuresIsActive && measureNumberRef.current === (timerSettings.measuresToStop - 1) && isLastBeatInMeasure;  // stop metronome on last beat of last programmed measure
+                if (shouldStopMetronomeBySeconds || shouldStopMetronomeByMeasures) {
+                    handleStopMetronome();
+                }
+            }
+
+            beatNumberRef.current++;
+            timeToNextNoteRef.current += secondsPerBeat;
+        }
+    }
+
+    onTickRef.current = schedulePendingBeats; // keep onTick updated for useAudio
 
     const metronomeSettings: MetronomeSettings = {
         bpm,
         beatsPerMeasure,
         noteValue,
         beatTypes,
-        countdownAmount,
-    };
+        countdownLength,
+    }
 
     const settings: Settings = {
         metronomeSettings,
         tempoProgrammingSettings,
-        timerSettings
+        timerSettings,
     }
 
-
     return {
-        isPlayingCountdown: isPlaying && Boolean(countdownAmount) && !countdownHasFinished.current,
+        isInCountdown: isPlaying && isInCountdownRef.current,
         isPlaying,
         isPaused,
         currentTime,
@@ -289,11 +254,11 @@ const useMetronome = () => {
         handleSetBeatsPerMeasure,
         handleSetNoteValue,
         handleToggleBeatType,
-        handleSetCountdownAmount,
+        handleSetCountdownAmount: handleSetCountdownLength,
         handleSetMetronomeSettings,
         handleSetTempoProgrammingSettings,
         handleSetTimerSettings,
     };
-}
+};
 
 export default useMetronome;

@@ -3,14 +3,14 @@ import { METRONOME_CONSTANTS } from "../../utils/constants";
 import styles from "./countdownInput.module.css";
 
 type Props = {
-    initialAmount: number,
+    initialValue: number,
     handleClick: (newAmount: number) => void,
 }
 
 const CountdownInput = (props: Props) => {
 
     const {
-        initialAmount,
+        initialValue,
         handleClick,
     } = props;
 
@@ -24,7 +24,7 @@ const CountdownInput = (props: Props) => {
             {t("countdown")}:
             <select
                 id="countdown"
-                value={initialAmount}
+                value={initialValue}
                 onChange={(e) => handleClick(Number(e.target.value))}
             >
                 {

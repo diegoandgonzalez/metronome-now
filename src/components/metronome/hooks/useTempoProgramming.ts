@@ -62,9 +62,9 @@ const useTempoProgramming = () => {
                 (addSubtractOptionRef.current === TEMPO_PROGRAMMING_CONSTANTS.actions.add && currentBPM < goalBPMRef.current) ||
                 (addSubtractOptionRef.current === TEMPO_PROGRAMMING_CONSTANTS.actions.subtract && currentBPM > goalBPMRef.current)
             ) {
-                // if new value is (greater/less) than goal, set goalbpm as new bpm
                 nextBPMValue = currentBPM + (bpmToChangeRef.current * (addSubtractOptionRef.current === TEMPO_PROGRAMMING_CONSTANTS.actions.add ? 1 : -1));
-
+                
+                // if new value is (greater/less) than goal, set goalbpm as new bpm
                 if (
                     (addSubtractOptionRef.current === TEMPO_PROGRAMMING_CONSTANTS.actions.add && nextBPMValue > goalBPMRef.current) ||
                     (addSubtractOptionRef.current === TEMPO_PROGRAMMING_CONSTANTS.actions.subtract && nextBPMValue < goalBPMRef.current)
