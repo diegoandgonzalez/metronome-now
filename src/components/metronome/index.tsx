@@ -216,7 +216,7 @@ const Metronome = () => {
                         handleClick={handleTogglePauseMetronome}
                     />
                     <CountdownInput
-                        initialValue={settings.metronomeSettings.countdownLength}
+                        initialValue={settings.metronomeSettings.countdownAmount}
                         handleClick={(newAmount) => {
                             handleSetCountdownAmount(newAmount);
                             handleStopMetronome();

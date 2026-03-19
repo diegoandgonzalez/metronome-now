@@ -3,7 +3,7 @@ export type MetronomeSettings = {
     beatsPerMeasure: number,
     noteValue: number,
     beatTypes: number[],
-    countdownLength: number,
+    countdownAmount: number, // TODO: rename to countdownLength
 }
 
 export type TimerSettings = {

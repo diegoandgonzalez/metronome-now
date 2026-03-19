@@ -56,7 +56,7 @@ export const DEFAULT_SETTINGS: Settings = {
         beatsPerMeasure: DEFAULT_BEATS_PER_MEASURE,
         noteValue: 4,
         beatTypes: createDefaultBeatTypesArray(DEFAULT_BEATS_PER_MEASURE),
-        countdownLength: 0,
+        countdownAmount: 0,
     },
     timerSettings: {
         secondsIsActive: false,
