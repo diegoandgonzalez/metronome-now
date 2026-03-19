@@ -21,7 +21,7 @@ const useAudio = (onTick: React.RefObject<() => void>) => {
         };
     }, []);
 
-    const getAudioBuffer = async (url: string, context: AudioContext) => { // TODO: mover a utils?
+    const getAudioBuffer = async (url: string, context: AudioContext) => {
         const response = await fetch(url);
         const arrayBuffer = await response.arrayBuffer();
         return await context.decodeAudioData(arrayBuffer);
@@ -65,13 +65,13 @@ const useAudio = (onTick: React.RefObject<() => void>) => {
     };
 
     const playAudio = (beatType: number, time: number) => {
-        const audioToPlay = [clickAudioRef.current.clickAccent, clickAudioRef.current.clickNormal, clickAudioRef.current.clickMuted][beatType];
+        const audioToPlay = Object.values(clickAudioRef.current)[beatType];
 
         if (!audioContextRef.current || !audioToPlay) return;
-        
+
         const source = audioContextRef.current.createBufferSource();
         const gainNode = audioContextRef.current.createGain();
-        
+
         gainNode.gain.value = 1;
         gainNode.connect(audioContextRef.current.destination);
         source.buffer = audioToPlay;
