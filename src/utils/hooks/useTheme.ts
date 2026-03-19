@@ -6,7 +6,7 @@ import type { Theme } from "../types";
 
 const defaultTheme: Theme = (() => {
     if (!window.matchMedia) return DEFAULT_THEME;
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return THEMES.dark;
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) return THEMES.dark;
     return "light";
 })();
 
