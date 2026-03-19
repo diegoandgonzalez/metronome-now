@@ -33,7 +33,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
     } = useSnackbarContext();
 
     const [isActive, setIsActive] = useState(initialTempoProgrammingSettings.isActive);
-    const [addSubtractOption, setAddSubtractOption] = useState<string>(initialTempoProgrammingSettings.addSubtractOption);
+    const [action, setAction] = useState<string>(initialTempoProgrammingSettings.action);
     const [bpmToChange, setBPMToChange] = useState<number | string>(initialTempoProgrammingSettings.bpmToChange);
     const [measuresToChangeBPM, setMeasuresToChangeBPM] = useState<number | string>(initialTempoProgrammingSettings.measuresToChangeBPM);
     const [goalBPM, setGoalBPM] = useState<number | string>(initialTempoProgrammingSettings.goalBPM);
@@ -54,7 +54,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         const formattedMeasures = Math.round(Number(measures));
         const totalSeconds = formattedMinutes * 60 + formattedSeconds;
 
-        if (formattedBPMToChange < 0 && addSubtractOption === TEMPO_PROGRAMMING_CONSTANTS.actions.add) {
+        if (formattedBPMToChange < 0 && action === TEMPO_PROGRAMMING_CONSTANTS.actions.add) {
             handleOpenSnackbar(t("bpmToChangeCannotBeNegative"));
             return;
         }
@@ -111,7 +111,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
         const newTempoProgrammingSettings = {
             isActive: isActive,
-            addSubtractOption: addSubtractOption,
+            action: action,
             bpmToChange: formattedBPMToChange,
             measuresToChangeBPM: formattedMeasuresToChangeBPM,
             goalBPM: formattedGoalBPM,
@@ -151,14 +151,15 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     </label>
                     <select
                         id="addSubtractOption"
-                        value={addSubtractOption}
-                        onChange={(e) => setAddSubtractOption(e.target.value)}
+                        value={action}
+                        onChange={(e) => setAction(e.target.value)}
                         title={t("selectHowBPMchanges")}
                     >
                         {
                             [
                                 TEMPO_PROGRAMMING_CONSTANTS.actions.add,
                                 TEMPO_PROGRAMMING_CONSTANTS.actions.subtract,
+                                TEMPO_PROGRAMMING_CONSTANTS.actions.loop,
                             ]
                                 .map((option) => {
                                     return (
@@ -195,7 +196,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     </label>
                     <label>
                         <input
-                            id="goalBPM"
+                            id="goalBPM" // TODO: if it's loop make two inputs
                             type="number"
                             min={METRONOME_CONSTANTS.minBPM}
                             max={METRONOME_CONSTANTS.maxBPM}

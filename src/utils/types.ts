@@ -18,7 +18,7 @@ export type TempoProgrammingSettings = {
     bpmToChange: number,
     goalBPM: number,
     measuresToChangeBPM: number,
-    addSubtractOption: string,
+    action: string, // TODO: make it one of the strings from TEMPO_PROGRAMMING_CONSTANTS.actions
 }
 
 export type Settings = {

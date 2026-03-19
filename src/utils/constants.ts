@@ -24,6 +24,7 @@ export const TEMPO_PROGRAMMING_CONSTANTS = {
     actions: {
         add: "add",
         subtract: "subtract",
+        loop: "loop",
     }
 }
 
@@ -69,6 +70,6 @@ export const DEFAULT_SETTINGS: Settings = {
         bpmToChange: 10,
         goalBPM: 100,
         measuresToChangeBPM: 4,
-        addSubtractOption: TEMPO_PROGRAMMING_CONSTANTS.actions.add,
+        action: TEMPO_PROGRAMMING_CONSTANTS.actions.add,
     }
 }

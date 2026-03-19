@@ -35,5 +35,5 @@ export const LOCAL_STORAGE_KEYS = {
   tempoProgrammingBPMToChange: "mn_tp_bpm_to_change",
   tempoProgrammingGoalBPM: "mn_tp_goal_bpm",
   tempoProgrammingMeasuresToChangeBPM: "mn_tp_measures_to_change_bpm",
-  tempoProgrammingAddSubtractOption: "mn_tp_add_subtract_option",
+  tempoProgrammingAction: "mn_tp_add_action",
 }

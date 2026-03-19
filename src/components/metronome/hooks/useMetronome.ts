@@ -77,6 +77,7 @@ const useMetronome = () => {
         settings: tempoProgrammingSettings,
         handleSetTempoProgrammingSettings,
         getProgrammedBPM,
+        resetLoopDirection: resetTempoProgrammingLoopDirection,
     } = useTempoProgramming();
 
     const {
@@ -141,6 +142,8 @@ const useMetronome = () => {
         timeToNextNoteRef.current = audioContextRef.current.currentTime;
         beatNumberRef.current = 0;
         isInCountdownRef.current = Boolean(countdownLengthRef.current);
+
+        resetTempoProgrammingLoopDirection();
         setCurrentBeatInMeasure(0);
 
         startWorklet();
