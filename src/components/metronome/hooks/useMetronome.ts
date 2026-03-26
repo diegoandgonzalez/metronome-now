@@ -12,7 +12,7 @@ import useTempoProgramming from "./useTempoProgramming";
 import useTimer from "./useTimer";
 import useAudio from "./useAudio";
 
-const initialCountdownLength = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownLength, DEFAULT_SETTINGS.metronomeSettings.countdownAmount);
+const initialCountdownLength = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownLength, DEFAULT_SETTINGS.metronomeSettings.countdownLength);
 const initialBPM = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.bpm, DEFAULT_SETTINGS.metronomeSettings.bpm);
 const initialBeatsPerMeasure = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.beatsPerMeasure, DEFAULT_SETTINGS.metronomeSettings.beatsPerMeasure);
 const initialNoteValue = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.noteValue, DEFAULT_SETTINGS.metronomeSettings.noteValue);
@@ -131,13 +131,17 @@ const useMetronome = () => {
         handleSetBeatsPerMeasure(newMetronomeSettings.beatsPerMeasure);
         handleSetNoteValue(newMetronomeSettings.noteValue);
         handleSetBeatTypes(newMetronomeSettings.beatTypes);
-        handleSetCountdownLength(newMetronomeSettings.countdownAmount);
+        handleSetCountdownLength(newMetronomeSettings.countdownLength);
     }
 
     const handleStartMetronome = async () => {
         await initAudio();
 
         if (!audioContextRef.current) return;
+
+        if (tempoProgrammingSettings.isActive) {
+            handleSetBPM(tempoProgrammingSettings.fromBPM);
+        }
 
         timeToNextNoteRef.current = audioContextRef.current.currentTime;
         beatNumberRef.current = 0;
@@ -233,7 +237,7 @@ const useMetronome = () => {
         beatsPerMeasure,
         noteValue,
         beatTypes,
-        countdownAmount: countdownLength, // TODO: replace with countdownLength
+        countdownLength,
     }
 
     const settings: Settings = {

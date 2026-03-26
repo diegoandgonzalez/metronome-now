@@ -41,7 +41,7 @@ const Metronome = () => {
     } = useTheme();
 
     const {
-        isInCountdown ,
+        isInCountdown,
         isPlaying,
         isPaused,
         currentTime,
@@ -216,7 +216,7 @@ const Metronome = () => {
                         handleClick={handleTogglePauseMetronome}
                     />
                     <CountdownInput
-                        initialValue={settings.metronomeSettings.countdownAmount}
+                        initialValue={settings.metronomeSettings.countdownLength}
                         handleClick={(newAmount) => {
                             handleSetCountdownAmount(newAmount);
                             handleStopMetronome();

@@ -32,11 +32,12 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         handleOpen: handleOpenSnackbar,
     } = useSnackbarContext();
 
-    const [isActive, setIsActive] = useState(initialTempoProgrammingSettings.isActive);
-    const [action, setAction] = useState<string>(initialTempoProgrammingSettings.action);
+    const [isTempoProgrammingActive, setIsTempoProgrammingActive] = useState<boolean>(initialTempoProgrammingSettings.isActive);
+    const [isLoop, setIsLoop] = useState<boolean>(initialTempoProgrammingSettings.isLoop);
     const [bpmToChange, setBPMToChange] = useState<number | string>(initialTempoProgrammingSettings.bpmToChange);
     const [measuresToChangeBPM, setMeasuresToChangeBPM] = useState<number | string>(initialTempoProgrammingSettings.measuresToChangeBPM);
-    const [goalBPM, setGoalBPM] = useState<number | string>(initialTempoProgrammingSettings.goalBPM);
+    const [fromBPM, setFromBPM] = useState<number | string>(initialTempoProgrammingSettings.fromBPM);
+    const [toBPM, setToBPM] = useState<number | string>(initialTempoProgrammingSettings.toBPM);
 
     const [isSecondsActive, setIsSecondsActive] = useState(initialTimerSettings.secondsIsActive);
     const [isMeasuresActive, setIsMeasuresActive] = useState(initialTimerSettings.measuresIsActive);
@@ -46,7 +47,8 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
     const handleSubmit = () => {
         const formattedBPMToChange = Math.round(Number(bpmToChange));
-        const formattedGoalBPM = Math.round(Number(goalBPM));
+        const formattedFromBPM = Math.round(Number(fromBPM));
+        const formattedToBPM = Math.round(Number(toBPM));
         const formattedMeasuresToChangeBPM = Math.round(Number(measuresToChangeBPM));
 
         const formattedSeconds = Math.round(Number(seconds));
@@ -54,7 +56,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         const formattedMeasures = Math.round(Number(measures));
         const totalSeconds = formattedMinutes * 60 + formattedSeconds;
 
-        if (formattedBPMToChange < 0 && action === TEMPO_PROGRAMMING_CONSTANTS.actions.add) {
+        // TODO: validar que el from y el to no sean igual
+
+        if (formattedBPMToChange < 0) {
             handleOpenSnackbar(t("bpmToChangeCannotBeNegative"));
             return;
         }
@@ -79,18 +83,33 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             return;
         }
 
-        if (!formattedGoalBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeEmpty"));
+        if (!formattedFromBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeEmpty")); // TODO
             return;
         }
 
-        if (formattedGoalBPM < METRONOME_CONSTANTS.minBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeLessThan", { value: METRONOME_CONSTANTS.minBPM }));
+        if (!formattedToBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeEmpty")); // TODO
             return;
         }
 
-        if (formattedGoalBPM > METRONOME_CONSTANTS.maxBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeGreaterThan", { value: METRONOME_CONSTANTS.maxBPM }));
+        if (formattedFromBPM < METRONOME_CONSTANTS.minBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeLessThan", { value: METRONOME_CONSTANTS.minBPM })); // TODO
+            return;
+        }
+
+        if (formattedFromBPM > METRONOME_CONSTANTS.maxBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeGreaterThan", { value: METRONOME_CONSTANTS.maxBPM })); // TODO
+            return;
+        }
+
+        if (formattedToBPM < METRONOME_CONSTANTS.minBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeLessThan", { value: METRONOME_CONSTANTS.minBPM })); // TODO
+            return;
+        }
+
+        if (formattedToBPM > METRONOME_CONSTANTS.maxBPM) {
+            handleOpenSnackbar(t("goalBPMCannotBeGreaterThan", { value: METRONOME_CONSTANTS.maxBPM })); // TODO
             return;
         }
 
@@ -110,11 +129,12 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         }
 
         const newTempoProgrammingSettings = {
-            isActive: isActive,
-            action: action,
+            isActive: isTempoProgrammingActive,
             bpmToChange: formattedBPMToChange,
             measuresToChangeBPM: formattedMeasuresToChangeBPM,
-            goalBPM: formattedGoalBPM,
+            fromBPM: formattedFromBPM,
+            toBPM: formattedToBPM,
+            isLoop: isLoop,
         }
 
         const newTimerSettings = {
@@ -141,35 +161,37 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     <legend>{t("bpmProgramming")}</legend>
                     <label>
                         <input
-                            id="tempoProgrammingIsActive"
+                            id="isTempoProgrammingActive"
                             type="checkbox"
-                            checked={isActive}
-                            onChange={() => setIsActive((prev) => !prev)}
-                            title={t(isActive ? "clickToTurnOffProgramming" : "clickToTurnOnProgramming")}
+                            checked={isTempoProgrammingActive}
+                            onChange={() => setIsTempoProgrammingActive((prev) => !prev)}
                         />
-                        {t("tempoProgrammingIsActive")}
+                        {t("isActive")}
                     </label>
-                    <select
-                        id="addSubtractOption"
-                        value={action}
-                        onChange={(e) => setAction(e.target.value)}
-                        title={t("selectHowBPMchanges")}
-                    >
-                        {
-                            [
-                                TEMPO_PROGRAMMING_CONSTANTS.actions.add,
-                                TEMPO_PROGRAMMING_CONSTANTS.actions.subtract,
-                                TEMPO_PROGRAMMING_CONSTANTS.actions.loop,
-                            ]
-                                .map((option) => {
-                                    return (
-                                        <option key={option} value={option}>
-                                            {t(option)}
-                                        </option>
-                                    )
-                                })
-                        }
-                    </select>
+                    <label>
+                        <input
+                            id="fromBPM"
+                            type="number"
+                            min={METRONOME_CONSTANTS.minBPM}
+                            max={METRONOME_CONSTANTS.maxBPM}
+                            value={fromBPM}
+                            onChange={(e) => setFromBPM(e.target.value.substring(0, 3))}
+                            autoComplete="off"
+                        />
+                        {t("bpmTo")}
+                        <label>
+                            <input
+                                id="toBPM"
+                                type="number"
+                                min={METRONOME_CONSTANTS.minBPM}
+                                max={METRONOME_CONSTANTS.maxBPM}
+                                value={toBPM}
+                                onChange={(e) => setToBPM(e.target.value.substring(0, 3))}
+                                autoComplete="off"
+                            />
+                            {t("bpm")}
+                        </label>
+                    </label>
                     <label>
                         <input
                             id="bpmToChange"
@@ -192,19 +214,16 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
                             autoComplete="off"
                         />
-                        {t("measuresUntil")}
+                        {t("measuresFrom")}
                     </label>
                     <label>
                         <input
-                            id="goalBPM" // TODO: if it's loop make two inputs
-                            type="number"
-                            min={METRONOME_CONSTANTS.minBPM}
-                            max={METRONOME_CONSTANTS.maxBPM}
-                            value={goalBPM}
-                            onChange={(e) => setGoalBPM(e.target.value.substring(0, 3))}
-                            autoComplete="off"
+                            id="isLoop"
+                            type="checkbox"
+                            checked={isLoop}
+                            onChange={() => setIsLoop((prev) => !prev)}
                         />
-                        {t("bpm")}
+                        {t("isLoop")}
                     </label>
                 </fieldset>
                 <fieldset className={styles.inputContainer}>

@@ -6,8 +6,8 @@ const getValueFromLocalStorage = (key: string) => {
     const value = localStorage.getItem(key);
     if (value) return JSON.parse(value);
     return;
-  } catch (e) {
-    return;
+  } catch {
+    // no-op
   }
 };
 
@@ -23,7 +23,7 @@ export const LOCAL_STORAGE_KEYS = {
   language: "mn_language",
   bpm: "mn_bpm",
   template: "mn_template",
-  countdownLength: "mn_countdown_amount", // TODO: rename to mn_countdown_length
+  countdownLength: "mn_countdown_length",
   beatsPerMeasure: "mn_beats_per_measure",
   noteValue: "mn_note_value",
   beatTypes: "mn_beat_types",
@@ -32,8 +32,9 @@ export const LOCAL_STORAGE_KEYS = {
   timerSecondsToStop: "mn_timer_seconds_to_stop",
   timerMeasuresToStop: "mn_timer_measures_to_stop",
   tempoProgrammingIsActive: "mn_tp_is_active",
+  tempoProgrammingIsLoop: "mn_tp_is_loop",
   tempoProgrammingBPMToChange: "mn_tp_bpm_to_change",
-  tempoProgrammingGoalBPM: "mn_tp_goal_bpm",
   tempoProgrammingMeasuresToChangeBPM: "mn_tp_measures_to_change_bpm",
-  tempoProgrammingAction: "mn_tp_add_action",
+  tempoProgrammingFromBPM: "mn_tp_from_bpm",
+  tempoProgrammingToBPM: "mn_tp_to_bpm",
 }

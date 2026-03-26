@@ -21,11 +21,6 @@ export const TIMER_CONSTANTS = {
 export const TEMPO_PROGRAMMING_CONSTANTS = {
     minMeasuresToChangeBPM: 0,
     maxMeasuresToChangeBPM: 999,
-    actions: {
-        add: "add",
-        subtract: "subtract",
-        loop: "loop",
-    }
 }
 
 export const ICON_SIZE = 40;
@@ -57,7 +52,7 @@ export const DEFAULT_SETTINGS: Settings = {
         beatsPerMeasure: DEFAULT_BEATS_PER_MEASURE,
         noteValue: 4,
         beatTypes: createDefaultBeatTypesArray(DEFAULT_BEATS_PER_MEASURE),
-        countdownAmount: 0,
+        countdownLength: 0,
     },
     timerSettings: {
         secondsIsActive: false,
@@ -67,9 +62,10 @@ export const DEFAULT_SETTINGS: Settings = {
     },
     tempoProgrammingSettings: {
         isActive: false,
+        isLoop: false,
         bpmToChange: 10,
-        goalBPM: 100,
         measuresToChangeBPM: 4,
-        action: TEMPO_PROGRAMMING_CONSTANTS.actions.add,
+        fromBPM: 100,
+        toBPM: 150,
     }
 }

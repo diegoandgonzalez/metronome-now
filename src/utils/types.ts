@@ -3,7 +3,7 @@ export type MetronomeSettings = {
     beatsPerMeasure: number,
     noteValue: number,
     beatTypes: number[],
-    countdownAmount: number, // TODO: rename to countdownLength
+    countdownLength: number,
 }
 
 export type TimerSettings = {
@@ -15,10 +15,11 @@ export type TimerSettings = {
 
 export type TempoProgrammingSettings = {
     isActive: boolean,
+    isLoop: boolean,
     bpmToChange: number,
-    goalBPM: number,
     measuresToChangeBPM: number,
-    action: string, // TODO: make it one of the strings from TEMPO_PROGRAMMING_CONSTANTS.actions
+    fromBPM: number,
+    toBPM: number,
 }
 
 export type Settings = {
