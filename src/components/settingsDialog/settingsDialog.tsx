@@ -1,14 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { LANGUAGE_OPTIONS, THEMES } from "../../utils/constants";
+import { LANGUAGE_OPTIONS } from "../../utils/constants";
 import FormDialog from "../dialog/formDialog";
-import type { Theme } from "../../utils/types";
 
 type Props = {
     open: boolean,
     language: string,
-    theme: string,
     handleChangeLanguage: (arg: string) => void,
-    handleChangeTheme: (arg: Theme) => void,
     handleClose: () => void,
 }
 
@@ -17,9 +14,7 @@ const SettingsDialog = (props: Props) => {
     const {
         open,
         language,
-        theme,
         handleChangeLanguage,
-        handleChangeTheme,
         handleClose,
     } = props;
 
@@ -33,19 +28,6 @@ const SettingsDialog = (props: Props) => {
             handleSubmit={handleClose}
             handleClose={handleClose}
         >
-            <select
-                id="theme"
-                value={theme}
-                onChange={(e) => handleChangeTheme(e.target.value as Theme)}
-            >
-                {
-                    Object.keys(THEMES).map((themeKey) => {
-                        return (
-                            <option key={themeKey} value={themeKey}>{t(themeKey)}</option>
-                        )
-                    })
-                }
-            </select>
             <select
                 id="language"
                 value={language}

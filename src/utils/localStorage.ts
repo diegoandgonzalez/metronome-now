@@ -19,7 +19,6 @@ export const getValueFromLocalStorageOrDefault = (localStorageKey: string, defau
 export const setValueInLocalStorage = (key: string, value: LocalStorageValueType) => localStorage.setItem(key, JSON.stringify(value));
 
 export const LOCAL_STORAGE_KEYS = {
-  theme: "mn_theme",
   language: "mn_language",
   bpm: "mn_bpm",
   template: "mn_template",

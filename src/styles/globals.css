@@ -11,32 +11,17 @@
     --successColor: #1c8d42;
 
     --borderRadius: 10px;
-}
 
-:root[data-theme="dark"] {
     --textColor: white;
-
+    
     --primaryBackgroundColor: #19171c;
     --secondaryBackgroundColor: hsl(266, 10%, 14%);
-
+    
     --borderColor: #403946;
-
+    
     --primaryButtonColor: var(--accentColor);
     --secondaryButtonColor: #232027;
     --iconButtonHoverColor: hsla(266, 45%, 85%, 0.05);
-}
-
-:root[data-theme="light"] {
-    --textColor: black;
-
-    --primaryBackgroundColor: #f2f2f2;
-    --secondaryBackgroundColor: hsl(0, 0%, 90%);
-
-    --borderColor: #a1a1a1;
-
-    --primaryButtonColor: var(--accentColor);
-    --secondaryButtonColor: #8c8c8c;
-    --iconButtonHoverColor: hsla(0, 0%, 15%, 0.07);
 }
 
 * {

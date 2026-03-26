@@ -18,8 +18,6 @@ const shortcuts = [
     { shortcut: "←", label: "prevTemplate" },
     { shortcut: "→", label: "nextTemplate" },
     { shortcut: "S", label: "settings" },
-    { shortcut: "D", label: "setDarkTheme" },
-    { shortcut: "L", label: "setLightTheme" },
     { shortcut: "?", label: "shortcuts" },
 ];
 

@@ -23,7 +23,6 @@ import SettingsDialog from "../settingsDialog/settingsDialog";
 import useDialog from "../dialog/useDialog";
 import useExecuteKeyPressed from "../../utils/hooks/useExecuteKeyPressed";
 import useLanguage from "../../utils/hooks/useLanguage";
-import useTheme from "../../utils/hooks/useTheme";
 import useMetronome from "./hooks/useMetronome";
 import useTemplates from "./hooks/useTemplates";
 import styles from "./metronome.module.css";
@@ -34,11 +33,6 @@ const Metronome = () => {
         language,
         handleChangeLanguage,
     } = useLanguage();
-
-    const {
-        theme,
-        handleChangeTheme,
-    } = useTheme();
 
     const {
         isInCountdown ,
@@ -139,8 +133,6 @@ const Metronome = () => {
         callback();
     }
 
-    useExecuteKeyPressed("d", "keyup", () => handleChangeTheme("dark"));
-    useExecuteKeyPressed("l", "keyup", () => handleChangeTheme("light"));
     useExecuteKeyPressed("p", "keyup", handleToggleMetronome);
     useExecuteKeyPressed("?", "keyup", () => executeIfNoDialogIsOpen(handleOpenShortcutsDialog));
     useExecuteKeyPressed("s", "keyup", () => executeIfNoDialogIsOpen(handleOpenSettingsDialog));
@@ -296,9 +288,7 @@ const Metronome = () => {
                     <SettingsDialog
                         open={settingsDialogIsOpen}
                         language={language}
-                        theme={theme}
                         handleChangeLanguage={handleChangeLanguage}
-                        handleChangeTheme={handleChangeTheme}
                         handleClose={handleCloseSettingsDialog}
                     />
                 }

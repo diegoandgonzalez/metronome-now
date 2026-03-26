@@ -1,4 +1,4 @@
-import type { Settings, Theme } from "./types";
+import type { Settings } from "./types";
 import { createDefaultBeatTypesArray } from "./beatTypes";
 
 export const METRONOME_CONSTANTS = {
@@ -37,12 +37,6 @@ export const LANGUAGE_OPTIONS = [
     { value: "es", name: "Español" },
 ];
 export const DEFAULT_LANGUAGE = "en";
-
-export const THEMES = {
-    dark: "dark" as Theme,
-    light: "light" as Theme,
-};
-export const DEFAULT_THEME = THEMES.dark as Theme;
 
 const DEFAULT_BEATS_PER_MEASURE = 4;
 
