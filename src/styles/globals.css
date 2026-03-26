@@ -1,4 +1,6 @@
 :root {
+    --borderRadius: 10px;
+
     --accentColor: #d42b3c;
     --accentColor2: #66171E;
 
@@ -10,18 +12,14 @@
 
     --successColor: #1c8d42;
 
-    --borderRadius: 10px;
-
     --textColor: white;
     
-    --primaryBackgroundColor: #19171c;
-    --secondaryBackgroundColor: hsl(266, 10%, 14%);
+    --primaryBackgroundColor: hsl(264, 10%, 10%);
+    --secondaryBackgroundColor: hsl(264, 10%, 14%);
     
-    --borderColor: #403946;
+    --borderColor: hsl(272, 10%, 25%);
     
-    --primaryButtonColor: var(--accentColor);
-    --secondaryButtonColor: #232027;
-    --iconButtonHoverColor: hsla(266, 45%, 85%, 0.05);
+    --iconButtonHoverColor: hsla(265, 45%, 85%, 0.05);
 }
 
 * {
