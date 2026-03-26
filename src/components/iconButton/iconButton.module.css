@@ -14,11 +14,11 @@
     }
 
     &[data-color="primary"] {
-        background-color: var(--primaryButtonColor);
+        background-color: var(--accentColor);
     }
 
     &[data-color="secondary"] {
-        background-color: var(--secondaryButtonColor);
+        background-color: var(--secondaryBackgroundColor);
         border: 1px solid var(--borderColor);
     }
 
