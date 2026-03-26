@@ -169,6 +169,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                         {t("isActive")}
                     </label>
                     <label>
+                        {t("from")}
                         <input
                             id="fromBPM"
                             type="number"
@@ -178,21 +179,23 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             onChange={(e) => setFromBPM(e.target.value.substring(0, 3))}
                             autoComplete="off"
                         />
-                        {t("bpmTo")}
-                        <label>
-                            <input
-                                id="toBPM"
-                                type="number"
-                                min={METRONOME_CONSTANTS.minBPM}
-                                max={METRONOME_CONSTANTS.maxBPM}
-                                value={toBPM}
-                                onChange={(e) => setToBPM(e.target.value.substring(0, 3))}
-                                autoComplete="off"
-                            />
-                            {t("bpm")}
-                        </label>
+                        {t("bpm")}
                     </label>
                     <label>
+                        {t("to")}
+                        <input
+                            id="toBPM"
+                            type="number"
+                            min={METRONOME_CONSTANTS.minBPM}
+                            max={METRONOME_CONSTANTS.maxBPM}
+                            value={toBPM}
+                            onChange={(e) => setToBPM(e.target.value.substring(0, 3))}
+                            autoComplete="off"
+                        />
+                        {t("bpm")}
+                    </label>
+                    <label>
+                        {t("change")}
                         <input
                             id="bpmToChange"
                             type="number"
@@ -202,9 +205,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
                             autoComplete="off"
                         />
-                        {t("bpmEvery")}
+                        {t("bpm")}
                     </label>
                     <label>
+                        {t("every")}
                         <input
                             id="measuresToChangeBPM"
                             type="number"
@@ -214,7 +218,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
                             autoComplete="off"
                         />
-                        {t("measuresFrom")}
+                        {t("measures")}
                     </label>
                     <label>
                         <input

@@ -41,7 +41,7 @@
     "pause": "Pause",
     "resume": "Resume",
     "countdown": "Countdown (measures)",
-    "bpmEvery": "bpm every",
+    "every": "Every",
     "measuresUntil": "measures until",
     "bpm": "bpm",
     "currentMeasure": "Current measure",
@@ -81,5 +81,10 @@
     "nextTemplate": "Next template",
     "setDarkTheme": "Dark mode",
     "setLightTheme": "Light mode",
-    "shortcuts": "Keyboard shortcuts"
+    "shortcuts": "Keyboard shortcuts",
+    "isActive": "Active",
+    "isLoop": "Loop",
+    "from": "From",
+    "to": "To",
+    "change": "Change"
 }

@@ -41,7 +41,7 @@
     "pause": "Pausar",
     "resume": "Reanudar",
     "countdown": "Cuenta regresiva (compases)",
-    "bpmEvery": "bpm cada",
+    "every": "Cada",
     "measuresUntil": "compases hasta",
     "bpm": "bpm",
     "currentMeasure": "Compás actual",
@@ -81,5 +81,10 @@
     "nextTemplate": "Plantilla siguiente",
     "setDarkTheme": "Modo oscuro",
     "setLightTheme": "Modo claro",
-    "shortcuts": "Atajos de teclado"
+    "shortcuts": "Atajos de teclado",
+    "isActive": "Activado",
+    "isLoop": "En bucle",
+    "from": "Desde",
+    "to": "Hasta",
+    "change": "Cambiar"
 }
