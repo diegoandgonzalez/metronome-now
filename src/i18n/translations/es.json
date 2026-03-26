@@ -1,6 +1,4 @@
 {
-    "dark": "Tema oscuro",
-    "light": "Tema claro",
     "timer": "Temporizador",
     "stopIn": "Detener en",
     "minutes": "min",
@@ -79,8 +77,6 @@
     "setDefaultTemplate": "Elegir plantilla default",
     "prevTemplate": "Plantilla anterior",
     "nextTemplate": "Plantilla siguiente",
-    "setDarkTheme": "Modo oscuro",
-    "setLightTheme": "Modo claro",
     "shortcuts": "Atajos de teclado",
     "isActive": "Activado",
     "isLoop": "En bucle",

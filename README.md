@@ -28,7 +28,6 @@ Online metronome for your everyday needs
 - Pause metronome and timer at anytime
 - Template creation for faster settings switch
 - Preserve your current settings for the next time you open the site
-- Dark/light mode
 - English and Spanish localizations
 - Deployed site with a live link
 - PWA (Website installable as app)

@@ -38,5 +38,3 @@ export type TemplateFunction = (newTemplateName: string, newSettings: Settings) 
 
 export type TemplateFormAction = "CREATE" | "RENAME" | "UPDATE" | "DELETE" | "DUPLICATE";
 export type TemplateFormData = | { action: "CREATE"; templateId: "" } | { action: Exclude<TemplateFormAction, "CREATE">; templateId: string };
-
-export type Theme = "dark" | "light";

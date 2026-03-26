@@ -1,6 +1,4 @@
 {
-    "dark": "Dark theme",
-    "light": "Light theme",
     "timer": "Timer",
     "stopIn": "Stop in",
     "minutes": "min",
@@ -79,8 +77,6 @@
     "setDefaultTemplate": "Select default template",
     "prevTemplate": "Previous template",
     "nextTemplate": "Next template",
-    "setDarkTheme": "Dark mode",
-    "setLightTheme": "Light mode",
     "shortcuts": "Keyboard shortcuts",
     "isActive": "Active",
     "isLoop": "Loop",
