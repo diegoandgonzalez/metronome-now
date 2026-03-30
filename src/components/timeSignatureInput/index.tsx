@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
+import { Grid, MenuItem, Select, Typography } from "@mui/material";
 import { METRONOME_CONSTANTS } from "../../utils/constants";
-import styles from "./timeSignatureInput.module.css";
 
 type Props = {
   noteValue: number,
@@ -21,37 +21,37 @@ const TimeSignatureInput = (props: Props) => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.timeSignatureInputContainer}>
-      <select
-        id="beatsPerMeasure"
+    <Grid container alignItems={"center"} spacing={1}>
+      <Select
         title={t("beatsPerMeasure")}
         value={beatsPerMeasure}
         onChange={(e) => handleSetBeatsPerMeasure(Number(e.target.value))}
+        sx={{ width: 40 }}
       >
         {
           METRONOME_CONSTANTS.beatsPerMeasureOptions.map((_, index) => {
             return (
-              <option key={index} value={index + 1}>{index + 1}</option>
+              <MenuItem key={index} value={index + 1}>{index + 1}</MenuItem>
             )
           })
         }
-      </select>
-      <p>/</p>
-      <select
-        id="noteValue"
+      </Select>
+      <Typography>/</Typography>
+      <Select
         title={t("beatValue")}
         value={noteValue}
         onChange={(e) => handleSetNoteValue(Number(e.target.value))}
+        sx={{ width: 40 }}
       >
         {
           METRONOME_CONSTANTS.noteValueOptions.map((noteValue) => {
             return (
-              <option key={noteValue} value={noteValue}>{noteValue}</option>
+              <MenuItem key={noteValue} value={noteValue}>{noteValue}</MenuItem>
             )
           })
         }
-      </select>
-    </div>
+      </Select>
+    </Grid>
   );
 };
 

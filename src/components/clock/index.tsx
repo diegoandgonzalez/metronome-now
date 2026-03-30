@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { RiPauseFill, RiPlayFill } from "react-icons/ri";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
 import { formatMsToHHMMSS } from "../../utils/format";
-import styles from "./clock.module.css";
-import IconButton from "../iconButton";
+import { Grid, IconButton, Typography } from "@mui/material";
 
 type Props = {
   showOnlyClock: boolean,
@@ -31,49 +31,63 @@ const Clock = (props: Props) => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.clockContainer}>
-      {
-        isPlaying && !showOnlyClock &&
-        <IconButton
-          color="transparent"
-          onClick={handleClick}
-          title={t(isPaused ? "resume" : "pause")}
-        >
-          {isPaused ? <RiPlayFill size={20} /> : <RiPauseFill size={20} />}
-        </IconButton>
-      }
-      <p className={styles.clock} title={t("playedTime")}>
+    <Grid container alignItems={"center"} justifyContent={"center"} spacing={1} wrap="wrap">
+      <IconButton
+        onClick={handleClick}
+        title={t(isPaused ? "resume" : "pause")}
+        sx={{
+          visibility: (isPlaying && !showOnlyClock) ? "visible" : "hidden",
+        }}
+      >
+        {isPaused ? <PlayArrowIcon /> : <PauseIcon />}
+      </IconButton>
+      <Typography
+        title={t("playedTime")}
+        align="center"
+        sx={{
+          fontSize: "1.4rem",
+          width: "100px",
+        }}
+      >
         {formatMsToHHMMSS(value)}
-      </p>
+      </Typography>
       {
         Boolean(secondsToStop) &&
         <>
           <span>/</span>
-          <p className={styles.clock} title={t("timerValue")}>
+          <Typography
+            title={t("timerValue")}
+            align="center"
+            sx={{
+              fontSize: "1.4rem",
+              width: "100px",
+            }}
+          >
             {formatMsToHHMMSS(secondsToStop as number * 1000)}
-          </p>
+          </Typography>
         </>
       }
-      {
-        Boolean(currentMeasure) && !showOnlyClock &&
-        <p>
-          (
-          <span title={t("currentMeasure")}>
-            {currentMeasure}
-          </span>
-          {
-            Boolean(measureToStop) &&
-            <>
-              <span>/</span>
-              <span title={t("timerValue")}>
-                {measureToStop}
-              </span>
-            </>
-          }
-          )
-        </p>
-      }
-    </div>
+      <Typography
+        sx={{
+          visibility: (Boolean(currentMeasure) && !showOnlyClock) ? "visible" : "hidden",
+        }}
+      >
+        (
+        <span title={t("currentMeasure")}>
+          {currentMeasure}
+        </span>
+        {
+          Boolean(measureToStop) &&
+          <>
+            <span>/</span>
+            <span title={t("timerValue")}>
+              {measureToStop}
+            </span>
+          </>
+        }
+        )
+      </Typography>
+    </Grid>
   );
 };
 

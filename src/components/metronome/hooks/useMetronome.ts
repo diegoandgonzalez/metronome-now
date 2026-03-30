@@ -261,7 +261,7 @@ const useMetronome = () => {
         handleSetBeatsPerMeasure,
         handleSetNoteValue,
         handleToggleBeatType,
-        handleSetCountdownAmount: handleSetCountdownLength,
+        handleSetCountdownLength,
         handleSetMetronomeSettings,
         handleSetTempoProgrammingSettings,
         handleSetTimerSettings,

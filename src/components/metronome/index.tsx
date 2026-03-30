@@ -1,20 +1,16 @@
 import { useTranslation } from "react-i18next";
+import { Button, Grid, Typography } from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
+import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
+import TimerIcon from "@mui/icons-material/Timer";
 import type { Template } from "../../utils/types";
-import { MAIN_ICON_SIZE } from "../../utils/constants";
-import {
-    RiPlayLargeFill,
-    RiStopFill,
-    RiPlayList2Fill,
-    RiTimerLine,
-} from "react-icons/ri";
 import Header from "../header";
 import BPMInput from "../bpmInput";
 import TimeSignatureInput from "../timeSignatureInput";
 import BeatIndicator from "../beatIndicator";
 import Clock from "../clock";
-import IconButton from "../iconButton";
 import TempoProgrammingTimerDialog from "../tempoProgrammingTimerDialog";
-import CountdownInput from "../countdownInput";
 import TemplateFormDialog from "../templateFormDialog";
 import AboutDialog from "../aboutDialog";
 import ShortcutsDialog from "../shortcutsDialog";
@@ -25,7 +21,6 @@ import useExecuteKeyPressed from "../../utils/hooks/useExecuteKeyPressed";
 import useLanguage from "../../utils/hooks/useLanguage";
 import useMetronome from "./hooks/useMetronome";
 import useTemplates from "./hooks/useTemplates";
-import styles from "./metronome.module.css";
 
 const Metronome = () => {
 
@@ -35,7 +30,7 @@ const Metronome = () => {
     } = useLanguage();
 
     const {
-        isInCountdown ,
+        isInCountdown,
         isPlaying,
         isPaused,
         currentTime,
@@ -49,7 +44,7 @@ const Metronome = () => {
         handleSetBeatsPerMeasure,
         handleSetNoteValue,
         handleToggleBeatType,
-        handleSetCountdownAmount,
+        handleSetCountdownLength,
         handleSetMetronomeSettings,
         handleSetTempoProgrammingSettings,
         handleSetTimerSettings,
@@ -155,6 +150,7 @@ const Metronome = () => {
     const { t } = useTranslation();
 
     const settingsIsActive = (
+        settings.metronomeSettings.countdownLength ||
         settings.tempoProgrammingSettings.isActive ||
         settings.timerSettings.secondsIsActive ||
         settings.timerSettings.measuresIsActive
@@ -169,15 +165,25 @@ const Metronome = () => {
                 handleShortcutsClick={handleOpenShortcutsDialog}
                 handleSettingsClick={handleOpenSettingsDialog}
             />
-            <div className={styles.metronomeContainer}>
-                <p
-                    className={styles.templateLabel}
-                    data-is-hidden={String(!selectedTemplateToPlayName)}
+            <Grid
+                container direction={"column"} alignItems={"center"} justifyContent={"center"} wrap="nowrap"
+                sx={{
+                    padding: "20px",
+                    paddingTop: "10px",
+                    height: "calc(100vh - 100px)", // TODO vh?
+                }}
+            >
+                <Typography
+                    align="center"
                     title={t("template")}
+                    sx={{
+                        marginBottom: "15px",
+                        visibility: !selectedTemplateToPlayName ? "hidden" : "visible",
+                    }}
                 >
                     {selectedTemplateToPlayName || t("defaultTemplate")}
-                </p>
-                <div>
+                </Typography>
+                <Grid container direction={"column"} alignItems={"center"} spacing={3}>
                     <BPMInput
                         initialBPM={settings.metronomeSettings.bpm}
                         handleChange={handleSetBPM}
@@ -188,7 +194,7 @@ const Metronome = () => {
                         handleSetBeatsPerMeasure={handleSetBeatsPerMeasure}
                         handleSetNoteValue={handleSetNoteValue}
                     />
-                </div>
+                </Grid>
                 <BeatIndicator
                     isPlaying={isPlaying}
                     beatTypes={settings.metronomeSettings.beatTypes}
@@ -196,7 +202,7 @@ const Metronome = () => {
                     currentBeatInMeasure={currentBeatInMeasure}
                     handleClick={handleToggleBeatType}
                 />
-                <div className={styles.clockAndCountdownContainer}>
+                <Grid container direction={"column"} alignItems={"center"} spacing={1}>
                     <Clock
                         showOnlyClock={isInCountdown}
                         isPlaying={isPlaying}
@@ -207,16 +213,13 @@ const Metronome = () => {
                         measureToStop={settings.timerSettings.measuresIsActive ? settings.timerSettings.measuresToStop : 0}
                         handleClick={handleTogglePauseMetronome}
                     />
-                    <CountdownInput
-                        initialValue={settings.metronomeSettings.countdownLength}
-                        handleClick={(newAmount) => {
-                            handleSetCountdownAmount(newAmount);
-                            handleStopMetronome();
-                        }}
-                    />
-                </div>
-                <div className={styles.mainActionsContainer}>
-                    <IconButton
+                </Grid>
+                <Grid
+                    container alignItems={"center"} justifyContent={"space-evenly"} spacing={2}
+                    sx={{ marginTop: "30px" }}
+                >
+                    <Button
+                        variant="round"
                         title={t("bpmProgrammingAndTimer") + " (b)"}
                         color={settingsIsActive ? "primary" : "secondary"}
                         onClick={() => {
@@ -224,15 +227,17 @@ const Metronome = () => {
                             handleStopMetronome();
                         }}
                     >
-                        <RiTimerLine size={35} />
-                    </IconButton>
-                    <IconButton
+                        <TimerIcon sx={{ fontSize: 40 }} />
+                    </Button>
+                    <Button
+                        variant="round"
                         title={t(isPlaying ? "stop" : "play") + " (p)"}
                         onClick={handleToggleMetronome}
                     >
-                        {isPlaying ? <RiStopFill size={MAIN_ICON_SIZE} /> : <RiPlayLargeFill size={MAIN_ICON_SIZE} />}
-                    </IconButton>
-                    <IconButton
+                        {isPlaying ? <StopIcon sx={{ fontSize: 80 }} /> : <PlayArrowIcon sx={{ fontSize: 80 }} />}
+                    </Button>
+                    <Button
+                        variant="round"
                         title={t("templates") + " (t)"}
                         color={selectedTemplateIdToPlay ? "primary" : "secondary"}
                         onClick={() => {
@@ -240,15 +245,17 @@ const Metronome = () => {
                             handleStopMetronome();
                         }}
                     >
-                        <RiPlayList2Fill size={35} />
-                    </IconButton>
-                </div>
+                        <PlaylistPlayIcon sx={{ fontSize: 40 }} />
+                    </Button>
+                </Grid>
                 {
                     bpmProgrammingTimerDialogIsOpen &&
                     <TempoProgrammingTimerDialog
                         open={bpmProgrammingTimerDialogIsOpen}
+                        initialCountdownLength={settings.metronomeSettings.countdownLength}
                         initialTempoProgrammingSettings={settings.tempoProgrammingSettings}
                         initialTimerSettings={settings.timerSettings}
+                        handleSetCountdownLength={handleSetCountdownLength}
                         handleSetTempoProgrammingSettings={handleSetTempoProgrammingSettings}
                         handleSetTimerSettings={handleSetTimerSettings}
                         handleClose={handleCloseBPMProgrammingTimerDialog}
@@ -306,7 +313,7 @@ const Metronome = () => {
                         handleClose={handleCloseAboutDialog}
                     />
                 }
-            </div>
+            </Grid >
         </>
     );
 }

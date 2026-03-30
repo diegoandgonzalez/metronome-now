@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RiSubtractLine, RiAddFill } from "react-icons/ri";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { METRONOME_CONSTANTS } from "../../utils/constants";
 import useSnackbarContext from "../snackbar/useSnackbarContext";
 import useTapTempo from "../metronome/hooks/useTapTempo";
-import styles from "./bpmInput.module.css";
-import IconButton from "../iconButton";
 import useExecuteKeyPressed from "../../utils/hooks/useExecuteKeyPressed";
+import { Button, Grid, InputAdornment, TextField } from "@mui/material";
 
 type Props = {
   initialBPM: number,
@@ -59,13 +59,11 @@ const BPMInput = (props: Props) => {
   useExecuteKeyPressed("ArrowDown", "keydown", subtractOneBPM);
 
   return (
-    <div className={styles.bpmInputContainer}>
-      <input
+    <Grid container direction={"column"}>
+      <TextField
         id="bpm"
         type="number"
         title={t("clickToEditBPM")}
-        min={METRONOME_CONSTANTS.minBPM}
-        max={METRONOME_CONSTANTS.maxBPM}
         value={bpm}
         onChange={(e) => setBPM(e.target.value.substring(0, 3))}
         onKeyDown={(e) => {
@@ -75,18 +73,36 @@ const BPMInput = (props: Props) => {
           }
         }}
         onBlur={() => handleSubmit()}
-        autoComplete="off"
+        variant="standard"
+        sx={{
+          "& input": {
+            fontSize: "75px",
+            textAlign: "center",
+            marginLeft: "42px",
+          },
+        }}
+        slotProps={{
+          input: {
+            disableUnderline: true,
+            endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
+          },
+          htmlInput: {
+            min: METRONOME_CONSTANTS.minBPM,
+            max: METRONOME_CONSTANTS.maxBPM,
+          }
+        }}
       />
-      <div className={styles.bpmInputButtonContainer}>
-        <IconButton
-          variant="square"
+      <Grid container justifyContent={"center"} spacing={1}>
+        <Button
+          variant="contained"
           title={t("subtractBPM") + " (↓)"}
+          sx={{ minWidth: 0, padding: 1 }}
           onClick={subtractOneBPM}
         >
-          <RiSubtractLine size={20} />
-        </IconButton>
-        <IconButton
-          variant="square"
+          <RemoveIcon sx={{ fontSize: 20 }} />
+        </Button>
+        <Button
+          variant="contained"
           title={t("tapTempoToCalculateBPM")}
           onClick={() => {
             const tappedBPM = tap();
@@ -95,16 +111,17 @@ const BPMInput = (props: Props) => {
           }}
         >
           {t("tapToGetBPM")}
-        </IconButton>
-        <IconButton
-          variant="square"
+        </Button>
+        <Button
+          variant="contained"
           title={t("addBPM") + " (↑)"}
+          sx={{ minWidth: 0, padding: 1 }}
           onClick={addOneBPM}
         >
-          <RiAddFill size={20} />
-        </IconButton>
-      </div>
-    </div>
+          <AddIcon sx={{ fontSize: 20 }} />
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 

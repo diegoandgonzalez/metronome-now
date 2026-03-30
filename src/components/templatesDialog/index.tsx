@@ -1,12 +1,11 @@
 import { useMemo, useState } from "react";
-import { RiAddFill } from "react-icons/ri";
+import AddIcon from "@mui/icons-material/Add";
 import { useTranslation } from "react-i18next";
 import type { MetronomeSettings, Template } from "../../utils/types";
 import { DEFAULT_SETTINGS, TEMPLATE_NAME_MAX_LENGTH } from "../../utils/constants";
-import Dialog from "../dialog/dialog";
 import TemplateItem from "./templateItem";
-import styles from "./templatesDialog.module.css";
-import IconButton from "../iconButton";
+import { Dialog, DialogContent, Grid, IconButton, TextField } from "@mui/material";
+import CustomDialogTitle from "../dialog/customDialogTitle";
 
 type Props = {
     open: boolean,
@@ -57,32 +56,30 @@ const TemplatesDialog = (props: Props) => {
     return (
         <Dialog
             open={open}
-            title={t("templates")}
-            handleClose={handleClose}
+            onClose={handleClose}
         >
-            <div className={styles.templatesDialogContent}>
-                <div className={styles.templatesDialogHeader}>
-                    <search>
-                        <input
-                            id="searchTemplate"
-                            type="text"
-                            placeholder={t("searchTemplate")}
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
-                        />
-                    </search>
+            <CustomDialogTitle onClose={handleClose}>
+                {t("templates")}
+            </CustomDialogTitle>
+            <DialogContent>
+                <Grid container alignItems={"center"} spacing={1} sx={{ marginBottom: "20px" }}>
+                    <TextField
+                        variant="outlined"
+                        label={t("searchTemplate")}
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
+                    />
                     <IconButton
                         disabled={disabled}
-                        variant="square"
                         title={t("createTemplate")}
                         onClick={handleCreateTemplate}
                     >
-                        <RiAddFill size={20} />
+                        <AddIcon />
                     </IconButton>
-                </div>
+                </Grid>
                 {
                     !searchValue &&
-                    <div className={filteredTemplates.length ? styles.selectedTemplateContainer : ""}>
+                    <div>
                         <TemplateItem
                             editable={Boolean(selectedTemplate)}
                             selected={true}
@@ -130,7 +127,7 @@ const TemplatesDialog = (props: Props) => {
                         })
                     }
                 </ol>
-            </div>
+            </DialogContent>
         </Dialog>
     );
 }

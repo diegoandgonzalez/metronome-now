@@ -3,13 +3,27 @@ import { useTranslation } from "react-i18next";
 import type { TempoProgrammingSettings, TimerSettings } from "../../utils/types";
 import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS, TIMER_CONSTANTS } from "../../utils/constants";
 import useSnackbarContext from "../snackbar/useSnackbarContext";
-import FormDialog from "../dialog/formDialog";
-import styles from "./tempoProgrammingTimerDialog.module.css";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    FormControlLabel,
+    Grid,
+    InputAdornment,
+    MenuItem,
+    Switch,
+    TextField,
+} from "@mui/material";
+import Container from "../container";
+import CustomDialogTitle from "../dialog/customDialogTitle";
 
 type Props = {
     open: boolean,
+    initialCountdownLength: number,
     initialTempoProgrammingSettings: TempoProgrammingSettings,
     initialTimerSettings: TimerSettings,
+    handleSetCountdownLength: (newSettings: number) => void,
     handleSetTempoProgrammingSettings: (newSettings: TempoProgrammingSettings) => void,
     handleSetTimerSettings: (newSettings: TimerSettings) => void,
     handleClose: () => void,
@@ -19,8 +33,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
     const {
         open,
+        initialCountdownLength,
         initialTempoProgrammingSettings,
         initialTimerSettings,
+        handleSetCountdownLength,
         handleSetTempoProgrammingSettings,
         handleSetTimerSettings,
         handleClose,
@@ -31,6 +47,8 @@ const TempoProgrammingTimerDialog = (props: Props) => {
     const {
         handleOpen: handleOpenSnackbar,
     } = useSnackbarContext();
+
+    const [countdownLength, setCountdownLength] = useState<number>(initialCountdownLength);
 
     const [isTempoProgrammingActive, setIsTempoProgrammingActive] = useState<boolean>(initialTempoProgrammingSettings.isActive);
     const [isLoop, setIsLoop] = useState<boolean>(initialTempoProgrammingSettings.isLoop);
@@ -146,149 +164,239 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
         handleSetTimerSettings(newTimerSettings);
         handleSetTempoProgrammingSettings(newTempoProgrammingSettings);
+        handleSetCountdownLength(countdownLength);
         handleClose();
     }
 
     return (
-        <FormDialog
+        <Dialog
             open={open}
-            title={t("settings")}
-            handleClose={handleClose}
-            handleSubmit={handleSubmit}
+            onClose={handleClose}
         >
-            <div className={styles.tempoProgrammingTimerContainer}>
-                <fieldset className={styles.inputContainer}>
-                    <legend>{t("bpmProgramming")}</legend>
-                    <label>
-                        <input
-                            id="isTempoProgrammingActive"
-                            type="checkbox"
-                            checked={isTempoProgrammingActive}
-                            onChange={() => setIsTempoProgrammingActive((prev) => !prev)}
-                        />
-                        {t("isActive")}
-                    </label>
-                    <label>
-                        {t("from")}
-                        <input
-                            id="fromBPM"
-                            type="number"
-                            min={METRONOME_CONSTANTS.minBPM}
-                            max={METRONOME_CONSTANTS.maxBPM}
-                            value={fromBPM}
-                            onChange={(e) => setFromBPM(e.target.value.substring(0, 3))}
-                            autoComplete="off"
-                        />
-                        {t("bpm")}
-                    </label>
-                    <label>
-                        {t("to")}
-                        <input
-                            id="toBPM"
-                            type="number"
-                            min={METRONOME_CONSTANTS.minBPM}
-                            max={METRONOME_CONSTANTS.maxBPM}
-                            value={toBPM}
-                            onChange={(e) => setToBPM(e.target.value.substring(0, 3))}
-                            autoComplete="off"
-                        />
-                        {t("bpm")}
-                    </label>
-                    <label>
-                        {t("change")}
-                        <input
-                            id="bpmToChange"
-                            type="number"
-                            min={0}
-                            max={METRONOME_CONSTANTS.maxBPM}
-                            value={bpmToChange}
-                            onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
-                            autoComplete="off"
-                        />
-                        {t("bpm")}
-                    </label>
-                    <label>
-                        {t("every")}
-                        <input
-                            id="measuresToChangeBPM"
-                            type="number"
-                            min={TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM}
-                            max={TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM}
-                            value={measuresToChangeBPM}
-                            onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
-                            autoComplete="off"
-                        />
-                        {t("measures")}
-                    </label>
-                    <label>
-                        <input
-                            id="isLoop"
-                            type="checkbox"
-                            checked={isLoop}
-                            onChange={() => setIsLoop((prev) => !prev)}
-                        />
-                        {t("isLoop")}
-                    </label>
-                </fieldset>
-                <fieldset className={styles.inputContainer}>
-                    <legend>{t("timer")}</legend>
-                    <label>
-                        <input
-                            id="isSecondsActive"
-                            type="checkbox"
-                            checked={isSecondsActive}
-                            onChange={() => {
-                                setIsSecondsActive((prev) => !prev);
-                                setIsMeasuresActive(false);
-                            }}
-                        />
-                        {t("stopIn")}
-                        <input
-                            id="minutes"
-                            type="number"
-                            min={0}
-                            max={TIMER_CONSTANTS.maxMinutesToStop}
-                            value={minutes}
-                            onChange={(e) => setMinutes(e.target.value.substring(0, 2))}
-                            autoComplete="off"
-                        />
-                        {t("minutes")}
-                        <input
-                            id="seconds"
-                            type="number"
-                            min={0}
-                            max={TIMER_CONSTANTS.maxSecondsToStop}
-                            value={seconds}
-                            onChange={(e) => setSeconds(e.target.value.substring(0, 2))}
-                            autoComplete="off"
-                        />
-                        {t("seconds")}
-                    </label>
-                    <label>
-                        <input
-                            id="isMeasuresActive"
-                            type="checkbox"
-                            checked={isMeasuresActive}
-                            onChange={() => {
-                                setIsMeasuresActive((prev) => !prev);
-                                setIsSecondsActive(false);
-                            }}
-                        />
-                        {t("stopIn")}
-                        <input
-                            id="measures"
-                            type="number"
-                            min={0}
-                            max={TIMER_CONSTANTS.maxMeasuresToStop}
-                            value={measures}
-                            onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
-                            autoComplete="off"
-                        />
-                        {t("measures")}
-                    </label>
-                </fieldset>
-            </div>
-        </FormDialog>
+            <CustomDialogTitle onClose={handleClose}>
+                {t("settings")}
+            </CustomDialogTitle>
+            <DialogContent>
+                <form
+                    id="formDialog"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSubmit();
+                    }}
+                    noValidate
+                >
+                    <Grid container spacing={2}>
+                        <Grid size={12}>
+                            <TextField
+                                fullWidth
+                                select
+                                label={t("countdown")}
+                                value={countdownLength}
+                                onChange={(e) => setCountdownLength(Number(e.target.value))}
+                                sx={{ minWidth: "175px", marginTop: "15px" }}
+                            >
+                                {
+                                    METRONOME_CONSTANTS.countdownOptions.map((countdown) => {
+                                        return (
+                                            <MenuItem key={countdown} value={countdown}>{`${countdown} ${t("measures")}`}</MenuItem>
+                                        )
+                                    })
+                                }
+                            </TextField>
+                        </Grid>
+                        <Container label={t("bpmProgramming")}>
+                            <Grid size={12}>
+                                <FormControlLabel
+                                    label={t("isActive")}
+                                    control={<Switch checked={isTempoProgrammingActive} />}
+                                    onChange={() => setIsTempoProgrammingActive((prev) => !prev)}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    fullWidth
+                                    label={t("from")}
+                                    type="number"
+                                    value={fromBPM}
+                                    onChange={(e) => setFromBPM(e.target.value.substring(0, 3))}
+                                    variant="outlined"
+                                    slotProps={{
+                                        input: {
+                                            endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
+                                        },
+                                        htmlInput: {
+                                            min: METRONOME_CONSTANTS.minBPM,
+                                            max: METRONOME_CONSTANTS.maxBPM,
+                                        }
+                                    }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    fullWidth
+                                    label={t("to")}
+                                    type="number"
+                                    value={toBPM}
+                                    onChange={(e) => setToBPM(e.target.value.substring(0, 3))}
+                                    variant="outlined"
+                                    slotProps={{
+                                        input: {
+                                            endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
+                                        },
+                                        htmlInput: {
+                                            min: METRONOME_CONSTANTS.minBPM,
+                                            max: METRONOME_CONSTANTS.maxBPM,
+                                        }
+                                    }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    fullWidth
+                                    label={t("change")}
+                                    type="number"
+                                    value={bpmToChange}
+                                    onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
+                                    variant="outlined"
+                                    slotProps={{
+                                        input: {
+                                            endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
+                                        },
+                                        htmlInput: {
+                                            min: 0,
+                                            max: METRONOME_CONSTANTS.maxBPM,
+                                        }
+                                    }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    fullWidth
+                                    label={t("every")}
+                                    type="number"
+                                    value={bpmToChange}
+                                    onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
+                                    variant="outlined"
+                                    slotProps={{
+                                        input: {
+                                            endAdornment: <InputAdornment position="end">{t("measures")}</InputAdornment>,
+                                        },
+                                        htmlInput: {
+                                            min: TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM,
+                                            max: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM,
+                                        }
+                                    }}
+                                />
+                            </Grid>
+                            <FormControlLabel
+                                label={t("playInLoop")}
+                                control={<Switch checked={isLoop} />}
+                                onChange={() => setIsLoop((prev) => !prev)}
+                            />
+                        </Container>
+                        <Container label={t("timer")}>
+                            <Grid container size={12} alignItems={"center"} sx={{ marginBottom: { xs: 2, md: 0 } }}>
+                                <Grid size={{ sm: 12, md: 6 }}>
+                                    <FormControlLabel
+                                        label={t("stopByTime")}
+                                        control={<Switch checked={isSecondsActive} />}
+                                        onChange={() => {
+                                            setIsSecondsActive((prev) => !prev);
+                                            setIsMeasuresActive(false);
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                                    <TextField
+                                        fullWidth
+                                        type="number"
+                                        value={minutes}
+                                        onChange={(e) => setMinutes(e.target.value.substring(0, 3))}
+                                        variant="outlined"
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: <InputAdornment position="end">{t("minutes")}</InputAdornment>,
+                                            },
+                                            htmlInput: {
+                                                min: 0,
+                                                max: TIMER_CONSTANTS.maxMinutesToStop,
+                                            }
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                                    <TextField
+                                        fullWidth
+                                        type="number"
+                                        value={seconds}
+                                        onChange={(e) => setSeconds(e.target.value.substring(0, 3))}
+                                        variant="outlined"
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: <InputAdornment position="end">{t("seconds")}</InputAdornment>
+
+                                            },
+                                            htmlInput: {
+                                                min: 0,
+                                                max: TIMER_CONSTANTS.maxSecondsToStop,
+                                            }
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid container size={12} alignItems={"center"}>
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <FormControlLabel
+                                        label={t("stopInMeasures")}
+                                        control={<Switch checked={isMeasuresActive} />}
+                                        onChange={() => {
+                                            setIsMeasuresActive((prev) => !prev);
+                                            setIsSecondsActive(false);
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <TextField
+                                        fullWidth
+                                        type="number"
+                                        value={measures}
+                                        onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
+                                        variant="outlined"
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: <InputAdornment position="end">{t("measures")}</InputAdornment>
+                                            },
+                                            htmlInput: {
+                                                min: 0,
+                                                max: TIMER_CONSTANTS.maxMeasuresToStop,
+                                            }
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </Grid>
+                </form>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    variant="contained"
+                    title={t("cancel")}
+                    type="button"
+                    onClick={handleClose}
+                >
+                    {t("cancel")}
+                </Button>
+                <Button
+                    variant="contained"
+                    form="formDialog"
+                    title={t("accept")}
+                    type="submit"
+                >
+                    {t("accept")}
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 }
 

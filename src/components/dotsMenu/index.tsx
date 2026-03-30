@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./dotsMenu.module.css";
-import IconButton from "../iconButton";
+import { IconButton } from "@mui/material";
 
 type Props = {
     options: {
@@ -119,10 +119,8 @@ const DotsMenu = ({ options }: Props) => {
 
     return (
         <div ref={containerRef}>
-            <IconButton
+            <IconButton // TODO
                 ref={triggerButtonRef}
-                variant="square"
-                color="transparent"
                 onClick={(e) => {
                     e.stopPropagation();
                     setOpen((prev) => !prev);

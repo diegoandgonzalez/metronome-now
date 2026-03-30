@@ -1,4 +1,9 @@
-import Dialog from "../dialog/dialog";
+import {
+    Dialog,
+    DialogContent,
+    Typography,
+} from "@mui/material";
+import CustomDialogTitle from "../dialog/customDialogTitle";
 
 type Props = {
     open: boolean,
@@ -15,12 +20,16 @@ const AboutDialog = (props: Props) => {
     return (
         <Dialog
             open={open}
-            title={"Metronome Now"}
-            handleClose={handleClose}
+            onClose={handleClose}
         >
-            <p>
-                {`v${__APP_VERSION__}`}
-            </p>
+            <CustomDialogTitle onClose={handleClose}>
+                {"Metronome Now"}
+            </CustomDialogTitle>
+            <DialogContent>
+                <Typography>
+                    {`v${__APP_VERSION__}`}
+                </Typography>
+            </DialogContent>
         </Dialog>
     );
 }

@@ -1,6 +1,11 @@
 import { useTranslation } from "react-i18next";
-import Dialog from "../dialog/dialog";
-import styles from "./shortcutsDialog.module.css";
+import {
+    Dialog,
+    DialogContent,
+    Grid,
+    Typography,
+} from "@mui/material";
+import CustomDialogTitle from "../dialog/customDialogTitle";
 
 type Props = {
     open: boolean,
@@ -33,21 +38,48 @@ const ShortcutsDialog = (props: Props) => {
     return (
         <Dialog
             open={open}
-            title={t("shortcuts")}
-            handleClose={handleClose}
+            onClose={handleClose}
         >
-            <div className={styles.shortcutsContainer}>
-                {
-                    shortcuts.map((shortcutItem) => {
-                        return (
-                            <div key={shortcutItem.shortcut}>
-                                <p>{t(shortcutItem.label)}</p>
-                                <b>{shortcutItem.shortcut}</b>
-                            </div>
-                        )
-                    })
-                }
-            </div>
+            <CustomDialogTitle onClose={handleClose}>
+                {t("shortcuts")}
+            </CustomDialogTitle>
+            <DialogContent>
+                <Grid container direction={"column"} spacing={1.5}>
+                    {
+                        shortcuts.map((shortcutItem, shortcutItemIndex) => {
+                            const isLast = shortcutItemIndex === shortcuts.length - 1;
+                            return (
+                                <Grid
+                                    key={shortcutItem.shortcut}
+                                    container
+                                    justifyContent={"space-between"}
+                                    spacing={2}
+                                    sx={{
+                                        paddingBottom: 1.5,
+                                        borderBottom: ({ palette }) => !isLast ? `1px solid ${palette.primary.dark}` : "none",
+                                    }}
+                                >
+                                    <Grid size={10}>
+                                        <Typography>
+                                            {t(shortcutItem.label)}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid size={2}>
+                                        <Typography
+                                            color="primary"
+                                            sx={{
+                                                width: "40px",
+                                            }}
+                                        >
+                                            <b>{shortcutItem.shortcut}</b>
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            )
+                        })
+                    }
+                </Grid>
+            </DialogContent>
         </Dialog>
     );
 }

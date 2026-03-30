@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "./beatIndicator.module.css";
+import { Button, Grid } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 type Props = {
   isPlaying: boolean,
@@ -21,6 +22,9 @@ const BeatIndicator = (props: Props) => {
   } = props;
 
   const { t } = useTranslation();
+  const { palette } = useTheme();
+
+  const beatColors = [palette.beatType.accent, palette.beatType.noAccent, palette.beatType.muted];
 
   const splitBeatArray = useMemo(() => {
     const spliceIndex = beatsPerMeasure <= 4 ? beatsPerMeasure : Math.floor(beatsPerMeasure / 2);
@@ -33,11 +37,17 @@ const BeatIndicator = (props: Props) => {
   }, [beatsPerMeasure]);
 
   return (
-    <div className={styles.beatIndicator}>
+    <Grid
+      container direction={"column"} alignItems={"center"} justifyContent={"center"} spacing={1}
+      sx={{
+        minHeight: "80px",
+        margin: "40px 0px",
+      }}
+    >
       {
         splitBeatArray.map((beatArray, beatArrayIndex) => {
           return (
-            <div key={beatArrayIndex}>
+            <Grid key={beatArrayIndex} container alignItems={"center"} justifyContent={"center"} spacing={1}>
               {
                 beatArray.map((beatIndex) => {
 
@@ -45,22 +55,29 @@ const BeatIndicator = (props: Props) => {
                   const beatType = beatTypes[beatIndex];
 
                   return (
-                    <button
+                    <Button
                       key={beatIndex}
-                      data-beat-type={String(beatType)}
-                      data-is-current-beat={String(isCurrentBeat)}
-                      data-beat-is-stopped={String(!isPlaying)}
                       title={t("clickToToggleBeatType")}
                       onClick={() => handleClick(beatIndex)}
+                      variant="round"
+                      sx={{
+                        minWidth: "30px",
+                        width: "30px",
+                        height: "30px",
+                        filter: (!isPlaying || isCurrentBeat) ? "brightness(130%)" : "",
+                        scale: isCurrentBeat ? 1.15 : 1,
+                        backgroundColor: beatColors[beatType].main,
+                        background: `radial-gradient(${beatColors[beatType].main}, ${beatColors[beatType].light})`,
+                      }}
                     />
                   )
                 })
               }
-            </div>
+            </Grid>
           )
         })
       }
-    </div>
+    </Grid>
   );
 };
 

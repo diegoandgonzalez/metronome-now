@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { RiSettings5Fill, RiQuestionFill } from "react-icons/ri";
-import styles from "./header.module.css";
-import IconButton from "../iconButton";
+import { Button, Grid, IconButton, Typography } from "@mui/material";
+import SettingsIcon from '@mui/icons-material/Settings';
+import HelpIcon from '@mui/icons-material/Help';
 
 type Props = {
     handleTitleClick: () => void,
@@ -20,31 +20,43 @@ const Header = (props: Props) => {
     const { t } = useTranslation();
 
     return (
-        <header className={styles.header}>
-            <h1
-                title={`v${__APP_VERSION__}`}
-                onClick={handleTitleClick}
-            >
-                Metronome <b>Now</b>
-            </h1>
-            <div>
-                <div className={styles.shortcutButtonContainer}>
+        <header style={{ width: "100%", padding: 20, paddingTop: 10, paddingBottom: 0 }}>
+            <Grid container justifyContent={"space-between"} alignItems={"center"} spacing={2}>
+                <Button
+                    onClick={handleTitleClick}
+                    color="inherit"
+                    title={`v${__APP_VERSION__}`}
+                    sx={{
+                        padding: 0,
+                        display: "flex",
+                        gap: "5px",
+                        fontSize: "24px",
+                        fontWeight: 600,
+                        "&:hover": {
+                            backgroundColor: "transparent",
+                        },
+                    }}
+                >
+                    Metronome
+                    <Typography component="span" variant="h5" color="primary" fontWeight={"inherit"}>
+                        Now
+                    </Typography>
+                </Button>
+                <Grid container spacing={1}>
                     <IconButton
                         title={t("shortcuts") + " (?)"}
-                        color="transparent"
                         onClick={handleShortcutsClick}
                     >
-                        <RiQuestionFill size={24} />
+                        <HelpIcon />
                     </IconButton>
-                </div>
-                <IconButton
-                    title={t("settings") + " (s)"}
-                    color="transparent"
-                    onClick={handleSettingsClick}
-                >
-                    <RiSettings5Fill size={24} />
-                </IconButton>
-            </div>
+                    <IconButton
+                        title={t("settings") + " (s)"}
+                        onClick={handleSettingsClick}
+                    >
+                        <SettingsIcon />
+                    </IconButton>
+                </Grid>
+            </Grid>
         </header>
     );
 }

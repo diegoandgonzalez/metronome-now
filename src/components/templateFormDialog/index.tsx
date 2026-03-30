@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useSnackbarContext from "../snackbar/useSnackbarContext";
-import FormDialog from "../dialog/formDialog";
 import type { Template, TemplateFormAction, TemplateFormData } from "../../utils/types";
 import { TEMPLATE_NAME_MAX_LENGTH } from "../../utils/constants";
 import styles from "./templateFormDialog.module.css";
+import { Button, Dialog, DialogActions, DialogContent, Typography } from "@mui/material";
+import CustomDialogTitle from "../dialog/customDialogTitle";
 
 type Props = {
     open: boolean,
@@ -74,28 +75,58 @@ const TemplateFormDialog = (props: Props) => {
     }
 
     return (
-        <FormDialog
+        <Dialog
             open={open}
-            title={t(getTitleKey(action))}
-            handleClose={handleClose}
-            handleSubmit={submit}
+            onClose={handleClose}
         >
-            <p>
-                {t(getDescriptionKey(action), { templateName: originalTemplateName })}
-            </p>
-            {
-                ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
-                <input
-                    id="templateName"
-                    className={styles.templateNameInput}
-                    type="text"
-                    title={t("enterTemplateName")}
-                    placeholder={t("enterTemplateName")}
-                    value={newTemplateName}
-                    onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
-                />
-            }
-        </FormDialog>
+            <CustomDialogTitle onClose={handleClose}>
+                {t(getTitleKey(action))}
+            </CustomDialogTitle>
+            <DialogContent>
+                <form
+                    id="formDialog"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        submit();
+                    }}
+                    noValidate
+                >
+                    <Typography>
+                        {t(getDescriptionKey(action), { templateName: originalTemplateName })}
+                    </Typography>
+                    {
+                        ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
+                        <input
+                            id="templateName"
+                            className={styles.templateNameInput}
+                            type="text"
+                            title={t("enterTemplateName")}
+                            placeholder={t("enterTemplateName")}
+                            value={newTemplateName}
+                            onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
+                        />
+                    }
+                </form>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    variant="contained"
+                    title={t("cancel")}
+                    type="button"
+                    onClick={handleClose}
+                >
+                    {t("cancel")}
+                </Button>
+                <Button
+                    variant="contained"
+                    form="formDialog"
+                    title={t("accept")}
+                    type="submit"
+                >
+                    {t("accept")}
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 }
 

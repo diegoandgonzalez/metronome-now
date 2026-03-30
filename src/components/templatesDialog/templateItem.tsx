@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import DotsMenu from "../dotsMenu";
-import styles from "./templatesDialog.module.css";
+import { Typography } from "@mui/material";
 
 type Props = {
     selected: boolean,
@@ -33,9 +33,6 @@ const TemplateItem = (props: Props) => {
     return (
         <div
             role="button"
-            tabIndex={0}
-            className={styles.templateItem}
-            data-is-selected={String(selected)}
             onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
@@ -49,12 +46,12 @@ const TemplateItem = (props: Props) => {
             }}
         >
             <div title={t("setTemplate") + " " + name}>
-                <p className={styles.templateName}>
+                <Typography>
                     {name}
-                </p>
-                <p className={styles.templateDescription}>
+                </Typography>
+                <Typography variant="caption">
                     {description}
-                </p>
+                </Typography>
             </div>
             {
                 editable &&

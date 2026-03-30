@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { Dialog, DialogContent, MenuItem, Select } from "@mui/material";
 import { LANGUAGE_OPTIONS } from "../../utils/constants";
-import FormDialog from "../dialog/formDialog";
+import CustomDialogTitle from "../dialog/customDialogTitle";
 
 type Props = {
     open: boolean,
@@ -21,27 +22,29 @@ const SettingsDialog = (props: Props) => {
     const { t } = useTranslation();
 
     return (
-        <FormDialog
-            hideActions
+        <Dialog
             open={open}
-            title={t("settings")}
-            handleSubmit={handleClose}
-            handleClose={handleClose}
+            onClose={handleClose}
         >
-            <select
-                id="language"
-                value={language}
-                onChange={(e) => handleChangeLanguage(e.target.value)}
-            >
-                {
-                    LANGUAGE_OPTIONS.map((language) => {
-                        return (
-                            <option key={language.value} value={language.value}>{language.name}</option>
-                        )
-                    })
-                }
-            </select>
-        </FormDialog>
+            <CustomDialogTitle onClose={handleClose}>
+                {t("settings")}
+            </CustomDialogTitle>
+            <DialogContent>
+                <Select
+                    fullWidth
+                    value={language}
+                    onChange={(e) => handleChangeLanguage(e.target.value)}
+                >
+                    {
+                        LANGUAGE_OPTIONS.map((language) => {
+                            return (
+                                <MenuItem key={language.value} value={language.value}>{language.name}</MenuItem>
+                            )
+                        })
+                    }
+                </Select>
+            </DialogContent>
+        </Dialog>
     );
 }
 
