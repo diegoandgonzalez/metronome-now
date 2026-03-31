@@ -18,7 +18,6 @@ const CustomDialogTitle = (props: Props) => {
             <Grid container alignItems={"center"} justifyContent={"space-between"} wrap="nowrap" spacing={5}>
                 {children}
                 <IconButton
-                    sx={{ right: "-10px" }}
                     onClick={onClose}
                 >
                     <CloseIcon />

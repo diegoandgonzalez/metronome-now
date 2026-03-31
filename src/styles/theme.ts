@@ -22,13 +22,13 @@ declare module "@mui/material/styles" {
         }
     }
     interface ButtonPropsVariantOverrides {
-        round: true;
+        dark: true;
     }
 }
 
 declare module "@mui/material/Button" {
     interface ButtonPropsVariantOverrides {
-        round: true;
+        dark: true;
     }
 }
 
@@ -52,7 +52,7 @@ const appTheme = createTheme({
     typography: {
         fontFamily: "Space Grotesk",
     },
-    shape: { borderRadius: 10 },
+    shape: { borderRadius: 16 },
     components: {
         MuiCssBaseline: {
             styleOverrides: (theme) => ({
@@ -68,12 +68,43 @@ const appTheme = createTheme({
                 },
             }),
         },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    color: theme.palette.text.primary,
+                    "&.Mui-focused": {
+                        color: theme.palette.text.primary,
+                    },
+                }),
+            },
+        },
+        MuiList: {
+            styleOverrides: {
+                root: {
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                },
+            },
+        },
+        MuiListItem: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    padding: "10px 16px",
+                    cursor: "pointer",
+                    borderRadius: theme.shape.borderRadius,
+                    border: `1px solid ${theme.palette.border.main}`,
+                    background: theme.palette.secondary.main,
+                }),
+            },
+        },
         MuiOutlinedInput: {
             styleOverrides: {
                 notchedOutline: ({ theme }) => ({
                     borderColor: theme.palette.border.main,
                 }),
                 root: ({ theme }) => ({
+                    backgroundColor: theme.palette.secondary.main,
                     "&:hover .MuiOutlinedInput-notchedOutline": {
                         border: "1px solid",
                         borderColor: theme.palette.border.main,
@@ -94,6 +125,9 @@ const appTheme = createTheme({
             styleOverrides: {
                 root: ({ theme }) => ({
                     color: theme.palette.text.primary,
+                    "&:hover": {
+                        background: theme.palette.border.main,
+                    },
                 }),
             },
         },
@@ -107,11 +141,25 @@ const appTheme = createTheme({
                 }),
             },
         },
+        MuiMenu: {
+            styleOverrides: {
+                paper: {
+                    overflow: "hidden",
+                },
+                list: {
+                    overflowY: "auto",
+                    maxHeight: "75svh",
+                },
+            },
+        },
         MuiMenuItem: {
             styleOverrides: {
                 root: ({ theme }) => ({
                     display: "flex",
                     justifyContent: "center",
+                    "&:hover": {
+                        background: theme.palette.border.main,
+                    },
                     "&.Mui-selected": {
                         backgroundColor: theme.palette.primary.main,
                     },
@@ -124,28 +172,11 @@ const appTheme = createTheme({
         MuiButton: {
             variants: [
                 {
-                    props: { variant: "round", color: "primary" },
+                    props: { variant: "dark" },
                     style: ({ theme }) => ({
-                        borderRadius: "100%",
-                        backgroundColor: theme.palette.primary.main,
-                        color: "white",
-                        aspectRatio: 1,
-                        padding: 0,
-                        "&:hover": {
-                            backgroundColor: theme.palette.primary.dark,
-                        },
-                    }),
-                },
-                {
-                    props: { variant: "round", color: "secondary" },
-                    style: ({ theme }) => ({
-                        borderRadius: "100%",
-                        border: "1px solid",
-                        borderColor: theme.palette.border.main,
+                        border: `1px solid ${theme.palette.border.main}`,
                         backgroundColor: theme.palette.secondary.main,
                         color: "white",
-                        aspectRatio: 1,
-                        padding: 0,
                         "&:hover": {
                             backgroundColor: theme.palette.secondary.dark,
                         },

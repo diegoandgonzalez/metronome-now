@@ -25,6 +25,11 @@ const SettingsDialog = (props: Props) => {
         <Dialog
             open={open}
             onClose={handleClose}
+            sx={{
+                "& .MuiDialog-paper": {
+                    width: "250px",
+                },
+            }}
         >
             <CustomDialogTitle onClose={handleClose}>
                 {t("settings")}

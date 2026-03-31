@@ -170,14 +170,14 @@ const Metronome = () => {
                 sx={{
                     padding: "20px",
                     paddingTop: "10px",
-                    height: "calc(100vh - 100px)", // TODO vh?
+                    height: "calc(100svh - 100px)",
                 }}
             >
                 <Typography
                     align="center"
                     title={t("template")}
                     sx={{
-                        marginBottom: "15px",
+                        marginBottom: "5px",
                         visibility: !selectedTemplateToPlayName ? "hidden" : "visible",
                     }}
                 >
@@ -219,9 +219,9 @@ const Metronome = () => {
                     sx={{ marginTop: "30px" }}
                 >
                     <Button
-                        variant="round"
+                        variant={settingsIsActive ? "contained" : "dark"}
+                        sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
                         title={t("bpmProgrammingAndTimer") + " (b)"}
-                        color={settingsIsActive ? "primary" : "secondary"}
                         onClick={() => {
                             handleOpenBPMProgrammingTimerDialog();
                             handleStopMetronome();
@@ -230,16 +230,17 @@ const Metronome = () => {
                         <TimerIcon sx={{ fontSize: 40 }} />
                     </Button>
                     <Button
-                        variant="round"
+                        variant="contained"
+                        sx={{ minWidth: 0, padding: 0.5, borderRadius: "100%" }}
                         title={t(isPlaying ? "stop" : "play") + " (p)"}
                         onClick={handleToggleMetronome}
                     >
                         {isPlaying ? <StopIcon sx={{ fontSize: 80 }} /> : <PlayArrowIcon sx={{ fontSize: 80 }} />}
                     </Button>
                     <Button
-                        variant="round"
+                        variant={selectedTemplateIdToPlay ? "contained" : "dark"}
                         title={t("templates") + " (t)"}
-                        color={selectedTemplateIdToPlay ? "primary" : "secondary"}
+                        sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
                         onClick={() => {
                             handleOpenTemplateDialog();
                             handleStopMetronome();

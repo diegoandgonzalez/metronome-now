@@ -205,11 +205,16 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             </TextField>
                         </Grid>
                         <Container label={t("bpmProgramming")}>
-                            <Grid size={12}>
+                            <Grid container size={12} spacing={3}>
                                 <FormControlLabel
                                     label={t("isActive")}
                                     control={<Switch checked={isTempoProgrammingActive} />}
                                     onChange={() => setIsTempoProgrammingActive((prev) => !prev)}
+                                />
+                                <FormControlLabel
+                                    label={t("playInLoop")}
+                                    control={<Switch checked={isLoop} />}
+                                    onChange={() => setIsLoop((prev) => !prev)}
                                 />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 6 }}>
@@ -274,7 +279,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     fullWidth
                                     label={t("every")}
                                     type="number"
-                                    value={bpmToChange}
+                                    value={measuresToChangeBPM}
                                     onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
                                     variant="outlined"
                                     slotProps={{
@@ -288,11 +293,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     }}
                                 />
                             </Grid>
-                            <FormControlLabel
-                                label={t("playInLoop")}
-                                control={<Switch checked={isLoop} />}
-                                onChange={() => setIsLoop((prev) => !prev)}
-                            />
                         </Container>
                         <Container label={t("timer")}>
                             <Grid container size={12} alignItems={"center"} sx={{ marginBottom: { xs: 2, md: 0 } }}>

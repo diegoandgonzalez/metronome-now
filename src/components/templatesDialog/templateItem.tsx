@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
+import { Grid, Typography } from "@mui/material";
 import DotsMenu from "../dotsMenu";
-import { Typography } from "@mui/material";
 
 type Props = {
     selected: boolean,
@@ -31,14 +31,12 @@ const TemplateItem = (props: Props) => {
     const { t } = useTranslation();
 
     return (
-        <div
+        <Grid
             role="button"
-            onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    if (selected) return;
-                    handleSelectTemplate();
-                }
+            container alignItems={"center"} justifyContent={"space-between"} spacing={2} wrap="nowrap"
+            sx={{
+                width: "100%",
+                color: ({ palette }) => selected ? palette.primary.main : palette.text.primary,
             }}
             onClick={() => {
                 if (selected) return;
@@ -86,7 +84,7 @@ const TemplateItem = (props: Props) => {
                     }
                 />
             }
-        </div>
+        </Grid>
     );
 }
 
