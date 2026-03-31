@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Button, Grid, Typography } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
-import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
-import TimerIcon from "@mui/icons-material/Timer";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import UpdateIcon from "@mui/icons-material/Update";
 import type { Template } from "../../utils/types";
 import Header from "../header";
 import BPMInput from "../bpmInput";
@@ -227,7 +227,7 @@ const Metronome = () => {
                             handleStopMetronome();
                         }}
                     >
-                        <TimerIcon sx={{ fontSize: 40 }} />
+                        <UpdateIcon sx={{ fontSize: 40 }} />
                     </Button>
                     <Button
                         variant="contained"
@@ -246,7 +246,7 @@ const Metronome = () => {
                             handleStopMetronome();
                         }}
                     >
-                        <PlaylistPlayIcon sx={{ fontSize: 40 }} />
+                        <PlaylistAddIcon sx={{ fontSize: 40 }} />
                     </Button>
                 </Grid>
                 {
