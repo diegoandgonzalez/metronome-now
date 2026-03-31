@@ -52,7 +52,7 @@ const appTheme = createTheme({
     typography: {
         fontFamily: "Space Grotesk",
     },
-    shape: { borderRadius: 16 },
+    shape: { borderRadius: "16px" },
     components: {
         MuiCssBaseline: {
             styleOverrides: (theme) => ({

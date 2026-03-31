@@ -166,7 +166,7 @@ const Metronome = () => {
                 handleSettingsClick={handleOpenSettingsDialog}
             />
             <Grid
-                container direction={"column"} alignItems={"center"} justifyContent={"center"} wrap="nowrap"
+                container direction={"column"} alignItems={"center"} justifyContent={"center"} wrap="nowrap" spacing={{ xl: 4 }}
                 sx={{
                     padding: "20px",
                     paddingTop: "10px",

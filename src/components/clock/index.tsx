@@ -1,22 +1,22 @@
 import { useTranslation } from "react-i18next";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
-import { formatMsToHHMMSS } from "../../utils/format";
 import { Grid, IconButton, Typography } from "@mui/material";
+import { formatMsToHHMMSS } from "../../utils/format";
+import TimeSlider from "./timeSlider";
 
 type Props = {
-  showOnlyClock: boolean,
-  isPlaying: boolean,
-  isPaused: boolean,
-  value: number,
-  secondsToStop: number,
-  currentMeasure: number,
-  measureToStop: number,
-  handleClick: () => void,
+  showOnlyClock: boolean;
+  isPlaying: boolean;
+  isPaused: boolean;
+  value: number;
+  secondsToStop: number;
+  currentMeasure: number;
+  measureToStop: number;
+  handleClick: () => void;
 };
 
 const Clock = (props: Props) => {
-
   const {
     showOnlyClock,
     isPlaying,
@@ -31,63 +31,54 @@ const Clock = (props: Props) => {
   const { t } = useTranslation();
 
   return (
-    <Grid container alignItems={"center"} justifyContent={"center"} spacing={1} wrap="wrap">
-      <IconButton
-        onClick={handleClick}
-        title={t(isPaused ? "resume" : "pause")}
-        sx={{
-          visibility: (isPlaying && !showOnlyClock) ? "visible" : "hidden",
-        }}
-      >
-        {isPaused ? <PlayArrowIcon /> : <PauseIcon />}
-      </IconButton>
-      <Typography
-        title={t("playedTime")}
-        align="center"
-        sx={{
-          fontSize: "1.4rem",
-          width: "100px",
-        }}
-      >
-        {formatMsToHHMMSS(value)}
-      </Typography>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "75px 1fr 75px",
+        alignItems: "center",
+        height: 50,
+      }}
+    >
+      <Grid container justifyContent={"center"}>
+        <IconButton
+          onClick={handleClick}
+          title={t(isPaused ? "resume" : "pause")}
+          sx={{ visibility: isPlaying && !showOnlyClock ? "visible" : "hidden" }}
+        >
+          {isPaused ? <PlayArrowIcon /> : <PauseIcon />}
+        </IconButton>
+      </Grid>
       {
         Boolean(secondsToStop) &&
-        <>
-          <span>/</span>
-          <Typography
-            title={t("timerValue")}
-            align="center"
-            sx={{
-              fontSize: "1.4rem",
-              width: "100px",
-            }}
-          >
-            {formatMsToHHMMSS(secondsToStop as number * 1000)}
-          </Typography>
-        </>
+        <div style={{ width: "250px" }}>
+          <TimeSlider
+            value={value}
+            max={secondsToStop * 1000}
+          />
+        </div>
       }
-      <Typography
-        sx={{
-          visibility: (Boolean(currentMeasure) && !showOnlyClock) ? "visible" : "hidden",
-        }}
-      >
-        (
-        <span title={t("currentMeasure")}>
-          {currentMeasure}
-        </span>
-        {
-          Boolean(measureToStop) &&
-          <>
-            <span>/</span>
-            <span title={t("timerValue")}>
-              {measureToStop}
-            </span>
-          </>
-        }
-        )
-      </Typography>
-    </Grid>
+      {
+        !secondsToStop &&
+        <Typography title={t("playedTime")} align="center" sx={{ fontSize: "1.4rem", width: "125px" }}>
+          {formatMsToHHMMSS(value)}
+        </Typography>
+      }
+      <Grid container justifyContent={"center"}>
+        <Typography
+          sx={{ visibility: Boolean(currentMeasure) && !showOnlyClock ? "visible" : "hidden" }}
+        >
+          (
+          <span title={t("currentMeasure")}>{currentMeasure}</span>
+          {Boolean(measureToStop) && (
+            <>
+              <span>/</span>
+              <span title={t("timerValue")}>{measureToStop}</span>
+            </>
+          )}
+          )
+        </Typography>
+      </Grid>
+    </div>
   );
 };
 
