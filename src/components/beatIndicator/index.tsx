@@ -59,7 +59,6 @@ const BeatIndicator = (props: Props) => {
                       key={beatIndex}
                       title={t("clickToToggleBeatType")}
                       onClick={() => handleClick(beatIndex)}
-                      variant="round"
                       sx={{
                         minWidth: "30px",
                         width: "30px",
