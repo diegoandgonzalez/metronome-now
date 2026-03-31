@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Button, Dialog, DialogActions, DialogContent, TextField, Typography } from "@mui/material";
 import useSnackbarContext from "../snackbar/useSnackbarContext";
 import type { Template, TemplateFormAction, TemplateFormData } from "../../utils/types";
 import { TEMPLATE_NAME_MAX_LENGTH } from "../../utils/constants";
-import styles from "./templateFormDialog.module.css";
-import { Button, Dialog, DialogActions, DialogContent, Typography } from "@mui/material";
 import CustomDialogTitle from "../dialog/customDialogTitle";
 
 type Props = {
@@ -96,14 +95,12 @@ const TemplateFormDialog = (props: Props) => {
                     </Typography>
                     {
                         ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
-                        <input
-                            id="templateName"
-                            className={styles.templateNameInput}
-                            type="text"
-                            title={t("enterTemplateName")}
-                            placeholder={t("enterTemplateName")}
+                        <TextField
+                            label={t("enterTemplateName")}
                             value={newTemplateName}
                             onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
+                            sx={{ marginTop: "20px" }}
+                            fullWidth
                         />
                     }
                 </form>

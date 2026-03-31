@@ -38,7 +38,11 @@ const DotsMenu = ({ options }: Props) => {
                 {
                     options.map((option) => (
                         <MenuItem
-                            key={option.key} onClick={handleClose}
+                            key={option.key}
+                            onClick={(e) => {
+                                option.onClick();
+                                handleClose(e);
+                            }}
                             sx={{ display: "block", padding: "6px 24px" }}
                         >
                             {option.label}

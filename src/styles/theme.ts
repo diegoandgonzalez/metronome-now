@@ -191,6 +191,12 @@ const appTheme = createTheme({
             },
         },
         MuiTextField: {
+            defaultProps: {
+                autoComplete: "off",
+                inputProps: {
+                    autoComplete: "off",
+                },
+            },
             styleOverrides: {
                 root: {
                     "& input[type=number]": { MozAppearance: "textfield" },
