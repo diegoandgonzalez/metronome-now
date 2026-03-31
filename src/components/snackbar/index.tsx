@@ -1,11 +1,7 @@
-import { useEffect } from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
+import { Alert, Snackbar, type AlertColor } from "@mui/material";
 import useSnackbarContext from "./useSnackbarContext";
-import styles from "./snackbar.module.css";
 
-const Snackbar = () => {
- // TODO
+const CustomSnackbar = () => {
     const {
         open,
         text,
@@ -14,32 +10,23 @@ const Snackbar = () => {
         handleClose,
     } = useSnackbarContext();
 
-    useEffect(() => {
-        let timeout: number;
-        if (open && secondsToClose) {
-            timeout = window.setTimeout(() => {
-                handleClose();
-            }, secondsToClose * 1000)
-        }
-
-        return () => clearTimeout(timeout);
-    }, [open, secondsToClose, handleClose])
-
     return (
-        <div
-            className={styles.snackbar}
-            data-is-open={String(open)}
+        <Snackbar
+            open={open}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            autoHideDuration={secondsToClose * 1000}
+            onClose={handleClose}
         >
-            <div data-type={type}>
+            <Alert
+                onClose={handleClose}
+                severity={(type || "error") as AlertColor}
+                variant="filled"
+                sx={{ width: '100%' }}
+            >
                 {text}
-                <IconButton
-                    onClick={handleClose}
-                >
-                    <CloseIcon />
-                </IconButton>
-            </div>
-        </div>
+            </Alert>
+        </Snackbar>
     )
 }
 
-export default Snackbar;
+export default CustomSnackbar;

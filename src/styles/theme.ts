@@ -37,7 +37,6 @@ const appTheme = createTheme({
         mode: "dark",
         primary: { main: "#d42b3c" },
         secondary: { main: "#232027" },
-        success: { main: "#1c8d42" },
         text: { primary: "#ffffff" },
         background: { default: "#19171c", paper: "#232027" },
         border: {

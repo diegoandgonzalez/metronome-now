@@ -16,9 +16,6 @@ const useSnackbar = () => {
 
     const handleClose = () => {
         setOpen(false);
-        setText("");
-        setType("");
-        setSecondsToClose(0);
     }
 
     return {
