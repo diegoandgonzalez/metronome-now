@@ -61,9 +61,8 @@ const BPMInput = (props: Props) => {
   return (
     <Grid container direction={"column"}>
       <TextField
-        id="bpm"
         type="number"
-        title={t("clickToEditBPM")}
+        id="bpmInput"
         value={bpm}
         onChange={(e) => setBPM(e.target.value.substring(0, 3))}
         onKeyDown={(e) => {
@@ -95,7 +94,6 @@ const BPMInput = (props: Props) => {
       <Grid container justifyContent={"center"} spacing={1}>
         <Button
           variant="contained"
-          title={t("subtractBPM") + " (↓)"}
           sx={{ minWidth: 0, padding: 1 }}
           onClick={subtractOneBPM}
         >
@@ -103,7 +101,6 @@ const BPMInput = (props: Props) => {
         </Button>
         <Button
           variant="contained"
-          title={t("tapTempoToCalculateBPM")}
           onClick={() => {
             const tappedBPM = tap();
             if (!tappedBPM) return;
@@ -114,7 +111,6 @@ const BPMInput = (props: Props) => {
         </Button>
         <Button
           variant="contained"
-          title={t("addBPM") + " (↑)"}
           sx={{ minWidth: 0, padding: 1 }}
           onClick={addOneBPM}
         >

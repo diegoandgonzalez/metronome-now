@@ -59,9 +59,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
     const [isSecondsActive, setIsSecondsActive] = useState(initialTimerSettings.secondsIsActive);
     const [isMeasuresActive, setIsMeasuresActive] = useState(initialTimerSettings.measuresIsActive);
-    const [seconds, setSeconds] = useState<number | string>(initialTimerSettings.secondsToStop % 60);
-    const [minutes, setMinutes] = useState<number | string>(Math.floor(initialTimerSettings.secondsToStop / 60));
-    const [measures, setMeasures] = useState<number | string>(initialTimerSettings.measuresToStop);
+    const [secondsToStop, setSecondsToStop] = useState<number | string>(initialTimerSettings.secondsToStop % 60);
+    const [minutesToStop, setMinutesToStop] = useState<number | string>(Math.floor(initialTimerSettings.secondsToStop / 60));
+    const [measuresToStop, setMeasuresToStop] = useState<number | string>(initialTimerSettings.measuresToStop);
 
     const handleSubmit = () => {
         const formattedBPMToChange = Math.round(Number(bpmToChange));
@@ -69,80 +69,58 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         const formattedToBPM = Math.round(Number(toBPM));
         const formattedMeasuresToChangeBPM = Math.round(Number(measuresToChangeBPM));
 
-        const formattedSeconds = Math.round(Number(seconds));
-        const formattedMinutes = Math.round(Number(minutes));
-        const formattedMeasures = Math.round(Number(measures));
+        const formattedSeconds = Math.round(Number(secondsToStop));
+        const formattedMinutes = Math.round(Number(minutesToStop));
+        const formattedMeasures = Math.round(Number(measuresToStop));
         const totalSeconds = formattedMinutes * 60 + formattedSeconds;
 
-        // TODO: validar que el from y el to no sean igual
-
-        if (formattedBPMToChange < 0) {
-            handleOpenSnackbar(t("bpmToChangeCannotBeNegative"));
+        if (!(formattedFromBPM >= METRONOME_CONSTANTS.minBPM && formattedFromBPM <= METRONOME_CONSTANTS.maxBPM)) {
+            handleOpenSnackbar(t("fromBPMMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
             return;
         }
 
-        if (formattedBPMToChange < (METRONOME_CONSTANTS.maxBPM * -1)) {
-            handleOpenSnackbar(t("bpmToChangeCannotBeLessThan", { value: METRONOME_CONSTANTS.maxBPM * -1 }));
+        if (!(formattedToBPM >= METRONOME_CONSTANTS.minBPM && formattedFromBPM <= METRONOME_CONSTANTS.maxBPM)) {
+            handleOpenSnackbar(t("toBPMMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
             return;
         }
 
-        if (formattedBPMToChange > METRONOME_CONSTANTS.maxBPM) {
-            handleOpenSnackbar(t("bpmToChangeCannotBeGreaterThan", { value: METRONOME_CONSTANTS.maxBPM }));
+        if (formattedFromBPM === formattedToBPM) {
+            handleOpenSnackbar(t("fromBPMMustBeDifferentThanToBPM"));
             return;
         }
 
-        if (formattedMeasuresToChangeBPM < 0) {
-            handleOpenSnackbar(t("measuresToChangeBPMCannotBeNegative"));
+        if (!(formattedBPMToChange >= 0 && formattedBPMToChange <= METRONOME_CONSTANTS.maxBPM)) {
+            handleOpenSnackbar(t("bpmToChangeMustBeInRange", { min: 0, max: METRONOME_CONSTANTS.maxBPM }));
             return;
         }
 
-        if (formattedMeasuresToChangeBPM > TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM) {
-            handleOpenSnackbar(t("measuresToChangeBPMHasToBeLessThan", { value: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM }));
+        if (!(formattedMeasuresToChangeBPM >= TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM && formattedMeasuresToChangeBPM <= TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM)) {
+            handleOpenSnackbar(t("measuresToChangeBPMMustBeInRange", { min: TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM, max: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM }));
             return;
         }
 
-        if (!formattedFromBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeEmpty")); // TODO
-            return;
-        }
-
-        if (!formattedToBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeEmpty")); // TODO
-            return;
-        }
-
-        if (formattedFromBPM < METRONOME_CONSTANTS.minBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeLessThan", { value: METRONOME_CONSTANTS.minBPM })); // TODO
-            return;
-        }
-
-        if (formattedFromBPM > METRONOME_CONSTANTS.maxBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeGreaterThan", { value: METRONOME_CONSTANTS.maxBPM })); // TODO
-            return;
-        }
-
-        if (formattedToBPM < METRONOME_CONSTANTS.minBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeLessThan", { value: METRONOME_CONSTANTS.minBPM })); // TODO
-            return;
-        }
-
-        if (formattedToBPM > METRONOME_CONSTANTS.maxBPM) {
-            handleOpenSnackbar(t("goalBPMCannotBeGreaterThan", { value: METRONOME_CONSTANTS.maxBPM })); // TODO
-            return;
-        }
-
-        if (!formattedSeconds && !formattedMinutes) {
+        if (isSecondsActive && !formattedSeconds && !formattedMinutes) {
             handleOpenSnackbar(t("timeCannotBeEmpty"));
             return;
         }
 
-        if (formattedSeconds < 0 || formattedMinutes < 0) {
-            handleOpenSnackbar(t("timeMustBePositiveValue"));
+        if (!(formattedSeconds >= 0 && formattedSeconds <= TIMER_CONSTANTS.maxSecondsToStop)) {
+            handleOpenSnackbar(t("secondsMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxSecondsToStop }));
             return;
         }
 
-        if (!formattedMeasures || formattedMeasures < 0) {
-            handleOpenSnackbar(t("measuresMustBePositiveValue"));
+        if (!(formattedMinutes >= 0 && formattedMinutes <= TIMER_CONSTANTS.maxMinutesToStop)) {
+            handleOpenSnackbar(t("minutesMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxMinutesToStop }));
+            return;
+        }
+
+        if (!(formattedMeasures >= 0 && formattedMeasures <= TIMER_CONSTANTS.maxMeasuresToStop)) {
+            handleOpenSnackbar(t("measuresToStopMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxMeasuresToStop }));
+            return;
+        }
+
+        if (isMeasuresActive && !formattedMeasures) {
+            handleOpenSnackbar(t("measuresToStopCannotBeEmpty"));
             return;
         }
 
@@ -310,8 +288,8 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     <TextField
                                         fullWidth
                                         type="number"
-                                        value={minutes}
-                                        onChange={(e) => setMinutes(e.target.value.substring(0, 3))}
+                                        value={minutesToStop}
+                                        onChange={(e) => setMinutesToStop(e.target.value.substring(0, 3))}
                                         variant="outlined"
                                         slotProps={{
                                             input: {
@@ -328,13 +306,12 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     <TextField
                                         fullWidth
                                         type="number"
-                                        value={seconds}
-                                        onChange={(e) => setSeconds(e.target.value.substring(0, 3))}
+                                        value={secondsToStop}
+                                        onChange={(e) => setSecondsToStop(e.target.value.substring(0, 3))}
                                         variant="outlined"
                                         slotProps={{
                                             input: {
                                                 endAdornment: <InputAdornment position="end">{t("seconds")}</InputAdornment>
-
                                             },
                                             htmlInput: {
                                                 min: 0,
@@ -347,7 +324,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             <Grid container size={12} alignItems={"center"}>
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                     <FormControlLabel
-                                        label={t("stopInMeasures")}
+                                        label={t("stopByMeasures")}
                                         control={<Switch checked={isMeasuresActive} />}
                                         onChange={() => {
                                             setIsMeasuresActive((prev) => !prev);
@@ -359,8 +336,8 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     <TextField
                                         fullWidth
                                         type="number"
-                                        value={measures}
-                                        onChange={(e) => setMeasures(e.target.value.substring(0, 3))}
+                                        value={measuresToStop}
+                                        onChange={(e) => setMeasuresToStop(e.target.value.substring(0, 3))}
                                         variant="outlined"
                                         slotProps={{
                                             input: {
@@ -380,18 +357,16 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             </DialogContent>
             <DialogActions>
                 <Button
-                    variant="contained"
-                    title={t("cancel")}
                     type="button"
+                    variant="contained"
                     onClick={handleClose}
                 >
                     {t("cancel")}
                 </Button>
                 <Button
+                    type="submit"
                     variant="contained"
                     form="formDialog"
-                    title={t("accept")}
-                    type="submit"
                 >
                     {t("accept")}
                 </Button>

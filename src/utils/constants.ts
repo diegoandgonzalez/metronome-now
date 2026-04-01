@@ -12,13 +12,13 @@ export const METRONOME_CONSTANTS = {
 }
 
 export const TIMER_CONSTANTS = {
-    maxMeasuresToStop: 999,
+    maxMeasuresToStop: 99,
     maxSecondsToStop: 59,
-    maxMinutesToStop: 60,
+    maxMinutesToStop: 99,
 }
 
 export const TEMPO_PROGRAMMING_CONSTANTS = {
-    minMeasuresToChangeBPM: 0,
+    minMeasuresToChangeBPM: 1,
     maxMeasuresToChangeBPM: 999,
 }
 

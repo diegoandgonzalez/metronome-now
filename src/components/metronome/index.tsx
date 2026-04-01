@@ -175,7 +175,6 @@ const Metronome = () => {
             >
                 <Typography
                     align="center"
-                    title={t("template")}
                     sx={{
                         marginBottom: "5px",
                         visibility: !selectedTemplateToPlayName ? "hidden" : "visible",
@@ -221,7 +220,6 @@ const Metronome = () => {
                     <Button
                         variant={settingsIsActive ? "contained" : "dark"}
                         sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
-                        title={t("bpmProgrammingAndTimer") + " (b)"}
                         onClick={() => {
                             handleOpenBPMProgrammingTimerDialog();
                             handleStopMetronome();
@@ -232,14 +230,12 @@ const Metronome = () => {
                     <Button
                         variant="contained"
                         sx={{ minWidth: 0, padding: 0.5, borderRadius: "100%" }}
-                        title={t(isPlaying ? "stop" : "play") + " (p)"}
                         onClick={handleToggleMetronome}
                     >
                         {isPlaying ? <StopIcon sx={{ fontSize: 80 }} /> : <PlayArrowIcon sx={{ fontSize: 80 }} />}
                     </Button>
                     <Button
                         variant={selectedTemplateIdToPlay ? "contained" : "dark"}
-                        title={t("templates") + " (t)"}
                         sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
                         onClick={() => {
                             handleOpenTemplateDialog();

@@ -25,7 +25,6 @@ const Header = (props: Props) => {
                 <Button
                     onClick={handleTitleClick}
                     color="inherit"
-                    title={`v${__APP_VERSION__}`}
                     sx={{
                         padding: 0,
                         display: "flex",
@@ -44,13 +43,11 @@ const Header = (props: Props) => {
                 </Button>
                 <Grid container spacing={1}>
                     <IconButton
-                        title={t("shortcuts") + " (?)"}
                         onClick={handleShortcutsClick}
                     >
                         <HelpIcon />
                     </IconButton>
                     <IconButton
-                        title={t("settings") + " (s)"}
                         onClick={handleSettingsClick}
                     >
                         <SettingsIcon />

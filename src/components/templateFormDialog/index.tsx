@@ -96,7 +96,7 @@ const TemplateFormDialog = (props: Props) => {
                     {
                         ["CREATE", "RENAME", "DUPLICATE"].includes(action!) &&
                         <TextField
-                            label={t("enterTemplateName")}
+                            label={t("templateName")}
                             value={newTemplateName}
                             onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
                             sx={{ marginTop: "20px" }}
@@ -108,7 +108,6 @@ const TemplateFormDialog = (props: Props) => {
             <DialogActions>
                 <Button
                     variant="contained"
-                    title={t("cancel")}
                     type="button"
                     onClick={handleClose}
                 >
@@ -117,7 +116,6 @@ const TemplateFormDialog = (props: Props) => {
                 <Button
                     variant="contained"
                     form="formDialog"
-                    title={t("accept")}
                     type="submit"
                 >
                     {t("accept")}

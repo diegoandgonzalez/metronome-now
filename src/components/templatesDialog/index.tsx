@@ -77,7 +77,6 @@ const TemplatesDialog = (props: Props) => {
                         variant="contained"
                         sx={{ minWidth: 0, padding: 1 }}
                         disabled={disabled}
-                        title={t("createTemplate")}
                         onClick={handleCreateTemplate}
                     >
                         <AddIcon />

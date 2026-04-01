@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { Button, Grid } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
@@ -21,7 +20,6 @@ const BeatIndicator = (props: Props) => {
     handleClick,
   } = props;
 
-  const { t } = useTranslation();
   const { palette } = useTheme();
 
   const beatColors = [palette.beatType.accent, palette.beatType.noAccent, palette.beatType.muted];
@@ -50,14 +48,12 @@ const BeatIndicator = (props: Props) => {
             <Grid key={beatArrayIndex} container alignItems={"center"} justifyContent={"center"} spacing={1}>
               {
                 beatArray.map((beatIndex) => {
-
                   const isCurrentBeat = currentBeatInMeasure === beatIndex;
                   const beatType = beatTypes[beatIndex];
 
                   return (
                     <Button
                       key={beatIndex}
-                      title={t("clickToToggleBeatType")}
                       onClick={() => handleClick(beatIndex)}
                       sx={{
                         minWidth: "30px",

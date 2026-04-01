@@ -3,7 +3,6 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import { Grid, IconButton, Typography } from "@mui/material";
 import { formatMsToHHMMSS } from "../../utils/format";
-import TimeSlider from "./timeSlider";
 
 type Props = {
   showOnlyClock: boolean;
@@ -34,50 +33,33 @@ const Clock = (props: Props) => {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "75px 1fr 75px",
+        gridTemplateColumns: "40px 1fr 40px",
         alignItems: "center",
-        height: 50,
+        gap: 10,
+        height: 70,
       }}
     >
       <Grid container justifyContent={"center"}>
         <IconButton
           onClick={handleClick}
-          title={t(isPaused ? "resume" : "pause")}
           sx={{ visibility: isPlaying && !showOnlyClock ? "visible" : "hidden" }}
         >
           {isPaused ? <PlayArrowIcon /> : <PauseIcon />}
         </IconButton>
       </Grid>
-      {
-        Boolean(secondsToStop) &&
-        <div style={{ width: "250px" }}>
-          <TimeSlider
-            value={value}
-            max={secondsToStop * 1000}
-          />
-        </div>
-      }
-      {
-        !secondsToStop &&
-        <Typography title={t("playedTime")} align="center" sx={{ fontSize: "1.4rem", width: "125px" }}>
-          {formatMsToHHMMSS(value)}
+      <div>
+        <Typography align="center" sx={{ fontSize: "1.4rem", width: "125px" }}>
+          {secondsToStop ? `-${formatMsToHHMMSS(secondsToStop * 1000 - value)}` : formatMsToHHMMSS(value)}
         </Typography>
-      }
-      <Grid container justifyContent={"center"}>
-        <Typography
-          sx={{ visibility: Boolean(currentMeasure) && !showOnlyClock ? "visible" : "hidden" }}
-        >
-          (
-          <span title={t("currentMeasure")}>{currentMeasure}</span>
-          {Boolean(measureToStop) && (
-            <>
-              <span>/</span>
-              <span title={t("timerValue")}>{measureToStop}</span>
-            </>
-          )}
-          )
-        </Typography>
-      </Grid>
+        <Grid container justifyContent={"center"}>
+          <Typography
+            variant="caption"
+            sx={{ visibility: Boolean(currentMeasure) && !showOnlyClock ? "visible" : "hidden" }}
+          >
+            {`${currentMeasure}${measureToStop ? ` ${t("of")} ${measureToStop}` : ""} ${t("measures")}`}
+          </Typography>
+        </Grid>
+      </div>
     </div>
   );
 };

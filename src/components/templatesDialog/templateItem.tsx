@@ -43,7 +43,7 @@ const TemplateItem = (props: Props) => {
                 handleSelectTemplate();
             }}
         >
-            <div title={t("setTemplate") + " " + name}>
+            <div>
                 <Typography>
                     {name}
                 </Typography>

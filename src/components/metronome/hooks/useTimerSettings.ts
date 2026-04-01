@@ -8,7 +8,7 @@ const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STO
 const initialTimerSecondsToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_SETTINGS.timerSettings.secondsToStop);
 const initialTimerMeasuresToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresToStop, DEFAULT_SETTINGS.timerSettings.measuresToStop);
 
-const useTimer = () => {
+const useTimerSettings = () => {
 
     const {
         value: secondsIsActive,
@@ -50,4 +50,4 @@ const useTimer = () => {
     };
 }
 
-export default useTimer;
+export default useTimerSettings;

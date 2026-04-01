@@ -9,7 +9,7 @@ import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalSt
 import type { MetronomeSettings, Settings } from "../../../utils/types";
 import useTimeMeasure from "./useTimeMeasure";
 import useTempoProgramming from "./useTempoProgramming";
-import useTimer from "./useTimer";
+import useTimerSettings from "./useTimerSettings";
 import useAudio from "./useAudio";
 
 const initialCountdownLength = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.countdownLength, DEFAULT_SETTINGS.metronomeSettings.countdownLength);
@@ -83,7 +83,7 @@ const useMetronome = () => {
     const {
         settings: timerSettings,
         handleSetTimerSettings,
-    } = useTimer();
+    } = useTimerSettings();
 
     const onTickRef = useRef<() => void>(() => { });
 
