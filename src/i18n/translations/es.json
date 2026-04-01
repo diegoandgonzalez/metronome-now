@@ -29,7 +29,7 @@
     "nameRequired": "El nombre es obligatorio",
     "newTemplateDuplicatedExplanation": "Se creará una nueva plantilla con la configuración de la plantilla {{templateName}}.",
     "newTemplateExplanation": "Se creará una nueva plantilla con la configuración actual.",
-    "of": "De",
+    "of": "de",
     "playInLoop": "Reproducir en bucle",
     "rename": "Renombrar",
     "renameTemplate": "Renombrar plantilla",

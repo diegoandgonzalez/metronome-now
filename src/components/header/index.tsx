@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { Button, Grid, IconButton, Typography } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
@@ -16,8 +15,6 @@ const Header = (props: Props) => {
         handleShortcutsClick,
         handleSettingsClick,
     } = props;
-
-    const { t } = useTranslation();
 
     return (
         <header style={{ width: "100%", padding: 20, paddingTop: 10, paddingBottom: 0 }}>
