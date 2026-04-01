@@ -4,7 +4,7 @@
     "bpm": "bpm",
     "bpmMustBeInRange": "Los BPM debe estar entre {{min}} y {{max}}",
     "bpmProgramming": "Programación de BPM",
-    "bpmProgrammingAndTimer": "Programación de BPM y temporizador",
+    "bpmProgrammingAndTimer": "Programación de BPM y Temporizador",
     "bpmToChangeMustBeInRange": "El BPM a cambiar debe estar entre {{min}} y {{max}}",
     "cancel": "Cancelar",
     "change": "Cambiar",
