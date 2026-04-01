@@ -21,7 +21,10 @@ const CustomSnackbar = () => {
                 onClose={handleClose}
                 severity={(type || "error") as AlertColor}
                 variant="filled"
-                sx={{ width: '100%' }}
+                sx={{
+                    width: "100%",
+                    borderRadius: (theme) => theme.shape.borderRadius,
+                }}
             >
                 {text}
             </Alert>
