@@ -66,8 +66,6 @@ const Metronome = () => {
         templateFormData,
         handleSelectTemplateToPlayById,
         handleSelectTemplateByPosition,
-        handleSelectPrevTemplate,
-        handleSelectNextTemplate,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
         handleOpenDeleteTemplate,
@@ -144,8 +142,6 @@ const Metronome = () => {
     useExecuteKeyPressed("8", "keyup", () => handleSelectTemplateByPosition(8));
     useExecuteKeyPressed("9", "keyup", () => handleSelectTemplateByPosition(9));
     useExecuteKeyPressed("9", "keyup", () => handleSelectTemplateByPosition(9));
-    useExecuteKeyPressed("ArrowLeft", "keydown", handleSelectPrevTemplate);
-    useExecuteKeyPressed("ArrowRight", "keydown", handleSelectNextTemplate);
 
     const { t } = useTranslation();
 

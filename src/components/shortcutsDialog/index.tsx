@@ -20,8 +20,6 @@ const shortcuts = [
     { shortcut: "T", label: "templates" },
     { shortcut: "0", label: "setDefaultTemplate" },
     { shortcut: "1 - 9", label: "setTemplate" },
-    { shortcut: "←", label: "prevTemplate" },
-    { shortcut: "→", label: "nextTemplate" },
     { shortcut: "S", label: "settings" },
     { shortcut: "?", label: "shortcuts" },
 ];
