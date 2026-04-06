@@ -50,6 +50,7 @@ const ShortcutsDialog = (props: Props) => {
                                 <Grid
                                     key={shortcutItem.shortcut}
                                     container
+                                    alignItems={"center"}
                                     justifyContent={"space-between"}
                                     spacing={2}
                                     sx={{
