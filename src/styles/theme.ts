@@ -177,16 +177,19 @@ const appTheme = createTheme({
                         backgroundColor: theme.palette.secondary.main,
                         color: "white",
                         "&:hover": {
-                            backgroundColor: theme.palette.secondary.dark,
+                            backgroundColor: theme.palette.border.main,
                         },
                     }),
                 },
             ],
             styleOverrides: {
-                root: {
+                root: ({ theme }) => ({
                     fontWeight: 400,
                     textTransform: "none",
-                },
+                    "&:hover": {
+                        backgroundColor: theme.palette.primary.light,
+                    },
+                }),
             },
         },
         MuiTextField: {

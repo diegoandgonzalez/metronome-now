@@ -13,6 +13,7 @@ type Props = {
   currentMeasure: number;
   measureToStop: number;
   handleClick: () => void;
+  handleToggleMetronome: () => void;
 };
 
 const Clock = (props: Props) => {
@@ -35,8 +36,7 @@ const Clock = (props: Props) => {
         display: "grid",
         gridTemplateColumns: "40px 1fr 40px",
         alignItems: "center",
-        gap: 10,
-        height: 70,
+        gap: 5,
       }}
     >
       <Grid container justifyContent={"center"}>
@@ -47,19 +47,14 @@ const Clock = (props: Props) => {
           {isPaused ? <PlayArrowIcon /> : <PauseIcon />}
         </IconButton>
       </Grid>
-      <div>
+      <Grid container direction={"column"} alignItems={"center"}>
         <Typography align="center" sx={{ fontSize: "1.4rem", width: "125px" }}>
           {secondsToStop ? `-${formatMsToHHMMSS(secondsToStop * 1000 - value)}` : formatMsToHHMMSS(value)}
         </Typography>
-        <Grid container justifyContent={"center"}>
-          <Typography
-            variant="caption"
-            sx={{ visibility: Boolean(currentMeasure) && !showOnlyClock ? "visible" : "hidden" }}
-          >
-            {`${currentMeasure}${measureToStop ? ` ${t("of")} ${measureToStop}` : ""} ${t("measures")}`}
-          </Typography>
-        </Grid>
-      </div>
+        <Typography variant="caption">
+          {`${currentMeasure}${measureToStop ? ` ${t("of")} ${measureToStop}` : ""} ${t("measures")}`}
+        </Typography>
+      </Grid>
     </div>
   );
 };

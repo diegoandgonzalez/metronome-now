@@ -162,27 +162,23 @@ const Metronome = () => {
                 handleSettingsClick={handleOpenSettingsDialog}
             />
             <Grid
-                container direction={"column"} alignItems={"center"} justifyContent={"center"} wrap="nowrap" spacing={{ xl: 4 }}
+                container direction={"column"} alignItems={"center"} justifyContent={"space-evenly"} wrap="nowrap" spacing={{ xl: 4 }}
                 sx={{
                     padding: "20px",
                     paddingTop: "10px",
                     height: "calc(100svh - 100px)",
                 }}
             >
-                <Typography
-                    align="center"
-                    sx={{
-                        marginBottom: "5px",
-                        visibility: !selectedTemplateToPlayName ? "hidden" : "visible",
-                    }}
-                >
-                    {selectedTemplateToPlayName || t("defaultTemplate")}
-                </Typography>
                 <Grid container direction={"column"} alignItems={"center"} spacing={3}>
-                    <BPMInput
-                        initialBPM={settings.metronomeSettings.bpm}
-                        handleChange={handleSetBPM}
-                    />
+                    <Grid container direction={"column"} alignItems={"center"} spacing={1}>
+                        <Typography sx={{ fontSize: "0.9rem", visibility: !selectedTemplateToPlayName ? "hidden" : "visible" }}>
+                            {selectedTemplateToPlayName || t("defaultTemplate")}
+                        </Typography>
+                        <BPMInput
+                            initialBPM={settings.metronomeSettings.bpm}
+                            handleChange={handleSetBPM}
+                        />
+                    </Grid>
                     <TimeSignatureInput
                         noteValue={settings.metronomeSettings.noteValue}
                         beatsPerMeasure={settings.metronomeSettings.beatsPerMeasure}
@@ -197,7 +193,7 @@ const Metronome = () => {
                     currentBeatInMeasure={currentBeatInMeasure}
                     handleClick={handleToggleBeatType}
                 />
-                <Grid container direction={"column"} alignItems={"center"}>
+                <Grid container direction={"column"} alignItems={"center"} spacing={1}>
                     <Clock
                         showOnlyClock={isInCountdown}
                         isPlaying={isPlaying}
@@ -207,6 +203,7 @@ const Metronome = () => {
                         currentMeasure={currentMeasure < 0 ? 0 : currentMeasure + 1}
                         measureToStop={settings.timerSettings.measuresIsActive ? settings.timerSettings.measuresToStop : 0}
                         handleClick={handleTogglePauseMetronome}
+                        handleToggleMetronome={handleToggleMetronome}
                     />
                 </Grid>
                 <Grid
@@ -306,7 +303,7 @@ const Metronome = () => {
                         handleClose={handleCloseAboutDialog}
                     />
                 }
-            </Grid >
+            </Grid>
         </>
     );
 }

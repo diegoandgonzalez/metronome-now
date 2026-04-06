@@ -39,7 +39,7 @@ const BeatIndicator = (props: Props) => {
       container direction={"column"} alignItems={"center"} justifyContent={"center"} spacing={1}
       sx={{
         minHeight: "80px",
-        margin: "40px 0px",
+        margin: "30px 0px",
       }}
     >
       {
