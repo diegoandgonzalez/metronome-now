@@ -56,6 +56,7 @@
     "templates": "Plantillas",
     "timeCannotBeEmpty": "Los minutos y los segundos no pueden estar ambos vacíos",
     "timer": "Temporizador",
+    "timerExplanation": "Si “Detener por tiempo” y “Detener por compases” están ambos activados, el metrónomo se detendrá cuando se cumpla cualquiera de las dos condiciones.",
     "to": "Hasta",
     "toBPMMustBeInRange": "El BPM final debe estar entre {{min}} y {{max}}",
     "update": "Actualizar",

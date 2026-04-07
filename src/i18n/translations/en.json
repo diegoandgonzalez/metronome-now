@@ -56,6 +56,7 @@
     "templates": "Templates",
     "timeCannotBeEmpty": "Minutes and seconds cannot be both empty",
     "timer": "Timer",
+    "timerExplanation": "If both “Stop by time” and “Stop by measures” are active, metronome will stop when any condition is met.",
     "to": "To",
     "toBPMMustBeInRange": "To BPM must be between {{min}} and {{max}}",
     "update": "Update",

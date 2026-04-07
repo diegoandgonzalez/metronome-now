@@ -15,6 +15,7 @@ import {
     MenuItem,
     Switch,
     TextField,
+    Typography,
 } from "@mui/material";
 import Container from "../container";
 import CustomDialogTitle from "../dialog/customDialogTitle";
@@ -87,24 +88,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
     const setFormValue = (value: boolean | number | string, fieldName: FieldNamesType) => {
         setFieldsWithErrors((prev) => prev.filter((name) => name !== fieldName));
-
-        if (fieldName === "isTimeActive") {
-            setFormData((prev) => ({
-                ...prev,
-                [fieldName]: value as boolean,
-                "isMeasuresActive": false,
-            }));
-            return;
-        }
-
-        if (fieldName === "isMeasuresActive") {
-            setFormData((prev) => ({
-                ...prev,
-                [fieldName]: value as boolean,
-                "isTimeActive": false,
-            }));
-            return;
-        }
 
         setFormData((prev) => ({
             ...prev,
@@ -448,6 +431,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                         }}
                                     />
                                 </Grid>
+                                <Typography variant="caption">
+                                    {t("timerExplanation")}
+                                </Typography>
                             </Grid>
                         </Container>
                     </Grid>
