@@ -34,15 +34,15 @@ type FormDataType = {
     countdownLength: number,
     isTempoProgrammingActive: boolean,
     isLoop: boolean,
-    bpmToChange: number | string,
-    measuresToChangeBPM: number | string,
-    fromBPM: number | string,
-    toBPM: number | string,
+    bpmToChange: number,
+    measuresToChangeBPM: number,
+    fromBPM: number,
+    toBPM: number,
     isTimeActive: boolean,
     isMeasuresActive: boolean,
-    secondsToStop: number | string,
-    minutesToStop: number | string,
-    measuresToStop: number | string,
+    secondsToStop: number,
+    minutesToStop: number,
+    measuresToStop: number,
 }
 
 type FieldNamesType = keyof FormDataType;
@@ -108,15 +108,12 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
         setFormData((prev) => ({
             ...prev,
-            [fieldName]: value,
+            [fieldName]: typeof value === "string" ? Math.round(Number(value)) : value,
         }));
     };
 
-    const handleSubmit = () => {
+    const validate = () => {
         const {
-            countdownLength,
-            isTempoProgrammingActive,
-            isLoop,
             bpmToChange,
             measuresToChangeBPM,
             fromBPM,
@@ -128,98 +125,107 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             measuresToStop,
         } = formData;
 
-        const formattedFromBPM = Math.round(Number(fromBPM));
-        const formattedToBPM = Math.round(Number(toBPM));
-        const formattedBPMToChange = Math.round(Number(bpmToChange));
-        const formattedMeasuresToChangeBPM = Math.round(Number(measuresToChangeBPM));
-
-        const formattedSeconds = Math.round(Number(secondsToStop));
-        const formattedMinutes = Math.round(Number(minutesToStop));
-        const formattedMeasures = Math.round(Number(measuresToStop));
-        const totalSeconds = formattedMinutes * 60 + formattedSeconds;
-
         let dataIsValid = true;
         const newFieldsWithErrors: FieldNamesType[] = [];
 
-        if (!(formattedFromBPM >= METRONOME_CONSTANTS.minBPM && formattedFromBPM <= METRONOME_CONSTANTS.maxBPM)) {
+        if (!(fromBPM >= METRONOME_CONSTANTS.minBPM && fromBPM <= METRONOME_CONSTANTS.maxBPM)) {
             handleOpenSnackbar(t("fromBPMMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
             newFieldsWithErrors.push("fromBPM");
             dataIsValid = false;
         }
 
-        if (!(formattedToBPM >= METRONOME_CONSTANTS.minBPM && formattedFromBPM <= METRONOME_CONSTANTS.maxBPM)) {
+        if (!(toBPM >= METRONOME_CONSTANTS.minBPM && fromBPM <= METRONOME_CONSTANTS.maxBPM)) {
             handleOpenSnackbar(t("toBPMMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
             newFieldsWithErrors.push("toBPM");
             dataIsValid = false;
         }
 
-        if (formattedFromBPM === formattedToBPM) {
+        if (fromBPM === toBPM) {
             handleOpenSnackbar(t("fromBPMMustBeDifferentThanToBPM"));
             newFieldsWithErrors.push("fromBPM", "toBPM");
             dataIsValid = false;
         }
 
-        if (!(formattedBPMToChange >= 0 && formattedBPMToChange <= METRONOME_CONSTANTS.maxBPM)) {
+        if (!(bpmToChange >= 0 && bpmToChange <= METRONOME_CONSTANTS.maxBPM)) {
             handleOpenSnackbar(t("bpmToChangeMustBeInRange", { min: 0, max: METRONOME_CONSTANTS.maxBPM }));
             newFieldsWithErrors.push("bpmToChange");
             dataIsValid = false;
         }
 
-        if (!(formattedMeasuresToChangeBPM >= TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM && formattedMeasuresToChangeBPM <= TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM)) {
+        if (!(measuresToChangeBPM >= TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM && measuresToChangeBPM <= TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM)) {
             handleOpenSnackbar(t("measuresToChangeBPMMustBeInRange", { min: TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM, max: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM }));
             newFieldsWithErrors.push("measuresToChangeBPM");
             dataIsValid = false;
         }
 
-        if (isTimeActive && !formattedSeconds && !formattedMinutes) {
+        if (isTimeActive && !secondsToStop && !minutesToStop) {
             handleOpenSnackbar(t("timeCannotBeEmpty"));
             newFieldsWithErrors.push("minutesToStop", "secondsToStop");
             dataIsValid = false;
         }
 
-        if (!(formattedSeconds >= 0 && formattedSeconds <= TIMER_CONSTANTS.maxSecondsToStop)) {
+        if (!(secondsToStop >= 0 && secondsToStop <= TIMER_CONSTANTS.maxSecondsToStop)) {
             handleOpenSnackbar(t("secondsMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxSecondsToStop }));
             newFieldsWithErrors.push("secondsToStop");
             dataIsValid = false;
         }
 
-        if (!(formattedMinutes >= 0 && formattedMinutes <= TIMER_CONSTANTS.maxMinutesToStop)) {
+        if (!(minutesToStop >= 0 && minutesToStop <= TIMER_CONSTANTS.maxMinutesToStop)) {
             handleOpenSnackbar(t("minutesMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxMinutesToStop }));
             newFieldsWithErrors.push("minutesToStop");
             dataIsValid = false;
         }
 
-        if (!(formattedMeasures >= 0 && formattedMeasures <= TIMER_CONSTANTS.maxMeasuresToStop)) {
+        if (!(measuresToStop >= 0 && measuresToStop <= TIMER_CONSTANTS.maxMeasuresToStop)) {
             handleOpenSnackbar(t("measuresToStopMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxMeasuresToStop }));
             newFieldsWithErrors.push("measuresToStop");
             dataIsValid = false;
         }
 
-        if (isMeasuresActive && !formattedMeasures) {
+        if (isMeasuresActive && !measuresToStop) {
             handleOpenSnackbar(t("measuresToStopCannotBeEmpty"));
             newFieldsWithErrors.push("measuresToStop");
             dataIsValid = false;
         }
 
-        if (!dataIsValid) {
-            setFieldsWithErrors(newFieldsWithErrors);
+        if (!dataIsValid) setFieldsWithErrors(newFieldsWithErrors);
+        return dataIsValid;
+    }
+
+    const handleSubmit = () => {
+        if (!validate()) {
             return;
         }
 
+        const {
+            isTempoProgrammingActive,
+            isLoop,
+            countdownLength,
+            bpmToChange,
+            measuresToChangeBPM,
+            fromBPM,
+            toBPM,
+            isTimeActive,
+            isMeasuresActive,
+            secondsToStop,
+            minutesToStop,
+            measuresToStop,
+        } = formData;
+
         const newTempoProgrammingSettings = {
             isActive: isTempoProgrammingActive,
-            bpmToChange: formattedBPMToChange,
-            measuresToChangeBPM: formattedMeasuresToChangeBPM,
-            fromBPM: formattedFromBPM,
-            toBPM: formattedToBPM,
-            isLoop: isLoop,
+            bpmToChange,
+            measuresToChangeBPM,
+            fromBPM,
+            toBPM,
+            isLoop,
         }
 
         const newTimerSettings = {
-            isTimeActive: isTimeActive,
-            secondsToStop: totalSeconds,
-            isMeasuresActive: isMeasuresActive,
-            measuresToStop: formattedMeasures,
+            secondsToStop: minutesToStop * 60 + secondsToStop,
+            isTimeActive,
+            measuresToStop,
+            isMeasuresActive,
         }
 
         handleSetTimerSettings(newTimerSettings);
