@@ -41,9 +41,9 @@ export const DEFAULT_SETTINGS: Settings = {
         countdownLength: 0,
     },
     timerSettings: {
-        secondsIsActive: false,
+        isTimeActive: false,
         secondsToStop: 600,
-        measuresIsActive: false,
+        isMeasuresActive: false,
         measuresToStop: 8,
     },
     tempoProgrammingSettings: {

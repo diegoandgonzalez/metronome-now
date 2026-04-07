@@ -20,7 +20,7 @@
     "from": "Desde",
     "fromBPMMustBeDifferentThanToBPM": "El BPM inicial debe ser diferente al BPM final",
     "fromBPMMustBeInRange": "El BPM inicial debe estar entre {{min}} y {{max}}",
-    "isActive": "Activo",
+    "isActive": "Activado",
     "measures": "compases",
     "measuresToChangeBPMMustBeInRange": "Los compases para cambiar el BPM deben estar entre {{min}} y {{max}}",
     "measuresToStopCannotBeEmpty": "Los compases para cambiar el BPM no pueden estar vacíos",

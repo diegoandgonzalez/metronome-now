@@ -3,6 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useTranslation } from "react-i18next";
 import type { MetronomeSettings, Template } from "../../utils/types";
 import { DEFAULT_SETTINGS, TEMPLATE_NAME_MAX_LENGTH } from "../../utils/constants";
+import useIsMobileSize from "../../utils/hooks/useIsMobileSize";
 import TemplateItem from "./templateItem";
 import { Button, Dialog, DialogContent, Grid, List, ListItem, TextField } from "@mui/material";
 import CustomDialogTitle from "../dialog/customDialogTitle";
@@ -40,6 +41,7 @@ const TemplatesDialog = (props: Props) => {
     const [searchValue, setSearchValue] = useState("");
 
     const { t } = useTranslation();
+    const useFullScreen = useIsMobileSize();
 
     const getTemplateDescription = (metronomeSettings: MetronomeSettings = DEFAULT_SETTINGS.metronomeSettings) => {
         return `${metronomeSettings.bpm} bpm - ${metronomeSettings.beatsPerMeasure}/${metronomeSettings.noteValue}`;
@@ -54,7 +56,8 @@ const TemplatesDialog = (props: Props) => {
             open={open}
             onClose={handleClose}
             maxWidth={"xs"}
-            fullWidth
+            fullWidth={true}
+            fullScreen={useFullScreen}
         >
             <CustomDialogTitle onClose={handleClose}>
                 {t("templates")}

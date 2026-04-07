@@ -3,22 +3,22 @@ import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
 import type { TimerSettings } from "../../../utils/types";
 
-const initialTimerSecondsIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsIsActive, DEFAULT_SETTINGS.timerSettings.secondsIsActive);
-const initialTimerMeasuresIsActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresIsActive, DEFAULT_SETTINGS.timerSettings.measuresIsActive);
+const initialTimerIsTimeActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerIsTimeActive, DEFAULT_SETTINGS.timerSettings.isTimeActive);
+const initialTimerIsMeasuresActive = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerIsMeasuresActive, DEFAULT_SETTINGS.timerSettings.isMeasuresActive);
 const initialTimerSecondsToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerSecondsToStop, DEFAULT_SETTINGS.timerSettings.secondsToStop);
 const initialTimerMeasuresToStop = getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.timerMeasuresToStop, DEFAULT_SETTINGS.timerSettings.measuresToStop);
 
 const useTimerSettings = () => {
 
     const {
-        value: secondsIsActive,
+        value: isTimeActive,
         handleSyncValue: handleSyncSecondsIsActive,
-    } = useStateRefLocalStorageSync<boolean>(initialTimerSecondsIsActive, LOCAL_STORAGE_KEYS.timerSecondsIsActive);
+    } = useStateRefLocalStorageSync<boolean>(initialTimerIsTimeActive, LOCAL_STORAGE_KEYS.timerIsTimeActive);
 
     const {
-        value: measuresIsActive,
+        value: isMeasuresActive,
         handleSyncValue: handleSyncMeasuresIsActive,
-    } = useStateRefLocalStorageSync<boolean>(initialTimerMeasuresIsActive, LOCAL_STORAGE_KEYS.timerMeasuresIsActive);
+    } = useStateRefLocalStorageSync<boolean>(initialTimerIsMeasuresActive, LOCAL_STORAGE_KEYS.timerIsMeasuresActive);
 
     const {
         value: secondsToStop,
@@ -32,15 +32,15 @@ const useTimerSettings = () => {
 
     const handleSetTimerSettings = (newSettings: TimerSettings = DEFAULT_SETTINGS.timerSettings) => {
         handleSyncSecondsToStop(newSettings.secondsToStop);
-        handleSyncSecondsIsActive(newSettings.secondsIsActive);
+        handleSyncSecondsIsActive(newSettings.isTimeActive);
         handleSyncMeasuresToStop(newSettings.measuresToStop);
-        handleSyncMeasuresIsActive(newSettings.measuresIsActive);
+        handleSyncMeasuresIsActive(newSettings.isMeasuresActive);
     }
 
-    const settings = {
-        secondsIsActive,
+    const settings: TimerSettings = {
+        isTimeActive,
         secondsToStop,
-        measuresIsActive,
+        isMeasuresActive,
         measuresToStop,
     };
 

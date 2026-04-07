@@ -27,7 +27,7 @@ const SettingsDialog = (props: Props) => {
             onClose={handleClose}
             sx={{
                 "& .MuiDialog-paper": {
-                    width: "250px",
+                    width: "300px",
                 },
             }}
         >

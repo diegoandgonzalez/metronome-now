@@ -218,8 +218,8 @@ const useMetronome = () => {
                     handleSyncBPM(getProgrammedBPM(measureNumberRef.current, bpmRef.current));
                 }
 
-                const shouldStopMetronomeBySeconds = timerSettings?.secondsIsActive && currentTimeRef.current >= (timerSettings.secondsToStop * 1000);
-                const shouldStopMetronomeByMeasures = timerSettings?.measuresIsActive && measureNumberRef.current === (timerSettings.measuresToStop - 1) && isLastBeatInMeasure;  // stop metronome on last beat of last programmed measure
+                const shouldStopMetronomeBySeconds = timerSettings.isTimeActive && currentTimeRef.current >= (timerSettings.secondsToStop * 1000);
+                const shouldStopMetronomeByMeasures = timerSettings.isMeasuresActive && measureNumberRef.current === (timerSettings.measuresToStop - 1) && isLastBeatInMeasure;  // stop metronome on last beat of last programmed measure
                 if (shouldStopMetronomeBySeconds || shouldStopMetronomeByMeasures) {
                     handleStopMetronome();
                 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { TempoProgrammingSettings, TimerSettings } from "../../utils/types";
 import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS, TIMER_CONSTANTS } from "../../utils/constants";
+import useIsMobileSize from "../../utils/hooks/useIsMobileSize";
 import useSnackbarContext from "../snackbar/useSnackbarContext";
 import {
     Button,
@@ -29,6 +30,23 @@ type Props = {
     handleClose: () => void,
 }
 
+type FormDataType = {
+    countdownLength: number,
+    isTempoProgrammingActive: boolean,
+    isLoop: boolean,
+    bpmToChange: number | string,
+    measuresToChangeBPM: number | string,
+    fromBPM: number | string,
+    toBPM: number | string,
+    isTimeActive: boolean,
+    isMeasuresActive: boolean,
+    secondsToStop: number | string,
+    minutesToStop: number | string,
+    measuresToStop: number | string,
+}
+
+type FieldNamesType = keyof FormDataType;
+
 const TempoProgrammingTimerDialog = (props: Props) => {
 
     const {
@@ -42,31 +60,77 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         handleClose,
     } = props;
 
+    const useFullScreen = useIsMobileSize();
+
     const { t } = useTranslation();
 
     const {
         handleOpen: handleOpenSnackbar,
     } = useSnackbarContext();
 
-    const [countdownLength, setCountdownLength] = useState<number>(initialCountdownLength);
+    const [formData, setFormData] = useState<FormDataType>({
+        countdownLength: initialCountdownLength,
+        isTempoProgrammingActive: initialTempoProgrammingSettings.isActive,
+        isLoop: initialTempoProgrammingSettings.isLoop,
+        bpmToChange: initialTempoProgrammingSettings.bpmToChange,
+        measuresToChangeBPM: initialTempoProgrammingSettings.measuresToChangeBPM,
+        fromBPM: initialTempoProgrammingSettings.fromBPM,
+        toBPM: initialTempoProgrammingSettings.toBPM,
+        isTimeActive: initialTimerSettings.isTimeActive,
+        isMeasuresActive: initialTimerSettings.isMeasuresActive,
+        secondsToStop: initialTimerSettings.secondsToStop % 60,
+        minutesToStop: Math.floor(initialTimerSettings.secondsToStop / 60),
+        measuresToStop: initialTimerSettings.measuresToStop,
+    });
 
-    const [isTempoProgrammingActive, setIsTempoProgrammingActive] = useState<boolean>(initialTempoProgrammingSettings.isActive);
-    const [isLoop, setIsLoop] = useState<boolean>(initialTempoProgrammingSettings.isLoop);
-    const [bpmToChange, setBPMToChange] = useState<number | string>(initialTempoProgrammingSettings.bpmToChange);
-    const [measuresToChangeBPM, setMeasuresToChangeBPM] = useState<number | string>(initialTempoProgrammingSettings.measuresToChangeBPM);
-    const [fromBPM, setFromBPM] = useState<number | string>(initialTempoProgrammingSettings.fromBPM);
-    const [toBPM, setToBPM] = useState<number | string>(initialTempoProgrammingSettings.toBPM);
+    const [fieldsWithErrors, setFieldsWithErrors] = useState<FieldNamesType[]>([]);
 
-    const [isSecondsActive, setIsSecondsActive] = useState(initialTimerSettings.secondsIsActive);
-    const [isMeasuresActive, setIsMeasuresActive] = useState(initialTimerSettings.measuresIsActive);
-    const [secondsToStop, setSecondsToStop] = useState<number | string>(initialTimerSettings.secondsToStop % 60);
-    const [minutesToStop, setMinutesToStop] = useState<number | string>(Math.floor(initialTimerSettings.secondsToStop / 60));
-    const [measuresToStop, setMeasuresToStop] = useState<number | string>(initialTimerSettings.measuresToStop);
+    const setFormValue = (value: boolean | number | string, fieldName: FieldNamesType) => {
+        setFieldsWithErrors((prev) => prev.filter((name) => name !== fieldName));
+
+        if (fieldName === "isTimeActive") {
+            setFormData((prev) => ({
+                ...prev,
+                [fieldName]: value as boolean,
+                "isMeasuresActive": false,
+            }));
+            return;
+        }
+
+        if (fieldName === "isMeasuresActive") {
+            setFormData((prev) => ({
+                ...prev,
+                [fieldName]: value as boolean,
+                "isTimeActive": false,
+            }));
+            return;
+        }
+
+        setFormData((prev) => ({
+            ...prev,
+            [fieldName]: value,
+        }));
+    };
 
     const handleSubmit = () => {
-        const formattedBPMToChange = Math.round(Number(bpmToChange));
+        const {
+            countdownLength,
+            isTempoProgrammingActive,
+            isLoop,
+            bpmToChange,
+            measuresToChangeBPM,
+            fromBPM,
+            toBPM,
+            isTimeActive,
+            isMeasuresActive,
+            secondsToStop,
+            minutesToStop,
+            measuresToStop,
+        } = formData;
+
         const formattedFromBPM = Math.round(Number(fromBPM));
         const formattedToBPM = Math.round(Number(toBPM));
+        const formattedBPMToChange = Math.round(Number(bpmToChange));
         const formattedMeasuresToChangeBPM = Math.round(Number(measuresToChangeBPM));
 
         const formattedSeconds = Math.round(Number(secondsToStop));
@@ -74,53 +138,71 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         const formattedMeasures = Math.round(Number(measuresToStop));
         const totalSeconds = formattedMinutes * 60 + formattedSeconds;
 
+        let dataIsValid = true;
+        const newFieldsWithErrors: FieldNamesType[] = [];
+
         if (!(formattedFromBPM >= METRONOME_CONSTANTS.minBPM && formattedFromBPM <= METRONOME_CONSTANTS.maxBPM)) {
             handleOpenSnackbar(t("fromBPMMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
-            return;
+            newFieldsWithErrors.push("fromBPM");
+            dataIsValid = false;
         }
 
         if (!(formattedToBPM >= METRONOME_CONSTANTS.minBPM && formattedFromBPM <= METRONOME_CONSTANTS.maxBPM)) {
             handleOpenSnackbar(t("toBPMMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
-            return;
+            newFieldsWithErrors.push("toBPM");
+            dataIsValid = false;
         }
 
         if (formattedFromBPM === formattedToBPM) {
             handleOpenSnackbar(t("fromBPMMustBeDifferentThanToBPM"));
-            return;
+            newFieldsWithErrors.push("fromBPM", "toBPM");
+            dataIsValid = false;
         }
 
         if (!(formattedBPMToChange >= 0 && formattedBPMToChange <= METRONOME_CONSTANTS.maxBPM)) {
             handleOpenSnackbar(t("bpmToChangeMustBeInRange", { min: 0, max: METRONOME_CONSTANTS.maxBPM }));
-            return;
+            newFieldsWithErrors.push("bpmToChange");
+            dataIsValid = false;
         }
 
         if (!(formattedMeasuresToChangeBPM >= TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM && formattedMeasuresToChangeBPM <= TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM)) {
             handleOpenSnackbar(t("measuresToChangeBPMMustBeInRange", { min: TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM, max: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM }));
-            return;
+            newFieldsWithErrors.push("measuresToChangeBPM");
+            dataIsValid = false;
         }
 
-        if (isSecondsActive && !formattedSeconds && !formattedMinutes) {
+        if (isTimeActive && !formattedSeconds && !formattedMinutes) {
             handleOpenSnackbar(t("timeCannotBeEmpty"));
-            return;
+            newFieldsWithErrors.push("minutesToStop", "secondsToStop");
+            dataIsValid = false;
         }
 
         if (!(formattedSeconds >= 0 && formattedSeconds <= TIMER_CONSTANTS.maxSecondsToStop)) {
             handleOpenSnackbar(t("secondsMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxSecondsToStop }));
-            return;
+            newFieldsWithErrors.push("secondsToStop");
+            dataIsValid = false;
         }
 
         if (!(formattedMinutes >= 0 && formattedMinutes <= TIMER_CONSTANTS.maxMinutesToStop)) {
             handleOpenSnackbar(t("minutesMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxMinutesToStop }));
-            return;
+            newFieldsWithErrors.push("minutesToStop");
+            dataIsValid = false;
         }
 
         if (!(formattedMeasures >= 0 && formattedMeasures <= TIMER_CONSTANTS.maxMeasuresToStop)) {
             handleOpenSnackbar(t("measuresToStopMustBeInRange", { min: 0, max: TIMER_CONSTANTS.maxMeasuresToStop }));
-            return;
+            newFieldsWithErrors.push("measuresToStop");
+            dataIsValid = false;
         }
 
         if (isMeasuresActive && !formattedMeasures) {
             handleOpenSnackbar(t("measuresToStopCannotBeEmpty"));
+            newFieldsWithErrors.push("measuresToStop");
+            dataIsValid = false;
+        }
+
+        if (!dataIsValid) {
+            setFieldsWithErrors(newFieldsWithErrors);
             return;
         }
 
@@ -134,9 +216,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         }
 
         const newTimerSettings = {
-            secondsIsActive: isSecondsActive,
+            isTimeActive: isTimeActive,
             secondsToStop: totalSeconds,
-            measuresIsActive: isMeasuresActive,
+            isMeasuresActive: isMeasuresActive,
             measuresToStop: formattedMeasures,
         }
 
@@ -150,6 +232,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         <Dialog
             open={open}
             onClose={handleClose}
+            maxWidth={"lg"}
+            fullWidth={true}
+            fullScreen={useFullScreen}
         >
             <CustomDialogTitle onClose={handleClose}>
                 {t("settings")}
@@ -163,14 +248,14 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     }}
                     noValidate
                 >
-                    <Grid container spacing={2}>
-                        <Grid size={12}>
+                    <Grid container spacing={2.5}>
+                        <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
                             <TextField
                                 fullWidth
                                 select
                                 label={t("countdown")}
-                                value={countdownLength}
-                                onChange={(e) => setCountdownLength(Number(e.target.value))}
+                                value={formData.countdownLength}
+                                onChange={(e) => setFormValue(Number(e.target.value), "countdownLength")}
                                 sx={{ minWidth: "175px", marginTop: "15px" }}
                             >
                                 {
@@ -183,26 +268,28 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             </TextField>
                         </Grid>
                         <Container label={t("bpmProgramming")}>
-                            <Grid container size={12} spacing={3}>
+                            <Grid container size={12} columnSpacing={4} rowSpacing={1}>
                                 <FormControlLabel
                                     label={t("isActive")}
-                                    control={<Switch checked={isTempoProgrammingActive} />}
-                                    onChange={() => setIsTempoProgrammingActive((prev) => !prev)}
+                                    control={<Switch checked={formData.isTempoProgrammingActive} />}
+                                    onChange={() => setFormValue(!formData.isTempoProgrammingActive, "isTempoProgrammingActive")}
                                 />
                                 <FormControlLabel
                                     label={t("playInLoop")}
-                                    control={<Switch checked={isLoop} />}
-                                    onChange={() => setIsLoop((prev) => !prev)}
+                                    control={<Switch checked={formData.isLoop} />}
+                                    onChange={() => setFormValue(!formData.isLoop, "isLoop")}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
+                                    error={fieldsWithErrors.includes("fromBPM")}
                                     fullWidth
                                     label={t("from")}
                                     type="number"
-                                    value={fromBPM}
-                                    onChange={(e) => setFromBPM(e.target.value.substring(0, 3))}
+                                    value={formData.fromBPM}
+                                    onChange={(e) => setFormValue(e.target.value.substring(0, 3), "fromBPM")}
                                     variant="outlined"
+                                    helperText={`${METRONOME_CONSTANTS.minBPM} ${t("to").toLowerCase()} ${METRONOME_CONSTANTS.maxBPM} ${t("bpm")}`}
                                     slotProps={{
                                         input: {
                                             endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
@@ -214,14 +301,16 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     }}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
+                                    error={fieldsWithErrors.includes("toBPM")}
                                     fullWidth
                                     label={t("to")}
                                     type="number"
-                                    value={toBPM}
-                                    onChange={(e) => setToBPM(e.target.value.substring(0, 3))}
+                                    value={formData.toBPM}
+                                    onChange={(e) => setFormValue(e.target.value.substring(0, 3), "toBPM")}
                                     variant="outlined"
+                                    helperText={`${METRONOME_CONSTANTS.minBPM} ${t("to").toLowerCase()} ${METRONOME_CONSTANTS.maxBPM} ${t("bpm")}`}
                                     slotProps={{
                                         input: {
                                             endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
@@ -233,14 +322,16 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     }}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
+                                    error={fieldsWithErrors.includes("bpmToChange")}
                                     fullWidth
                                     label={t("change")}
                                     type="number"
-                                    value={bpmToChange}
-                                    onChange={(e) => setBPMToChange(e.target.value.substring(0, 3))}
+                                    value={formData.bpmToChange}
+                                    onChange={(e) => setFormValue(e.target.value.substring(0, 3), "bpmToChange")}
                                     variant="outlined"
+                                    helperText={`${0} ${t("to").toLowerCase()} ${METRONOME_CONSTANTS.maxBPM} ${t("bpm")}`}
                                     slotProps={{
                                         input: {
                                             endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
@@ -252,14 +343,16 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     }}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
+                                    error={fieldsWithErrors.includes("measuresToChangeBPM")}
                                     fullWidth
                                     label={t("every")}
                                     type="number"
-                                    value={measuresToChangeBPM}
-                                    onChange={(e) => setMeasuresToChangeBPM(e.target.value.substring(0, 3))}
+                                    value={formData.measuresToChangeBPM}
+                                    onChange={(e) => setFormValue(e.target.value.substring(0, 3), "measuresToChangeBPM")}
                                     variant="outlined"
+                                    helperText={`${TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM} ${t("to").toLowerCase()} ${TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM} ${t("measures")}`}
                                     slotProps={{
                                         input: {
                                             endAdornment: <InputAdornment position="end">{t("measures")}</InputAdornment>,
@@ -273,24 +366,23 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             </Grid>
                         </Container>
                         <Container label={t("timer")}>
-                            <Grid container size={12} alignItems={"center"} sx={{ marginBottom: { xs: 2, md: 0 } }}>
+                            <Grid container size={12} alignItems={"center"}>
                                 <Grid size={{ sm: 12, md: 6 }}>
                                     <FormControlLabel
                                         label={t("stopByTime")}
-                                        control={<Switch checked={isSecondsActive} />}
-                                        onChange={() => {
-                                            setIsSecondsActive((prev) => !prev);
-                                            setIsMeasuresActive(false);
-                                        }}
+                                        control={<Switch checked={formData.isTimeActive} />}
+                                        onChange={() => setFormValue(!formData.isTimeActive, "isTimeActive")}
                                     />
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <TextField
+                                        error={fieldsWithErrors.includes("minutesToStop")}
                                         fullWidth
                                         type="number"
-                                        value={minutesToStop}
-                                        onChange={(e) => setMinutesToStop(e.target.value.substring(0, 3))}
+                                        value={formData.minutesToStop}
+                                        onChange={(e) => setFormValue(e.target.value.substring(0, 3), "minutesToStop")}
                                         variant="outlined"
+                                        helperText={`${0} ${t("to").toLowerCase()} ${TIMER_CONSTANTS.maxMinutesToStop} ${t("minutes")}`}
                                         slotProps={{
                                             input: {
                                                 endAdornment: <InputAdornment position="end">{t("minutes")}</InputAdornment>,
@@ -304,11 +396,13 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <TextField
+                                        error={fieldsWithErrors.includes("secondsToStop")}
                                         fullWidth
                                         type="number"
-                                        value={secondsToStop}
-                                        onChange={(e) => setSecondsToStop(e.target.value.substring(0, 3))}
+                                        value={formData.secondsToStop}
+                                        onChange={(e) => setFormValue(e.target.value.substring(0, 3), "secondsToStop")}
                                         variant="outlined"
+                                        helperText={`${t("from")} ${0} ${t("to").toLowerCase()} ${TIMER_CONSTANTS.maxSecondsToStop} ${t("seconds")}`}
                                         slotProps={{
                                             input: {
                                                 endAdornment: <InputAdornment position="end">{t("seconds")}</InputAdornment>
@@ -325,19 +419,17 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                     <FormControlLabel
                                         label={t("stopByMeasures")}
-                                        control={<Switch checked={isMeasuresActive} />}
-                                        onChange={() => {
-                                            setIsMeasuresActive((prev) => !prev);
-                                            setIsSecondsActive(false);
-                                        }}
+                                        control={<Switch checked={formData.isMeasuresActive} />}
+                                        onChange={() => setFormValue(!formData.isMeasuresActive, "isMeasuresActive")}
                                     />
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                     <TextField
+                                        error={fieldsWithErrors.includes("measuresToStop")}
                                         fullWidth
                                         type="number"
-                                        value={measuresToStop}
-                                        onChange={(e) => setMeasuresToStop(e.target.value.substring(0, 3))}
+                                        value={formData.measuresToStop}
+                                        onChange={(e) => setFormValue(e.target.value.substring(0, 3), "measuresToStop")}
                                         variant="outlined"
                                         slotProps={{
                                             input: {

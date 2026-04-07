@@ -7,9 +7,9 @@ export type MetronomeSettings = {
 }
 
 export type TimerSettings = {
-    secondsIsActive: boolean,
+    isTimeActive: boolean,
     secondsToStop: number,
-    measuresIsActive: boolean,
+    isMeasuresActive: boolean,
     measuresToStop: number,
 }
 

@@ -15,7 +15,7 @@ const Container = (props: Props) => {
 
     return (
         <Grid
-            container spacing={2}
+            container size={12} spacing={2.5}
             sx={{
                 position: "relative",
                 border: "1px solid",
@@ -30,9 +30,10 @@ const Container = (props: Props) => {
                 <Typography
                     sx={{
                         position: "absolute",
-                        top: -25,
+                        top: -13,
                         left: 10,
-                        padding: 1.5,
+                        paddingLeft: 1,
+                        paddingRight: 1,
                         backgroundColor: ({ palette }) => palette.background.default,
                     }}
                 >

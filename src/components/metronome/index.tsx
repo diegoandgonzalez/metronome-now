@@ -148,8 +148,8 @@ const Metronome = () => {
     const settingsIsActive = (
         settings.metronomeSettings.countdownLength ||
         settings.tempoProgrammingSettings.isActive ||
-        settings.timerSettings.secondsIsActive ||
-        settings.timerSettings.measuresIsActive
+        settings.timerSettings.isTimeActive ||
+        settings.timerSettings.isMeasuresActive
     );
 
     const selectedTemplateToPlayName = templates.find((template) => template.id === selectedTemplateIdToPlay)?.name || "";
@@ -162,7 +162,7 @@ const Metronome = () => {
                 handleSettingsClick={handleOpenSettingsDialog}
             />
             <Grid
-                container direction={"column"} alignItems={"center"} justifyContent={"space-evenly"} wrap="nowrap" spacing={{ xl: 4 }}
+                container direction={"column"} alignItems={"center"} justifyContent={"space-evenly"} wrap="nowrap"
                 sx={{
                     padding: "20px",
                     paddingTop: "10px",
@@ -199,9 +199,9 @@ const Metronome = () => {
                         isPlaying={isPlaying}
                         isPaused={isPaused}
                         value={currentTime}
-                        secondsToStop={settings.timerSettings.secondsIsActive ? settings.timerSettings.secondsToStop : 0}
+                        secondsToStop={settings.timerSettings.isTimeActive ? settings.timerSettings.secondsToStop : 0}
                         currentMeasure={currentMeasure < 0 ? 0 : currentMeasure + 1}
-                        measureToStop={settings.timerSettings.measuresIsActive ? settings.timerSettings.measuresToStop : 0}
+                        measureToStop={settings.timerSettings.isMeasuresActive ? settings.timerSettings.measuresToStop : 0}
                         handleClick={handleTogglePauseMetronome}
                         handleToggleMetronome={handleToggleMetronome}
                     />
@@ -252,7 +252,7 @@ const Metronome = () => {
                     />
                 }
                 {
-                    templateDialogIsOpen && !templateFormDialogIsOpen &&
+                    templateDialogIsOpen &&
                     <TemplatesDialog
                         open={templateDialogIsOpen}
                         disabled={!isDBReady}
