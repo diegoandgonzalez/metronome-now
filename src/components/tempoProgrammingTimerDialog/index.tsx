@@ -237,7 +237,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     }}
                     noValidate
                 >
-                    <Grid container spacing={2.5}>
+                    <Grid container spacing={2}>
                         <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
                             <TextField
                                 fullWidth

@@ -15,7 +15,7 @@ const Container = (props: Props) => {
 
     return (
         <Grid
-            container size={12} spacing={2.5}
+            container size={12} spacing={2}
             sx={{
                 position: "relative",
                 border: "1px solid",
