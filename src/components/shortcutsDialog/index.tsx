@@ -16,11 +16,10 @@ const shortcuts = [
     { shortcut: "P", label: "playStop" },
     { shortcut: "↑", label: "addBPM" },
     { shortcut: "↓", label: "subtractBPM" },
-    { shortcut: "B", label: "bpmProgrammingAndTimer" },
+    { shortcut: "S", label: "bpmProgrammingAndTimer" },
     { shortcut: "T", label: "templates" },
     { shortcut: "0", label: "setDefaultTemplate" },
     { shortcut: "1 - 9", label: "setTemplate" },
-    { shortcut: "S", label: "settings" },
     { shortcut: "?", label: "shortcuts" },
 ];
 

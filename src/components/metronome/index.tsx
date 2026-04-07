@@ -15,7 +15,6 @@ import TemplateFormDialog from "../templateFormDialog";
 import AboutDialog from "../aboutDialog";
 import ShortcutsDialog from "../shortcutsDialog";
 import TemplatesDialog from "../templatesDialog";
-import SettingsDialog from "../settingsDialog/settingsDialog";
 import useDialog from "../dialog/useDialog";
 import useExecuteKeyPressed from "../../utils/hooks/useExecuteKeyPressed";
 import useLanguage from "../../utils/hooks/useLanguage";
@@ -25,7 +24,6 @@ import useTemplates from "./hooks/useTemplates";
 const Metronome = () => {
 
     const {
-        language,
         handleChangeLanguage,
     } = useLanguage();
 
@@ -94,12 +92,6 @@ const Metronome = () => {
     } = useDialog();
 
     const {
-        dialogIsOpen: settingsDialogIsOpen,
-        handleOpenDialog: handleOpenSettingsDialog,
-        handleCloseDialog: handleCloseSettingsDialog,
-    } = useDialog();
-
-    const {
         dialogIsOpen: shortcutsDialogIsOpen,
         handleOpenDialog: handleOpenShortcutsDialog,
         handleCloseDialog: handleCloseShortcutsDialog,
@@ -128,9 +120,8 @@ const Metronome = () => {
 
     useExecuteKeyPressed("p", "keyup", handleToggleMetronome);
     useExecuteKeyPressed("?", "keyup", () => executeIfNoDialogIsOpen(handleOpenShortcutsDialog));
-    useExecuteKeyPressed("s", "keyup", () => executeIfNoDialogIsOpen(handleOpenSettingsDialog));
     useExecuteKeyPressed("t", "keyup", () => executeIfNoDialogIsOpen(handleOpenTemplateDialog));
-    useExecuteKeyPressed("b", "keyup", () => executeIfNoDialogIsOpen(handleOpenBPMProgrammingTimerDialog));
+    useExecuteKeyPressed("s", "keyup", () => executeIfNoDialogIsOpen(handleOpenBPMProgrammingTimerDialog));
     useExecuteKeyPressed("0", "keyup", () => handleSelectTemplateByPosition(0));
     useExecuteKeyPressed("1", "keyup", () => handleSelectTemplateByPosition(1));
     useExecuteKeyPressed("2", "keyup", () => handleSelectTemplateByPosition(2));
@@ -159,7 +150,7 @@ const Metronome = () => {
             <Header
                 handleTitleClick={handleOpenAboutDialog}
                 handleShortcutsClick={handleOpenShortcutsDialog}
-                handleSettingsClick={handleOpenSettingsDialog}
+                handleChangeLanguage={handleChangeLanguage}
             />
             <Grid
                 container direction={"column"} alignItems={"center"} justifyContent={"space-evenly"} wrap="nowrap"
@@ -278,15 +269,6 @@ const Metronome = () => {
                         templates={templates}
                         handleSubmit={(newName) => handleSubmitActionTemplate(newName, settings)}
                         handleClose={handleCloseTemplateForm}
-                    />
-                }
-                {
-                    settingsDialogIsOpen &&
-                    <SettingsDialog
-                        open={settingsDialogIsOpen}
-                        language={language}
-                        handleChangeLanguage={handleChangeLanguage}
-                        handleClose={handleCloseSettingsDialog}
                     />
                 }
                 {

@@ -1,12 +1,14 @@
 import { Button, Grid, IconButton, Typography } from "@mui/material";
+import { LANGUAGE_OPTIONS } from "../../utils/constants";
 import useIsMobileSize from "../../utils/hooks/useIsMobileSize";
-import SettingsIcon from "@mui/icons-material/Settings";
+import DotsMenu from "../dotsMenu";
 import HelpIcon from "@mui/icons-material/Help";
+import TranslateIcon from "@mui/icons-material/Translate";
 
 type Props = {
     handleTitleClick: () => void,
     handleShortcutsClick: () => void,
-    handleSettingsClick: () => void,
+    handleChangeLanguage: (arg: string) => void,
 }
 
 const Header = (props: Props) => {
@@ -14,7 +16,7 @@ const Header = (props: Props) => {
     const {
         handleTitleClick,
         handleShortcutsClick,
-        handleSettingsClick,
+        handleChangeLanguage,
     } = props;
 
     const isMobileSize = useIsMobileSize();
@@ -50,11 +52,17 @@ const Header = (props: Props) => {
                             <HelpIcon />
                         </IconButton>
                     }
-                    <IconButton
-                        onClick={handleSettingsClick} // TODO: mover el modal a menu para elegir lenguaje y listo
-                    >
-                        <SettingsIcon />
-                    </IconButton>
+                    <DotsMenu
+                        icon={<TranslateIcon />}
+                        options={LANGUAGE_OPTIONS.map((language) => {
+                            return ({
+                                key: language.value,
+                                label: language.name,
+                                onClick: () => handleChangeLanguage(language.value),
+                            })
+                        })
+                        }
+                    />
                 </Grid>
             </Grid>
         </header>

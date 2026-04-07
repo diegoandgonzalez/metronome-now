@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 type Props = {
+    icon?: React.ReactNode,
     options: {
         key: string,
         label: string,
@@ -12,7 +13,7 @@ type Props = {
     }[],
 };
 
-const DotsMenu = ({ options }: Props) => {
+const DotsMenu = ({ options, icon }: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -28,7 +29,7 @@ const DotsMenu = ({ options }: Props) => {
     return (
         <div>
             <IconButton onClick={handleOpen}>
-                <MoreVertIcon />
+                {icon || <MoreVertIcon />}
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
