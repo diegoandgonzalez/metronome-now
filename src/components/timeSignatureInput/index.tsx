@@ -23,11 +23,11 @@ const TimeSignatureInput = (props: Props) => {
   return (
     <Grid container alignItems={"center"} spacing={1}>
       <Select
-        aria-label={t("beatsPerMeasure")}
         value={beatsPerMeasure}
         onChange={(e) => handleSetBeatsPerMeasure(Number(e.target.value))}
         sx={{ width: 40 }}
-      >
+        inputProps={{ "aria-label": t("beatsPerMeasure") }}
+        >
         {
           METRONOME_CONSTANTS.beatsPerMeasureOptions.map((_, index) => {
             return (
@@ -38,10 +38,10 @@ const TimeSignatureInput = (props: Props) => {
       </Select>
       <Typography>/</Typography>
       <Select
-        aria-label={t("beatValue")}
         value={noteValue}
         onChange={(e) => handleSetNoteValue(Number(e.target.value))}
         sx={{ width: 40 }}
+        inputProps={{ "aria-label": t("beatValue") }}
       >
         {
           METRONOME_CONSTANTS.noteValueOptions.map((noteValue) => {

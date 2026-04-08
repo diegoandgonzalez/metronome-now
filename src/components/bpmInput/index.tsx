@@ -68,7 +68,6 @@ const BPMInput = (props: Props) => {
       <Grid container direction={"column"}>
         <TextField
           disabled={disabled}
-          aria-label={t("bpm")}
           type="number"
           id="bpmInput"
           value={bpm}
@@ -94,6 +93,7 @@ const BPMInput = (props: Props) => {
               endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
             },
             htmlInput: {
+              "aria-label": t("bpm"),
               min: METRONOME_CONSTANTS.minBPM,
               max: METRONOME_CONSTANTS.maxBPM,
             }
