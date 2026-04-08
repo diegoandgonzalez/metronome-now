@@ -29,6 +29,7 @@
     "measuresToChangeBPMMustBeInRange": "Los compases para cambiar el BPM deben estar entre {{min}} y {{max}}",
     "measuresToStopCannotBeEmpty": "Los compases para cambiar el BPM no pueden estar vacíos",
     "measuresToStopMustBeInRange": "Los compases para detener deben estar entre {{min}} y {{max}}",
+    "metaDescription": "Metronomo online para tu día a día. ¡Con programación de bpm, temporizador, plantillas y más!",
     "minutes": "min.",
     "minutesMustBeInRange": "Los minutos deben estar entre {{min}} y {{max}}",
     "nameInUse": "El nombre ya está en uso",
