@@ -4,6 +4,7 @@ import useIsMobileSize from "../../utils/hooks/useIsMobileSize";
 import DotsMenu from "../dotsMenu";
 import HelpIcon from "@mui/icons-material/Help";
 import TranslateIcon from "@mui/icons-material/Translate";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     handleTitleClick: () => void,
@@ -19,6 +20,7 @@ const Header = (props: Props) => {
         handleChangeLanguage,
     } = props;
 
+    const { t } = useTranslation();
     const isMobileSize = useIsMobileSize();
 
     return (
@@ -47,12 +49,14 @@ const Header = (props: Props) => {
                     {
                         !isMobileSize &&
                         <IconButton
+                            aria-label={t("shortcuts")}
                             onClick={handleShortcutsClick}
                         >
                             <HelpIcon />
                         </IconButton>
                     }
                     <DotsMenu
+                        ariaLabel={t("language")}
                         icon={<TranslateIcon />}
                         options={LANGUAGE_OPTIONS.map((language) => {
                             return ({

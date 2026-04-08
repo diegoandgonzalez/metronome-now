@@ -136,139 +136,141 @@ const Metronome = () => {
                 handleShortcutsClick={handleOpenShortcutsDialog}
                 handleChangeLanguage={handleChangeLanguage}
             />
-            <Grid
-                container direction={"column"} alignItems={"center"} justifyContent={"space-evenly"} wrap="nowrap"
-                sx={{
-                    padding: "20px",
-                    paddingTop: "10px",
-                    height: "calc(100svh - 100px)",
-                }}
-            >
-                <Grid container direction={"column"} alignItems={"center"} spacing={3}>
-                    <Grid container direction={"column"} alignItems={"center"} spacing={1}>
-                        <Typography sx={{ fontSize: "0.9rem", visibility: !selectedTemplateToPlayName ? "hidden" : "visible" }}>
-                            {selectedTemplateToPlayName || t("defaultTemplate")}
-                        </Typography>
-                        <BPMInput
-                            disabled={settings.tempoProgrammingSettings.isActive}
-                            initialBPM={settings.metronomeSettings.bpm}
-                            handleChange={handleSetBPM}
+            <main>
+                <Grid
+                    container direction={"column"} alignItems={"center"} justifyContent={"space-evenly"} wrap="nowrap"
+                    sx={{
+                        padding: "20px",
+                        paddingTop: "10px",
+                        height: "calc(100svh - 100px)",
+                    }}
+                >
+                    <Grid container direction={"column"} alignItems={"center"} spacing={3}>
+                        <Grid container direction={"column"} alignItems={"center"} spacing={1}>
+                            <Typography sx={{ fontSize: "0.9rem", visibility: !selectedTemplateToPlayName ? "hidden" : "visible" }}>
+                                {selectedTemplateToPlayName || t("defaultTemplate")}
+                            </Typography>
+                            <BPMInput
+                                disabled={settings.tempoProgrammingSettings.isActive}
+                                initialBPM={settings.metronomeSettings.bpm}
+                                handleChange={handleSetBPM}
+                            />
+                        </Grid>
+                        <TimeSignatureInput
+                            noteValue={settings.metronomeSettings.noteValue}
+                            beatsPerMeasure={settings.metronomeSettings.beatsPerMeasure}
+                            handleSetBeatsPerMeasure={handleSetBeatsPerMeasure}
+                            handleSetNoteValue={handleSetNoteValue}
                         />
                     </Grid>
-                    <TimeSignatureInput
-                        noteValue={settings.metronomeSettings.noteValue}
-                        beatsPerMeasure={settings.metronomeSettings.beatsPerMeasure}
-                        handleSetBeatsPerMeasure={handleSetBeatsPerMeasure}
-                        handleSetNoteValue={handleSetNoteValue}
-                    />
-                </Grid>
-                <BeatIndicator
-                    isPlaying={isPlaying}
-                    beatTypes={settings.metronomeSettings.beatTypes}
-                    beatsPerMeasure={settings.metronomeSettings.beatsPerMeasure}
-                    currentBeatInMeasure={currentBeatInMeasure}
-                    handleClick={handleToggleBeatType}
-                />
-                <Grid container direction={"column"} alignItems={"center"} spacing={1}>
-                    <Clock
-                        showOnlyClock={isInCountdown}
+                    <BeatIndicator
                         isPlaying={isPlaying}
-                        isPaused={isPaused}
-                        value={currentTime}
-                        secondsToStop={settings.timerSettings.isTimeActive ? settings.timerSettings.secondsToStop : 0}
-                        currentMeasure={currentMeasure < 0 ? 0 : currentMeasure + 1}
-                        measureToStop={settings.timerSettings.isMeasuresActive ? settings.timerSettings.measuresToStop : 0}
-                        handleClick={handleTogglePauseMetronome}
-                        handleToggleMetronome={handleToggleMetronome}
+                        beatTypes={settings.metronomeSettings.beatTypes}
+                        beatsPerMeasure={settings.metronomeSettings.beatsPerMeasure}
+                        currentBeatInMeasure={currentBeatInMeasure}
+                        handleClick={handleToggleBeatType}
                     />
+                    <Grid container direction={"column"} alignItems={"center"} spacing={1}>
+                        <Clock
+                            showOnlyClock={isInCountdown}
+                            isPlaying={isPlaying}
+                            isPaused={isPaused}
+                            value={currentTime}
+                            secondsToStop={settings.timerSettings.isTimeActive ? settings.timerSettings.secondsToStop : 0}
+                            currentMeasure={currentMeasure < 0 ? 0 : currentMeasure + 1}
+                            measureToStop={settings.timerSettings.isMeasuresActive ? settings.timerSettings.measuresToStop : 0}
+                            handleClick={handleTogglePauseMetronome}
+                            handleToggleMetronome={handleToggleMetronome}
+                        />
+                    </Grid>
+                    <Grid
+                        container alignItems={"center"} justifyContent={"space-evenly"} spacing={2}
+                        sx={{ marginTop: "30px" }}
+                    >
+                        <Button
+                            variant={settingsIsActive ? "contained" : "dark"}
+                            sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
+                            onClick={() => {
+                                handleOpenBPMProgrammingTimerDialog();
+                                handleStopMetronome();
+                            }}
+                        >
+                            <UpdateIcon sx={{ fontSize: 40 }} />
+                        </Button>
+                        <Button
+                            variant="contained"
+                            sx={{ minWidth: 0, padding: 0.5, borderRadius: "100%" }}
+                            onClick={handleToggleMetronome}
+                        >
+                            {isPlaying ? <StopIcon sx={{ fontSize: 80 }} /> : <PlayArrowIcon sx={{ fontSize: 80 }} />}
+                        </Button>
+                        <Button
+                            variant={selectedTemplateIdToPlay ? "contained" : "dark"}
+                            sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
+                            onClick={() => {
+                                handleOpenTemplateDialog();
+                                handleStopMetronome();
+                            }}
+                        >
+                            <PlaylistAddIcon sx={{ fontSize: 40 }} />
+                        </Button>
+                    </Grid>
+                    {
+                        bpmProgrammingTimerDialogIsOpen &&
+                        <TempoProgrammingTimerDialog
+                            open={bpmProgrammingTimerDialogIsOpen}
+                            initialCountdownLength={settings.metronomeSettings.countdownLength}
+                            initialTempoProgrammingSettings={settings.tempoProgrammingSettings}
+                            initialTimerSettings={settings.timerSettings}
+                            handleSubmit={handleSetTempoProgrammingAndTimerSettings}
+                            handleClose={handleCloseBPMProgrammingTimerDialog}
+                        />
+                    }
+                    {
+                        templateDialogIsOpen &&
+                        <TemplatesDialog
+                            open={templateDialogIsOpen}
+                            disabled={!isDBReady}
+                            selectedTemplateId={selectedTemplateIdToPlay}
+                            templates={templates}
+                            handleSelectTemplate={(templateId) => {
+                                handleSelectTemplateToPlayById(templateId);
+                                handleCloseTemplateDialog();
+                            }}
+                            handleCreateTemplate={handleOpenCreateTemplate}
+                            handleRenameTemplate={handleOpenRenameTemplate}
+                            handleUpdateTemplate={handleOpenUpdateTemplate}
+                            handleDuplicateTemplate={handleOpenDuplicateTemplate}
+                            handleDeleteTemplate={handleOpenDeleteTemplate}
+                            handleClose={handleCloseTemplateDialog}
+                        />
+                    }
+                    {
+                        templateFormDialogIsOpen &&
+                        <TemplateFormDialog
+                            open={templateFormDialogIsOpen}
+                            data={templateFormData!}
+                            templates={templates}
+                            handleSubmit={(newName) => handleSubmitActionTemplate(newName, settings)}
+                            handleClose={handleCloseTemplateForm}
+                        />
+                    }
+                    {
+                        shortcutsDialogIsOpen &&
+                        <ShortcutsDialog
+                            open={shortcutsDialogIsOpen}
+                            handleClose={handleCloseShortcutsDialog}
+                        />
+                    }
+                    {
+                        aboutDialogIsOpen &&
+                        <AboutDialog
+                            open={aboutDialogIsOpen}
+                            handleClose={handleCloseAboutDialog}
+                        />
+                    }
                 </Grid>
-                <Grid
-                    container alignItems={"center"} justifyContent={"space-evenly"} spacing={2}
-                    sx={{ marginTop: "30px" }}
-                >
-                    <Button
-                        variant={settingsIsActive ? "contained" : "dark"}
-                        sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
-                        onClick={() => {
-                            handleOpenBPMProgrammingTimerDialog();
-                            handleStopMetronome();
-                        }}
-                    >
-                        <UpdateIcon sx={{ fontSize: 40 }} />
-                    </Button>
-                    <Button
-                        variant="contained"
-                        sx={{ minWidth: 0, padding: 0.5, borderRadius: "100%" }}
-                        onClick={handleToggleMetronome}
-                    >
-                        {isPlaying ? <StopIcon sx={{ fontSize: 80 }} /> : <PlayArrowIcon sx={{ fontSize: 80 }} />}
-                    </Button>
-                    <Button
-                        variant={selectedTemplateIdToPlay ? "contained" : "dark"}
-                        sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
-                        onClick={() => {
-                            handleOpenTemplateDialog();
-                            handleStopMetronome();
-                        }}
-                    >
-                        <PlaylistAddIcon sx={{ fontSize: 40 }} />
-                    </Button>
-                </Grid>
-                {
-                    bpmProgrammingTimerDialogIsOpen &&
-                    <TempoProgrammingTimerDialog
-                        open={bpmProgrammingTimerDialogIsOpen}
-                        initialCountdownLength={settings.metronomeSettings.countdownLength}
-                        initialTempoProgrammingSettings={settings.tempoProgrammingSettings}
-                        initialTimerSettings={settings.timerSettings}
-                        handleSubmit={handleSetTempoProgrammingAndTimerSettings}
-                        handleClose={handleCloseBPMProgrammingTimerDialog}
-                    />
-                }
-                {
-                    templateDialogIsOpen &&
-                    <TemplatesDialog
-                        open={templateDialogIsOpen}
-                        disabled={!isDBReady}
-                        selectedTemplateId={selectedTemplateIdToPlay}
-                        templates={templates}
-                        handleSelectTemplate={(templateId) => {
-                            handleSelectTemplateToPlayById(templateId);
-                            handleCloseTemplateDialog();
-                        }}
-                        handleCreateTemplate={handleOpenCreateTemplate}
-                        handleRenameTemplate={handleOpenRenameTemplate}
-                        handleUpdateTemplate={handleOpenUpdateTemplate}
-                        handleDuplicateTemplate={handleOpenDuplicateTemplate}
-                        handleDeleteTemplate={handleOpenDeleteTemplate}
-                        handleClose={handleCloseTemplateDialog}
-                    />
-                }
-                {
-                    templateFormDialogIsOpen &&
-                    <TemplateFormDialog
-                        open={templateFormDialogIsOpen}
-                        data={templateFormData!}
-                        templates={templates}
-                        handleSubmit={(newName) => handleSubmitActionTemplate(newName, settings)}
-                        handleClose={handleCloseTemplateForm}
-                    />
-                }
-                {
-                    shortcutsDialogIsOpen &&
-                    <ShortcutsDialog
-                        open={shortcutsDialogIsOpen}
-                        handleClose={handleCloseShortcutsDialog}
-                    />
-                }
-                {
-                    aboutDialogIsOpen &&
-                    <AboutDialog
-                        open={aboutDialogIsOpen}
-                        handleClose={handleCloseAboutDialog}
-                    />
-                }
-            </Grid>
+            </main>
         </>
     );
 }

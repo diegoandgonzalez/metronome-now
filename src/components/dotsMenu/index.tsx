@@ -3,8 +3,10 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useTranslation } from "react-i18next";
 
 type Props = {
+    ariaLabel?: string,
     icon?: React.ReactNode,
     options: {
         key: string,
@@ -13,8 +15,9 @@ type Props = {
     }[],
 };
 
-const DotsMenu = ({ options, icon }: Props) => {
+const DotsMenu = ({ options, icon, ariaLabel }: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const { t } = useTranslation();
 
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation();
@@ -28,7 +31,10 @@ const DotsMenu = ({ options, icon }: Props) => {
 
     return (
         <div>
-            <IconButton onClick={handleOpen}>
+            <IconButton
+                aria-label={ariaLabel || t("options")}
+                onClick={handleOpen}
+            >
                 {icon || <MoreVertIcon />}
             </IconButton>
             <Menu
