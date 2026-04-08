@@ -67,6 +67,15 @@ const appTheme = createTheme({
                 },
             }),
         },
+        MuiInput: {
+            styleOverrides: {
+                input: ({ theme }) => ({
+                    "&.Mui-disabled": {
+                        WebkitTextFillColor: theme.palette.text.primary,
+                    },
+                }),
+            },
+        },
         MuiInputLabel: {
             styleOverrides: {
                 root: ({ theme }) => ({

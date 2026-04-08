@@ -54,6 +54,7 @@
     "templateSelected": "Template selected",
     "templateUpdated": "Template updated",
     "templates": "Templates",
+    "tempoProgrammingActive": "BPM programming is currently active",
     "timeCannotBeEmpty": "Minutes and seconds cannot be both empty",
     "timer": "Timer",
     "timerExplanation": "If both “Stop by time” and “Stop by measures” are active, metronome will stop when any condition is met.",

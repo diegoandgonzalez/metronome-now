@@ -25,9 +25,7 @@ type Props = {
     initialCountdownLength: number,
     initialTempoProgrammingSettings: TempoProgrammingSettings,
     initialTimerSettings: TimerSettings,
-    handleSetCountdownLength: (newSettings: number) => void,
-    handleSetTempoProgrammingSettings: (newSettings: TempoProgrammingSettings) => void,
-    handleSetTimerSettings: (newSettings: TimerSettings) => void,
+    handleSubmit: (countdownLength: number, tempoProgrammingSettings: TempoProgrammingSettings, timerSettings: TimerSettings) => void,
     handleClose: () => void,
 }
 
@@ -55,9 +53,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         initialCountdownLength,
         initialTempoProgrammingSettings,
         initialTimerSettings,
-        handleSetCountdownLength,
-        handleSetTempoProgrammingSettings,
-        handleSetTimerSettings,
+        handleSubmit,
         handleClose,
     } = props;
 
@@ -175,7 +171,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         return dataIsValid;
     }
 
-    const handleSubmit = () => {
+    const submit = () => {
         if (!validate()) {
             return;
         }
@@ -211,9 +207,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             isMeasuresActive,
         }
 
-        handleSetTimerSettings(newTimerSettings);
-        handleSetTempoProgrammingSettings(newTempoProgrammingSettings);
-        handleSetCountdownLength(countdownLength);
+        handleSubmit(countdownLength, newTempoProgrammingSettings, newTimerSettings);
         handleClose();
     }
 
@@ -233,7 +227,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     id="formDialog"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        handleSubmit();
+                        submit();
                     }}
                     noValidate
                 >

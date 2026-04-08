@@ -6,9 +6,10 @@ import { METRONOME_CONSTANTS } from "../../utils/constants";
 import useSnackbarContext from "../snackbar/useSnackbarContext";
 import useTapTempo from "../metronome/hooks/useTapTempo";
 import useExecuteKeyPressed from "../../utils/hooks/useExecuteKeyPressed";
-import { Button, Grid, InputAdornment, TextField } from "@mui/material";
+import { Button, Grid, InputAdornment, TextField, Tooltip } from "@mui/material";
 
 type Props = {
+  disabled?: boolean,
   initialBPM: number,
   handleChange: (value: number) => void,
 }
@@ -16,6 +17,7 @@ type Props = {
 const BPMInput = (props: Props) => {
 
   const {
+    disabled = false,
     initialBPM,
     handleChange,
   } = props;
@@ -32,6 +34,7 @@ const BPMInput = (props: Props) => {
   const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
 
   const handleSubmit = (newValue = bpm) => {
+    if (disabled) return;
     const valueToSubmit = parseInt(newValue);
     if (isNaN(valueToSubmit) || valueToSubmit < METRONOME_CONSTANTS.minBPM || valueToSubmit > METRONOME_CONSTANTS.maxBPM) {
       handleOpenSnackbar(t("bpmMustBeInRange", { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
@@ -44,12 +47,14 @@ const BPMInput = (props: Props) => {
   }
 
   const subtractOneBPM = () => {
+    if (disabled) return;
     const newBPM = Number(bpm) - 1;
     if (newBPM < METRONOME_CONSTANTS.minBPM) return;
     handleSubmit(String(newBPM));
   }
 
   const addOneBPM = () => {
+    if (disabled) return;
     const newBPM = Number(bpm) + 1;
     if (newBPM > METRONOME_CONSTANTS.maxBPM) return;
     handleSubmit(String(newBPM));
@@ -59,65 +64,71 @@ const BPMInput = (props: Props) => {
   useExecuteKeyPressed("ArrowDown", "keydown", subtractOneBPM);
 
   return (
-    <Grid container direction={"column"}>
-      <TextField
-        type="number"
-        id="bpmInput"
-        value={bpm}
-        onChange={(e) => setBPM(e.target.value.substring(0, 3))}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.currentTarget.blur();
-            handleSubmit();
-          }
-        }}
-        onBlur={() => handleSubmit()}
-        variant="standard"
-        sx={{
-          "& input": {
-            fontSize: "75px",
-            textAlign: "center",
-            marginLeft: "42px",
-          },
-        }}
-        slotProps={{
-          input: {
-            disableUnderline: true,
-            endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
-          },
-          htmlInput: {
-            min: METRONOME_CONSTANTS.minBPM,
-            max: METRONOME_CONSTANTS.maxBPM,
-          }
-        }}
-      />
-      <Grid container justifyContent={"center"} spacing={1}>
-        <Button
-          variant="contained"
-          sx={{ minWidth: 0, padding: 1 }}
-          onClick={subtractOneBPM}
-        >
-          <RemoveIcon sx={{ fontSize: 20 }} />
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            const tappedBPM = tap();
-            if (!tappedBPM) return;
-            handleSubmit(String(tappedBPM))
+    <Tooltip title={disabled ? t("tempoProgrammingActive") : ""}>
+      <Grid container direction={"column"}>
+        <TextField
+          disabled={disabled}
+          type="number"
+          id="bpmInput"
+          value={bpm}
+          onChange={(e) => setBPM(e.target.value.substring(0, 3))}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.currentTarget.blur();
+              handleSubmit();
+            }
           }}
-        >
-          {t("tapToGetBPM")}
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ minWidth: 0, padding: 1 }}
-          onClick={addOneBPM}
-        >
-          <AddIcon sx={{ fontSize: 20 }} />
-        </Button>
+          onBlur={() => handleSubmit()}
+          variant="standard"
+          sx={{
+            "& input": {
+              fontSize: "75px",
+              textAlign: "center",
+              marginLeft: "42px",
+            },
+          }}
+          slotProps={{
+            input: {
+              disableUnderline: true,
+              endAdornment: <InputAdornment position="end">{t("bpm")}</InputAdornment>,
+            },
+            htmlInput: {
+              min: METRONOME_CONSTANTS.minBPM,
+              max: METRONOME_CONSTANTS.maxBPM,
+            }
+          }}
+        />
+        <Grid container justifyContent={"center"} spacing={1}>
+          <Button
+            disabled={disabled}
+            variant="contained"
+            sx={{ minWidth: 0, padding: 1 }}
+            onClick={subtractOneBPM}
+          >
+            <RemoveIcon sx={{ fontSize: 20 }} />
+          </Button>
+          <Button
+            disabled={disabled}
+            variant="contained"
+            onClick={() => {
+              const tappedBPM = tap();
+              if (!tappedBPM) return;
+              handleSubmit(String(tappedBPM))
+            }}
+          >
+            {t("tapToGetBPM")}
+          </Button>
+          <Button
+            disabled={disabled}
+            variant="contained"
+            sx={{ minWidth: 0, padding: 1 }}
+            onClick={addOneBPM}
+          >
+            <AddIcon sx={{ fontSize: 20 }} />
+          </Button>
+        </Grid>
       </Grid>
-    </Grid>
+    </Tooltip>
   );
 };
 

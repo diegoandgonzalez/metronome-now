@@ -54,6 +54,7 @@
     "templateSelected": "Plantilla seleccionada",
     "templateUpdated": "Plantilla actualizada",
     "templates": "Plantillas",
+    "tempoProgrammingActive": "La programación de BPM se encuentra activada",
     "timeCannotBeEmpty": "Los minutos y los segundos no pueden estar ambos vacíos",
     "timer": "Temporizador",
     "timerExplanation": "Si “Detener por tiempo” y “Detener por compases” están ambos activados, el metrónomo se detendrá cuando se cumpla cualquiera de las dos condiciones.",

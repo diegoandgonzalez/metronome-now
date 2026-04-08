@@ -42,18 +42,14 @@ const Metronome = () => {
         handleSetBeatsPerMeasure,
         handleSetNoteValue,
         handleToggleBeatType,
-        handleSetCountdownLength,
-        handleSetMetronomeSettings,
-        handleSetTempoProgrammingSettings,
-        handleSetTimerSettings,
+        handleSetSettings,
+        handleSetTempoProgrammingAndTimerSettings,
     } = useMetronome();
 
     const onTemplateSelectionCallback = (newTemplateSelected?: Template) => {
         document.title = `${newTemplateSelected?.name ? newTemplateSelected.name + " - " : ""} Metronome Now`;
         handleStopMetronome();
-        handleSetMetronomeSettings(newTemplateSelected?.settings?.metronomeSettings);
-        handleSetTimerSettings(newTemplateSelected?.settings?.timerSettings);
-        handleSetTempoProgrammingSettings(newTemplateSelected?.settings?.tempoProgrammingSettings);
+        handleSetSettings(newTemplateSelected?.settings);
     }
 
     const {
@@ -106,22 +102,10 @@ const Metronome = () => {
         handleStartMetronome();
     }
 
-    const someDialogIsOpen = (
-        bpmProgrammingTimerDialogIsOpen ||
-        templateDialogIsOpen ||
-        templateFormDialogIsOpen ||
-        shortcutsDialogIsOpen
-    );
-
-    const executeIfNoDialogIsOpen = (callback: () => void) => {
-        if (someDialogIsOpen) return;
-        callback();
-    }
-
     useExecuteKeyPressed("p", "keyup", handleToggleMetronome);
-    useExecuteKeyPressed("?", "keyup", () => executeIfNoDialogIsOpen(handleOpenShortcutsDialog));
-    useExecuteKeyPressed("t", "keyup", () => executeIfNoDialogIsOpen(handleOpenTemplateDialog));
-    useExecuteKeyPressed("s", "keyup", () => executeIfNoDialogIsOpen(handleOpenBPMProgrammingTimerDialog));
+    useExecuteKeyPressed("?", "keyup", handleOpenShortcutsDialog);
+    useExecuteKeyPressed("t", "keyup", handleOpenTemplateDialog);
+    useExecuteKeyPressed("s", "keyup", handleOpenBPMProgrammingTimerDialog);
     useExecuteKeyPressed("0", "keyup", () => handleSelectTemplateByPosition(0));
     useExecuteKeyPressed("1", "keyup", () => handleSelectTemplateByPosition(1));
     useExecuteKeyPressed("2", "keyup", () => handleSelectTemplateByPosition(2));
@@ -166,6 +150,7 @@ const Metronome = () => {
                             {selectedTemplateToPlayName || t("defaultTemplate")}
                         </Typography>
                         <BPMInput
+                            disabled={settings.tempoProgrammingSettings.isActive}
                             initialBPM={settings.metronomeSettings.bpm}
                             handleChange={handleSetBPM}
                         />
@@ -236,9 +221,7 @@ const Metronome = () => {
                         initialCountdownLength={settings.metronomeSettings.countdownLength}
                         initialTempoProgrammingSettings={settings.tempoProgrammingSettings}
                         initialTimerSettings={settings.timerSettings}
-                        handleSetCountdownLength={handleSetCountdownLength}
-                        handleSetTempoProgrammingSettings={handleSetTempoProgrammingSettings}
-                        handleSetTimerSettings={handleSetTimerSettings}
+                        handleSubmit={handleSetTempoProgrammingAndTimerSettings}
                         handleClose={handleCloseBPMProgrammingTimerDialog}
                     />
                 }

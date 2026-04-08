@@ -6,7 +6,7 @@ import {
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from "../../../utils/localStorage";
 import { getUpdatedBeatTypesArray } from "../../../utils/beatTypes";
 import useStateRefLocalStorageSync from "../../../utils/hooks/useStateRefLocalStorageSync";
-import type { MetronomeSettings, Settings } from "../../../utils/types";
+import type { MetronomeSettings, Settings, TempoProgrammingSettings, TimerSettings } from "../../../utils/types";
 import useTimeMeasure from "./useTimeMeasure";
 import useTempoProgramming from "./useTempoProgramming";
 import useTimerSettings from "./useTimerSettings";
@@ -100,6 +100,12 @@ const useMetronome = () => {
         handleSyncBPM(value);
     }
 
+    const resetBPM = (tempoProgrammingSettings: TempoProgrammingSettings) => {
+        if (tempoProgrammingSettings.isActive) {
+            handleSetBPM(tempoProgrammingSettings.fromBPM);
+        }
+    }
+
     const handleSetBeatTypes = (newBeatTypes: number[]) => {
         handleSyncBeatTypes(newBeatTypes);
     }
@@ -134,14 +140,26 @@ const useMetronome = () => {
         handleSetCountdownLength(newMetronomeSettings.countdownLength);
     }
 
+    const handleSetSettings = (settings?: Settings) => {
+        handleSetMetronomeSettings(settings?.metronomeSettings);
+        handleSetTimerSettings(settings?.timerSettings);
+        handleSetTempoProgrammingSettings(settings?.tempoProgrammingSettings);
+    }
+
+    const handleSetTempoProgrammingAndTimerSettings = (newCountdownLength: number, newTempoProgrammingSettings: TempoProgrammingSettings, newTimerSettings: TimerSettings) => {
+        handleSetCountdownLength(newCountdownLength);
+        handleSetTimerSettings(newTimerSettings);
+        handleSetTempoProgrammingSettings(newTempoProgrammingSettings);
+        resetBPM(newTempoProgrammingSettings)
+    }
+
+
     const handleStartMetronome = async () => {
         await initAudio();
 
         if (!audioContextRef.current) return;
 
-        if (tempoProgrammingSettings.isActive) {
-            handleSetBPM(tempoProgrammingSettings.fromBPM);
-        }
+        resetBPM(tempoProgrammingSettings);
 
         timeToNextNoteRef.current = audioContextRef.current.currentTime;
         beatNumberRef.current = 0;
@@ -180,6 +198,7 @@ const useMetronome = () => {
         beatNumberRef.current = METRONOME_CONSTANTS.stoppedBeatIndex;
         handleSyncMeasureNumber(METRONOME_CONSTANTS.stoppedBeatIndex);
         stopTimeMeasure();
+        resetBPM(tempoProgrammingSettings);
     }
 
     const finishCountdown = () => {
@@ -261,10 +280,8 @@ const useMetronome = () => {
         handleSetBeatsPerMeasure,
         handleSetNoteValue,
         handleToggleBeatType,
-        handleSetCountdownLength,
-        handleSetMetronomeSettings,
-        handleSetTempoProgrammingSettings,
-        handleSetTimerSettings,
+        handleSetSettings,
+        handleSetTempoProgrammingAndTimerSettings,
     };
 };
 
