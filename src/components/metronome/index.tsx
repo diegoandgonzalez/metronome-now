@@ -188,6 +188,7 @@ const Metronome = () => {
                         sx={{ marginTop: "30px" }}
                     >
                         <Button
+                            aria-label={t("bpmProgrammingAndTimer")}
                             variant={settingsIsActive ? "contained" : "dark"}
                             sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
                             onClick={() => {
@@ -198,6 +199,7 @@ const Metronome = () => {
                             <UpdateIcon sx={{ fontSize: 40 }} />
                         </Button>
                         <Button
+                            aria-label={t(isPlaying ? "stop": "play")}
                             variant="contained"
                             sx={{ minWidth: 0, padding: 0.5, borderRadius: "100%" }}
                             onClick={handleToggleMetronome}
@@ -205,6 +207,7 @@ const Metronome = () => {
                             {isPlaying ? <StopIcon sx={{ fontSize: 80 }} /> : <PlayArrowIcon sx={{ fontSize: 80 }} />}
                         </Button>
                         <Button
+                            aria-label={t("templates")}
                             variant={selectedTemplateIdToPlay ? "contained" : "dark"}
                             sx={{ minWidth: 0, padding: 1, borderRadius: "100%" }}
                             onClick={() => {

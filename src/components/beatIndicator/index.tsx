@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Button, Grid } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isPlaying: boolean,
@@ -21,6 +22,7 @@ const BeatIndicator = (props: Props) => {
   } = props;
 
   const { palette } = useTheme();
+  const { t } = useTranslation();
 
   const beatColors = [palette.beatType.accent, palette.beatType.noAccent, palette.beatType.muted];
 
@@ -53,6 +55,7 @@ const BeatIndicator = (props: Props) => {
 
                   return (
                     <Button
+                      aria-label={`${t("beat")} ${beatIndex + 1}`}
                       key={beatIndex}
                       onClick={() => handleClick(beatIndex)}
                       sx={{

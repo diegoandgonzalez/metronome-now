@@ -1,5 +1,6 @@
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
 import { METRONOME_CONSTANTS } from "../../utils/constants";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   noteValue: number,
@@ -17,9 +18,12 @@ const TimeSignatureInput = (props: Props) => {
     handleSetNoteValue,
   } = props;
 
+  const { t } = useTranslation();
+
   return (
     <Grid container alignItems={"center"} spacing={1}>
       <Select
+        aria-label={t("beatsPerMeasure")}
         value={beatsPerMeasure}
         onChange={(e) => handleSetBeatsPerMeasure(Number(e.target.value))}
         sx={{ width: 40 }}
@@ -34,6 +38,7 @@ const TimeSignatureInput = (props: Props) => {
       </Select>
       <Typography>/</Typography>
       <Select
+        aria-label={t("beatValue")}
         value={noteValue}
         onChange={(e) => handleSetNoteValue(Number(e.target.value))}
         sx={{ width: 40 }}
