@@ -84,6 +84,8 @@ const TemplatesDialog = (props: Props) => {
                     sx={{ flex: 1 }}
                 />
                 <Button
+                    title={t("createTemplate")}
+                    aria-label={t("createTemplate")}
                     variant="contained"
                     sx={{ minWidth: 0, padding: 1 }}
                     disabled={disabled}

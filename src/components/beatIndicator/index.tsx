@@ -55,6 +55,7 @@ const BeatIndicator = (props: Props) => {
 
                   return (
                     <Button
+                      title={`${t("beat")} ${beatIndex + 1}`}
                       aria-label={`${t("beat")} ${beatIndex + 1}`}
                       key={beatIndex}
                       onClick={() => handleClick(beatIndex)}

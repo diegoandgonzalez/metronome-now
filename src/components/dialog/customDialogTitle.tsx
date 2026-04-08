@@ -1,5 +1,6 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { DialogTitle, Grid, IconButton } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     children: string,
@@ -13,11 +14,15 @@ const CustomDialogTitle = (props: Props) => {
         onClose,
     } = props;
 
+    const { t } = useTranslation();
+
     return (
         <DialogTitle>
             <Grid container alignItems={"center"} justifyContent={"space-between"} wrap="nowrap" spacing={5}>
                 {children}
                 <IconButton
+                    title={t("close")}
+                    aria-label={t("close")}
                     onClick={onClose}
                 >
                     <CloseIcon />

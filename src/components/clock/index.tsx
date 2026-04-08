@@ -41,6 +41,8 @@ const Clock = (props: Props) => {
     >
       <Grid container justifyContent={"center"}>
         <IconButton
+          title={t("pause")}
+          aria-label={t("pause")}
           onClick={handleClick}
           sx={{ visibility: isPlaying && !showOnlyClock ? "visible" : "hidden" }}
         >

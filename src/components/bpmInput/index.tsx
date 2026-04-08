@@ -68,6 +68,7 @@ const BPMInput = (props: Props) => {
       <Grid container direction={"column"}>
         <TextField
           disabled={disabled}
+          title={t("bpm")}
           type="number"
           id="bpmInput"
           value={bpm}
@@ -102,6 +103,7 @@ const BPMInput = (props: Props) => {
         <Grid container justifyContent={"center"} spacing={1}>
           <Button
             disabled={disabled}
+            title={t("subtractBPM")}
             aria-label={t("subtractBPM")}
             variant="contained"
             sx={{ minWidth: 0, padding: 1 }}
@@ -111,6 +113,7 @@ const BPMInput = (props: Props) => {
           </Button>
           <Button
             disabled={disabled}
+            title={t("tapToGetBPM")}
             variant="contained"
             onClick={() => {
               const tappedBPM = tap();
@@ -122,6 +125,7 @@ const BPMInput = (props: Props) => {
           </Button>
           <Button
             disabled={disabled}
+            title={t("addBPM")}
             aria-label={t("addBPM")}
             variant="contained"
             sx={{ minWidth: 0, padding: 1 }}
