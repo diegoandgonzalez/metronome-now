@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useTranslation } from "react-i18next";
-import type { MetronomeSettings, Template } from "../../utils/types";
+import type { Settings, Template } from "../../utils/types";
 import { DEFAULT_SETTINGS, TEMPLATE_NAME_MAX_LENGTH } from "../../utils/constants";
 import useIsMobileSize from "../../utils/hooks/useIsMobileSize";
 import TemplateItem from "./templateItem";
@@ -43,8 +43,15 @@ const TemplatesDialog = (props: Props) => {
     const { t } = useTranslation();
     const useFullScreen = useIsMobileSize();
 
-    const getTemplateDescription = (metronomeSettings: MetronomeSettings = DEFAULT_SETTINGS.metronomeSettings) => {
-        return `${metronomeSettings.bpm} bpm - ${metronomeSettings.beatsPerMeasure}/${metronomeSettings.noteValue}`;
+    const getTemplateDescription = (settings: Settings = DEFAULT_SETTINGS) => {
+        const {
+            metronomeSettings,
+            tempoProgrammingSettings,
+        } = settings;
+
+        const tempo = tempoProgrammingSettings.isActive ? `${tempoProgrammingSettings.fromBPM} ${t("bpm")} - ${tempoProgrammingSettings.toBPM} ${t("bpm")}` : `${metronomeSettings.bpm} bpm`;
+        const timeSignature = `(${metronomeSettings.beatsPerMeasure}/${metronomeSettings.noteValue})`;
+        return `${tempo} ${timeSignature}`;
     }
 
     const filteredTemplates = useMemo(() => {
@@ -91,7 +98,7 @@ const TemplatesDialog = (props: Props) => {
                             editable={false}
                             selected={selectedTemplateId === ""}
                             name={t("defaultTemplate")}
-                            description={getTemplateDescription(DEFAULT_SETTINGS.metronomeSettings)}
+                            description={getTemplateDescription(DEFAULT_SETTINGS)}
                             handleSelectTemplate={() => handleSelectTemplate("")}
                         />
                     </ListItem>
@@ -103,7 +110,7 @@ const TemplatesDialog = (props: Props) => {
                                         editable={true}
                                         selected={selectedTemplateId === template.id}
                                         name={template.name}
-                                        description={getTemplateDescription(template.settings?.metronomeSettings)}
+                                        description={getTemplateDescription(template.settings)}
                                         handleSelectTemplate={() => handleSelectTemplate(template.id)}
                                         handleRenameTemplate={() => handleRenameTemplate(template.id)}
                                         handleUpdateTemplate={() => handleUpdateTemplate(template.id)}
