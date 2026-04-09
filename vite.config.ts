@@ -16,9 +16,9 @@ export default defineConfig({
       manifest: {
         name: "Metronome Now",
         short_name: "Metronome Now",
-        description: "Online metronome for your everyday needs",
+        description: "Online metronome with bpm programming, timer, templates and more!",
         theme_color: "#d42b3c",
-        background_color: "#1c1a1e",
+        background_color: "#19171c",
         scope: "/",
         start_url: "/",
         icons: [
@@ -44,26 +44,26 @@ export default defineConfig({
         screenshots: [
           {
             src: "/images/screenshots/mobile_screencap.png",
-            sizes: "386x731",
+            sizes: "1080x1920",
             type: "image/png",
             label: "Metronome Now"
           },
           {
             src: "/images/screenshots/mobile_screencap_2.png",
-            sizes: "387x730",
+            sizes: "1080x1920",
             type: "image/png",
             label: "Metronome Now - Templates"
           },
           {
             src: "/images/screenshots/desktop_screencap.png",
-            sizes: "1276x715",
+            sizes: "1275x715",
             type: "image/png",
             form_factor: "wide",
             label: "Metronome Now"
           },
           {
             src: "/images/screenshots/desktop_screencap_2.png",
-            sizes: "1279x719",
+            sizes: "1275x715",
             type: "image/png",
             form_factor: "wide",
             label: "Metronome Now - Templates"
