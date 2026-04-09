@@ -30,7 +30,6 @@
     "measuresToChangeBPMMustBeInRange": "Measures to change BPM must be between {{min}} and {{max}}",
     "measuresToStopCannotBeEmpty": "Measures to change BPM cannot be empty",
     "measuresToStopMustBeInRange": "Measures to stop must be between {{min}} and {{max}}",
-    "metaDescription": "Online metronome for your everyday needs. With bpm programming, timer, templates and more!",
     "minutes": "min.",
     "minutesMustBeInRange": "Minutes must be between {{min}} and {{max}}",
     "nameInUse": "Name is already in use",
