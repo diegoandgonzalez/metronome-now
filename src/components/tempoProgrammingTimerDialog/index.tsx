@@ -436,7 +436,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             <DialogActions>
                 <Button
                     type="button"
-                    variant="contained"
+                    variant="dark"
                     onClick={handleClose}
                 >
                     {t("cancel")}

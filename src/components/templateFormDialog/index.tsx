@@ -107,7 +107,7 @@ const TemplateFormDialog = (props: Props) => {
             </DialogContent>
             <DialogActions>
                 <Button
-                    variant="contained"
+                    variant="dark"
                     type="button"
                     onClick={handleClose}
                 >
