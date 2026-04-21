@@ -60,10 +60,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             type: 'website',
         },
         twitter: {
-            card: 'summary_large_image',
+            card: 'summary',
             title: t('title'),
             description: t('description'),
-            images: ['/images/icons/android-chrome-512x512.png'],
         },
     }
 }
