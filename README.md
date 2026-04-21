@@ -14,8 +14,9 @@ Online metronome for your everyday needs
 ## Technologies
 - TypeScript
 - React
-- Vite
-- i18next
+- Nextjs
+- next-intl
+- MaterialUI
 - IndexedDB
 
 ## Features
