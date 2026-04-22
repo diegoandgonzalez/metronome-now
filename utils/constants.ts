@@ -18,6 +18,8 @@ export const TIMER_CONSTANTS = {
 }
 
 export const TEMPO_PROGRAMMING_CONSTANTS = {
+    minBPMToChange: 1,
+    maxBPMToChange: METRONOME_CONSTANTS.maxBPM,
     minMeasuresToChangeBPM: 1,
     maxMeasuresToChangeBPM: 999,
 }
