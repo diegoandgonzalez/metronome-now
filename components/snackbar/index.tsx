@@ -11,15 +11,20 @@ const CustomSnackbar = () => {
         handleClose,
     } = useSnackbarContext();
 
+    const handleSnackbarClose = (_: unknown, reason?: string) => {
+        if (reason === 'clickaway') return;
+        handleClose();
+    };
+
     return (
         <Snackbar
             open={open}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             autoHideDuration={secondsToClose * 1000}
-            onClose={handleClose}
+            onClose={handleSnackbarClose}
         >
             <Alert
-                onClose={handleClose}
+                onClose={handleSnackbarClose}
                 severity={(type || 'error') as AlertColor}
                 variant='filled'
                 sx={{
@@ -30,7 +35,7 @@ const CustomSnackbar = () => {
                 {text}
             </Alert>
         </Snackbar>
-    )
-}
+    );
+};
 
 export default CustomSnackbar;
