@@ -29,7 +29,6 @@ export type Settings = {
 }
 
 export type Template = {
-    id: string,
     name: string,
     settings: Settings,
 }
@@ -37,4 +36,7 @@ export type Template = {
 export type TemplateFunction = (newTemplateName: string, newSettings: Settings) => void;
 
 export type TemplateFormAction = 'CREATE' | 'RENAME' | 'UPDATE' | 'DELETE' | 'DUPLICATE';
-export type TemplateFormData = | { action: 'CREATE'; templateId: '' } | { action: Exclude<TemplateFormAction, 'CREATE'>; templateId: string };
+export type TemplateFormData = | { action: 'CREATE'; templateName: '' } | { action: Exclude<TemplateFormAction, 'CREATE'>; templateName: string };
+
+export type GoogleDriveFileList = { id: string; name: string, modifiedTime: string }[];
+export type FileToCreate = { name: string, content: object | string };

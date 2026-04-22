@@ -1,17 +1,17 @@
 'use client'
-import { useState } from "react";
+import { useState } from 'react';
 
 const useSnackbar = () => {
 
     const [open, setOpen] = useState(false);
-    const [text, setText] = useState("");
+    const [text, setText] = useState('');
     const [secondsToClose, setSecondsToClose] = useState(0);
-    const [type, setType] = useState("");
+    const [type, setType] = useState('');
 
     const handleOpen = (newText: string, newSecondsToClose?: number, newType?: string) => {
         setText(newText);
         setSecondsToClose(newSecondsToClose || 5);
-        setType(newType || "");
+        setType(newType || '');
         setOpen(true);
     }
 

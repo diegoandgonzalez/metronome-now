@@ -1,17 +1,17 @@
 'use client'
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 import {
     METRONOME_CONSTANTS,
     DEFAULT_SETTINGS,
-} from "../constants";
-import { LOCAL_STORAGE_KEYS } from "@/utils/localStorage";
-import { getUpdatedBeatTypesArray } from "@/utils/beatTypes";
-import useStateRefLocalStorageSync from "@/utils/hooks/useStateRefLocalStorageSync";
-import type { MetronomeSettings, Settings, TempoProgrammingSettings, TimerSettings } from "@/utils/types";
-import useTimeMeasure from "@/utils/hooks/useTimeMeasure";
-import useTempoProgramming from "@/utils/hooks/useTempoProgramming";
-import useTimerSettings from "@/utils/hooks/useTimerSettings";
-import useAudio from "@/utils/hooks/useAudio";
+} from '../constants';
+import { LOCAL_STORAGE_KEYS } from '@/utils/localStorage';
+import { getUpdatedBeatTypesArray } from '@/utils/beatTypes';
+import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
+import type { MetronomeSettings, Settings, TempoProgrammingSettings, TimerSettings } from '@/utils/types';
+import useTimeMeasure from '@/utils/hooks/useTimeMeasure';
+import useTempoProgramming from '@/utils/hooks/useTempoProgramming';
+import useTimerSettings from '@/utils/hooks/useTimerSettings';
+import useAudio from '@/utils/hooks/useAudio';
 
 const useMetronome = () => {
 

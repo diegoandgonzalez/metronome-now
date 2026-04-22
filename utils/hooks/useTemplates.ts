@@ -1,36 +1,66 @@
 'use client'
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { v4 as uuidv4 } from 'uuid';
-import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS } from '@/utils/localStorage';
-import type { Template, TemplateFormData, TemplateFunction } from '@/utils/types';
-import useIndexedDB from '@/utils/hooks/useIndexedDB';
+import type { FileToCreate, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
 import useDialog from '@/utils/hooks/useDialog';
-import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
 import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import useDriveAppData from '@/utils/hooks/useDriveAppData';
+
+const KEY = 'template-files';
 
 const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) => {
 
     const t = useTranslations();
-    const [storedSelectedTemplateIdToPlay] = useState<string>(() => getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, '') as string);
 
     const {
-        getAllItems: getAllItemsFromDB,
-        addItem: addItemToDB,
-        updateItem: updateItemInDB,
-        deleteItem: deleteItemInDB,
-        error: errorDB,
-        isReady: isDBReady,
-    } = useIndexedDB<Template>('MetronomeNowDB', 'Templates', 1, 'id');
+        isReady,
+        readAllFiles,
+        writeFile,
+        deleteFile,
+    } = useDriveAppData();
 
-    const [templates, setTemplates] = useState<Template[]>([]);
-    const hasFetched = useRef<boolean>(false);
+    const queryClient = useQueryClient();
 
-    const {
-        value: selectedTemplateIdToPlay,
-        handleSyncValue: setSelectedTemplateIdToPlay,
-    } = useStateRefLocalStorageSync<string>('', LOCAL_STORAGE_KEYS.template);
+    const { data: templateFiles } = useQuery({
+        queryKey: [KEY],
+        queryFn: readAllFiles,
+        enabled: isReady,
+    });
 
+    const templates = useMemo(() => {
+        if (!templateFiles?.length) return [] as Template[];
+        return templateFiles.map((file) => file.content) as Template[];
+    }, [templateFiles])
+
+    const { mutate: createTemplate } = useMutation({
+        mutationFn: (newFile: FileToCreate) => writeFile(newFile),
+        onSuccess: (_, newFile: FileToCreate) => {
+            queryClient.invalidateQueries({ queryKey: [KEY] });
+            handleSelectTemplateToPlayByObject(newFile.content as Template);
+            handleOpenSnackbar(t('templateCreated'), 0, 'success');
+        },
+    });
+
+    const { mutate: updateTemplate } = useMutation({
+        mutationFn: (newFile: FileToCreate) => writeFile(newFile),
+        onSuccess: (_, newFile: FileToCreate) => {
+            queryClient.invalidateQueries({ queryKey: [KEY] });
+            handleSelectTemplateToPlayByObject(newFile.content as Template);
+            handleOpenSnackbar(t('templateUpdated'), 0, 'success');
+        },
+    });
+
+    const { mutate: deleteTemplate } = useMutation({
+        mutationFn: (fileName: string) => deleteFile(fileName),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [KEY] });
+            handleSelectTemplateToPlayByObject();
+            handleOpenSnackbar(t('templateDeleted'), 0, 'success');
+        },
+    });
+
+    const [selectedTemplateNameToPlay, setSelectedTemplateNameToPlay] = useState<string>(''); // TODO: valor inicial?
     const [templateFormData, setTemplateFormData] = useState<TemplateFormData | null>(null);
 
     const {
@@ -43,46 +73,25 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         handleOpen: handleOpenSnackbar,
     } = useSnackbarContext();
 
-    useEffect(() => {
-        if (errorDB) {
-            handleOpenSnackbar(errorDB.message);
-        }
-    }, [errorDB, handleOpenSnackbar])
+    const handleSelectTemplateToPlayByName = (newTemplateName: string) => {
+        if (newTemplateName === selectedTemplateNameToPlay) return;
+        if (!templates?.length) return;
 
-    useEffect(() => {
-        if (!isDBReady) return;
+        setSelectedTemplateNameToPlay(newTemplateName);
 
-        if (!hasFetched.current) {
-            getAllItemsFromDB()
-                .then((fetchedTemplates) => {
-                    hasFetched.current = true;
-                    setTemplates(fetchedTemplates);
-                    const storedTemplateIdExists = Boolean(storedSelectedTemplateIdToPlay) && fetchedTemplates.some((template) => template.id === storedSelectedTemplateIdToPlay);
-                    setSelectedTemplateIdToPlay(storedTemplateIdExists ? storedSelectedTemplateIdToPlay : '');
-                })
-                .catch((error) => {
-                    handleOpenSnackbar(error);
-                });
-        }
-    }, [isDBReady, storedSelectedTemplateIdToPlay, getAllItemsFromDB, setSelectedTemplateIdToPlay, handleOpenSnackbar]);
-
-    const handleSelectTemplateToPlayById = (newTemplateID: string) => {
-        if (newTemplateID === selectedTemplateIdToPlay) return;
-        setSelectedTemplateIdToPlay(newTemplateID);
-
-        const templateSelected = templates.find((template) => template.id === newTemplateID);
+        const templateSelected = templates.find((template) => template.name === newTemplateName);
 
         onTemplateSelectionCallback(templateSelected);
         handleOpenSnackbar(t('templateSelected'), 0, 'success');
     }
 
     const handleSelectTemplateToPlayByObject = (newTemplate?: Template) => {
-        setSelectedTemplateIdToPlay(newTemplate?.id || '');
+        setSelectedTemplateNameToPlay(newTemplate?.name || '');
         onTemplateSelectionCallback(newTemplate);
     }
 
     const handleOpenCreateTemplate = () => {
-        setTemplateFormData({ templateId: '', action: 'CREATE' });
+        setTemplateFormData({ templateName: '', action: 'CREATE' });
         handleOpenTemplateFormDialog();
     }
 
@@ -91,23 +100,23 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         handleCloseTemplateFormDialog();
     }
 
-    const handleOpenUpdateTemplate = (newTemplateID: string) => {
-        setTemplateFormData({ templateId: newTemplateID, action: 'UPDATE' });
+    const handleOpenUpdateTemplate = (newTemplateName: string) => {
+        setTemplateFormData({ templateName: newTemplateName, action: 'UPDATE' });
         handleOpenTemplateFormDialog();
     }
 
-    const handleOpenDeleteTemplate = (newTemplateID: string) => {
-        setTemplateFormData({ templateId: newTemplateID, action: 'DELETE' });
+    const handleOpenDeleteTemplate = (newTemplateName: string) => {
+        setTemplateFormData({ templateName: newTemplateName, action: 'DELETE' });
         handleOpenTemplateFormDialog();
     }
 
-    const handleOpenDuplicateTemplate = (newTemplateID: string) => {
-        setTemplateFormData({ templateId: newTemplateID, action: 'DUPLICATE' });
+    const handleOpenDuplicateTemplate = (newTemplateName: string) => {
+        setTemplateFormData({ templateName: newTemplateName, action: 'DUPLICATE' });
         handleOpenTemplateFormDialog();
     }
 
-    const handleOpenRenameTemplate = (newTemplateID: string) => {
-        setTemplateFormData({ templateId: newTemplateID, action: 'RENAME' });
+    const handleOpenRenameTemplate = (newTemplateName: string) => {
+        setTemplateFormData({ templateName: newTemplateName, action: 'RENAME' });
         handleOpenTemplateFormDialog();
     }
 
@@ -116,10 +125,10 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
 
         const {
             action,
-            templateId,
+            templateName,
         } = templateFormData;
 
-        const originalTemplateData = templates.find((template) => template.id === templateId);
+        const originalTemplateData = templates.find((template) => template.name === templateName);
 
         if (action === 'CREATE') {
             handleCreateTemplate(newtemplateName, newSettings);
@@ -149,101 +158,73 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
 
     const handleCreateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
         const newTemplate: Template = {
-            id: uuidv4(),
             name: newtemplateName,
             settings: newSettings,
         }
 
-        addItemToDB(newTemplate)
-            .then(() => {
-                getAllItemsFromDB()
-                    .then((newTemplates) => {
-                        setTemplates(newTemplates);
-                        handleSelectTemplateToPlayByObject(newTemplate);
-                        handleOpenSnackbar(t('templateCreated'), 0, 'success');
-                    })
-            })
-            .catch((error) => {
-                handleOpenSnackbar(error);
-            });
+        createTemplate({ name: newtemplateName, content: newTemplate });
     }
 
     const handleUpdateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
-        const auxSelectedTemplate = templates.find((template) => template.id === templateFormData?.templateId);
-        if (!auxSelectedTemplate) return;
+        const newTemplate: Template = {
+            name: newtemplateName,
+            settings: newSettings,
+        }
 
-        auxSelectedTemplate.name = newtemplateName;
-        auxSelectedTemplate.settings = newSettings;
-
-        updateItemInDB(auxSelectedTemplate)
-            .then(() => {
-                getAllItemsFromDB()
-                    .then((newTemplates) => {
-                        setTemplates(newTemplates);
-                        handleSelectTemplateToPlayByObject(auxSelectedTemplate);
-                        handleOpenSnackbar(t('templateUpdated'), 0, 'success');
-                    })
-            })
-            .catch((error) => {
-                handleOpenSnackbar(error);
-            });
+        updateTemplate({ name: newtemplateName, content: newTemplate });
     }
 
     const handleDeleteTemplate = () => {
-        deleteItemInDB(templateFormData?.templateId || '')
-            .then(() => {
-                getAllItemsFromDB()
-                    .then((newTemplates) => {
-                        setTemplates(newTemplates);
-                        handleSelectTemplateToPlayByObject();
-                        handleOpenSnackbar(t('templateDeleted'), 0, 'success');
-                    })
-            })
-            .catch((error) => {
-                handleOpenSnackbar(error);
-            });
+        if (!templateFormData) return;
+        deleteTemplate(templateFormData?.templateName);
     }
 
     const handleSelectTemplateByPosition = (position: number) => {
-        if (templates.length < position) return;
-        handleSelectTemplateToPlayById(templates[position - 1]?.id);
+        if (!templateFiles?.length) return;
+
+        if (templateFiles.length < position) return;
+        handleSelectTemplateToPlayByName(templateFiles[position - 1]?.name);
     }
 
     const handleSelectPrevTemplate = () => {
-        const templateIndex = templates.findIndex((template) => template.id === selectedTemplateIdToPlay);
-        const prevTemplateId = templates[templateIndex - 1]?.id || '';
-        handleSelectTemplateToPlayById(prevTemplateId);
+        if (!templateFiles?.length) return;
+
+        const templateIndex = templateFiles.findIndex((template) => template.name === selectedTemplateNameToPlay);
+        const prevTemplateName = templateFiles[templateIndex - 1]?.name || '';
+        handleSelectTemplateToPlayByName(prevTemplateName);
     }
 
     const handleSelectNextTemplate = () => {
-        const templateIndex = templates.findIndex((template) => template.id === selectedTemplateIdToPlay);
-        if (templateIndex === templates.length - 1) return;
+        if (!templateFiles?.length) return;
 
-        const nextTemplateId = templates[templateIndex + 1].id;
-        handleSelectTemplateToPlayById(nextTemplateId);
+        const templateIndex = templateFiles.findIndex((template) => template.name === selectedTemplateNameToPlay);
+        if (templateIndex === templateFiles.length - 1) return;
+
+        const nextTemplateName = templateFiles[templateIndex + 1].name;
+        handleSelectTemplateToPlayByName(nextTemplateName);
     }
 
     const sortedTemplates = useMemo(() => {
+        if (!templates?.length) return [];
         return templates.sort((a, b) => a.name.localeCompare(b.name));
     }, [templates])
 
     return {
-        isDBReady,
         templates: sortedTemplates,
-        selectedTemplateIdToPlay,
+        selectedTemplateNameToPlay,
         templateFormDialogIsOpen,
         templateFormData,
-        handleSelectTemplateToPlayById,
+        handleSelectTemplateToPlayByName,
         handleSelectTemplateByPosition,
         handleSelectPrevTemplate,
         handleSelectNextTemplate,
+        handleSubmitActionTemplate,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
         handleOpenDeleteTemplate,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
         handleCloseTemplateForm,
-        handleSubmitActionTemplate,
     };
 }
 

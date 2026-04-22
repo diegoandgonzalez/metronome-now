@@ -1,5 +1,6 @@
 'use client'
 import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
 import { Button, Grid, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
@@ -10,6 +11,7 @@ import useDialog from '@/utils/hooks/useDialog';
 import useExecuteKeyPressed from '@/utils/hooks/useExecuteKeyPressed';
 import useMetronome from '@/utils/hooks/useMetronome';
 import useTemplates from '@/utils/hooks/useTemplates';
+import { DEFAULT_SETTINGS } from '@/utils/constants';
 import BPMInput from '@/components/bpmInput';
 import TimeSignatureInput from '@/components/timeSignatureInput';
 import BeatIndicator from '@/components/beatIndicator';
@@ -20,8 +22,11 @@ import TemplatesDialog from '@/components/templatesDialog';
 import ShortcutsDialog from '@/components/shortcutsDialog';
 import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
+import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
 
 const Metronome = () => {
+
+    const { data: session } = useSession();
 
     const t = useTranslations();
 
@@ -51,21 +56,22 @@ const Metronome = () => {
     }
 
     const {
-        isDBReady,
         templates,
-        selectedTemplateIdToPlay,
+        selectedTemplateNameToPlay,
         templateFormDialogIsOpen,
         templateFormData,
-        handleSelectTemplateToPlayById,
+        handleSelectTemplateToPlayByName,
         handleSelectTemplateByPosition,
+        handleSubmitActionTemplate,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
         handleOpenDeleteTemplate,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
         handleCloseTemplateForm,
-        handleSubmitActionTemplate,
     } = useTemplates(onTemplateSelectionCallback);
+
+    const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
 
     const {
         dialogIsOpen: templateDialogIsOpen,
@@ -101,10 +107,31 @@ const Metronome = () => {
         handleStartMetronome();
     }
 
+    const handleValidateAndOpenTemplateDialog = () => {
+        if (!Boolean(session)) {
+            handleOpenSnackbar(t('youMustBeLoggedIn'))
+            return;
+        }
+
+        handleOpenTemplateDialog();
+        handleStopMetronome();
+    }
+
+    const handleOpenBPMProgrammingTimerDialogAndStopMetronome = () => {
+        handleOpenBPMProgrammingTimerDialog();
+        handleStopMetronome();
+    }
+
+    const handleResetUserSettings = () => {
+        handleStopMetronome();
+        handleSetSettings(DEFAULT_SETTINGS);
+        // TODO: limpiar template seleccionado
+    }
+
     useExecuteKeyPressed('?', 'keyup', handleOpenShortcutsDialog);
     useExecuteKeyPressed('p', 'keyup', handleToggleMetronome);
-    useExecuteKeyPressed('t', 'keyup', handleOpenTemplateDialog);
-    useExecuteKeyPressed('s', 'keyup', handleOpenBPMProgrammingTimerDialog);
+    useExecuteKeyPressed('t', 'keyup', handleValidateAndOpenTemplateDialog);
+    useExecuteKeyPressed('s', 'keyup', handleOpenBPMProgrammingTimerDialogAndStopMetronome);
     useExecuteKeyPressed('0', 'keyup', () => handleSelectTemplateByPosition(0));
     useExecuteKeyPressed('1', 'keyup', () => handleSelectTemplateByPosition(1));
     useExecuteKeyPressed('2', 'keyup', () => handleSelectTemplateByPosition(2));
@@ -124,14 +151,13 @@ const Metronome = () => {
         settings.timerSettings.isMeasuresActive
     );
 
-    const selectedTemplateToPlayName = templates.find((template) => template.id === selectedTemplateIdToPlay)?.name || '';
-
     return (
         <>
             <Header
                 disableLocaleSelector={isPlaying}
                 handleTitleClick={handleOpenAboutDialog}
                 handleShortcutsClick={handleOpenShortcutsDialog}
+                resetMetronomeSettings={handleResetUserSettings}
             />
             <main>
                 <Grid
@@ -144,8 +170,8 @@ const Metronome = () => {
                 >
                     <Grid container direction={'column'} alignItems={'center'} spacing={3}>
                         <Grid container direction={'column'} alignItems={'center'} spacing={1}>
-                            <Typography sx={{ fontSize: '0.9rem', visibility: !selectedTemplateToPlayName ? 'hidden' : 'visible' }}>
-                                {selectedTemplateToPlayName || 'defaultTemplate'}
+                            <Typography sx={{ fontSize: '0.9rem', visibility: !selectedTemplateNameToPlay ? 'hidden' : 'visible' }}>
+                                {selectedTemplateNameToPlay || 'defaultTemplate'}
                             </Typography>
                             <BPMInput
                                 disabled={settings.tempoProgrammingSettings.isActive}
@@ -189,10 +215,7 @@ const Metronome = () => {
                             aria-label={t('bpmProgrammingAndTimer')}
                             variant={settingsIsActive ? 'contained' : 'dark'}
                             sx={{ minWidth: 0, padding: 1, borderRadius: '100%' }}
-                            onClick={() => {
-                                handleOpenBPMProgrammingTimerDialog();
-                                handleStopMetronome();
-                            }}
+                            onClick={handleOpenBPMProgrammingTimerDialogAndStopMetronome}
                         >
                             <UpdateIcon sx={{ fontSize: 40 }} />
                         </Button>
@@ -208,12 +231,9 @@ const Metronome = () => {
                         <Button
                             title={t('templates')}
                             aria-label={t('templates')}
-                            variant={selectedTemplateIdToPlay ? 'contained' : 'dark'}
+                            variant={selectedTemplateNameToPlay ? 'contained' : 'dark'}
                             sx={{ minWidth: 0, padding: 1, borderRadius: '100%' }}
-                            onClick={() => {
-                                handleOpenTemplateDialog();
-                                handleStopMetronome();
-                            }}
+                            onClick={handleValidateAndOpenTemplateDialog}
                         >
                             <PlaylistAddIcon sx={{ fontSize: 40 }} />
                         </Button>
@@ -233,11 +253,10 @@ const Metronome = () => {
                         templateDialogIsOpen &&
                         <TemplatesDialog
                             open={templateDialogIsOpen}
-                            disabled={!isDBReady}
-                            selectedTemplateId={selectedTemplateIdToPlay}
+                            selectedTemplateName={selectedTemplateNameToPlay}
                             templates={templates}
-                            handleSelectTemplate={(templateId) => {
-                                handleSelectTemplateToPlayById(templateId);
+                            handleSelectTemplate={(templateName) => {
+                                handleSelectTemplateToPlayByName(templateName);
                                 handleCloseTemplateDialog();
                             }}
                             handleCreateTemplate={handleOpenCreateTemplate}

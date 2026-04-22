@@ -1,13 +1,15 @@
-import { useTranslations } from "next-intl";
-import { Button, Grid, IconButton, Typography } from "@mui/material";
-import HelpIcon from "@mui/icons-material/Help";
-import useIsMobileSize from "@/utils/hooks/useIsMobileSize";
-import LocaleSelector from "@/components/localeSelector";
+import { useTranslations } from 'next-intl';
+import { Button, Grid, IconButton, Typography } from '@mui/material';
+import HelpIcon from '@mui/icons-material/Help';
+import useIsMobileSize from '@/utils/hooks/useIsMobileSize';
+import LocaleSelector from '@/components/localeSelector';
+import UserButton from '@/components/userButton';
 
 type Props = {
     disableLocaleSelector: boolean,
     handleTitleClick: () => void,
     handleShortcutsClick: () => void,
+    resetMetronomeSettings: () => void,
 }
 
 const Header = (props: Props) => {
@@ -16,30 +18,31 @@ const Header = (props: Props) => {
         disableLocaleSelector,
         handleTitleClick,
         handleShortcutsClick,
+        resetMetronomeSettings,
     } = props;
 
     const t = useTranslations();
     const isMobileSize = useIsMobileSize();
 
     return (
-        <header style={{ width: "100%", padding: 20, paddingTop: 10, paddingBottom: 0 }}>
-            <Grid container justifyContent={"space-between"} alignItems={"center"} spacing={2}>
+        <header style={{ width: '100%', padding: 20, paddingTop: 10, paddingBottom: 0 }}>
+            <Grid container justifyContent={'space-between'} alignItems={'center'} spacing={2}>
                 <Button
                     onClick={handleTitleClick}
-                    color="inherit"
+                    color='inherit'
                     sx={{
                         padding: 0,
-                        display: "flex",
-                        gap: "5px",
-                        fontSize: "24px",
+                        display: 'flex',
+                        gap: '5px',
+                        fontSize: '24px',
                         fontWeight: 600,
-                        "&:hover": {
-                            backgroundColor: "transparent",
+                        '&:hover': {
+                            backgroundColor: 'transparent',
                         },
                     }}
                 >
                     Metronome
-                    <Typography component="span" variant="h5" color="primary" fontWeight={"inherit"}>
+                    <Typography component='span' variant='h5' color='primary' fontWeight={'inherit'}>
                         Now
                     </Typography>
                 </Button>
@@ -47,13 +50,17 @@ const Header = (props: Props) => {
                     {
                         !isMobileSize &&
                         <IconButton
-                            aria-label={t("shortcuts")}
+                            title={t('shortcuts')}
+                            aria-label={t('shortcuts')}
                             onClick={handleShortcutsClick}
                         >
                             <HelpIcon />
                         </IconButton>
                     }
                     <LocaleSelector disabled={disableLocaleSelector} />
+                    <UserButton
+                        afterSignOutCallback={resetMetronomeSettings}
+                    />
                 </Grid>
             </Grid>
         </header>

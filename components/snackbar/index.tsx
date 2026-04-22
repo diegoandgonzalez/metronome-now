@@ -1,6 +1,6 @@
-"use client"
-import { Alert, Snackbar, type AlertColor } from "@mui/material";
-import useSnackbarContext from "./useSnackbarContext";
+'use client'
+import { Alert, Snackbar, type AlertColor } from '@mui/material';
+import useSnackbarContext from './useSnackbarContext';
 
 const CustomSnackbar = () => {
     const {
@@ -14,16 +14,16 @@ const CustomSnackbar = () => {
     return (
         <Snackbar
             open={open}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             autoHideDuration={secondsToClose * 1000}
             onClose={handleClose}
         >
             <Alert
                 onClose={handleClose}
-                severity={(type || "error") as AlertColor}
-                variant="filled"
+                severity={(type || 'error') as AlertColor}
+                variant='filled'
                 sx={{
-                    width: "100%",
+                    width: '100%',
                     borderRadius: (theme) => theme.shape.borderRadius,
                 }}
             >

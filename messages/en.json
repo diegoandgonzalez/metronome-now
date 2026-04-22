@@ -75,5 +75,13 @@
     "title": "Metronome Now",
     "description": "Online metronome with bpm programming, timer, templates and more!",
     "en": "English",
-    "es": "Español"
+    "es": "Español",
+    "login": "Log in",
+    "logout": "Log out",
+    "youMustBeLoggedIn": "You must log in to access your templates",
+    "userImage": "User image",
+    "profile": "Profile",
+    "hi": "Hi, {username}!",
+    "errorOcurred": "An error ocurred, try again later",
+    "userLoggedOut": "Logged out"
 }

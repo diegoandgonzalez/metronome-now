@@ -1,5 +1,5 @@
 export const formatMsToHHMMSS = (value: number) => {
-    const padTwoDigits = (n: number) => ("00" + n).slice(-2);
+    const padTwoDigits = (n: number) => ('00' + n).slice(-2);
 
     let auxValue = value;
     const ms = auxValue % 1000;
@@ -9,5 +9,5 @@ export const formatMsToHHMMSS = (value: number) => {
     const mins = auxValue % 60;
     const hrs = (auxValue - mins) / 60;
 
-    return padTwoDigits(hrs) + ":" + padTwoDigits(mins) + ":" + padTwoDigits(secs);
+    return padTwoDigits(hrs) + ':' + padTwoDigits(mins) + ':' + padTwoDigits(secs);
 }

@@ -5,9 +5,10 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { routing } from '@/i18n/routing';
-import AppProviders from '@/components/appProviders';
+import ClientProviders from '@/components/clientProviders';
 import CustomSnackbar from '@/components/snackbar';
 import { LOCALES } from '@/utils/constants';
+import Spinner from '@/components/spinner';
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -69,7 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RootLayout({ children, params }: Props) {
     const { locale } = await params;
-    
+
     if (!hasLocale(routing.locales, locale)) {
         notFound();
     }
@@ -79,10 +80,11 @@ export default async function RootLayout({ children, params }: Props) {
             <body>
                 <NextIntlClientProvider>
                     <AppRouterCacheProvider>
-                        <AppProviders>
+                        <ClientProviders>
                             {children}
+                            <Spinner />
                             <CustomSnackbar />
-                        </AppProviders>
+                        </ClientProviders>
                     </AppRouterCacheProvider>
                 </NextIntlClientProvider>
             </body>

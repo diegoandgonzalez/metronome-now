@@ -75,5 +75,13 @@
     "title": "Metronome Now",
     "description": "Metrónomo online con programación de bpm, temporizador, plantillas y más",
     "en": "English",
-    "es": "Español"
+    "es": "Español",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "youMustBeLoggedIn": "Debe iniciar sesión para acceder a sus plantillas",
+    "userImage": "Imagen de usuario",
+    "profile": "Perfil",
+    "hi": "¡Hola, {username}!",
+    "errorOcurred": "Ha ocurrido un error, intente nuevamente más tarde",
+    "userLoggedOut": "Sesión cerrada"
 }

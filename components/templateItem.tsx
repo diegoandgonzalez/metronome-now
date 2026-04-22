@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
-import { Grid, Typography } from "@mui/material";
-import DotsMenu from "@/components/dotsMenu";
+import { useTranslations } from 'next-intl';
+import { Grid, Typography } from '@mui/material';
+import DotsMenu from '@/components/dotsMenu';
 
 type Props = {
     selected: boolean,
@@ -32,10 +32,10 @@ const TemplateItem = (props: Props) => {
 
     return (
         <Grid
-            role="button"
-            container alignItems={"center"} justifyContent={"space-between"} spacing={2} wrap="nowrap"
+            role='button'
+            container alignItems={'center'} justifyContent={'space-between'} spacing={2} wrap='nowrap'
             sx={{
-                width: "100%",
+                width: '100%',
                 color: ({ palette }) => selected ? palette.primary.main : palette.text.primary,
             }}
             onClick={() => {
@@ -47,7 +47,7 @@ const TemplateItem = (props: Props) => {
                 <Typography>
                     {name}
                 </Typography>
-                <Typography variant="caption">
+                <Typography variant='caption'>
                     {description}
                 </Typography>
             </div>
@@ -57,28 +57,28 @@ const TemplateItem = (props: Props) => {
                     options={
                         [
                             {
-                                key: "update",
-                                label: t("update"),
+                                key: 'update',
+                                label: t('update'),
                                 onClick: () => handleUpdateTemplate?.(),
                             },
                             {
-                                key: "rename",
-                                label: t("rename"),
+                                key: 'rename',
+                                label: t('rename'),
                                 onClick: () => handleRenameTemplate?.(),
                             },
                             {
-                                key: "duplicate",
-                                label: t("duplicate"),
+                                key: 'duplicate',
+                                label: t('duplicate'),
                                 onClick: () => handleDuplicateTemplate?.(),
                             },
                             {
-                                key: "delete",
-                                label: t("delete"),
+                                key: 'delete',
+                                label: t('delete'),
                                 onClick: () => handleDeleteTemplate?.(),
                             }
                         ]
                             .filter((option) => {
-                                if (!selected && option.key === "update") return false;
+                                if (!selected && option.key === 'update') return false;
                                 return true;
                             })
                     }

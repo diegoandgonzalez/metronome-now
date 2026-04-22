@@ -45,12 +45,11 @@ const TemplateFormDialog = (props: Props) => {
 
     const t = useTranslations();
 
-    const { templateId, action } = data;
+    const { templateName, action } = data;
 
-    const originalTemplateName = templates.find((template) => template.id === templateId)?.name || '';
     const initialName = (() => {
         if (action === 'CREATE' || action === 'DUPLICATE') return '';
-        return originalTemplateName;
+        return templateName;
     })();
 
     const [newTemplateName, setNewTemplateName] = useState(initialName);
@@ -80,7 +79,7 @@ const TemplateFormDialog = (props: Props) => {
             onClose={handleClose}
         >
             <DialogTitle onClose={handleClose}>
-                {getTitleKey(action)}
+                {t(getTitleKey(action))}
             </DialogTitle>
             <DialogContent>
                 <form
@@ -92,7 +91,7 @@ const TemplateFormDialog = (props: Props) => {
                     noValidate
                 >
                     <Typography>
-                        {t(getDescriptionKey(action), { templateName: originalTemplateName })}
+                        {t(getDescriptionKey(action), { templateName: templateName })}
                     </Typography>
                     {
                         ['CREATE', 'RENAME', 'DUPLICATE'].includes(action!) &&

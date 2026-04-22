@@ -1,10 +1,10 @@
 'use client'
-import { useState, MouseEvent } from "react";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useTranslations } from "next-intl";
+import { useState, MouseEvent } from 'react';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useTranslations } from 'next-intl';
 
 type Props = {
     ariaLabel?: string,
@@ -33,9 +33,10 @@ const DotsMenu = ({ disabled, options, icon, ariaLabel }: Props) => {
     };
 
     return (
-        <div>
+        <>
             <IconButton
-                aria-label={ariaLabel || t("options")}
+                title={ariaLabel || t('options')}
+                aria-label={ariaLabel || t('options')}
                 onClick={handleOpen}
                 disabled={disabled}
             >
@@ -54,14 +55,14 @@ const DotsMenu = ({ disabled, options, icon, ariaLabel }: Props) => {
                                 option.onClick();
                                 handleClose(e);
                             }}
-                            sx={{ display: "block", padding: "6px 24px" }}
+                            sx={{ display: 'block', padding: '6px 24px' }}
                         >
                             {option.label}
                         </MenuItem>
                     ))
                 }
             </Menu>
-        </div>
+        </>
     );
 }
 

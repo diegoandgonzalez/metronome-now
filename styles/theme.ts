@@ -1,6 +1,6 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
     interface Palette {
         border: {
             main: string;
@@ -26,7 +26,7 @@ declare module "@mui/material/styles" {
     }
 }
 
-declare module "@mui/material/Button" {
+declare module '@mui/material/Button' {
     interface ButtonPropsVariantOverrides {
         dark: true;
     }
@@ -34,43 +34,43 @@ declare module "@mui/material/Button" {
 
 const appTheme = createTheme({
     palette: {
-        mode: "dark",
-        primary: { main: "#d42b3c" },
-        secondary: { main: "#232027" },
-        text: { primary: "#ffffff" },
-        background: { default: "#19171c", paper: "#232027" },
+        mode: 'dark',
+        primary: { main: '#d42b3c' },
+        secondary: { main: '#232027' },
+        text: { primary: '#ffffff' },
+        background: { default: '#19171c', paper: '#232027' },
         border: {
-            main: "#403946",
+            main: '#403946',
         },
         beatType: {
-            accent: { main: "#d42b3c", light: "#66171E" },
-            noAccent: { main: "#b1b1b1", light: "#6B6B6B" },
-            muted: { main: "#3e3e3e", light: "#222" },
+            accent: { main: '#d42b3c', light: '#66171E' },
+            noAccent: { main: '#b1b1b1', light: '#6B6B6B' },
+            muted: { main: '#3e3e3e', light: '#222' },
         },
     },
     typography: {
-        fontFamily: "Space Grotesk",
+        fontFamily: 'Space Grotesk',
     },
-    shape: { borderRadius: "16px" },
+    shape: { borderRadius: '16px' },
     components: {
         MuiCssBaseline: {
             styleOverrides: (theme) => ({
-                "*::-webkit-scrollbar": {
-                    width: "6px",
+                '*::-webkit-scrollbar': {
+                    width: '6px',
                 },
-                "*::-webkit-scrollbar-track": {
-                    background: "transparent",
+                '*::-webkit-scrollbar-track': {
+                    background: 'transparent',
                 },
-                "*::-webkit-scrollbar-thumb": {
+                '*::-webkit-scrollbar-thumb': {
                     backgroundColor: theme.palette.border.main,
-                    borderRadius: "10px",
+                    borderRadius: '10px',
                 },
             }),
         },
         MuiInput: {
             styleOverrides: {
                 input: ({ theme }) => ({
-                    "&.Mui-disabled": {
+                    '&.Mui-disabled': {
                         WebkitTextFillColor: theme.palette.text.primary,
                     },
                 }),
@@ -80,7 +80,7 @@ const appTheme = createTheme({
             styleOverrides: {
                 root: ({ theme }) => ({
                     color: theme.palette.text.primary,
-                    "&.Mui-focused": {
+                    '&.Mui-focused': {
                         color: theme.palette.text.primary,
                     },
                 }),
@@ -89,8 +89,8 @@ const appTheme = createTheme({
         MuiList: {
             styleOverrides: {
                 root: {
-                    display: "flex",
-                    flexDirection: "column",
+                    display: 'flex',
+                    flexDirection: 'column',
                     gap: 10,
                 },
             },
@@ -98,8 +98,8 @@ const appTheme = createTheme({
         MuiListItem: {
             styleOverrides: {
                 root: ({ theme }) => ({
-                    padding: "10px 16px",
-                    cursor: "pointer",
+                    padding: '10px 16px',
+                    cursor: 'pointer',
                     borderRadius: theme.shape.borderRadius,
                     border: `1px solid ${theme.palette.border.main}`,
                     background: theme.palette.secondary.main,
@@ -113,12 +113,12 @@ const appTheme = createTheme({
                 }),
                 root: ({ theme }) => ({
                     backgroundColor: theme.palette.secondary.main,
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                        border: "1px solid",
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                        border: '1px solid',
                         borderColor: theme.palette.border.main,
                     },
-                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        border: "1px solid",
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        border: '1px solid',
                         borderColor: theme.palette.border.main,
                     },
                 }),
@@ -133,7 +133,7 @@ const appTheme = createTheme({
             styleOverrides: {
                 root: ({ theme }) => ({
                     color: theme.palette.text.primary,
-                    "&:hover": {
+                    '&:hover': {
                         background: theme.palette.border.main,
                     },
                 }),
@@ -141,10 +141,10 @@ const appTheme = createTheme({
         },
         MuiSelect: {
             styleOverrides: {
-                icon: { display: "none" },
+                icon: { display: 'none' },
                 select: ({ theme }) => ({
-                    textAlign: "center",
-                    padding: "8px 10px !important",
+                    textAlign: 'center',
+                    padding: '8px 10px !important',
                     backgroundColor: theme.palette.secondary.main,
                 }),
             },
@@ -152,26 +152,26 @@ const appTheme = createTheme({
         MuiMenu: {
             styleOverrides: {
                 paper: {
-                    overflow: "hidden",
+                    overflow: 'hidden',
                 },
                 list: {
-                    overflowY: "auto",
-                    maxHeight: "75svh",
+                    overflowY: 'auto',
+                    maxHeight: '75svh',
                 },
             },
         },
         MuiMenuItem: {
             styleOverrides: {
                 root: ({ theme }) => ({
-                    display: "flex",
-                    justifyContent: "center",
-                    "&:hover": {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    '&:hover': {
                         background: theme.palette.border.main,
                     },
-                    "&.Mui-selected": {
+                    '&.Mui-selected': {
                         backgroundColor: theme.palette.primary.main,
                     },
-                    "&.Mui-selected:hover": {
+                    '&.Mui-selected:hover': {
                         backgroundColor: theme.palette.primary.main,
                     },
                 }),
@@ -180,12 +180,12 @@ const appTheme = createTheme({
         MuiButton: {
             variants: [
                 {
-                    props: { variant: "dark" },
+                    props: { variant: 'dark' },
                     style: ({ theme }) => ({
                         border: `1px solid ${theme.palette.border.main}`,
                         backgroundColor: theme.palette.secondary.main,
-                        color: "white",
-                        "&:hover": {
+                        color: 'white',
+                        '&:hover': {
                             backgroundColor: theme.palette.border.main,
                         },
                     }),
@@ -194,8 +194,8 @@ const appTheme = createTheme({
             styleOverrides: {
                 root: ({ theme }) => ({
                     fontWeight: 400,
-                    textTransform: "none",
-                    "&:hover": {
+                    textTransform: 'none',
+                    '&:hover': {
                         backgroundColor: theme.palette.primary.light,
                     },
                 }),
@@ -203,25 +203,25 @@ const appTheme = createTheme({
         },
         MuiTextField: {
             defaultProps: {
-                autoComplete: "off",
+                autoComplete: 'off',
                 inputProps: {
-                    autoComplete: "off",
+                    autoComplete: 'off',
                 },
             },
             styleOverrides: {
                 root: {
-                    "& input[type=number]": { MozAppearance: "textfield" },
-                    "& input[type=number]::-webkit-outer-spin-button": { WebkitAppearance: "none", margin: 0 },
-                    "& input[type=number]::-webkit-inner-spin-button": { WebkitAppearance: "none", margin: 0 },
+                    '& input[type=number]': { MozAppearance: 'textfield' },
+                    '& input[type=number]::-webkit-outer-spin-button': { WebkitAppearance: 'none', margin: 0 },
+                    '& input[type=number]::-webkit-inner-spin-button': { WebkitAppearance: 'none', margin: 0 },
                 },
             },
         },
         MuiPaper: {
             styleOverrides: {
                 root: ({ theme }) => ({
-                    marginTop: "-1px",
-                    backgroundImage: "none",
-                    border: "1px solid",
+                    marginTop: '-1px',
+                    backgroundImage: 'none',
+                    border: '1px solid',
                     borderColor: theme.palette.border.main,
                 }),
             },
@@ -245,8 +245,8 @@ const appTheme = createTheme({
                 }),
                 action: ({ theme }) => ({
                     color: theme.palette.text.primary,
-                    "& .MuiIconButton-root:hover": {
-                        backgroundColor: "transparent",
+                    '& .MuiIconButton-root:hover': {
+                        backgroundColor: 'transparent',
                     },
                 }),
             },
@@ -259,7 +259,7 @@ const appTheme = createTheme({
             },
             styleOverrides: {
                 paper: ({ theme }) => ({
-                    border: "none",
+                    border: 'none',
                     backgroundColor: theme.palette.background.default,
                 }),
             },
