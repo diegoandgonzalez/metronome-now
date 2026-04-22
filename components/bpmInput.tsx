@@ -11,7 +11,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { METRONOME_CONSTANTS } from '@/utils/constants';
-import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
+import { useSnackbar } from '@/components/snackbar/context';
 import useTapTempo from '@/utils/hooks/useTapTempo';
 import useExecuteKeyPressed from '@/utils/hooks/useExecuteKeyPressed';
 
@@ -39,13 +39,13 @@ const BPMInput = (props: Props) => {
     setBPM(String(initialBPM));
   }, [initialBPM])
 
-  const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
+  const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
   const handleSubmit = (newValue = bpm) => {
     if (disabled) return;
     const valueToSubmit = parseInt(newValue);
     if (isNaN(valueToSubmit) || valueToSubmit < METRONOME_CONSTANTS.minBPM || valueToSubmit > METRONOME_CONSTANTS.maxBPM) {
-      handleOpenSnackbar(t('bpmMustBeInRange', { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
+      handleOpenSnackbar({ text: t('bpmMustBeInRange', { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }) });
       setBPM(String(initialBPM));
       return;
     }

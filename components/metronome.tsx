@@ -22,7 +22,7 @@ import TemplatesDialog from '@/components/templatesDialog';
 import ShortcutsDialog from '@/components/shortcutsDialog';
 import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
-import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
+import { useSnackbar } from '@/components/snackbar/context';
 
 const Metronome = () => {
 
@@ -71,7 +71,7 @@ const Metronome = () => {
         handleCloseTemplateForm,
     } = useTemplates(onTemplateSelectionCallback);
 
-    const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
+    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const {
         dialogIsOpen: templateDialogIsOpen,
@@ -109,7 +109,7 @@ const Metronome = () => {
 
     const handleValidateAndOpenTemplateDialog = () => {
         if (!Boolean(session)) {
-            handleOpenSnackbar(t('youMustBeLoggedIn'))
+            handleOpenSnackbar({ text: t('youMustBeLoggedIn') })
             return;
         }
 

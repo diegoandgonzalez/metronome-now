@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/react';
 import { GoogleDriveFileList, FileToCreate } from '@/utils/types';
-import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
+import { useSnackbar } from '@/components/snackbar/context';
 import { useTranslations } from 'next-intl';
 
 const DRIVE_API = 'https://www.googleapis.com/drive/v3'; // TODO
@@ -11,9 +11,7 @@ const useDriveAppData = () => {
     const { data: session } = useSession();
     const token = session?.accessToken;
 
-    const {
-        handleOpen: handleOpenSnackbar,
-    } = useSnackbarContext();
+    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const t = useTranslations();
 
@@ -27,7 +25,7 @@ const useDriveAppData = () => {
             const result = await fn();
             return result;
         } catch (err) {
-            handleOpenSnackbar(t('errorOcurred'));
+            handleOpenSnackbar({ text: t('errorOcurred') });
             console.error(err instanceof Error ? err : new Error(String(err)));
             return null;
         }

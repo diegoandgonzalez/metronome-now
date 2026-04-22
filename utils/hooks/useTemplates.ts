@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { FileToCreate, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
 import useDialog from '@/utils/hooks/useDialog';
-import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
+import { useSnackbar } from '@/components/snackbar/context';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useDriveAppData from '@/utils/hooks/useDriveAppData';
 
@@ -38,7 +38,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         onSuccess: (_, newFile: FileToCreate) => {
             queryClient.invalidateQueries({ queryKey: [KEY] });
             handleSelectTemplateToPlayByObject(newFile.content as Template);
-            handleOpenSnackbar(t('templateCreated'), 0, 'success');
+            handleOpenSnackbar({ text: t('templateCreated'), type: 'success' });
         },
     });
 
@@ -47,7 +47,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         onSuccess: (_, newFile: FileToCreate) => {
             queryClient.invalidateQueries({ queryKey: [KEY] });
             handleSelectTemplateToPlayByObject(newFile.content as Template);
-            handleOpenSnackbar(t('templateUpdated'), 0, 'success');
+            handleOpenSnackbar({ text: t('templateUpdated'), type: 'success' });
         },
     });
 
@@ -56,7 +56,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [KEY] });
             handleSelectTemplateToPlayByObject();
-            handleOpenSnackbar(t('templateDeleted'), 0, 'success');
+            handleOpenSnackbar({ text: t('templateDeleted'), type: 'success' });
         },
     });
 
@@ -69,9 +69,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         handleCloseDialog: handleCloseTemplateFormDialog,
     } = useDialog();
 
-    const {
-        handleOpen: handleOpenSnackbar,
-    } = useSnackbarContext();
+    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const handleSelectTemplateToPlayByName = (newTemplateName: string) => {
         if (newTemplateName === selectedTemplateNameToPlay) return;
@@ -82,7 +80,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         const templateSelected = templates.find((template) => template.name === newTemplateName);
 
         onTemplateSelectionCallback(templateSelected);
-        handleOpenSnackbar(t('templateSelected'), 0, 'success');
+        handleOpenSnackbar({ text: t('templateSelected'), type: 'success' });
     }
 
     const handleSelectTemplateToPlayByObject = (newTemplate?: Template) => {

@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Avatar, Button, Grid, IconButton, Popover, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
+import { useSnackbar } from '@/components/snackbar/context';
 
 type Props = {
     afterSignOutCallback: () => void,
@@ -15,7 +15,7 @@ const UserButton = ({ afterSignOutCallback }: Props) => {
     const { data: session, status } = useSession();
     const t = useTranslations();
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-    const { handleOpen: handleOpenSnackbar } = useSnackbarContext();
+    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const handleOpenPopover = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -27,7 +27,7 @@ const UserButton = ({ afterSignOutCallback }: Props) => {
 
     const handleSignOut = async () => {
         await signOut({ redirect: false });
-        handleOpenSnackbar(t('userLoggedOut'), 0, 'success');
+        handleOpenSnackbar({ text: t('userLoggedOut'), type: 'success' });
         afterSignOutCallback();
     }
 

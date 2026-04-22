@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Button, Dialog, DialogActions, DialogContent, TextField, Typography } from '@mui/material';
 import type { Template, TemplateFormAction, TemplateFormData } from '@/utils/types';
 import { TEMPLATE_NAME_MAX_LENGTH } from '@/utils/constants';
-import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
+import { useSnackbar } from '@/components/snackbar/context';
 import DialogTitle from '@/components/dialogTitle';
 
 type Props = {
@@ -54,18 +54,16 @@ const TemplateFormDialog = (props: Props) => {
 
     const [newTemplateName, setNewTemplateName] = useState(initialName);
 
-    const {
-        handleOpen: handleOpenSnackbar,
-    } = useSnackbarContext();
+    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const submit = () => {
         if (!newTemplateName) {
-            handleOpenSnackbar(t('nameRequired'));
+            handleOpenSnackbar({ text: t('nameRequired') });
             return;
         }
 
         if (newTemplateName !== initialName && templates.some((template) => template.name === newTemplateName)) {
-            handleOpenSnackbar(t('nameInUse'));
+            handleOpenSnackbar({ text: t('nameInUse') });
             return;
         }
 

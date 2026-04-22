@@ -17,7 +17,7 @@ import {
 import type { TempoProgrammingSettings, TimerSettings } from '@/utils/types';
 import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS, TIMER_CONSTANTS } from '@/utils/constants';
 import useIsMobileSize from '@/utils/hooks/useIsMobileSize';
-import useSnackbarContext from '@/components/snackbar/useSnackbarContext';
+import { useSnackbar } from '@/components/snackbar/context';
 import Container from '@/components/container';
 import DialogTitle from '@/components/dialogTitle';
 
@@ -61,9 +61,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
     const t = useTranslations();
     const useFullScreen = useIsMobileSize();
 
-    const {
-        handleOpen: handleOpenSnackbar,
-    } = useSnackbarContext();
+    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const [formData, setFormData] = useState<FormDataType>({
         countdownLength: initialCountdownLength,
@@ -109,61 +107,61 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         const newFieldsWithErrors: FieldNamesType[] = [];
 
         if (!(fromBPM >= METRONOME_CONSTANTS.minBPM && fromBPM <= METRONOME_CONSTANTS.maxBPM)) {
-            handleOpenSnackbar(t('fromBPMMustBeInRange', { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
+            handleOpenSnackbar({ text: t('fromBPMMustBeInRange', { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }) });
             newFieldsWithErrors.push('fromBPM');
             dataIsValid = false;
         }
 
         if (!(toBPM >= METRONOME_CONSTANTS.minBPM && fromBPM <= METRONOME_CONSTANTS.maxBPM)) {
-            handleOpenSnackbar(t('toBPMMustBeInRange', { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }));
+            handleOpenSnackbar({ text: t('toBPMMustBeInRange', { min: METRONOME_CONSTANTS.minBPM, max: METRONOME_CONSTANTS.maxBPM }) });
             newFieldsWithErrors.push('toBPM');
             dataIsValid = false;
         }
 
         if (fromBPM === toBPM) {
-            handleOpenSnackbar(t('fromBPMMustBeDifferentThanToBPM'));
+            handleOpenSnackbar({ text: t('fromBPMMustBeDifferentThanToBPM') });
             newFieldsWithErrors.push('fromBPM', 'toBPM');
             dataIsValid = false;
         }
 
         if (isTempoProgrammingActive && !(bpmToChange >= TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange && bpmToChange <= TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange)) {
-            handleOpenSnackbar(t('bpmToChangeMustBeInRange', { min: TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange, max: TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange }));
+            handleOpenSnackbar({ text: t('bpmToChangeMustBeInRange', { min: TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange, max: TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange }) });
             newFieldsWithErrors.push('bpmToChange');
             dataIsValid = false;
         }
 
         if (isTempoProgrammingActive && !(measuresToChangeBPM >= TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM && measuresToChangeBPM <= TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM)) {
-            handleOpenSnackbar(t('measuresToChangeBPMMustBeInRange', { min: TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM, max: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM }));
+            handleOpenSnackbar({ text: t('measuresToChangeBPMMustBeInRange', { min: TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM, max: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM }) });
             newFieldsWithErrors.push('measuresToChangeBPM');
             dataIsValid = false;
         }
 
         if (isTimeActive && !secondsToStop && !minutesToStop) {
-            handleOpenSnackbar(t('timeCannotBeEmpty'));
+            handleOpenSnackbar({ text: t('timeCannotBeEmpty') });
             newFieldsWithErrors.push('minutesToStop', 'secondsToStop');
             dataIsValid = false;
         }
 
         if (!(secondsToStop >= 0 && secondsToStop <= TIMER_CONSTANTS.maxSecondsToStop)) {
-            handleOpenSnackbar(t('secondsMustBeInRange', { min: 0, max: TIMER_CONSTANTS.maxSecondsToStop }));
+            handleOpenSnackbar({ text: t('secondsMustBeInRange', { min: 0, max: TIMER_CONSTANTS.maxSecondsToStop }) });
             newFieldsWithErrors.push('secondsToStop');
             dataIsValid = false;
         }
 
         if (!(minutesToStop >= 0 && minutesToStop <= TIMER_CONSTANTS.maxMinutesToStop)) {
-            handleOpenSnackbar(t('minutesMustBeInRange', { min: 0, max: TIMER_CONSTANTS.maxMinutesToStop }));
+            handleOpenSnackbar({ text: t('minutesMustBeInRange', { min: 0, max: TIMER_CONSTANTS.maxMinutesToStop }) });
             newFieldsWithErrors.push('minutesToStop');
             dataIsValid = false;
         }
 
         if (!(measuresToStop >= 0 && measuresToStop <= TIMER_CONSTANTS.maxMeasuresToStop)) {
-            handleOpenSnackbar(t('measuresToStopMustBeInRange', { min: 0, max: TIMER_CONSTANTS.maxMeasuresToStop }));
+            handleOpenSnackbar({ text: t('measuresToStopMustBeInRange', { min: 0, max: TIMER_CONSTANTS.maxMeasuresToStop }) });
             newFieldsWithErrors.push('measuresToStop');
             dataIsValid = false;
         }
 
         if (isMeasuresActive && !measuresToStop) {
-            handleOpenSnackbar(t('measuresToStopCannotBeEmpty'));
+            handleOpenSnackbar({ text: t('measuresToStopCannotBeEmpty') });
             newFieldsWithErrors.push('measuresToStop');
             dataIsValid = false;
         }
