@@ -87,12 +87,13 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
         setFormData((prev) => ({
             ...prev,
-            [fieldName]: typeof value === 'string' ? Math.round(Number(value)) : value,
+            [fieldName]: (typeof value === 'string' && value) ? Math.round(Number(value)) : value,
         }));
     };
 
     const validate = () => {
         const {
+            isTempoProgrammingActive,
             bpmToChange,
             measuresToChangeBPM,
             fromBPM,
@@ -125,13 +126,13 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             dataIsValid = false;
         }
 
-        if (!(bpmToChange >= 0 && bpmToChange <= METRONOME_CONSTANTS.maxBPM)) {
-            handleOpenSnackbar(t('bpmToChangeMustBeInRange', { min: 0, max: METRONOME_CONSTANTS.maxBPM }));
+        if (isTempoProgrammingActive && !(bpmToChange >= TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange && bpmToChange <= TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange)) {
+            handleOpenSnackbar(t('bpmToChangeMustBeInRange', { min: TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange, max: TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange }));
             newFieldsWithErrors.push('bpmToChange');
             dataIsValid = false;
         }
 
-        if (!(measuresToChangeBPM >= TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM && measuresToChangeBPM <= TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM)) {
+        if (isTempoProgrammingActive && !(measuresToChangeBPM >= TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM && measuresToChangeBPM <= TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM)) {
             handleOpenSnackbar(t('measuresToChangeBPMMustBeInRange', { min: TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM, max: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM }));
             newFieldsWithErrors.push('measuresToChangeBPM');
             dataIsValid = false;
@@ -193,17 +194,17 @@ const TempoProgrammingTimerDialog = (props: Props) => {
 
         const newTempoProgrammingSettings = {
             isActive: isTempoProgrammingActive,
-            bpmToChange,
-            measuresToChangeBPM,
+            bpmToChange: bpmToChange || 0,
+            measuresToChangeBPM: measuresToChangeBPM || 0,
             fromBPM,
             toBPM,
             isLoop,
         }
 
         const newTimerSettings = {
-            secondsToStop: minutesToStop * 60 + secondsToStop,
+            secondsToStop: (minutesToStop || 0) * 60 + (secondsToStop || 0),
             isTimeActive,
-            measuresToStop,
+            measuresToStop: measuresToStop || 0,
             isMeasuresActive,
         }
 
@@ -314,14 +315,14 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                     value={formData.bpmToChange}
                                     onChange={(e) => setFormValue(e.target.value.substring(0, 3), 'bpmToChange')}
                                     variant='outlined'
-                                    helperText={`${0} ${t('to').toLowerCase()} ${METRONOME_CONSTANTS.maxBPM} ${t('bpm')}`}
+                                    helperText={`${TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange} ${t('to').toLowerCase()} ${TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange} ${t('bpm')}`}
                                     slotProps={{
                                         input: {
                                             endAdornment: <InputAdornment position='end'>{t('bpm')}</InputAdornment>,
                                         },
                                         htmlInput: {
-                                            min: 0,
-                                            max: METRONOME_CONSTANTS.maxBPM,
+                                            min: TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange,
+                                            max: TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange,
                                         }
                                     }}
                                 />
