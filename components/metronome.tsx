@@ -23,6 +23,7 @@ import ShortcutsDialog from '@/components/shortcutsDialog';
 import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
 import { useSnackbar } from '@/components/snackbar/context';
+import UserButton from '@/components/userButton';
 
 const Metronome = () => {
 
@@ -67,6 +68,7 @@ const Metronome = () => {
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
         handleOpenDeleteTemplate,
+        handleDeleteAllTemplates,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
         handleCloseTemplateForm,
@@ -158,7 +160,13 @@ const Metronome = () => {
                 disableLocaleSelector={isPlaying}
                 handleTitleClick={handleOpenAboutDialog}
                 handleShortcutsClick={handleOpenShortcutsDialog}
-                resetMetronomeSettings={handleResetUserSettings}
+                userButton={
+                    <UserButton
+                        templates={templates}
+                        handleDeleteAllTemplates={handleDeleteAllTemplates}
+                        handleResetUserSettings={handleResetUserSettings}
+                    />
+                }
             />
             <main>
                 <Grid

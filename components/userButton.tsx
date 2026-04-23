@@ -7,20 +7,26 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useSnackbar } from '@/components/snackbar/context';
-import useTemplates from '@/utils/hooks/useTemplates';
 import { URLS } from '@/utils/constants';
+import { Template } from '@/utils/types';
 
 type Props = {
-    afterSignOutCallback: () => void,
+    templates: Template[],
+    handleDeleteAllTemplates: () => void,
+    handleResetUserSettings: () => void,
 }
 
-const UserButton = ({ afterSignOutCallback }: Props) => {
+const UserButton = (props: Props) => {
+    const {
+        templates,
+        handleDeleteAllTemplates,
+        handleResetUserSettings,
+    } = props;
+
     const { data: session, status } = useSession();
     const t = useTranslations();
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
-
-    const { templates, handleDeleteAllTemplates } = useTemplates();
 
     const handleOpenPopover = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -33,7 +39,7 @@ const UserButton = ({ afterSignOutCallback }: Props) => {
     const handleSignOut = async () => {
         await signOut({ redirect: false });
         handleOpenSnackbar({ text: t('userLoggedOut'), type: 'success' });
-        afterSignOutCallback();
+        handleResetUserSettings();
     }
 
     const isLoading = status === 'loading';

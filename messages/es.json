@@ -86,6 +86,6 @@
     "userLoggedOut": "Sesión cerrada",
     "viewAccount": "Ver cuenta",
     "youHaveTemplates": "Tienes {amount, plural, =1 {# plantilla creada} other {# plantillas creadas}}",
-    "templatesDeleted": "Plantillas eliminada",
+    "templatesDeleted": "Plantillas eliminadas",
     "deleteAllTemplates": "Eliminar plantillas"
 }

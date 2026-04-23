@@ -3,22 +3,21 @@ import { Button, Grid, IconButton, Typography } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import useIsMobileSize from '@/utils/hooks/useIsMobileSize';
 import LocaleSelector from '@/components/localeSelector';
-import UserButton from '@/components/userButton';
 
 type Props = {
+    userButton: React.ReactNode,
     disableLocaleSelector: boolean,
     handleTitleClick: () => void,
     handleShortcutsClick: () => void,
-    resetMetronomeSettings: () => void,
 }
 
 const Header = (props: Props) => {
 
     const {
+        userButton,
         disableLocaleSelector,
         handleTitleClick,
         handleShortcutsClick,
-        resetMetronomeSettings,
     } = props;
 
     const t = useTranslations();
@@ -58,9 +57,7 @@ const Header = (props: Props) => {
                         </IconButton>
                     }
                     <LocaleSelector disabled={disableLocaleSelector} />
-                    <UserButton
-                        afterSignOutCallback={resetMetronomeSettings}
-                    />
+                    {userButton}
                 </Grid>
             </Grid>
         </header>

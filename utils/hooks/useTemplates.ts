@@ -10,7 +10,7 @@ import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS, setValueInLocalS
 
 const KEY = 'template-files';
 
-const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) => {
+const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) => {
 
     const t = useTranslations();
 
@@ -88,14 +88,12 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
     }
 
     const handleDeselectTemplate = () => {
-        if (!onTemplateSelectionCallback) return;
-
         selectTemplateAndStoreInLocalStorage('');
+
         onTemplateSelectionCallback();
     }
 
     const handleSelectTemplateToPlayByName = (newTemplateName: string) => {
-        if (!onTemplateSelectionCallback) return;
         if (newTemplateName === selectedTemplateNameToPlay) return;
         if (!templates?.length) return;
 
@@ -108,7 +106,6 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
     }
 
     const handleSelectTemplateToPlayByObject = (newTemplate?: Template) => {
-        if (!onTemplateSelectionCallback) return;
         selectTemplateAndStoreInLocalStorage(newTemplate?.name || '');
         onTemplateSelectionCallback(newTemplate);
     }
@@ -203,6 +200,7 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
     }
 
     const handleDeleteAllTemplates = () => {
+        handleDeselectTemplate();
         deleteAllTemplates();
     }
 
