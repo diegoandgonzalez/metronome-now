@@ -6,6 +6,7 @@ import useDialog from '@/utils/hooks/useDialog';
 import { useSnackbar } from '@/components/snackbar/context';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useDriveAppData from '@/utils/hooks/useDriveAppData';
+import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from '@/utils/localStorage';
 
 const KEY = 'template-files';
 
@@ -60,7 +61,7 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
         },
     });
 
-    const [selectedTemplateNameToPlay, setSelectedTemplateNameToPlay] = useState<string>(''); // TODO: valor inicial?
+    const [selectedTemplateNameToPlay, setSelectedTemplateNameToPlay] = useState<string>(() => getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, ''));
     const [templateFormData, setTemplateFormData] = useState<TemplateFormData | null>(null);
 
     const {
@@ -71,12 +72,24 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
 
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
+    const selectTemplateAndStoreInLocalStorage = (newTemplateName: string) => {
+        setSelectedTemplateNameToPlay(newTemplateName);
+        setValueInLocalStorage(LOCAL_STORAGE_KEYS.template, newTemplateName);
+    }
+
+    const handleDeselectTemplate = () => {
+        if (!onTemplateSelectionCallback) return;
+
+        selectTemplateAndStoreInLocalStorage('');
+        onTemplateSelectionCallback();
+    }
+
     const handleSelectTemplateToPlayByName = (newTemplateName: string) => {
         if (!onTemplateSelectionCallback) return;
         if (newTemplateName === selectedTemplateNameToPlay) return;
         if (!templates?.length) return;
 
-        setSelectedTemplateNameToPlay(newTemplateName);
+        selectTemplateAndStoreInLocalStorage(newTemplateName);
 
         const templateSelected = templates.find((template) => template.name === newTemplateName);
 
@@ -86,7 +99,7 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
 
     const handleSelectTemplateToPlayByObject = (newTemplate?: Template) => {
         if (!onTemplateSelectionCallback) return;
-        setSelectedTemplateNameToPlay(newTemplate?.name || '');
+        selectTemplateAndStoreInLocalStorage(newTemplate?.name || '');
         onTemplateSelectionCallback(newTemplate);
     }
 
@@ -186,24 +199,6 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
         handleSelectTemplateToPlayByName(templateFiles[position - 1]?.name);
     }
 
-    const handleSelectPrevTemplate = () => {
-        if (!templateFiles?.length) return;
-
-        const templateIndex = templateFiles.findIndex((template) => template.name === selectedTemplateNameToPlay);
-        const prevTemplateName = templateFiles[templateIndex - 1]?.name || '';
-        handleSelectTemplateToPlayByName(prevTemplateName);
-    }
-
-    const handleSelectNextTemplate = () => {
-        if (!templateFiles?.length) return;
-
-        const templateIndex = templateFiles.findIndex((template) => template.name === selectedTemplateNameToPlay);
-        if (templateIndex === templateFiles.length - 1) return;
-
-        const nextTemplateName = templateFiles[templateIndex + 1].name;
-        handleSelectTemplateToPlayByName(nextTemplateName);
-    }
-
     const sortedTemplates = useMemo(() => {
         if (!templates?.length) return [];
         return templates.sort((a, b) => a.name.localeCompare(b.name));
@@ -216,8 +211,7 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
         templateFormData,
         handleSelectTemplateToPlayByName,
         handleSelectTemplateByPosition,
-        handleSelectPrevTemplate,
-        handleSelectNextTemplate,
+        handleDeselectTemplate,
         handleSubmitActionTemplate,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,

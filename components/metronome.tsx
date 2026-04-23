@@ -62,6 +62,7 @@ const Metronome = () => {
         templateFormData,
         handleSelectTemplateToPlayByName,
         handleSelectTemplateByPosition,
+        handleDeselectTemplate,
         handleSubmitActionTemplate,
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
@@ -125,7 +126,7 @@ const Metronome = () => {
     const handleResetUserSettings = () => {
         handleStopMetronome();
         handleSetSettings(DEFAULT_SETTINGS);
-        // TODO: limpiar template seleccionado
+        handleDeselectTemplate();
     }
 
     useExecuteKeyPressed('?', 'keyup', handleOpenShortcutsDialog);
