@@ -19,6 +19,7 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
         readAllFiles,
         writeFile,
         deleteFile,
+        deleteAllFiles,
     } = useDriveAppData();
 
     const queryClient = useQueryClient();
@@ -56,8 +57,17 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
         mutationFn: (fileName: string) => deleteFile(fileName),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [KEY] });
-            handleSelectTemplateToPlayByObject();
+            handleDeselectTemplate();
             handleOpenSnackbar({ text: t('templateDeleted'), type: 'success' });
+        },
+    });
+    
+    const { mutate: deleteAllTemplates } = useMutation({
+        mutationFn: deleteAllFiles,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [KEY] });
+            handleDeselectTemplate();
+            handleOpenSnackbar({ text: t('templatesDeleted'), type: 'success' });
         },
     });
 
@@ -192,6 +202,10 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
         deleteTemplate(templateFormData?.templateName);
     }
 
+    const handleDeleteAllTemplates = () => {
+        deleteAllTemplates();
+    }
+
     const handleSelectTemplateByPosition = (position: number) => {
         if (!templateFiles?.length) return;
 
@@ -216,6 +230,7 @@ const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) =
         handleOpenCreateTemplate,
         handleOpenUpdateTemplate,
         handleOpenDeleteTemplate,
+        handleDeleteAllTemplates,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
         handleCloseTemplateForm,

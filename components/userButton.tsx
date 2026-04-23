@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Avatar, Button, Grid, IconButton, Popover, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useSnackbar } from '@/components/snackbar/context';
 import useTemplates from '@/utils/hooks/useTemplates';
 import { URLS } from '@/utils/constants';
@@ -19,7 +20,7 @@ const UserButton = ({ afterSignOutCallback }: Props) => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
-    const { templates } = useTemplates();
+    const { templates, handleDeleteAllTemplates } = useTemplates();
 
     const handleOpenPopover = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -81,16 +82,16 @@ const UserButton = ({ afterSignOutCallback }: Props) => {
                     container
                     direction={'column'}
                     alignItems={'center'}
-                    spacing={2}
+                    spacing={4}
                     sx={{
                         width: 250,
                         padding: 2,
                     }}
                 >
-                    <Typography variant='caption'>
-                        {session.user?.email}
-                    </Typography>
                     <Grid container direction={'column'} alignItems={'center'} spacing={1}>
+                        <Typography variant='caption'>
+                            {session.user?.email}
+                        </Typography>
                         <IconButton onClick={() => window.open(URLS.google.account, '_blank')}>
                             <Avatar
                                 title={t('viewAccount')}
@@ -103,9 +104,21 @@ const UserButton = ({ afterSignOutCallback }: Props) => {
                             {t('hi', { username: session.user?.name?.split(' ')[0] || '' })}
                         </Typography>
                     </Grid>
-                    <Typography variant='caption'>
-                        {t('youHaveTemplates', { amount: templates.length })}
-                    </Typography>
+                    <Grid container direction={'column'} alignItems={'center'} spacing={1}>
+                        <Typography variant='caption'>
+                            {t('youHaveTemplates', { amount: templates.length })}
+                        </Typography>
+                        {
+                            Boolean(templates.length) &&
+                            <Button
+                                onClick={handleDeleteAllTemplates}
+                                variant='dark'
+                                startIcon={<DeleteForeverIcon />}
+                            >
+                                {t('deleteAllTemplates')}
+                            </Button>
+                        }
+                    </Grid>
                     <Button
                         onClick={handleSignOut}
                         variant='contained'

@@ -85,5 +85,7 @@
     "errorOcurred": "An error ocurred, try again later",
     "userLoggedOut": "Logged out",
     "viewAccount": "View account",
-    "youHaveTemplates": "You have {amount, plural, =1 {# template created} other {# templates created}}"
+    "youHaveTemplates": "You have {amount, plural, =1 {# template created} other {# templates created}}",
+    "templatesDeleted": "Templates deleted",
+    "deleteAllTemplates": "Delete templates"
 }

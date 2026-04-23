@@ -99,11 +99,25 @@ const useDriveAppData = () => {
         });
     }
 
+    const deleteAllFiles = async () => {
+        return runAndHandleError(async () => {
+            const files = await listFiles();
+            if (!files?.length) return [];
+
+            await Promise.all(
+                files.map(async (file) => {
+                    await fetch(`${URLS.google.apis.drive.root}/files/${file.id}`, { method: 'DELETE', headers });
+                })
+            );
+        });
+    };
+
     return {
         isReady: Boolean(token),
         readAllFiles,
         writeFile,
         deleteFile,
+        deleteAllFiles,
     };
 }
 
