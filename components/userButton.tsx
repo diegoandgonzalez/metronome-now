@@ -6,6 +6,8 @@ import { Avatar, Button, Grid, IconButton, Popover, Typography } from '@mui/mate
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useSnackbar } from '@/components/snackbar/context';
+import useTemplates from '@/utils/hooks/useTemplates';
+import { URLS } from '@/utils/constants';
 
 type Props = {
     afterSignOutCallback: () => void,
@@ -16,6 +18,8 @@ const UserButton = ({ afterSignOutCallback }: Props) => {
     const t = useTranslations();
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
+
+    const { templates } = useTemplates();
 
     const handleOpenPopover = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -87,16 +91,21 @@ const UserButton = ({ afterSignOutCallback }: Props) => {
                         {session.user?.email}
                     </Typography>
                     <Grid container direction={'column'} alignItems={'center'} spacing={1}>
-                        <Avatar
-                            title={session.user?.name || ''}
-                            src={session.user?.image || ''}
-                            alt={t('userImage')}
-                            sx={{ width: 60, height: 60 }}
-                        />
+                        <IconButton onClick={() => window.open(URLS.google.account, '_blank')}>
+                            <Avatar
+                                title={t('viewAccount')}
+                                src={session.user?.image || ''}
+                                alt={t('userImage')}
+                                sx={{ width: 60, height: 60 }}
+                            />
+                        </IconButton>
                         <Typography variant='h5'>
                             {t('hi', { username: session.user?.name?.split(' ')[0] || '' })}
                         </Typography>
                     </Grid>
+                    <Typography variant='caption'>
+                        {t('youHaveTemplates', { amount: templates.length })}
+                    </Typography>
                     <Button
                         onClick={handleSignOut}
                         variant='contained'

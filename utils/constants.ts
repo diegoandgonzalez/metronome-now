@@ -1,6 +1,25 @@
 import type { Settings } from './types';
 import { createDefaultBeatTypesArray } from './beatTypes';
 
+export const URLS = {
+    google: {
+        account: 'https://myaccount.google.com',
+        apis: {
+            drive: {
+                root: 'https://www.googleapis.com/drive/v3',
+                upload: 'https://www.googleapis.com/upload/drive/v3',
+            },
+            token: 'https://oauth2.googleapis.com/token',
+            scopes: [
+                "openid",
+                "email",
+                "profile",
+                "https://www.googleapis.com/auth/drive.appdata",
+            ].join(" "),
+        }
+    }
+}
+
 export const METRONOME_CONSTANTS = {
     beatTypesAmount: 3, // number of different types of beat types
     stoppedBeatIndex: -1,

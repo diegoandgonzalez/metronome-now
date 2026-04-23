@@ -2,10 +2,7 @@ import { useSession } from 'next-auth/react';
 import { GoogleDriveFileList, FileToCreate } from '@/utils/types';
 import { useSnackbar } from '@/components/snackbar/context';
 import { useTranslations } from 'next-intl';
-
-const DRIVE_API = 'https://www.googleapis.com/drive/v3'; // TODO
-const UPLOAD_API = 'https://www.googleapis.com/upload/drive/v3';  // TODO
-
+import { URLS } from '@/utils/constants';
 
 const useDriveAppData = () => {
     const { data: session } = useSession();
@@ -33,7 +30,7 @@ const useDriveAppData = () => {
 
     const listFiles = async () => {
         return runAndHandleError(async () => {
-            const res = await fetch(`${DRIVE_API}/files?spaces=appDataFolder&fields=files(id,name,modifiedTime)`, { headers });
+            const res = await fetch(`${URLS.google.apis.drive.root}/files?spaces=appDataFolder&fields=files(id,name,modifiedTime)`, { headers });
             const data = await res.json();
             return data.files as GoogleDriveFileList;
         });
@@ -46,7 +43,7 @@ const useDriveAppData = () => {
 
             const results = await Promise.all(
                 files.map(async (file) => {
-                    const res = await fetch(`${DRIVE_API}/files/${file.id}?alt=media`, { headers });
+                    const res = await fetch(`${URLS.google.apis.drive.root}/files/${file.id}?alt=media`, { headers });
                     const text = await res.text();
                     let content;
                     try {
@@ -73,7 +70,7 @@ const useDriveAppData = () => {
             const isOverwrite = files?.find((file) => file.name === name);
 
             if (isOverwrite) {
-                await fetch(`${UPLOAD_API}/files/${isOverwrite.id}?uploadType=media`, {
+                await fetch(`${URLS.google.apis.drive.upload}/files/${isOverwrite.id}?uploadType=media`, {
                     method: 'PATCH',
                     headers: { Authorization: `Bearer ${token}` },
                     body: blob,
@@ -85,7 +82,7 @@ const useDriveAppData = () => {
             const form = new FormData();
             form.append('metadata', new Blob([meta], { type: 'application/json' }));
             form.append('file', blob);
-            await fetch(`${UPLOAD_API}/files?uploadType=multipart`, {
+            await fetch(`${URLS.google.apis.drive.upload}/files?uploadType=multipart`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` },
                 body: form,
@@ -98,7 +95,7 @@ const useDriveAppData = () => {
             const files = await listFiles();
             const file = files?.find((f) => f.name === name);
             if (!file) return;
-            await fetch(`${DRIVE_API}/files/${file.id}`, { method: 'DELETE', headers });
+            await fetch(`${URLS.google.apis.drive.root}/files/${file.id}`, { method: 'DELETE', headers });
         });
     }
 

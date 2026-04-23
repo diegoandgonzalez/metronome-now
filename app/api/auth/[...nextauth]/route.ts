@@ -1,10 +1,11 @@
+import { URLS } from '@/utils/constants';
 import NextAuth from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import GoogleProvider from 'next-auth/providers/google';
 
 const refreshAccessToken = async (token: JWT): Promise<JWT> => {
     try {
-        const res = await fetch('https://oauth2.googleapis.com/token', {
+        const res = await fetch(URLS.google.apis.token, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
@@ -36,12 +37,7 @@ const handler = NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
             authorization: {
                 params: {
-                    scope: [
-                        'openid',
-                        'email',
-                        'profile',
-                        'https://www.googleapis.com/auth/drive.appdata',
-                    ].join(' '),
+                    scope: URLS.google.apis.scopes,
                     access_type: 'offline',  // Gets refresh token
                     prompt: 'consent',       // Forces refresh token on first login
                 },

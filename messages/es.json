@@ -83,5 +83,7 @@
     "profile": "Perfil",
     "hi": "¡Hola, {username}!",
     "errorOcurred": "Ha ocurrido un error, intente nuevamente más tarde",
-    "userLoggedOut": "Sesión cerrada"
+    "userLoggedOut": "Sesión cerrada",
+    "viewAccount": "Ver cuenta",
+    "youHaveTemplates": "Tienes {amount, plural, =1 {# plantilla creada} other {# plantillas creadas}}"
 }

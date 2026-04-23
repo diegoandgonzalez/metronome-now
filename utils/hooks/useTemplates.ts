@@ -9,7 +9,7 @@ import useDriveAppData from '@/utils/hooks/useDriveAppData';
 
 const KEY = 'template-files';
 
-const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) => {
+const useTemplates = (onTemplateSelectionCallback?: (args?: Template) => void) => {
 
     const t = useTranslations();
 
@@ -72,6 +72,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const handleSelectTemplateToPlayByName = (newTemplateName: string) => {
+        if (!onTemplateSelectionCallback) return;
         if (newTemplateName === selectedTemplateNameToPlay) return;
         if (!templates?.length) return;
 
@@ -84,6 +85,7 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
     }
 
     const handleSelectTemplateToPlayByObject = (newTemplate?: Template) => {
+        if (!onTemplateSelectionCallback) return;
         setSelectedTemplateNameToPlay(newTemplate?.name || '');
         onTemplateSelectionCallback(newTemplate);
     }

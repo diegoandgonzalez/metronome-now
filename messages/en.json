@@ -83,5 +83,7 @@
     "profile": "Profile",
     "hi": "Hi, {username}!",
     "errorOcurred": "An error ocurred, try again later",
-    "userLoggedOut": "Logged out"
+    "userLoggedOut": "Logged out",
+    "viewAccount": "View account",
+    "youHaveTemplates": "You have {amount, plural, =1 {# template created} other {# templates created}}"
 }
