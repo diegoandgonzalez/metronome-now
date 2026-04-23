@@ -12,6 +12,7 @@ export type SnackbarContextValue = {
     state: SnackbarState,
     handleOpen: (newState: SnackbarState) => void;
     handleClose: () => void;
+    resetState: () => void;
 }
 
 const initialState: SnackbarState = {
@@ -25,9 +26,10 @@ export const useSnackbarState = (): SnackbarContextValue => {
     const [state, setState] = useState<SnackbarState>(initialState);
 
     const handleOpen = (newState: SnackbarState) => setState({ ...newState, open: true });
-    const handleClose = () => setState(initialState);
+    const handleClose = () => setState((prev) => ({ ...prev, open: false }));
+    const resetState = () => setState(initialState);
 
-    return { state, handleOpen, handleClose };
+    return { state, handleOpen, handleClose, resetState };
 };
 
 const SnackbarContext = createContext<SnackbarContextValue | null>(null);

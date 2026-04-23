@@ -6,6 +6,7 @@ const CustomSnackbar = () => {
     const {
         state,
         handleClose,
+        resetState,
     } = useSnackbar();
 
     const {
@@ -19,13 +20,18 @@ const CustomSnackbar = () => {
         if (reason === 'clickaway') return;
         handleClose();
     };
-    
+
     return (
         <Snackbar
             open={open}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             autoHideDuration={secondsToClose * 1000}
             onClose={handleSnackbarClose}
+            slotProps={{
+                transition: {
+                    onExited: resetState,
+                },
+            }}
         >
             <Alert
                 onClose={handleSnackbarClose}
