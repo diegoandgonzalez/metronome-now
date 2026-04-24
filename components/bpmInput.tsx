@@ -14,11 +14,18 @@ import { METRONOME_CONSTANTS } from '@/utils/constants';
 import { useSnackbar } from '@/components/snackbar/context';
 import useTapTempo from '@/utils/hooks/useTapTempo';
 import useExecuteKeyPressed from '@/utils/hooks/useExecuteKeyPressed';
-
+import TouchAppIcon from '@mui/icons-material/TouchApp';
 type Props = {
   disabled?: boolean,
   initialBPM: number,
   handleChange: (value: number) => void,
+}
+
+const scaleEffect = {
+  transition: "scale 0.3s cubic-bezier(0.35, 1.55, 0.65, 1)",
+  "&:active": {
+    scale: 1.1,
+  },
 }
 
 const BPMInput = (props: Props) => {
@@ -114,7 +121,7 @@ const BPMInput = (props: Props) => {
             title={t('subtractBPM')}
             aria-label={t('subtractBPM')}
             variant='contained'
-            sx={{ minWidth: 0, padding: 1 }}
+            sx={{ ...scaleEffect, minWidth: 0, padding: 1 }}
             onClick={subtractOneBPM}
           >
             <RemoveIcon sx={{ fontSize: 20 }} />
@@ -123,20 +130,21 @@ const BPMInput = (props: Props) => {
             disabled={disabled}
             title={t('tapToGetBPM')}
             variant='contained'
+            sx={{ ...scaleEffect }}
             onClick={() => {
               const tappedBPM = tap();
               if (!tappedBPM) return;
               handleSubmit(String(tappedBPM))
             }}
-          >
-            {t('tapToGetBPM')}
+            >
+            <TouchAppIcon sx={{ fontSize: 20 }} />
           </Button>
           <Button
             disabled={disabled}
             title={t('addBPM')}
             aria-label={t('addBPM')}
             variant='contained'
-            sx={{ minWidth: 0, padding: 1 }}
+            sx={{ ...scaleEffect, minWidth: 0, padding: 1 }}
             onClick={addOneBPM}
           >
             <AddIcon sx={{ fontSize: 20 }} />
