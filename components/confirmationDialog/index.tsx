@@ -8,22 +8,21 @@ import {
     Typography,
 } from '@mui/material';
 import DialogTitle from '@/components/dialogTitle';
+import { useConfirmationDialog } from '@/components/confirmationDialog/context';
 
-type Props = {
-    open: boolean,
-    question: string,
-    handleConfirm: () => void,
-    handleClose: () => void,
-}
-
-const ConfirmationDialog = (props: Props) => {
+const ConfirmationDialog = () => {
 
     const {
         open,
+        state,
+        handleClose,
+        resetState,
+    } = useConfirmationDialog();
+
+    const {
         question,
         handleConfirm,
-        handleClose,
-    } = props;
+    } = state;
 
     const t = useTranslations();
 
@@ -31,6 +30,11 @@ const ConfirmationDialog = (props: Props) => {
         <Dialog
             open={open}
             onClose={handleClose}
+            slotProps={{
+                transition: {
+                    onExited: resetState,
+                },
+            }}
         >
             <DialogTitle onClose={handleClose}>
                 {t('attention')}

@@ -24,7 +24,7 @@ import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
 import { useSnackbar } from '@/components/snackbar/context';
 import UserButton from '@/components/userButton';
-import ConfirmationDialog from '@/components/confirmationDialog';
+import { useConfirmationDialog } from '@/components/confirmationDialog/context';
 
 const Metronome = () => {
 
@@ -68,7 +68,7 @@ const Metronome = () => {
         handleDeselectTemplate,
         handleSubmitActionTemplate,
         handleOpenCreateTemplate,
-        handleOpenUpdateTemplate,
+        handleSaveTemplateChanges,
         handleOpenDeleteTemplate,
         handleDeleteAllTemplates,
         handleOpenRenameTemplate,
@@ -77,6 +77,7 @@ const Metronome = () => {
     } = useTemplates(settings, onTemplateSelectionCallback);
 
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
+    const { handleOpen: handleOpenConfirmationDialog } = useConfirmationDialog();
 
     const {
         dialogIsOpen: templateDialogIsOpen,
@@ -100,12 +101,6 @@ const Metronome = () => {
         dialogIsOpen: shortcutsDialogIsOpen,
         handleOpenDialog: handleOpenShortcutsDialog,
         handleCloseDialog: handleCloseShortcutsDialog,
-    } = useDialog();
-
-    const {
-        dialogIsOpen: deleteAllTemplatesConfirmationDialogIsOpen,
-        handleOpenDialog: handleOpenDeleteAllTemplatesConfirmationDialog,
-        handleCloseDialog: handleCloseDeleteAllTemplatesConfirmationDialog,
     } = useDialog();
 
     const handleToggleMetronome = () => {
@@ -170,7 +165,10 @@ const Metronome = () => {
                 userButton={
                     <UserButton
                         templates={templates}
-                        handleDeleteAllTemplates={handleOpenDeleteAllTemplatesConfirmationDialog}
+                        handleDeleteAllTemplates={() => handleOpenConfirmationDialog({
+                            question: t('deleteAllTemplatesQuestion'),
+                            handleConfirm: handleDeleteAllTemplates,
+                        })}
                         handleResetUserSettings={handleResetUserSettings}
                     />
                 }
@@ -272,13 +270,10 @@ const Metronome = () => {
                             selectedTemplateName={selectedTemplateNameToPlay}
                             templates={templates}
                             selectedTemplateHasUnsavedChanges={selectedTemplateHasUnsavedChanges}
-                            handleSelectTemplate={(templateName) => {
-                                handleSelectTemplateToPlayByName(templateName);
-                                handleCloseTemplateDialog();
-                            }}
+                            handleSelectTemplate={(templateName) => handleSelectTemplateToPlayByName(templateName, handleCloseTemplateDialog)}
                             handleCreateTemplate={handleOpenCreateTemplate}
                             handleRenameTemplate={handleOpenRenameTemplate}
-                            handleUpdateTemplate={handleOpenUpdateTemplate}
+                            handleSaveTemplateChanges={handleSaveTemplateChanges}
                             handleDuplicateTemplate={handleOpenDuplicateTemplate}
                             handleDeleteTemplate={handleOpenDeleteTemplate}
                             handleClose={handleCloseTemplateDialog}
@@ -308,15 +303,6 @@ const Metronome = () => {
                 <AboutDialog
                     open={aboutDialogIsOpen}
                     handleClose={handleCloseAboutDialog}
-                />
-            }
-            {
-                deleteAllTemplatesConfirmationDialogIsOpen &&
-                <ConfirmationDialog
-                    open={deleteAllTemplatesConfirmationDialogIsOpen}
-                    question={t('deleteAllTemplatesQuestion')}
-                    handleConfirm={handleDeleteAllTemplates}
-                    handleClose={handleCloseDeleteAllTemplatesConfirmationDialog}
                 />
             }
         </>

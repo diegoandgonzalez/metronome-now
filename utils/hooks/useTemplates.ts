@@ -9,6 +9,7 @@ import useDriveAppData from '@/utils/hooks/useDriveAppData';
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from '@/utils/localStorage';
 import { DEFAULT_SETTINGS } from '@/utils/constants';
 import { areSettingObjectsEqual } from '@/utils/helpers';
+import { useConfirmationDialog } from '@/components/confirmationDialog/context';
 
 const KEY = 'template-files';
 
@@ -16,6 +17,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
 
     const t = useTranslations();
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
+    const { handleOpen: handleOpenConfirmationDialog } = useConfirmationDialog();
 
     const {
         isReady,
@@ -85,6 +87,30 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         handleCloseDialog: handleCloseTemplateFormDialog,
     } = useDialog();
 
+    const sortedTemplates = useMemo(() => {
+        if (!templates?.length) return [];
+        return templates.sort((a, b) => a.name.localeCompare(b.name));
+    }, [templates])
+
+    const selectedTemplateHasUnsavedChanges = useMemo(() => {
+        if (!selectedTemplateNameToPlay) return false;
+        const templateSelected = templates.find((template) => template.name === selectedTemplateNameToPlay);
+        if (!templateSelected) return false;
+        return !areSettingObjectsEqual(currentSettings, templateSelected.settings);
+    }, [selectedTemplateNameToPlay, templates, currentSettings])
+
+    const handleWarnUnsavedChanges = (callback: () => void) => {
+        if (!selectedTemplateHasUnsavedChanges) {
+            callback();
+            return;
+        }
+
+        handleOpenConfirmationDialog({
+            question: t('unsavedChangesQuestion'),
+            handleConfirm: callback
+        })
+    }
+
     const selectTemplateAndStoreInLocalStorage = (newTemplateName: string) => {
         setSelectedTemplateNameToPlay(newTemplateName);
         setValueInLocalStorage(LOCAL_STORAGE_KEYS.template, newTemplateName);
@@ -95,7 +121,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         onTemplateSelectionCallback();
     }
 
-    const handleSelectTemplateToPlayByName = (newTemplateName: string) => {
+    const handleSelectTemplateToPlayByName = (newTemplateName: string, callback?: () => void) => handleWarnUnsavedChanges(() => {
         if (newTemplateName === selectedTemplateNameToPlay) return;
         if (!templates?.length) return;
 
@@ -105,24 +131,25 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
 
         onTemplateSelectionCallback(templateSelected);
         handleOpenSnackbar({ text: t('templateSelected'), type: 'success' });
-    }
+        if (callback) callback();
+    })
 
     const handleSelectTemplateToPlayByObject = (newTemplate?: Template) => {
         selectTemplateAndStoreInLocalStorage(newTemplate?.name || '');
         onTemplateSelectionCallback(newTemplate);
     }
 
-    const handleOpenCreateTemplate = () => {
+    const handleOpenCreateTemplate = () => handleWarnUnsavedChanges(() => {
         setTemplateFormData({ templateName: '', action: 'CREATE' });
         handleOpenTemplateFormDialog();
-    }
+    })
 
     const handleCloseTemplateForm = () => {
         setTemplateFormData(null);
         handleCloseTemplateFormDialog();
     }
 
-    const handleOpenUpdateTemplate = (newTemplateName: string) => {
+    const handleSaveTemplateChanges = (newTemplateName: string) => {
         setTemplateFormData({ templateName: newTemplateName, action: 'UPDATE' });
         handleOpenTemplateFormDialog();
     }
@@ -132,15 +159,15 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         handleOpenTemplateFormDialog();
     }
 
-    const handleOpenDuplicateTemplate = (newTemplateName: string) => {
+    const handleOpenDuplicateTemplate = (newTemplateName: string) => handleWarnUnsavedChanges(() => {
         setTemplateFormData({ templateName: newTemplateName, action: 'DUPLICATE' });
         handleOpenTemplateFormDialog();
-    }
+    })
 
-    const handleOpenRenameTemplate = (newTemplateName: string) => {
+    const handleOpenRenameTemplate = (newTemplateName: string) => handleWarnUnsavedChanges(() => {
         setTemplateFormData({ templateName: newTemplateName, action: 'RENAME' });
         handleOpenTemplateFormDialog();
-    }
+    })
 
     const handleSubmitActionTemplate: TemplateFunction = (newtemplateName, newSettings) => {
         if (!templateFormData) return;
@@ -213,18 +240,6 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         handleSelectTemplateToPlayByName(templateFiles[position - 1]?.name);
     }
 
-    const sortedTemplates = useMemo(() => {
-        if (!templates?.length) return [];
-        return templates.sort((a, b) => a.name.localeCompare(b.name));
-    }, [templates])
-
-    const selectedTemplateHasUnsavedChanges = useMemo(() => {
-        if (!selectedTemplateNameToPlay) return false;
-        const templateSelected = templates.find((template) => template.name === selectedTemplateNameToPlay);
-        if (!templateSelected) return false;
-        return !areSettingObjectsEqual(currentSettings, templateSelected.settings);
-    }, [selectedTemplateNameToPlay, templates, currentSettings])
-
     return {
         selectedTemplateHasUnsavedChanges,
         templates: sortedTemplates,
@@ -236,7 +251,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         handleDeselectTemplate,
         handleSubmitActionTemplate,
         handleOpenCreateTemplate,
-        handleOpenUpdateTemplate,
+        handleSaveTemplateChanges,
         handleOpenDeleteTemplate,
         handleDeleteAllTemplates,
         handleOpenRenameTemplate,

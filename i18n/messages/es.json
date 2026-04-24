@@ -90,5 +90,6 @@
     "templatesDeleted": "Plantillas eliminadas",
     "deleteAllTemplates": "Eliminar plantillas",
     "attention": "Atención",
-    "hasUnsavedChanges": "Tiene cambios sin guardar"
+    "hasUnsavedChanges": "Tiene cambios sin guardar",
+    "unsavedChangesQuestion": "Tiene cambios sin guardar, ¿Desea continuar de todos modos?"
 }

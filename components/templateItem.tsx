@@ -8,11 +8,11 @@ type Props = {
     name: string,
     description: string,
     hasUnsavedChanges?: boolean,
-    handleSelectTemplate: () => void,
-    handleRenameTemplate?: () => void,
-    handleUpdateTemplate?: () => void,
-    handleDuplicateTemplate?: () => void,
-    handleDeleteTemplate?: () => void,
+    handleSelect: () => void,
+    handleRename?: () => void,
+    handleSaveChanges?: () => void,
+    handleDuplicate?: () => void,
+    handleDelete?: () => void,
 }
 
 const TemplateItem = (props: Props) => {
@@ -23,11 +23,11 @@ const TemplateItem = (props: Props) => {
         name,
         description,
         hasUnsavedChanges = false,
-        handleSelectTemplate,
-        handleRenameTemplate,
-        handleUpdateTemplate,
-        handleDuplicateTemplate,
-        handleDeleteTemplate,
+        handleSelect,
+        handleRename,
+        handleSaveChanges,
+        handleDuplicate,
+        handleDelete,
     } = props;
 
     const t = useTranslations();
@@ -42,7 +42,7 @@ const TemplateItem = (props: Props) => {
             }}
             onClick={() => {
                 if (selected) return;
-                handleSelectTemplate();
+                handleSelect();
             }}
         >
             <div>
@@ -61,22 +61,22 @@ const TemplateItem = (props: Props) => {
                             {
                                 key: 'update',
                                 label: t('update'),
-                                onClick: () => handleUpdateTemplate?.(),
+                                onClick: () => handleSaveChanges?.(),
                             },
                             {
                                 key: 'rename',
                                 label: t('rename'),
-                                onClick: () => handleRenameTemplate?.(),
+                                onClick: () => handleRename?.(),
                             },
                             {
                                 key: 'duplicate',
                                 label: t('duplicate'),
-                                onClick: () => handleDuplicateTemplate?.(),
+                                onClick: () => handleDuplicate?.(),
                             },
                             {
                                 key: 'delete',
                                 label: t('delete'),
-                                onClick: () => handleDeleteTemplate?.(),
+                                onClick: () => handleDelete?.(),
                             }
                         ]
                             .filter((option) => {

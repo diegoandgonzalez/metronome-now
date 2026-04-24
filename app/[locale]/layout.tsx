@@ -9,6 +9,7 @@ import ClientProviders from '@/components/clientProviders';
 import CustomSnackbar from '@/components/snackbar';
 import { LOCALES } from '@/utils/constants';
 import Spinner from '@/components/spinner';
+import ConfirmationDialog from '@/components/confirmationDialog';
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
@@ -84,6 +85,7 @@ export default async function RootLayout({ children, params }: Props) {
                             {children}
                             <Spinner />
                             <CustomSnackbar />
+                            <ConfirmationDialog />
                         </ClientProviders>
                     </AppRouterCacheProvider>
                 </NextIntlClientProvider>

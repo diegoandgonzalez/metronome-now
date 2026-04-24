@@ -90,5 +90,6 @@
     "templatesDeleted": "Templates deleted",
     "deleteAllTemplates": "Delete templates",
     "attention": "Attention",
-    "hasUnsavedChanges": "Has unsaved changes"
+    "hasUnsavedChanges": "Has unsaved changes",
+    "unsavedChangesQuestion": "You have unsaved changes, do you wish to continue anyways?"
 }

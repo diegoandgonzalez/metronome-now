@@ -25,7 +25,7 @@ type Props = {
     handleSelectTemplate: (templateName: string) => void,
     handleCreateTemplate: () => void,
     handleRenameTemplate: (templateName: string) => void,
-    handleUpdateTemplate: (templateName: string) => void,
+    handleSaveTemplateChanges: (templateName: string) => void,
     handleDuplicateTemplate: (templateName: string) => void,
     handleDeleteTemplate: (templateName: string) => void,
     handleClose: () => void,
@@ -41,7 +41,7 @@ const TemplatesDialog = (props: Props) => {
         handleSelectTemplate,
         handleCreateTemplate,
         handleRenameTemplate,
-        handleUpdateTemplate,
+        handleSaveTemplateChanges,
         handleDuplicateTemplate,
         handleDeleteTemplate,
         handleClose,
@@ -115,7 +115,7 @@ const TemplatesDialog = (props: Props) => {
                             selected={!selectedTemplateName}
                             name={t('defaultTemplate')}
                             description={getTemplateDescription(DEFAULT_SETTINGS)}
-                            handleSelectTemplate={() => handleSelectTemplate('')}
+                            handleSelect={() => handleSelectTemplate('')}
                         />
                     </ListItem>
                     {
@@ -134,11 +134,11 @@ const TemplatesDialog = (props: Props) => {
                                         name={template.name}
                                         description={getTemplateDescription(template.settings)}
                                         hasUnsavedChanges={isSelected ? selectedTemplateHasUnsavedChanges : false}
-                                        handleSelectTemplate={() => handleSelectTemplate(template.name)}
-                                        handleRenameTemplate={() => handleRenameTemplate(template.name)}
-                                        handleUpdateTemplate={() => handleUpdateTemplate(template.name)}
-                                        handleDuplicateTemplate={() => handleDuplicateTemplate(template.name)}
-                                        handleDeleteTemplate={() => handleDeleteTemplate(template.name)}
+                                        handleSelect={() => handleSelectTemplate(template.name)}
+                                        handleRename={() => handleRenameTemplate(template.name)}
+                                        handleDuplicate={() => handleDuplicateTemplate(template.name)}
+                                        handleSaveChanges={() => handleSaveTemplateChanges(template.name)}
+                                        handleDelete={() => handleDeleteTemplate(template.name)}
                                     />
                                 </ListItem>
                             )

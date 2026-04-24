@@ -4,6 +4,7 @@ import { Alert, Snackbar } from '@mui/material';
 
 const CustomSnackbar = () => {
     const {
+        open,
         state,
         handleClose,
         resetState,
@@ -11,7 +12,6 @@ const CustomSnackbar = () => {
 
     const {
         text,
-        open = false,
         secondsToClose = 5,
         type = 'error',
     } = state;
