@@ -7,6 +7,7 @@ type Props = {
     editable: boolean,
     name: string,
     description: string,
+    hasUnsavedChanges?: boolean,
     handleSelectTemplate: () => void,
     handleRenameTemplate?: () => void,
     handleUpdateTemplate?: () => void,
@@ -21,6 +22,7 @@ const TemplateItem = (props: Props) => {
         editable,
         name,
         description,
+        hasUnsavedChanges = false,
         handleSelectTemplate,
         handleRenameTemplate,
         handleUpdateTemplate,
@@ -44,11 +46,11 @@ const TemplateItem = (props: Props) => {
             }}
         >
             <div>
-                <Typography>
+                <Typography sx={{ maxWidth: '30ch', overflowWrap: 'break-word' }}>
                     {name}
                 </Typography>
                 <Typography variant='caption'>
-                    {description}
+                    {hasUnsavedChanges ? t('hasUnsavedChanges') : description}
                 </Typography>
             </div>
             {
@@ -78,7 +80,7 @@ const TemplateItem = (props: Props) => {
                             }
                         ]
                             .filter((option) => {
-                                if (!selected && option.key === 'update') return false;
+                                if (!hasUnsavedChanges && option.key === 'update') return false;
                                 return true;
                             })
                     }

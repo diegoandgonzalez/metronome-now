@@ -36,7 +36,7 @@
     "nameInUse": "Name is already in use",
     "nameRequired": "Name is required",
     "newTemplateDuplicatedExplanation": "A new template will be created with the settings from {templateName}.",
-    "newTemplateExplanation": "A new template will be created with the current settings.",
+    "newTemplateExplanation": "A new template will be created with the default settings.",
     "of": "Of",
     "options": "Options",
     "pause": "Pause",
@@ -89,5 +89,6 @@
     "youHaveTemplates": "You have {amount, plural, =1 {# template created} other {# templates created}}",
     "templatesDeleted": "Templates deleted",
     "deleteAllTemplates": "Delete templates",
-    "attention": "Attention"
+    "attention": "Attention",
+    "hasUnsavedChanges": "Has unsaved changes"
 }

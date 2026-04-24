@@ -21,6 +21,7 @@ type Props = {
     open: boolean,
     selectedTemplateName: string
     templates: Template[],
+    selectedTemplateHasUnsavedChanges: boolean,
     handleSelectTemplate: (templateName: string) => void,
     handleCreateTemplate: () => void,
     handleRenameTemplate: (templateName: string) => void,
@@ -36,6 +37,7 @@ const TemplatesDialog = (props: Props) => {
         open,
         selectedTemplateName,
         templates,
+        selectedTemplateHasUnsavedChanges,
         handleSelectTemplate,
         handleCreateTemplate,
         handleRenameTemplate,
@@ -118,17 +120,20 @@ const TemplatesDialog = (props: Props) => {
                     </ListItem>
                     {
                         filteredTemplates.map((template) => {
+                            const isSelected = selectedTemplateName === template.name;
+
                             return (
                                 <ListItem
                                     key={template.name}
-                                    ref={template.name === selectedTemplateName ? selectedItemRef : null}
+                                    ref={isSelected ? selectedItemRef : null}
                                     disablePadding
                                 >
                                     <TemplateItem
                                         editable={true}
-                                        selected={selectedTemplateName === template.name}
+                                        selected={isSelected}
                                         name={template.name}
                                         description={getTemplateDescription(template.settings)}
+                                        hasUnsavedChanges={isSelected ? selectedTemplateHasUnsavedChanges : false}
                                         handleSelectTemplate={() => handleSelectTemplate(template.name)}
                                         handleRenameTemplate={() => handleRenameTemplate(template.name)}
                                         handleUpdateTemplate={() => handleUpdateTemplate(template.name)}

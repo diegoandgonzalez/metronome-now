@@ -58,6 +58,7 @@ const Metronome = () => {
     }
 
     const {
+        selectedTemplateHasUnsavedChanges,
         templates,
         selectedTemplateNameToPlay,
         templateFormDialogIsOpen,
@@ -73,7 +74,7 @@ const Metronome = () => {
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
         handleCloseTemplateForm,
-    } = useTemplates(onTemplateSelectionCallback);
+    } = useTemplates(settings, onTemplateSelectionCallback);
 
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
@@ -270,6 +271,7 @@ const Metronome = () => {
                             open={templateDialogIsOpen}
                             selectedTemplateName={selectedTemplateNameToPlay}
                             templates={templates}
+                            selectedTemplateHasUnsavedChanges={selectedTemplateHasUnsavedChanges}
                             handleSelectTemplate={(templateName) => {
                                 handleSelectTemplateToPlayByName(templateName);
                                 handleCloseTemplateDialog();

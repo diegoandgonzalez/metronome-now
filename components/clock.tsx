@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Grid, IconButton, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
-import { formatMsToHHMMSS } from '@/utils/format';
+import { formatMsToHHMMSS } from '@/utils/helpers';
 
 type Props = {
   showOnlyClock: boolean;

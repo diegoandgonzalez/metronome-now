@@ -36,7 +36,7 @@
     "nameInUse": "El nombre ya está en uso",
     "nameRequired": "El nombre es obligatorio",
     "newTemplateDuplicatedExplanation": "Se creará una nueva plantilla con la configuración de la plantilla {templateName}.",
-    "newTemplateExplanation": "Se creará una nueva plantilla con la configuración actual.",
+    "newTemplateExplanation": "Se creará una nueva plantilla con la configuración por defecto.",
     "of": "de",
     "options": "Opciones",
     "pause": "Pausa",
@@ -70,9 +70,9 @@
     "timerExplanation": "Si “Detener por tiempo” y “Detener por compases” están ambos activados, el metrónomo se detendrá cuando se cumpla alguna de las dos condiciones.",
     "to": "Hasta",
     "toBPMMustBeInRange": "El BPM final debe estar entre {min} y {max}",
-    "update": "Actualizar",
-    "updateTemplate": "Actualizar plantilla",
-    "updateTemplateQuestion": "¿Desea actualizar la plantilla con la configuración actual?",
+    "update": "Guardar cambios",
+    "updateTemplate": "Guardar cambios",
+    "updateTemplateQuestion": "¿Desea guardar los cambios realizados a la plantilla?",
     "title": "Metronome Now",
     "description": "Metrónomo online con programación de bpm, temporizador, plantillas y más",
     "en": "English",
@@ -89,5 +89,6 @@
     "youHaveTemplates": "Tienes {amount, plural, =1 {# plantilla creada} other {# plantillas creadas}}",
     "templatesDeleted": "Plantillas eliminadas",
     "deleteAllTemplates": "Eliminar plantillas",
-    "attention": "Atención"
+    "attention": "Atención",
+    "hasUnsavedChanges": "Tiene cambios sin guardar"
 }

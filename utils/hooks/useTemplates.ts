@@ -1,18 +1,21 @@
 'use client'
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import type { FileToCreate, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
+import type { FileToCreate, Settings, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
 import useDialog from '@/utils/hooks/useDialog';
 import { useSnackbar } from '@/components/snackbar/context';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useDriveAppData from '@/utils/hooks/useDriveAppData';
 import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from '@/utils/localStorage';
+import { DEFAULT_SETTINGS } from '@/utils/constants';
+import { areSettingObjectsEqual } from '@/utils/helpers';
 
 const KEY = 'template-files';
 
-const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) => {
+const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (args?: Template) => void) => {
 
     const t = useTranslations();
+    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const {
         isReady,
@@ -21,6 +24,9 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         deleteFile,
         deleteAllFiles,
     } = useDriveAppData();
+
+    const [selectedTemplateNameToPlay, setSelectedTemplateNameToPlay] = useState<string>(() => getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, ''));
+    const [templateFormData, setTemplateFormData] = useState<TemplateFormData | null>(null);
 
     const queryClient = useQueryClient();
 
@@ -55,13 +61,15 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
 
     const { mutate: deleteTemplate } = useMutation({
         mutationFn: (fileName: string) => deleteFile(fileName),
-        onSuccess: () => {
+        onSuccess: (_, fileNameDeleted) => {
             queryClient.invalidateQueries({ queryKey: [KEY] });
-            handleDeselectTemplate();
             handleOpenSnackbar({ text: t('templateDeleted'), type: 'success' });
+            if (selectedTemplateNameToPlay === fileNameDeleted) {
+                handleDeselectTemplate();
+            }
         },
     });
-    
+
     const { mutate: deleteAllTemplates } = useMutation({
         mutationFn: deleteAllFiles,
         onSuccess: () => {
@@ -71,16 +79,11 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         },
     });
 
-    const [selectedTemplateNameToPlay, setSelectedTemplateNameToPlay] = useState<string>(() => getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, ''));
-    const [templateFormData, setTemplateFormData] = useState<TemplateFormData | null>(null);
-
     const {
         dialogIsOpen: templateFormDialogIsOpen,
         handleOpenDialog: handleOpenTemplateFormDialog,
         handleCloseDialog: handleCloseTemplateFormDialog,
     } = useDialog();
-
-    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const selectTemplateAndStoreInLocalStorage = (newTemplateName: string) => {
         setSelectedTemplateNameToPlay(newTemplateName);
@@ -89,7 +92,6 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
 
     const handleDeselectTemplate = () => {
         selectTemplateAndStoreInLocalStorage('');
-
         onTemplateSelectionCallback();
     }
 
@@ -148,12 +150,17 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
             templateName,
         } = templateFormData;
 
-        const originalTemplateData = templates.find((template) => template.name === templateName);
-
-        if (action === 'CREATE') {
-            handleCreateTemplate(newtemplateName, newSettings);
+        if (action === 'DELETE') {
+            handleDeleteTemplate();
             return;
         }
+
+        if (action === 'CREATE') {
+            handleCreateTemplate(newtemplateName, DEFAULT_SETTINGS);
+            return;
+        }
+
+        const originalTemplateData = templates.find((template) => template.name === templateName);
 
         if (action === 'DUPLICATE') {
             handleCreateTemplate(newtemplateName, originalTemplateData?.settings || newSettings);
@@ -167,11 +174,6 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
 
         if (action === 'UPDATE') {
             handleUpdateTemplate(originalTemplateData?.name || '', newSettings);
-            return;
-        }
-
-        if (action === 'DELETE') {
-            handleDeleteTemplate();
             return;
         }
     }
@@ -216,7 +218,15 @@ const useTemplates = (onTemplateSelectionCallback: (args?: Template) => void) =>
         return templates.sort((a, b) => a.name.localeCompare(b.name));
     }, [templates])
 
+    const selectedTemplateHasUnsavedChanges = useMemo(() => {
+        if (!selectedTemplateNameToPlay) return false;
+        const templateSelected = templates.find((template) => template.name === selectedTemplateNameToPlay);
+        if (!templateSelected) return false;
+        return !areSettingObjectsEqual(currentSettings, templateSelected.settings);
+    }, [selectedTemplateNameToPlay, templates, currentSettings])
+
     return {
+        selectedTemplateHasUnsavedChanges,
         templates: sortedTemplates,
         selectedTemplateNameToPlay,
         templateFormDialogIsOpen,
