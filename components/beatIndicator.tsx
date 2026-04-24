@@ -66,6 +66,7 @@ const BeatIndicator = (props: Props) => {
                         height: '30px',
                         filter: (!isPlaying || isCurrentBeat) ? 'brightness(130%)' : '',
                         scale: isCurrentBeat ? 1.15 : 1,
+                        transition: "scale 0.15s cubic-bezier(0.35, 1.55, 0.65, 1)",
                         backgroundColor: beatColors[beatType].main,
                         background: `radial-gradient(${beatColors[beatType].main}, ${beatColors[beatType].light})`,
                       }}
