@@ -220,7 +220,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
             settings: newSettings,
         }
 
-        updateTemplate({ name: newtemplateName, content: newTemplate });
+        updateTemplate({ name: selectedTemplateNameToPlay, content: newTemplate });
     }
 
     const handleDeleteTemplate = () => {
