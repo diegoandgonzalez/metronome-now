@@ -72,7 +72,7 @@
     "toBPMMustBeInRange": "El BPM final debe estar entre {min} y {max}",
     "update": "Actualizar",
     "updateTemplate": "Actualizar plantilla",
-    "updateTemplateQuestion": "¿Desea actualizar la plantilla con la configuración actual?'",
+    "updateTemplateQuestion": "¿Desea actualizar la plantilla con la configuración actual?",
     "title": "Metronome Now",
     "description": "Metrónomo online con programación de bpm, temporizador, plantillas y más",
     "en": "English",
