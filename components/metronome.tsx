@@ -24,6 +24,7 @@ import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
 import { useSnackbar } from '@/components/snackbar/context';
 import UserButton from '@/components/userButton';
+import ConfirmationDialog from '@/components/confirmationDialog';
 
 const Metronome = () => {
 
@@ -100,6 +101,11 @@ const Metronome = () => {
         handleCloseDialog: handleCloseShortcutsDialog,
     } = useDialog();
 
+    const {
+        dialogIsOpen: deleteAllTemplatesConfirmationDialogIsOpen,
+        handleOpenDialog: handleOpenDeleteAllTemplatesConfirmationDialog,
+        handleCloseDialog: handleCloseDeleteAllTemplatesConfirmationDialog,
+    } = useDialog();
 
     const handleToggleMetronome = () => {
         if (isPlaying) {
@@ -163,7 +169,7 @@ const Metronome = () => {
                 userButton={
                     <UserButton
                         templates={templates}
-                        handleDeleteAllTemplates={handleDeleteAllTemplates}
+                        handleDeleteAllTemplates={handleOpenDeleteAllTemplatesConfirmationDialog}
                         handleResetUserSettings={handleResetUserSettings}
                     />
                 }
@@ -300,6 +306,15 @@ const Metronome = () => {
                 <AboutDialog
                     open={aboutDialogIsOpen}
                     handleClose={handleCloseAboutDialog}
+                />
+            }
+            {
+                deleteAllTemplatesConfirmationDialogIsOpen &&
+                <ConfirmationDialog
+                    open={deleteAllTemplatesConfirmationDialogIsOpen}
+                    question={t('deleteAllTemplatesQuestion')}
+                    handleConfirm={handleDeleteAllTemplates}
+                    handleClose={handleCloseDeleteAllTemplatesConfirmationDialog}
                 />
             }
         </>
