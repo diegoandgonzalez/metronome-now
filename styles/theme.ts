@@ -228,6 +228,9 @@ const appTheme = createTheme({
         },
         MuiAlert: {
             styleOverrides: {
+                root: {
+                    borderWidth: 0,
+                },
                 filledError: ({ theme }) => ({
                     color: theme.palette.text.primary,
                 }),
