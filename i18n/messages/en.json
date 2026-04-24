@@ -17,6 +17,7 @@
     "defaultTemplate": "Default template",
     "delete": "Delete",
     "deleteTemplate": "Delete template",
+    "deleteAllTemplatesQuestion": "Do you want to delete all the templates?",
     "deleteTemplateQuestion": "Do you want to delete the template {templateName}?",
     "duplicate": "Duplicate",
     "duplicateTemplate": "Duplicate template",
@@ -87,5 +88,6 @@
     "viewAccount": "View account",
     "youHaveTemplates": "You have {amount, plural, =1 {# template created} other {# templates created}}",
     "templatesDeleted": "Templates deleted",
-    "deleteAllTemplates": "Delete templates"
+    "deleteAllTemplates": "Delete templates",
+    "attention": "Attention"
 }

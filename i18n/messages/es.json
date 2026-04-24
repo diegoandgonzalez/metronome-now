@@ -17,6 +17,7 @@
     "defaultTemplate": "Plantilla predeterminada",
     "delete": "Eliminar",
     "deleteTemplate": "Eliminar plantilla",
+    "deleteAllTemplatesQuestion": "¿Desea eliminar todas las plantillas?",
     "deleteTemplateQuestion": "¿Desea eliminar la plantilla {templateName}?",
     "duplicate": "Duplicar",
     "duplicateTemplate": "Duplicar plantilla",
@@ -87,5 +88,6 @@
     "viewAccount": "Ver cuenta",
     "youHaveTemplates": "Tienes {amount, plural, =1 {# plantilla creada} other {# plantillas creadas}}",
     "templatesDeleted": "Plantillas eliminadas",
-    "deleteAllTemplates": "Eliminar plantillas"
+    "deleteAllTemplates": "Eliminar plantillas",
+    "attention": "Atención"
 }
