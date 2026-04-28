@@ -86,7 +86,7 @@ const TemplatesDialog = (props: Props) => {
                 {t('templates')}
             </DialogTitle>
             <DialogContent sx={{ paddingBottom: 1 }}>
-                <Grid container alignItems={'center'} justifyContent={'space-between'} spacing={2}>
+                <Grid container alignItems={'center'} justifyContent={'space-between'} spacing={2} sx={{ paddingTop: 1 }}>
                     <TextField
                         variant='outlined'
                         label={t('searchTemplate')}
@@ -108,8 +108,16 @@ const TemplatesDialog = (props: Props) => {
             <DialogContent sx={{ height: '30rem', paddingTop: 0 }}>
                 <List>
                     <ListItem
+                        title={t('selectTemplate')}
+                        tabIndex={0}
                         sx={{ marginBottom: 1 }}
                         ref={!selectedTemplateName ? selectedItemRef : null}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                handleSelectTemplate('');
+                            }
+                        }}
+                        onClick={() => handleSelectTemplate('')}
                         disablePadding
                     >
                         <TemplateItem
@@ -117,7 +125,6 @@ const TemplatesDialog = (props: Props) => {
                             selected={!selectedTemplateName}
                             name={t('defaultTemplate')}
                             description={getTemplateDescription(DEFAULT_SETTINGS)}
-                            handleSelect={() => handleSelectTemplate('')}
                         />
                     </ListItem>
                     {
@@ -126,8 +133,16 @@ const TemplatesDialog = (props: Props) => {
 
                             return (
                                 <ListItem
+                                    title={t('selectTemplate')}
+                                    tabIndex={0}
                                     key={template.name}
                                     ref={isSelected ? selectedItemRef : null}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            handleSelectTemplate(template.name);
+                                        }
+                                    }}
+                                    onClick={() => handleSelectTemplate(template.name)}
                                     disablePadding
                                 >
                                     <TemplateItem
@@ -136,7 +151,6 @@ const TemplatesDialog = (props: Props) => {
                                         name={template.name}
                                         description={getTemplateDescription(template.settings)}
                                         hasUnsavedChanges={isSelected ? selectedTemplateHasUnsavedChanges : false}
-                                        handleSelect={() => handleSelectTemplate(template.name)}
                                         handleRename={() => handleRenameTemplate(template.name)}
                                         handleDuplicate={() => handleDuplicateTemplate(template.name)}
                                         handleSaveChanges={() => handleSaveTemplateChanges(template.name)}

@@ -91,5 +91,6 @@
     "deleteAllTemplates": "Delete templates",
     "attention": "Attention",
     "hasUnsavedChanges": "Has unsaved changes",
-    "unsavedChangesQuestion": "You have unsaved changes, do you wish to continue anyways?"
+    "unsavedChangesQuestion": "You have unsaved changes, do you wish to continue anyways?",
+    "selectTemplate": "Select template"
 }

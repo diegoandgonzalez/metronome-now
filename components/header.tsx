@@ -1,14 +1,10 @@
-import { useTranslations } from 'next-intl';
-import { Button, Grid, IconButton, Typography } from '@mui/material';
-import HelpIcon from '@mui/icons-material/Help';
-import useIsMobileSize from '@/utils/hooks/useIsMobileSize';
+import { ButtonBase, Grid, Typography } from '@mui/material';
 import LocaleSelector from '@/components/localeSelector';
 
 type Props = {
     userButton: React.ReactNode,
     disableLocaleSelector: boolean,
     handleTitleClick: () => void,
-    handleShortcutsClick: () => void,
 }
 
 const Header = (props: Props) => {
@@ -17,11 +13,7 @@ const Header = (props: Props) => {
         userButton,
         disableLocaleSelector,
         handleTitleClick,
-        handleShortcutsClick,
     } = props;
-
-    const t = useTranslations();
-    const isMobileSize = useIsMobileSize();
 
     return (
         <header>
@@ -36,36 +28,21 @@ const Header = (props: Props) => {
                     paddingX: 2,
                 }}
             >
-                <Button
+                <ButtonBase
                     onClick={handleTitleClick}
                     color='inherit'
                     sx={{
-                        padding: 0,
-                        display: 'flex',
                         gap: '0.5ch',
                         fontSize: '1.5rem',
                         fontWeight: 600,
-                        '&:hover': {
-                            backgroundColor: 'transparent',
-                        },
                     }}
                 >
                     Metronome
                     <Typography component='span' variant='h5' color='primary' fontWeight={'inherit'}>
                         Now
                     </Typography>
-                </Button>
+                </ButtonBase>
                 <Grid container spacing={1}>
-                    {
-                        !isMobileSize &&
-                        <IconButton
-                            title={t('shortcuts')}
-                            aria-label={t('shortcuts')}
-                            onClick={handleShortcutsClick}
-                        >
-                            <HelpIcon />
-                        </IconButton>
-                    }
                     <LocaleSelector disabled={disableLocaleSelector} />
                     {userButton}
                 </Grid>

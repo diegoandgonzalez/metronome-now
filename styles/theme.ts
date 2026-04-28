@@ -108,6 +108,10 @@ const appTheme = createTheme({
                     borderRadius: theme.shape.borderRadius,
                     border: `1px solid ${theme.palette.border.main}`,
                     background: theme.palette.secondary.main,
+                    '&:focus-visible': {
+                        outline: `3px solid ${theme.palette.primary.main}`,
+                        outlineOffset: '2px',
+                    },
                 }),
             },
         },
@@ -123,8 +127,7 @@ const appTheme = createTheme({
                         borderColor: theme.palette.border.main,
                     },
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        border: '1px solid',
-                        borderColor: theme.palette.border.main,
+                        border: `3px solid ${theme.palette.primary.main}`,
                     },
                 }),
             },
@@ -132,6 +135,36 @@ const appTheme = createTheme({
         MuiButtonBase: {
             defaultProps: {
                 disableRipple: true,
+            },
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    fontFamily: 'inherit',
+                    borderRadius: theme.shape.borderRadius,
+                    '&.Mui-focusVisible': {
+                        outline: `3px solid ${theme.palette.primary.main}`,
+                        outlineOffset: '2px',
+                    },
+                }),
+            },
+        },
+        MuiSwitch: {
+            styleOverrides: {
+                switchBase: {
+                    '&.Mui-focusVisible': {
+                        outline: 'none',
+                    },
+                },
+            },
+        },
+        MuiFormControlLabel: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    borderRadius: theme.shape.borderRadius,
+                    '&:has(.Mui-focusVisible)': {
+                        outline: `3px solid ${theme.palette.primary.main}`,
+                        outlineOffset: '2px',
+                    },
+                }),
             },
         },
         MuiIconButton: {
@@ -168,6 +201,7 @@ const appTheme = createTheme({
         MuiMenuItem: {
             styleOverrides: {
                 root: ({ theme }) => ({
+                    borderRadius: 0,
                     display: 'flex',
                     justifyContent: 'center',
                     '&:hover': {

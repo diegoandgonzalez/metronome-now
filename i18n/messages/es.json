@@ -91,5 +91,6 @@
     "deleteAllTemplates": "Eliminar plantillas",
     "attention": "Atención",
     "hasUnsavedChanges": "Tiene cambios sin guardar",
-    "unsavedChangesQuestion": "Tiene cambios sin guardar, ¿Desea continuar de todos modos?"
+    "unsavedChangesQuestion": "Tiene cambios sin guardar, ¿Desea continuar de todos modos?",
+    "selectTemplate": "Seleccionar plantilla"
 }

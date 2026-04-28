@@ -8,7 +8,6 @@ type Props = {
     name: string,
     description: string,
     hasUnsavedChanges?: boolean,
-    handleSelect: () => void,
     handleRename?: () => void,
     handleSaveChanges?: () => void,
     handleDuplicate?: () => void,
@@ -23,7 +22,6 @@ const TemplateItem = (props: Props) => {
         name,
         description,
         hasUnsavedChanges = false,
-        handleSelect,
         handleRename,
         handleSaveChanges,
         handleDuplicate,
@@ -34,15 +32,10 @@ const TemplateItem = (props: Props) => {
 
     return (
         <Grid
-            role='button'
             container alignItems={'center'} justifyContent={'space-between'} spacing={2} wrap='nowrap'
             sx={{
                 width: '100%',
                 color: ({ palette }) => selected ? palette.primary.main : palette.text.primary,
-            }}
-            onClick={() => {
-                if (selected) return;
-                handleSelect();
             }}
         >
             <div>

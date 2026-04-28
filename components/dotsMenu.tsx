@@ -1,5 +1,5 @@
 'use client'
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, KeyboardEvent } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -22,9 +22,15 @@ const DotsMenu = ({ disabled, options, icon, ariaLabel }: Props) => {
     const t = useTranslations();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    const handleOpen = (event: MouseEvent<HTMLElement>) => {
+    const handleOpenOnClick = (event: MouseEvent<HTMLElement>) => {
         event.stopPropagation();
         setAnchorEl(event.currentTarget);
+    };
+
+    const handleOpenOnKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.stopPropagation();
+        }
     };
 
     const handleClose = (event: MouseEvent<HTMLElement>) => {
@@ -37,7 +43,8 @@ const DotsMenu = ({ disabled, options, icon, ariaLabel }: Props) => {
             <IconButton
                 title={ariaLabel || t('options')}
                 aria-label={ariaLabel || t('options')}
-                onClick={handleOpen}
+                onClick={handleOpenOnClick}
+                onKeyDown={handleOpenOnKeyDown}
                 disabled={disabled}
             >
                 {icon || <MoreVertIcon />}

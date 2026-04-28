@@ -14,7 +14,6 @@ import TouchAppIcon from '@mui/icons-material/TouchApp';
 import { METRONOME_CONSTANTS } from '@/utils/constants';
 import { useSnackbar } from '@/components/snackbar/context';
 import useTapTempo from '@/utils/hooks/useTapTempo';
-import useExecuteKeyPressed from '@/utils/hooks/useExecuteKeyPressed';
 
 type Props = {
   disabled?: boolean,
@@ -76,9 +75,6 @@ const BPMInput = (props: Props) => {
     handleSubmit(String(newBPM));
   }
 
-  useExecuteKeyPressed('ArrowUp', 'keydown', addOneBPM);
-  useExecuteKeyPressed('ArrowDown', 'keydown', subtractOneBPM);
-
   return (
     <Tooltip title={disabled ? t('tempoProgrammingActive') : ''}>
       <Grid container direction={'column'}>
@@ -101,7 +97,7 @@ const BPMInput = (props: Props) => {
             '& input': {
               fontSize: '5rem',
               textAlign: 'center',
-              marginLeft: '3rem',
+              marginLeft: '2.5rem',
             },
           }}
           slotProps={{

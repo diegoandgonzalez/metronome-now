@@ -8,7 +8,6 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import UpdateIcon from '@mui/icons-material/Update';
 import type { Template } from '@/utils/types';
 import useDialog from '@/utils/hooks/useDialog';
-import useExecuteKeyPressed from '@/utils/hooks/useExecuteKeyPressed';
 import useMetronome from '@/utils/hooks/useMetronome';
 import useTemplates from '@/utils/hooks/useTemplates';
 import { DEFAULT_SETTINGS } from '@/utils/constants';
@@ -19,7 +18,6 @@ import Clock from '@/components/clock';
 import TempoProgrammingTimerDialog from '@/components/tempoProgrammingTimerDialog';
 import TemplateFormDialog from '@/components/templateFormDialog';
 import TemplatesDialog from '@/components/templatesDialog';
-import ShortcutsDialog from '@/components/shortcutsDialog';
 import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
 import { useSnackbar } from '@/components/snackbar/context';
@@ -63,7 +61,6 @@ const Metronome = () => {
         templateFormDialogIsOpen,
         templateFormData,
         handleSelectTemplateToPlayByName,
-        handleSelectTemplateByPosition,
         handleDeselectTemplate,
         handleSubmitActionTemplate,
         handleOpenCreateTemplate,
@@ -96,12 +93,6 @@ const Metronome = () => {
         handleCloseDialog: handleCloseAboutDialog,
     } = useDialog();
 
-    const {
-        dialogIsOpen: shortcutsDialogIsOpen,
-        handleOpenDialog: handleOpenShortcutsDialog,
-        handleCloseDialog: handleCloseShortcutsDialog,
-    } = useDialog();
-
     const handleToggleMetronome = () => {
         if (isPlaying) {
             handleStopMetronome();
@@ -132,22 +123,6 @@ const Metronome = () => {
         handleDeselectTemplate();
     }
 
-    useExecuteKeyPressed('?', 'keyup', handleOpenShortcutsDialog);
-    useExecuteKeyPressed('p', 'keyup', handleToggleMetronome);
-    useExecuteKeyPressed('t', 'keyup', handleValidateAndOpenTemplateDialog);
-    useExecuteKeyPressed('s', 'keyup', handleOpenBPMProgrammingTimerDialogAndStopMetronome);
-    useExecuteKeyPressed('0', 'keyup', () => handleSelectTemplateByPosition(0));
-    useExecuteKeyPressed('1', 'keyup', () => handleSelectTemplateByPosition(1));
-    useExecuteKeyPressed('2', 'keyup', () => handleSelectTemplateByPosition(2));
-    useExecuteKeyPressed('3', 'keyup', () => handleSelectTemplateByPosition(3));
-    useExecuteKeyPressed('4', 'keyup', () => handleSelectTemplateByPosition(4));
-    useExecuteKeyPressed('5', 'keyup', () => handleSelectTemplateByPosition(5));
-    useExecuteKeyPressed('6', 'keyup', () => handleSelectTemplateByPosition(6));
-    useExecuteKeyPressed('7', 'keyup', () => handleSelectTemplateByPosition(7));
-    useExecuteKeyPressed('8', 'keyup', () => handleSelectTemplateByPosition(8));
-    useExecuteKeyPressed('9', 'keyup', () => handleSelectTemplateByPosition(9));
-    useExecuteKeyPressed('9', 'keyup', () => handleSelectTemplateByPosition(9));
-
     const settingsIsActive = (
         settings.metronomeSettings.countdownLength ||
         settings.tempoProgrammingSettings.isActive ||
@@ -160,7 +135,6 @@ const Metronome = () => {
             <Header
                 disableLocaleSelector={isPlaying}
                 handleTitleClick={handleOpenAboutDialog}
-                handleShortcutsClick={handleOpenShortcutsDialog}
                 userButton={
                     <UserButton
                         templates={templates}
@@ -296,13 +270,6 @@ const Metronome = () => {
                     }
                 </Grid>
             </main>
-            {
-                shortcutsDialogIsOpen &&
-                <ShortcutsDialog
-                    open={shortcutsDialogIsOpen}
-                    handleClose={handleCloseShortcutsDialog}
-                />
-            }
             {
                 aboutDialogIsOpen &&
                 <AboutDialog
