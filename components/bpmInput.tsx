@@ -10,11 +10,12 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import TouchAppIcon from '@mui/icons-material/TouchApp';
 import { METRONOME_CONSTANTS } from '@/utils/constants';
 import { useSnackbar } from '@/components/snackbar/context';
 import useTapTempo from '@/utils/hooks/useTapTempo';
 import useExecuteKeyPressed from '@/utils/hooks/useExecuteKeyPressed';
-import TouchAppIcon from '@mui/icons-material/TouchApp';
+
 type Props = {
   disabled?: boolean,
   initialBPM: number,
@@ -98,9 +99,9 @@ const BPMInput = (props: Props) => {
           variant='standard'
           sx={{
             '& input': {
-              fontSize: '75px',
+              fontSize: '5rem',
               textAlign: 'center',
-              marginLeft: '42px',
+              marginLeft: '3rem',
             },
           }}
           slotProps={{
@@ -124,7 +125,7 @@ const BPMInput = (props: Props) => {
             sx={{ ...scaleEffect, minWidth: 0, padding: 1 }}
             onClick={subtractOneBPM}
           >
-            <RemoveIcon sx={{ fontSize: 20 }} />
+            <RemoveIcon sx={{ fontSize: '1.25rem' }} />
           </Button>
           <Button
             disabled={disabled}
@@ -137,7 +138,7 @@ const BPMInput = (props: Props) => {
               handleSubmit(String(tappedBPM))
             }}
             >
-            <TouchAppIcon sx={{ fontSize: 20 }} />
+            <TouchAppIcon sx={{ fontSize: '1.25rem' }} />
           </Button>
           <Button
             disabled={disabled}
@@ -147,7 +148,7 @@ const BPMInput = (props: Props) => {
             sx={{ ...scaleEffect, minWidth: 0, padding: 1 }}
             onClick={addOneBPM}
           >
-            <AddIcon sx={{ fontSize: 20 }} />
+            <AddIcon sx={{ fontSize: '1.25rem' }} />
           </Button>
         </Grid>
       </Grid>

@@ -238,7 +238,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                 label={t('countdown')}
                                 value={formData.countdownLength}
                                 onChange={(e) => setFormValue(Number(e.target.value), 'countdownLength')}
-                                sx={{ minWidth: '175px', marginTop: '15px' }}
+                                sx={{ minWidth: '10rem', marginTop: 2 }}
                             >
                                 {
                                     METRONOME_CONSTANTS.countdownOptions.map((countdown) => {

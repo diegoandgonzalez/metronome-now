@@ -55,6 +55,11 @@ const appTheme = createTheme({
     components: {
         MuiCssBaseline: {
             styleOverrides: (theme) => ({
+                html: {
+                    '@media (-webkit-min-device-pixel-ratio: 2.5), (min-resolution: 2.5dppx)': {
+                        fontSize: '75%',
+                    },
+                },
                 '*::-webkit-scrollbar': {
                     width: '6px',
                 },
@@ -98,7 +103,7 @@ const appTheme = createTheme({
         MuiListItem: {
             styleOverrides: {
                 root: ({ theme }) => ({
-                    padding: '10px 16px',
+                    padding: '0.625rem 1rem',
                     cursor: 'pointer',
                     borderRadius: theme.shape.borderRadius,
                     border: `1px solid ${theme.palette.border.main}`,
@@ -144,7 +149,7 @@ const appTheme = createTheme({
                 icon: { display: 'none' },
                 select: ({ theme }) => ({
                     textAlign: 'center',
-                    padding: '8px 10px !important',
+                    padding: '0.5rem 0.5rem !important',
                     backgroundColor: theme.palette.secondary.main,
                 }),
             },

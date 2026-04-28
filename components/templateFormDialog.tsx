@@ -97,7 +97,7 @@ const TemplateFormDialog = (props: Props) => {
                             label={t('templateName')}
                             value={newTemplateName}
                             onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
-                            sx={{ marginTop: '20px' }}
+                            sx={{ marginTop: 3 }}
                             fullWidth
                         />
                     }

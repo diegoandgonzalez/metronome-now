@@ -66,7 +66,7 @@ const ShortcutsDialog = (props: Props) => {
                                         <Typography
                                             color='primary'
                                             sx={{
-                                                width: '40px',
+                                                width: '2.5rem',
                                             }}
                                         >
                                             <b>{shortcutItem.shortcut}</b>

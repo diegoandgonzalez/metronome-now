@@ -40,10 +40,7 @@ const BeatIndicator = (props: Props) => {
   return (
     <Grid
       container direction={'column'} alignItems={'center'} justifyContent={'center'} spacing={1}
-      sx={{
-        minHeight: '80px',
-        margin: '30px 0px',
-      }}
+      sx={{ minHeight: '5rem' }}
     >
       {
         splitBeatArray.map((beatArray, beatArrayIndex) => {
@@ -61,9 +58,9 @@ const BeatIndicator = (props: Props) => {
                       key={beatIndex}
                       onClick={() => handleClick(beatIndex)}
                       sx={{
-                        minWidth: '30px',
-                        width: '30px',
-                        height: '30px',
+                        minWidth: '2rem',
+                        width: '2rem',
+                        height: '2rem',
                         filter: (!isPlaying || isCurrentBeat) ? 'brightness(130%)' : '',
                         scale: isCurrentBeat ? 1.15 : 1,
                         transition: "scale 0.15s cubic-bezier(0.35, 1.55, 0.65, 1)",

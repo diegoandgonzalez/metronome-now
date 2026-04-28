@@ -26,7 +26,7 @@ const TimeSignatureInput = (props: Props) => {
         title={t('beatsPerMeasure')}
         value={beatsPerMeasure}
         onChange={(e) => handleSetBeatsPerMeasure(Number(e.target.value))}
-        sx={{ width: 40 }}
+        sx={{ width: '2.5rem' }}
         inputProps={{ 'aria-label': t('beatsPerMeasure') }}
       >
         {
@@ -42,7 +42,7 @@ const TimeSignatureInput = (props: Props) => {
         title={t('beatValue')}
         value={noteValue}
         onChange={(e) => handleSetNoteValue(Number(e.target.value))}
-        sx={{ width: 40 }}
+        sx={{ width: '2.5rem' }}
         inputProps={{ 'aria-label': t('beatValue') }}
       >
         {

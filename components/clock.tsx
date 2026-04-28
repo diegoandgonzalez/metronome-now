@@ -34,7 +34,7 @@ const Clock = (props: Props) => {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '40px 1fr 40px',
+        gridTemplateColumns: '2.5rem 1fr 2.5rem',
         alignItems: 'center',
         gap: 5,
       }}
@@ -50,7 +50,7 @@ const Clock = (props: Props) => {
         </IconButton>
       </Grid>
       <Grid container direction={'column'} alignItems={'center'}>
-        <Typography align='center' sx={{ fontSize: '1.4rem', width: '125px' }}>
+        <Typography align='center' sx={{ fontSize: '1.4rem', width: '8rem' }}>
           {secondsToStop ? `-${formatMsToHHMMSS(secondsToStop * 1000 - value)}` : formatMsToHHMMSS(value)}
         </Typography>
         <Typography variant='caption'>

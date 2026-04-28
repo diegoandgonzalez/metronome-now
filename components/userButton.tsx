@@ -71,7 +71,7 @@ const UserButton = (props: Props) => {
                 <Avatar
                     src={session.user?.image || ''}
                     alt={t('userImage')}
-                    sx={{ width: 24, height: 24 }}
+                    sx={{ width: '1.5rem', height: '1.5rem' }}
                 />
             </IconButton>
             <Popover
@@ -90,8 +90,7 @@ const UserButton = (props: Props) => {
                     alignItems={'center'}
                     spacing={4}
                     sx={{
-                        width: 250,
-                        padding: 2,
+                        padding: 3,
                     }}
                 >
                     <Grid container direction={'column'} alignItems={'center'} spacing={1}>
@@ -103,7 +102,7 @@ const UserButton = (props: Props) => {
                                 title={t('viewAccount')}
                                 src={session.user?.image || ''}
                                 alt={t('userImage')}
-                                sx={{ width: 60, height: 60 }}
+                                sx={{ width: '3.5rem', height: '3.5rem' }}
                             />
                         </IconButton>
                         <Typography variant='h5'>

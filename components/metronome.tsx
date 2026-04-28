@@ -173,19 +173,23 @@ const Metronome = () => {
                     />
                 }
             />
-            <main>
+            <main
+                style={{
+                    minHeight: "100svh",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
                 <Grid
-                    container direction={'column'} alignItems={'center'} justifyContent={'space-evenly'} wrap='nowrap'
-                    sx={{
-                        padding: '20px',
-                        paddingTop: '10px',
-                        height: 'calc(100svh - 100px)',
-                    }}
+                    container direction={'column'} alignItems={'center'} wrap='nowrap'
+                    spacing={{ xs: 0, md: 1, xl: 2 }}
+                    sx={{ padding: 2 }}
                 >
-                    <Grid container direction={'column'} alignItems={'center'} spacing={3}>
-                        <Grid container direction={'column'} alignItems={'center'} spacing={1}>
-                            <Typography sx={{ fontSize: '0.9rem', visibility: !selectedTemplateNameToPlay ? 'hidden' : 'visible' }}>
-                                {selectedTemplateNameToPlay || 'defaultTemplate'}
+                    <Grid container direction={'column'} alignItems={'center'} spacing={4}>
+                        <Grid container direction={'column'} alignItems={'center'} spacing={0}>
+                            <Typography sx={{ fontSize: '0.9rem' }}>
+                                {selectedTemplateNameToPlay || t('defaultTemplate')}
                             </Typography>
                             <BPMInput
                                 disabled={settings.tempoProgrammingSettings.isActive}
@@ -200,13 +204,15 @@ const Metronome = () => {
                             handleSetNoteValue={handleSetNoteValue}
                         />
                     </Grid>
-                    <BeatIndicator
-                        isPlaying={isPlaying}
-                        beatTypes={settings.metronomeSettings.beatTypes}
-                        beatsPerMeasure={settings.metronomeSettings.beatsPerMeasure}
-                        currentBeatInMeasure={currentBeatInMeasure}
-                        handleClick={handleToggleBeatType}
-                    />
+                    <Grid container direction={'column'} alignItems={'center'} sx={{ marginY: 4 }}>
+                        <BeatIndicator
+                            isPlaying={isPlaying}
+                            beatTypes={settings.metronomeSettings.beatTypes}
+                            beatsPerMeasure={settings.metronomeSettings.beatsPerMeasure}
+                            currentBeatInMeasure={currentBeatInMeasure}
+                            handleClick={handleToggleBeatType}
+                        />
+                    </Grid>
                     <Grid container direction={'column'} alignItems={'center'} spacing={1}>
                         <Clock
                             showOnlyClock={isInCountdown}
@@ -222,7 +228,7 @@ const Metronome = () => {
                     </Grid>
                     <Grid
                         container alignItems={'center'} justifyContent={'space-evenly'} spacing={2}
-                        sx={{ marginTop: '30px' }}
+                        sx={{ marginTop: 4 }}
                     >
                         <Button
                             title={t('bpmProgrammingAndTimer')}
@@ -231,7 +237,7 @@ const Metronome = () => {
                             sx={{ minWidth: 0, padding: 1, borderRadius: '100%' }}
                             onClick={handleOpenBPMProgrammingTimerDialogAndStopMetronome}
                         >
-                            <UpdateIcon sx={{ fontSize: 40 }} />
+                            <UpdateIcon sx={{ fontSize: '2.5rem' }} />
                         </Button>
                         <Button
                             title={t(isPlaying ? 'stop' : 'play')}
@@ -240,7 +246,7 @@ const Metronome = () => {
                             sx={{ minWidth: 0, padding: 0.5, borderRadius: '100%' }}
                             onClick={handleToggleMetronome}
                         >
-                            {isPlaying ? <StopIcon sx={{ fontSize: 80 }} /> : <PlayArrowIcon sx={{ fontSize: 80 }} />}
+                            {isPlaying ? <StopIcon sx={{ fontSize: '5rem' }} /> : <PlayArrowIcon sx={{ fontSize: '5rem' }} />}
                         </Button>
                         <Button
                             title={t('templates')}
@@ -249,7 +255,7 @@ const Metronome = () => {
                             sx={{ minWidth: 0, padding: 1, borderRadius: '100%' }}
                             onClick={handleValidateAndOpenTemplateDialog}
                         >
-                            <PlaylistAddIcon sx={{ fontSize: 40 }} />
+                            <PlaylistAddIcon sx={{ fontSize: '2.5rem' }} />
                         </Button>
                     </Grid>
                     {

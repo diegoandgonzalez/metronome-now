@@ -6,10 +6,8 @@ const Metronome = dynamic(() => import('@/components/metronome'), {
 
 const Home = () => {
 
-    
-
     return (
-            <Metronome />
+        <Metronome />
     );
 }
 

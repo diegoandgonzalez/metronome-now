@@ -24,16 +24,26 @@ const Header = (props: Props) => {
     const isMobileSize = useIsMobileSize();
 
     return (
-        <header style={{ width: '100%', padding: 20, paddingTop: 10, paddingBottom: 0 }}>
-            <Grid container justifyContent={'space-between'} alignItems={'center'} spacing={2}>
+        <header>
+            <Grid
+                container justifyContent={'space-between'} alignItems={'center'} spacing={2}
+                sx={{
+                    position: 'absolute',
+                    top: 0,
+                    width: '100%',
+                    paddingTop: 1,
+                    paddingBottom: 0,
+                    paddingX: 2,
+                }}
+            >
                 <Button
                     onClick={handleTitleClick}
                     color='inherit'
                     sx={{
                         padding: 0,
                         display: 'flex',
-                        gap: '5px',
-                        fontSize: '24px',
+                        gap: '0.5ch',
+                        fontSize: '1.5rem',
                         fontWeight: 600,
                         '&:hover': {
                             backgroundColor: 'transparent',
