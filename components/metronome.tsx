@@ -52,7 +52,6 @@ const Metronome = () => {
     } = useMetronome();
 
     const onTemplateSelectionCallback = (newTemplateSelected?: Template) => {
-        document.title = `${newTemplateSelected?.name ? newTemplateSelected.name + ' - ' : ''} Metronome Now`;
         handleStopMetronome();
         handleSetSettings(newTemplateSelected?.settings);
     }
