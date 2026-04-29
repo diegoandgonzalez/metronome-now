@@ -92,5 +92,7 @@
     "attention": "Attention",
     "hasUnsavedChanges": "Has unsaved changes",
     "unsavedChangesQuestion": "You have unsaved changes, do you wish to continue anyways?",
-    "selectTemplate": "Select template"
+    "selectTemplate": "Select template",
+    "pageNotFound": "Page not found",
+    "goToMainPage": "Go to the main page"
 }

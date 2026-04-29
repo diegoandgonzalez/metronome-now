@@ -92,5 +92,7 @@
     "attention": "Atención",
     "hasUnsavedChanges": "Tiene cambios sin guardar",
     "unsavedChangesQuestion": "Tiene cambios sin guardar, ¿Desea continuar de todos modos?",
-    "selectTemplate": "Seleccionar plantilla"
+    "selectTemplate": "Seleccionar plantilla",
+    "pageNotFound": "Página no encontrada",
+    "goToMainPage": "Ir a la página principal"
 }

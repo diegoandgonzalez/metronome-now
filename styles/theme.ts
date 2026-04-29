@@ -158,9 +158,6 @@ const appTheme = createTheme({
         },
         MuiFormControlLabel: {
             styleOverrides: {
-                label: {
-                  paddingRight: 8,  
-                },
                 root: ({ theme }) => ({
                     borderRadius: theme.shape.borderRadius,
                     '&:has(.Mui-focusVisible)': {
@@ -168,6 +165,9 @@ const appTheme = createTheme({
                         outlineOffset: '2px',
                     },
                 }),
+                label: {
+                    paddingRight: 8,
+                },
             },
         },
         MuiIconButton: {
