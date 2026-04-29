@@ -159,7 +159,7 @@ const Metronome = () => {
                     spacing={{ xs: 0, md: 1, xl: 2 }}
                     sx={{ padding: 2 }}
                 >
-                    <Grid container direction={'column'} alignItems={'center'} spacing={4}>
+                    <Grid container direction={'column'} alignItems={'center'} spacing={3}>
                         <Grid container direction={'column'} alignItems={'center'} spacing={0}>
                             <Typography sx={{ fontSize: '0.9rem' }}>
                                 {selectedTemplateNameToPlay || t('defaultTemplate')}

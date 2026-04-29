@@ -39,13 +39,13 @@ const BeatIndicator = (props: Props) => {
 
   return (
     <Grid
-      container direction={'column'} alignItems={'center'} justifyContent={'center'} spacing={1}
+      container direction={'column'} alignItems={'center'} justifyContent={'center'} spacing={0.75}
       sx={{ minHeight: '5rem' }}
     >
       {
         splitBeatArray.map((beatArray, beatArrayIndex) => {
           return (
-            <Grid key={beatArrayIndex} container alignItems={'center'} justifyContent={'center'} spacing={1}>
+            <Grid key={beatArrayIndex} container alignItems={'center'} justifyContent={'center'} spacing={0.75}>
               {
                 beatArray.map((beatIndex) => {
                   const isCurrentBeat = currentBeatInMeasure === beatIndex;

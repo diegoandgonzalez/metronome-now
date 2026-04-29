@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import TouchAppIcon from '@mui/icons-material/TouchApp';
 import { METRONOME_CONSTANTS } from '@/utils/constants';
 import { useSnackbar } from '@/components/snackbar/context';
 import useTapTempo from '@/utils/hooks/useTapTempo';
@@ -24,7 +23,7 @@ type Props = {
 const scaleEffect = {
   transition: "scale 0.3s cubic-bezier(0.35, 1.55, 0.65, 1)",
   "&:active": {
-    scale: 1.1,
+    scale: 1.04,
   },
 }
 
@@ -133,8 +132,8 @@ const BPMInput = (props: Props) => {
               if (!tappedBPM) return;
               handleSubmit(String(tappedBPM))
             }}
-            >
-            <TouchAppIcon sx={{ fontSize: '1.25rem' }} />
+          >
+            {t('tapToGetBPM')}
           </Button>
           <Button
             disabled={disabled}
