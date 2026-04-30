@@ -2,7 +2,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { FileToCreate, Settings, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
-import useDialog from '@/utils/hooks/useDialog';
+import useToggle from '@/utils/hooks/useToggle';
 import { useSnackbar } from '@/components/snackbar/context';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useDriveAppData from '@/utils/hooks/useDriveAppData';
@@ -82,10 +82,9 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
     });
 
     const {
-        dialogIsOpen: templateFormDialogIsOpen,
-        handleOpenDialog: handleOpenTemplateFormDialog,
-        handleCloseDialog: handleCloseTemplateFormDialog,
-    } = useDialog();
+        value: templateFormDialogIsOpen,
+        handleToggle: handleToggleTemplateFormDialog,
+    } = useToggle();
 
     const sortedTemplates = useMemo(() => {
         if (!templates?.length) return [];
@@ -141,32 +140,32 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
 
     const handleOpenCreateTemplate = () => handleWarnUnsavedChanges(() => {
         setTemplateFormData({ templateName: '', action: 'CREATE' });
-        handleOpenTemplateFormDialog();
+        handleToggleTemplateFormDialog();
     })
 
     const handleCloseTemplateForm = () => {
         setTemplateFormData(null);
-        handleCloseTemplateFormDialog();
+        handleToggleTemplateFormDialog();
     }
 
     const handleSaveTemplateChanges = (newTemplateName: string) => {
         setTemplateFormData({ templateName: newTemplateName, action: 'UPDATE' });
-        handleOpenTemplateFormDialog();
+        handleToggleTemplateFormDialog();
     }
 
     const handleOpenDeleteTemplate = (newTemplateName: string) => {
         setTemplateFormData({ templateName: newTemplateName, action: 'DELETE' });
-        handleOpenTemplateFormDialog();
+        handleToggleTemplateFormDialog();
     }
 
     const handleOpenDuplicateTemplate = (newTemplateName: string) => handleWarnUnsavedChanges(() => {
         setTemplateFormData({ templateName: newTemplateName, action: 'DUPLICATE' });
-        handleOpenTemplateFormDialog();
+        handleToggleTemplateFormDialog();
     })
 
     const handleOpenRenameTemplate = (newTemplateName: string) => handleWarnUnsavedChanges(() => {
         setTemplateFormData({ templateName: newTemplateName, action: 'RENAME' });
-        handleOpenTemplateFormDialog();
+        handleToggleTemplateFormDialog();
     })
 
     const handleSubmitActionTemplate: TemplateFunction = (newtemplateName, newSettings) => {

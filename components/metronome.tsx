@@ -7,7 +7,7 @@ import StopIcon from '@mui/icons-material/Stop';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import UpdateIcon from '@mui/icons-material/Update';
 import type { Template } from '@/utils/types';
-import useDialog from '@/utils/hooks/useDialog';
+import useToggle from '@/utils/hooks/useToggle';
 import useMetronome from '@/utils/hooks/useMetronome';
 import useTemplates from '@/utils/hooks/useTemplates';
 import { DEFAULT_SETTINGS } from '@/utils/constants';
@@ -76,22 +76,19 @@ const Metronome = () => {
     const { handleOpen: handleOpenConfirmationDialog } = useConfirmationDialog();
 
     const {
-        dialogIsOpen: templateDialogIsOpen,
-        handleOpenDialog: handleOpenTemplateDialog,
-        handleCloseDialog: handleCloseTemplateDialog,
-    } = useDialog();
+        value: templateDialogIsOpen,
+        handleToggle: handleToggleTemplateDialog,
+    } = useToggle();
 
     const {
-        dialogIsOpen: bpmProgrammingTimerDialogIsOpen,
-        handleOpenDialog: handleOpenBPMProgrammingTimerDialog,
-        handleCloseDialog: handleCloseBPMProgrammingTimerDialog,
-    } = useDialog();
+        value: bpmProgrammingTimerDialogIsOpen,
+        handleToggle: handleToggleBPMProgrammingTimerDialog,
+    } = useToggle();
 
     const {
-        dialogIsOpen: aboutDialogIsOpen,
-        handleOpenDialog: handleOpenAboutDialog,
-        handleCloseDialog: handleCloseAboutDialog,
-    } = useDialog();
+        value: aboutDialogIsOpen,
+        handleToggle: handleToggleAboutDialog,
+    } = useToggle();
 
     const handleToggleMetronome = () => {
         if (isPlaying) {
@@ -108,12 +105,12 @@ const Metronome = () => {
             return;
         }
 
-        handleOpenTemplateDialog();
+        handleToggleTemplateDialog();
         handleStopMetronome();
     }
 
     const handleOpenBPMProgrammingTimerDialogAndStopMetronome = () => {
-        handleOpenBPMProgrammingTimerDialog();
+        handleToggleBPMProgrammingTimerDialog();
         handleStopMetronome();
     }
 
@@ -134,7 +131,7 @@ const Metronome = () => {
         <>
             <Header
                 disableLocaleSelector={isPlaying}
-                handleTitleClick={handleOpenAboutDialog}
+                handleTitleClick={handleToggleAboutDialog}
                 userButton={
                     <UserButton
                         templates={templates}
@@ -239,7 +236,7 @@ const Metronome = () => {
                             initialTempoProgrammingSettings={settings.tempoProgrammingSettings}
                             initialTimerSettings={settings.timerSettings}
                             handleSubmit={handleSetTempoProgrammingAndTimerSettings}
-                            handleClose={handleCloseBPMProgrammingTimerDialog}
+                            handleClose={handleToggleBPMProgrammingTimerDialog}
                         />
                     }
                     {
@@ -249,13 +246,13 @@ const Metronome = () => {
                             selectedTemplateName={selectedTemplateNameToPlay}
                             templates={templates}
                             selectedTemplateHasUnsavedChanges={selectedTemplateHasUnsavedChanges}
-                            handleSelectTemplate={(templateName) => handleSelectTemplateToPlayByName(templateName, handleCloseTemplateDialog)}
+                            handleSelectTemplate={(templateName) => handleSelectTemplateToPlayByName(templateName, handleToggleTemplateDialog)}
                             handleCreateTemplate={handleOpenCreateTemplate}
                             handleRenameTemplate={handleOpenRenameTemplate}
                             handleSaveTemplateChanges={handleSaveTemplateChanges}
                             handleDuplicateTemplate={handleOpenDuplicateTemplate}
                             handleDeleteTemplate={handleOpenDeleteTemplate}
-                            handleClose={handleCloseTemplateDialog}
+                            handleClose={handleToggleTemplateDialog}
                         />
                     }
                     {
@@ -274,7 +271,7 @@ const Metronome = () => {
                 aboutDialogIsOpen &&
                 <AboutDialog
                     open={aboutDialogIsOpen}
-                    handleClose={handleCloseAboutDialog}
+                    handleClose={handleToggleAboutDialog}
                 />
             }
         </>
