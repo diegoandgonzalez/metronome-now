@@ -2,7 +2,7 @@
 import { createContext, useContext, useState } from 'react';
 
 export type ConfirmationDialogState = {
-    question: string;
+    question: string | React.ReactNode;
     handleConfirm: () => void;
 }
 export type ConfirmationDialogContextValue = {

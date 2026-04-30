@@ -37,26 +37,6 @@ export const formatMsToHHMMSS = (value: number) => {
     return padTwoDigits(hrs) + ':' + padTwoDigits(mins) + ':' + padTwoDigits(secs);
 }
 
-export const areSettingObjectsEqual = (obj1: Settings, obj2: Settings): boolean => {
-    return (
-        obj1.metronomeSettings.bpm === obj2.metronomeSettings.bpm &&
-        obj1.metronomeSettings.beatsPerMeasure === obj2.metronomeSettings.beatsPerMeasure &&
-        obj1.metronomeSettings.noteValue === obj2.metronomeSettings.noteValue &&
-        obj1.metronomeSettings.beatTypes.every((beatType, beatTypeIndex) => beatType === obj2.metronomeSettings.beatTypes[beatTypeIndex]) &&
-        obj1.metronomeSettings.countdownLength === obj2.metronomeSettings.countdownLength &&
-        obj1.timerSettings.isTimeActive === obj2.timerSettings.isTimeActive &&
-        obj1.timerSettings.secondsToStop === obj2.timerSettings.secondsToStop &&
-        obj1.timerSettings.isMeasuresActive === obj2.timerSettings.isMeasuresActive &&
-        obj1.timerSettings.measuresToStop === obj2.timerSettings.measuresToStop &&
-        obj1.tempoProgrammingSettings.isActive === obj2.tempoProgrammingSettings.isActive &&
-        obj1.tempoProgrammingSettings.isLoop === obj2.tempoProgrammingSettings.isLoop &&
-        obj1.tempoProgrammingSettings.bpmToChange === obj2.tempoProgrammingSettings.bpmToChange &&
-        obj1.tempoProgrammingSettings.measuresToChangeBPM === obj2.tempoProgrammingSettings.measuresToChangeBPM &&
-        obj1.tempoProgrammingSettings.fromBPM === obj2.tempoProgrammingSettings.fromBPM &&
-        obj1.tempoProgrammingSettings.toBPM === obj2.tempoProgrammingSettings.toBPM
-    );
-}
-
 /**
  * Creates array with accent on the 1 and length passed by parameter
  * @param {number} beatsPerMeasure beats in the time signature

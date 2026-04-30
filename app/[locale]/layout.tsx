@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk } from 'next/font/google';
+import { Space_Grotesk, Roboto } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
@@ -13,8 +13,14 @@ import ConfirmationDialog from '@/components/confirmationDialog';
 
 const spaceGrotesk = Space_Grotesk({
     subsets: ['latin'],
-    display: 'swap',
-});
+    variable: '--font-space-grotesk',
+})
+
+const roboto = Roboto({
+    weight: ['400', '500', '700'],
+    subsets: ['latin'],
+    variable: '--font-roboto',
+})
 
 type Props = {
     params: Promise<{ locale: string }>;
@@ -77,7 +83,7 @@ export default async function RootLayout({ children, params }: Props) {
     }
 
     return (
-        <html lang={locale} className={spaceGrotesk.className}>
+        <html lang={locale} className={`${spaceGrotesk.variable} ${roboto.variable}`}>
             <body>
                 <NextIntlClientProvider>
                     <AppRouterCacheProvider>

@@ -8,8 +8,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useDriveAppData from '@/utils/hooks/useDriveAppData';
 import { getValueFromLocalStorageOrDefault, setValueInLocalStorage } from '@/utils/helpers';
 import { DEFAULT_SETTINGS, LOCAL_STORAGE_KEYS } from '@/utils/constants';
-import { areSettingObjectsEqual } from '@/utils/helpers';
 import { useConfirmationDialog } from '@/components/confirmationDialog/context';
+import isEqual from 'lodash/isEqual';
 
 const KEY = 'template-files';
 
@@ -95,7 +95,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         if (!selectedTemplateNameToPlay) return false;
         const templateSelected = templates.find((template) => template.name === selectedTemplateNameToPlay);
         if (!templateSelected) return false;
-        return !areSettingObjectsEqual(currentSettings, templateSelected.settings);
+        return !isEqual(currentSettings, templateSelected.settings);
     }, [selectedTemplateNameToPlay, templates, currentSettings])
 
     const handleWarnUnsavedChanges = (callback: () => void) => {

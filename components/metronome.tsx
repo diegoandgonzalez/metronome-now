@@ -121,7 +121,7 @@ const Metronome = () => {
     }
 
     const settingsIsActive = (
-        settings.metronomeSettings.countdownLength ||
+        settings.countdownLength ||
         settings.tempoProgrammingSettings.isActive ||
         settings.timerSettings.isTimeActive ||
         settings.timerSettings.isMeasuresActive
@@ -136,7 +136,11 @@ const Metronome = () => {
                     <UserButton
                         templates={templates}
                         handleDeleteAllTemplates={() => handleOpenConfirmationDialog({
-                            question: t('deleteAllTemplatesQuestion'),
+                            question: <>
+                                {t('deleteAllTemplatesQuestion')}
+                                <br />
+                                {t('thisActionCannotBeUndone')}
+                            </>,
                             handleConfirm: handleDeleteAllTemplates,
                         })}
                         handleResetUserSettings={handleResetUserSettings}
@@ -232,7 +236,7 @@ const Metronome = () => {
                         bpmProgrammingTimerDialogIsOpen &&
                         <TempoProgrammingTimerDialog
                             open={bpmProgrammingTimerDialogIsOpen}
-                            initialCountdownLength={settings.metronomeSettings.countdownLength}
+                            initialCountdownLength={settings.countdownLength}
                             initialTempoProgrammingSettings={settings.tempoProgrammingSettings}
                             initialTimerSettings={settings.timerSettings}
                             handleSubmit={handleSetTempoProgrammingAndTimerSettings}

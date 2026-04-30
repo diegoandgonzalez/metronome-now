@@ -23,7 +23,7 @@ const Header = (props: Props) => {
                     position: 'absolute',
                     top: 0,
                     width: '100%',
-                    paddingTop: 1,
+                    paddingTop: 1.5,
                     paddingBottom: 0,
                     paddingX: 2,
                 }}

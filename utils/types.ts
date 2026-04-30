@@ -5,7 +5,6 @@ export type MetronomeSettings = {
     beatsPerMeasure: number,
     noteValue: number,
     beatTypes: number[],
-    countdownLength: number,
 }
 
 export type TimerSettings = {
@@ -25,6 +24,7 @@ export type TempoProgrammingSettings = {
 }
 
 export type Settings = {
+    countdownLength: number,
     metronomeSettings: MetronomeSettings,
     timerSettings: TimerSettings,
     tempoProgrammingSettings: TempoProgrammingSettings,

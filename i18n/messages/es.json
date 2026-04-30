@@ -94,5 +94,6 @@
     "unsavedChangesQuestion": "Tiene cambios sin guardar, ¿Desea continuar de todos modos?",
     "selectTemplate": "Seleccionar plantilla",
     "pageNotFound": "Página no encontrada",
-    "goToMainPage": "Ir a la página principal"
+    "goToMainPage": "Ir a la página principal",
+    "thisActionCannotBeUndone": "Esta acción no se puede deshacer"
 }

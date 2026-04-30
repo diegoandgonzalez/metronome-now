@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react';
-import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
+import useStateRefSync from '@/utils/hooks/useStateRefSync';
 
 const TIME_TO_ADD = 100;
 
@@ -13,7 +13,7 @@ const useTimeMeasure = () => {
     value: currentTime,
     valueRef: currentTimeRef,
     handleSyncValue: handleSyncCurrentTime,
-  } = useStateRefLocalStorageSync<number>(0);
+  } = useStateRefSync<number>(0);
 
   const isPaused = useRef(false);
 

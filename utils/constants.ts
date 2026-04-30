@@ -55,8 +55,8 @@ export const DEFAULT_SETTINGS: Settings = {
         beatsPerMeasure: DEFAULT_BEATS_PER_MEASURE,
         noteValue: 4,
         beatTypes: createDefaultBeatTypesArray(DEFAULT_BEATS_PER_MEASURE),
-        countdownLength: 0,
     },
+    countdownLength: 0,
     timerSettings: {
         isTimeActive: false,
         secondsToStop: 600,
@@ -74,20 +74,9 @@ export const DEFAULT_SETTINGS: Settings = {
 }
 
 export const LOCAL_STORAGE_KEYS = {
-    bpm: 'mn_bpm',
     template: 'mn_template',
     countdownLength: 'mn_countdown_length',
-    beatsPerMeasure: 'mn_beats_per_measure',
-    noteValue: 'mn_note_value',
-    beatTypes: 'mn_beat_types',
-    timerIsTimeActive: 'mn_timer_is_time_active',
-    timerIsMeasuresActive: 'mn_timer_is_measures_active',
-    timerSecondsToStop: 'mn_timer_seconds_to_stop',
-    timerMeasuresToStop: 'mn_timer_measures_to_stop',
-    tempoProgrammingIsActive: 'mn_tp_is_active',
-    tempoProgrammingIsLoop: 'mn_tp_is_loop',
-    tempoProgrammingBPMToChange: 'mn_tp_bpm_to_change',
-    tempoProgrammingMeasuresToChangeBPM: 'mn_tp_measures_to_change_bpm',
-    tempoProgrammingFromBPM: 'mn_tp_from_bpm',
-    tempoProgrammingToBPM: 'mn_tp_to_bpm',
+    metronomeSettings: 'mn_metronome_settings',
+    timerSettings: 'mn_timer_settings',
+    tempoProgrammingSettings: 'mn_tempo_programming_settings',
 };

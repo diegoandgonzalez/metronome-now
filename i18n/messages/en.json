@@ -77,7 +77,7 @@
     "description": "Online metronome with bpm programming, timer, templates and more!",
     "en": "English",
     "es": "Español",
-    "login": "Log in",
+    "login": "Sign in",
     "logout": "Log out",
     "youMustBeLoggedIn": "You must log in to access your templates",
     "userImage": "User image",
@@ -94,5 +94,6 @@
     "unsavedChangesQuestion": "You have unsaved changes, do you wish to continue anyways?",
     "selectTemplate": "Select template",
     "pageNotFound": "Page not found",
-    "goToMainPage": "Go to the main page"
+    "goToMainPage": "Go to the main page",
+    "thisActionCannotBeUndone": "This action cannot be undone"
 }
