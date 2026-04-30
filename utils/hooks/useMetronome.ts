@@ -1,11 +1,11 @@
 'use client'
 import { useRef, useState } from 'react';
 import {
+    LOCAL_STORAGE_KEYS,
     METRONOME_CONSTANTS,
     DEFAULT_SETTINGS,
 } from '../constants';
-import { LOCAL_STORAGE_KEYS } from '@/utils/localStorage';
-import { getUpdatedBeatTypesArray } from '@/utils/beatTypes';
+import { getUpdatedBeatTypesArray } from '@/utils/helpers';
 import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
 import type { MetronomeSettings, Settings, TempoProgrammingSettings, TimerSettings } from '@/utils/types';
 import useTimeMeasure from '@/utils/hooks/useTimeMeasure';

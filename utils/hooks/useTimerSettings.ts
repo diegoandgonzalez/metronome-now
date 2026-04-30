@@ -1,6 +1,6 @@
 'use client'
 import { DEFAULT_SETTINGS } from '@/utils/constants';
-import { LOCAL_STORAGE_KEYS } from '@/utils/localStorage';
+import { LOCAL_STORAGE_KEYS } from '@/utils/constants';
 import type { TimerSettings } from '@/utils/types';
 import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
 

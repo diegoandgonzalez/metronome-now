@@ -6,8 +6,8 @@ import useToggle from '@/utils/hooks/useToggle';
 import { useSnackbar } from '@/components/snackbar/context';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useDriveAppData from '@/utils/hooks/useDriveAppData';
-import { getValueFromLocalStorageOrDefault, LOCAL_STORAGE_KEYS, setValueInLocalStorage } from '@/utils/localStorage';
-import { DEFAULT_SETTINGS } from '@/utils/constants';
+import { getValueFromLocalStorageOrDefault, setValueInLocalStorage } from '@/utils/helpers';
+import { DEFAULT_SETTINGS, LOCAL_STORAGE_KEYS } from '@/utils/constants';
 import { areSettingObjectsEqual } from '@/utils/helpers';
 import { useConfirmationDialog } from '@/components/confirmationDialog/context';
 

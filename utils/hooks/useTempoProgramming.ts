@@ -1,7 +1,7 @@
 'use client'
 import { useRef } from 'react';
 import { DEFAULT_SETTINGS } from '@/utils/constants';
-import { LOCAL_STORAGE_KEYS } from '@/utils/localStorage';
+import { LOCAL_STORAGE_KEYS } from '@/utils/constants';
 import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
 import type { TempoProgrammingSettings } from '@/utils/types';
 
