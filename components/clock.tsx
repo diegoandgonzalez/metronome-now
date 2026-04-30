@@ -5,26 +5,28 @@ import PauseIcon from '@mui/icons-material/Pause';
 import { formatMsToHHMMSS } from '@/utils/helpers';
 
 type Props = {
-  showOnlyClock: boolean;
+  isInCountdown: boolean;
   isPlaying: boolean;
   isPaused: boolean;
   value: number;
   secondsToStop: number;
   currentMeasure: number;
   measureToStop: number;
+  countdownLength: number;
   handleClick: () => void;
   handleToggleMetronome: () => void;
 };
 
 const Clock = (props: Props) => {
   const {
-    showOnlyClock,
+    isInCountdown,
     isPlaying,
     isPaused,
     value,
     secondsToStop,
     currentMeasure,
     measureToStop,
+    countdownLength,
     handleClick,
   } = props;
 
@@ -44,7 +46,7 @@ const Clock = (props: Props) => {
           title={t('pause')}
           aria-label={t('pause')}
           onClick={handleClick}
-          sx={{ visibility: isPlaying && !showOnlyClock ? 'visible' : 'hidden' }}
+          sx={{ visibility: isPlaying && !isInCountdown ? 'visible' : 'hidden' }}
         >
           {isPaused ? <PlayArrowIcon /> : <PauseIcon />}
         </IconButton>
@@ -53,8 +55,13 @@ const Clock = (props: Props) => {
         <Typography align='center' sx={{ fontSize: '1.4rem', width: '8rem' }}>
           {secondsToStop ? `-${formatMsToHHMMSS(secondsToStop * 1000 - value)}` : formatMsToHHMMSS(value)}
         </Typography>
-        <Typography variant='caption'>
-          {`${currentMeasure}${measureToStop ? ` ${t('of')} ${measureToStop}` : ''} ${t('measures')}`}
+        <Typography variant='caption' sx={{ visibility: isPlaying ? 'visible' : 'hidden' }}>
+
+          {
+            !isInCountdown ?
+              `${currentMeasure}${measureToStop ? ` ${t('of')} ${measureToStop}` : ''} ${t('measures')}`
+              : `${currentMeasure || 1}${` ${t('of')} ${countdownLength}`} ${t('measures')} (${t('countdown')})`
+          }
         </Typography>
       </Grid>
     </div>

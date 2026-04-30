@@ -189,13 +189,14 @@ const Metronome = () => {
                     </Grid>
                     <Grid container direction={'column'} alignItems={'center'} spacing={1}>
                         <Clock
-                            showOnlyClock={isInCountdown}
+                            isInCountdown={isInCountdown}
                             isPlaying={isPlaying}
                             isPaused={isPaused}
                             value={currentTime}
                             secondsToStop={settings.timerSettings.isTimeActive ? settings.timerSettings.secondsToStop : 0}
                             currentMeasure={currentMeasure < 0 ? 0 : currentMeasure + 1}
                             measureToStop={settings.timerSettings.isMeasuresActive ? settings.timerSettings.measuresToStop : 0}
+                            countdownLength={settings.countdownLength}
                             handleClick={handleTogglePauseMetronome}
                             handleToggleMetronome={handleToggleMetronome}
                         />
