@@ -1,17 +1,15 @@
 'use client'
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import type { FileToCreate, Settings, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
+import type { Settings, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
 import useToggle from '@/utils/hooks/useToggle';
 import { useSnackbar } from '@/components/snackbar/context';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import useDriveAppData from '@/utils/hooks/useDriveAppData';
 import { getValueFromLocalStorageOrDefault, setValueInLocalStorage } from '@/utils/helpers';
 import { DEFAULT_SETTINGS, LOCAL_STORAGE_KEYS } from '@/utils/constants';
 import { useConfirmationDialog } from '@/components/confirmationDialog/context';
 import isEqual from 'lodash/isEqual';
-
-const KEY = 'template-files';
+import useIndexedDB from '@/utils/hooks/useIndexedDB';
+import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
 
 const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (args?: Template) => void) => {
 
@@ -19,67 +17,49 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
     const { handleOpen: handleOpenConfirmationDialog } = useConfirmationDialog();
 
+    const [storedSelectedTemplateNameToPlay] = useState<string>(() => getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, '') as string);
+
+    const [templates, setTemplates] = useState<Template[]>([]);
+    const hasFetched = useRef<boolean>(false);
+
     const {
-        isReady,
-        readAllFiles,
-        writeFile,
-        deleteFile,
-        deleteAllFiles,
-    } = useDriveAppData();
+        value: selectedTemplateNameToPlay,
+        handleSyncValue: setSelectedTemplateNameToPlay,
+    } = useStateRefLocalStorageSync<string>('', LOCAL_STORAGE_KEYS.template);
 
-    const [selectedTemplateNameToPlay, setSelectedTemplateNameToPlay] = useState<string>(() => getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, ''));
+    const {
+        getAllItems: getAllItemsFromDB,
+        addItem: addItemToDB,
+        updateItem: updateItemInDB,
+        deleteItem: deleteItemInDB,
+        error: errorDB,
+        isReady: isDBReady,
+    } = useIndexedDB<Template>('MetronomeNowDB', 'Templates', 1, 'id');
+
+    useEffect(() => {
+        if (errorDB) {
+            handleOpenSnackbar({ text: errorDB.message, type: 'error' });
+        }
+    }, [errorDB, handleOpenSnackbar])
+
+    useEffect(() => {
+        if (!isDBReady) return;
+
+        if (!hasFetched.current) {
+            getAllItemsFromDB()
+                .then((fetchedTemplates) => {
+                    hasFetched.current = true;
+                    setTemplates(fetchedTemplates);
+                    const storedTemplateIdExists = Boolean(storedSelectedTemplateNameToPlay) && fetchedTemplates.some((template) => template.name === storedSelectedTemplateNameToPlay);
+                    setSelectedTemplateNameToPlay(storedTemplateIdExists ? storedSelectedTemplateNameToPlay : '');
+                })
+                .catch((error) => {
+                    handleOpenSnackbar(error);
+                });
+        }
+    }, [isDBReady, storedSelectedTemplateNameToPlay, getAllItemsFromDB, setSelectedTemplateNameToPlay, handleOpenSnackbar]);
+
     const [templateFormData, setTemplateFormData] = useState<TemplateFormData | null>(null);
-
-    const queryClient = useQueryClient();
-
-    const { data: templateFiles } = useQuery({
-        queryKey: [KEY],
-        queryFn: readAllFiles,
-        enabled: isReady,
-    });
-
-    const templates = useMemo(() => {
-        if (!templateFiles?.length) return [] as Template[];
-        return templateFiles.map((file) => file.content) as Template[];
-    }, [templateFiles])
-
-    const { mutate: createTemplate } = useMutation({
-        mutationFn: (newFile: FileToCreate) => writeFile(newFile),
-        onSuccess: (_, newFile: FileToCreate) => {
-            queryClient.invalidateQueries({ queryKey: [KEY] });
-            handleSelectTemplateToPlayByObject(newFile.content as Template);
-            handleOpenSnackbar({ text: t('templateCreated'), type: 'success' });
-        },
-    });
-
-    const { mutate: updateTemplate } = useMutation({
-        mutationFn: (newFile: FileToCreate) => writeFile(newFile),
-        onSuccess: (_, newFile: FileToCreate) => {
-            queryClient.invalidateQueries({ queryKey: [KEY] });
-            handleSelectTemplateToPlayByObject(newFile.content as Template);
-            handleOpenSnackbar({ text: t('templateUpdated'), type: 'success' });
-        },
-    });
-
-    const { mutate: deleteTemplate } = useMutation({
-        mutationFn: (fileName: string) => deleteFile(fileName),
-        onSuccess: (_, fileNameDeleted) => {
-            queryClient.invalidateQueries({ queryKey: [KEY] });
-            handleOpenSnackbar({ text: t('templateDeleted'), type: 'success' });
-            if (selectedTemplateNameToPlay === fileNameDeleted) {
-                handleDeselectTemplate();
-            }
-        },
-    });
-
-    const { mutate: deleteAllTemplates } = useMutation({
-        mutationFn: deleteAllFiles,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [KEY] });
-            handleDeselectTemplate();
-            handleOpenSnackbar({ text: t('templatesDeleted'), type: 'success' });
-        },
-    });
 
     const {
         value: templateFormDialogIsOpen,
@@ -210,33 +190,54 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
             settings: newSettings,
         }
 
-        createTemplate({ name: newtemplateName, content: newTemplate });
+        addItemToDB(newTemplate)
+            .then(() => {
+                getAllItemsFromDB()
+                    .then((newTemplates) => {
+                        setTemplates(newTemplates);
+                        handleSelectTemplateToPlayByObject(newTemplate);
+                        handleOpenSnackbar({ text: t('templateCreated'), type: 'success' });
+                    })
+            })
+            .catch((error) => {
+                handleOpenSnackbar(error);
+            });
     }
 
     const handleUpdateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
-        const newTemplate: Template = {
-            name: newtemplateName,
-            settings: newSettings,
-        }
+        const auxSelectedTemplate = templates.find((template) => template.name === templateFormData?.templateName);
+        if (!auxSelectedTemplate) return;
 
-        updateTemplate({ name: selectedTemplateNameToPlay, content: newTemplate });
+        auxSelectedTemplate.name = newtemplateName;
+        auxSelectedTemplate.settings = newSettings;
+
+        updateItemInDB(auxSelectedTemplate)
+            .then(() => {
+                getAllItemsFromDB()
+                    .then((newTemplates) => {
+                        setTemplates(newTemplates);
+                        handleSelectTemplateToPlayByObject(auxSelectedTemplate);
+                        handleOpenSnackbar({ text: t('templateUpdated'), type: 'success' });
+                    })
+            })
+            .catch((error) => {
+                handleOpenSnackbar(error);
+            });
     }
 
     const handleDeleteTemplate = () => {
-        if (!templateFormData) return;
-        deleteTemplate(templateFormData?.templateName);
-    }
-
-    const handleDeleteAllTemplates = () => {
-        handleDeselectTemplate();
-        deleteAllTemplates();
-    }
-
-    const handleSelectTemplateByPosition = (position: number) => {
-        if (!templateFiles?.length) return;
-
-        if (templateFiles.length < position) return;
-        handleSelectTemplateToPlayByName(templateFiles[position - 1]?.name);
+        deleteItemInDB(templateFormData?.templateName || '')
+            .then(() => {
+                getAllItemsFromDB()
+                    .then((newTemplates) => {
+                        setTemplates(newTemplates);
+                        handleSelectTemplateToPlayByObject();
+                        handleOpenSnackbar({ text: t('templateDeleted'), type: 'success' });
+                    })
+            })
+            .catch((error) => {
+                handleOpenSnackbar(error);
+            });
     }
 
     return {
@@ -246,13 +247,11 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         templateFormDialogIsOpen,
         templateFormData,
         handleSelectTemplateToPlayByName,
-        handleSelectTemplateByPosition,
         handleDeselectTemplate,
         handleSubmitActionTemplate,
         handleOpenCreateTemplate,
         handleSaveTemplateChanges,
         handleOpenDeleteTemplate,
-        handleDeleteAllTemplates,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
         handleCloseTemplateForm,

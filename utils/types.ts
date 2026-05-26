@@ -40,8 +40,5 @@ export type TemplateFunction = (newTemplateName: string, newSettings: Settings) 
 export type TemplateFormAction = 'CREATE' | 'RENAME' | 'UPDATE' | 'DELETE' | 'DUPLICATE';
 export type TemplateFormData = | { action: 'CREATE'; templateName: '' } | { action: Exclude<TemplateFormAction, 'CREATE'>; templateName: string };
 
-export type GoogleDriveFileList = { id: string; name: string, modifiedTime: string }[];
-export type FileToCreate = { name: string, content: object | string };
-
 export type LocalStorageValue = string | number | number[] | boolean | object;
 export type LocalStorageKey = typeof LOCAL_STORAGE_KEYS[keyof typeof LOCAL_STORAGE_KEYS];

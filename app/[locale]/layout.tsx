@@ -8,7 +8,6 @@ import { routing } from '@/i18n/routing';
 import ClientProviders from '@/components/clientProviders';
 import CustomSnackbar from '@/components/snackbar';
 import { LOCALES } from '@/utils/constants';
-import Spinner from '@/components/spinner';
 import ConfirmationDialog from '@/components/confirmationDialog';
 
 const spaceGrotesk = Space_Grotesk({
@@ -89,7 +88,6 @@ export default async function RootLayout({ children, params }: Props) {
                     <AppRouterCacheProvider>
                         <ClientProviders>
                             {children}
-                            <Spinner />
                             <CustomSnackbar />
                             <ConfirmationDialog />
                         </ClientProviders>

@@ -1,4 +1,4 @@
-import type { LocalStorageKey, LocalStorageValue, Settings } from "@/utils/types";
+import type { LocalStorageKey, LocalStorageValue } from "@/utils/types";
 
 const isLocalStorageAvailable = () => typeof localStorage !== 'undefined';
 

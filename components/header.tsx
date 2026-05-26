@@ -2,7 +2,6 @@ import { ButtonBase, Grid, Typography } from '@mui/material';
 import LocaleSelector from '@/components/localeSelector';
 
 type Props = {
-    userButton: React.ReactNode,
     disableLocaleSelector: boolean,
     handleTitleClick: () => void,
 }
@@ -10,7 +9,6 @@ type Props = {
 const Header = (props: Props) => {
 
     const {
-        userButton,
         disableLocaleSelector,
         handleTitleClick,
     } = props;
@@ -42,10 +40,7 @@ const Header = (props: Props) => {
                         Now
                     </Typography>
                 </ButtonBase>
-                <Grid container spacing={1}>
-                    <LocaleSelector disabled={disableLocaleSelector} />
-                    {userButton}
-                </Grid>
+                <LocaleSelector disabled={disableLocaleSelector} />
             </Grid>
         </header>
     );

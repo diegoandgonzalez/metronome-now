@@ -1,6 +1,5 @@
 'use client'
 import { useTranslations } from 'next-intl';
-import { useSession } from 'next-auth/react';
 import { Button, Grid, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
@@ -10,7 +9,6 @@ import type { Template } from '@/utils/types';
 import useToggle from '@/utils/hooks/useToggle';
 import useMetronome from '@/utils/hooks/useMetronome';
 import useTemplates from '@/utils/hooks/useTemplates';
-import { DEFAULT_SETTINGS } from '@/utils/constants';
 import BPMInput from '@/components/bpmInput';
 import TimeSignatureInput from '@/components/timeSignatureInput';
 import BeatIndicator from '@/components/beatIndicator';
@@ -20,13 +18,8 @@ import TemplateFormDialog from '@/components/templateFormDialog';
 import TemplatesDialog from '@/components/templatesDialog';
 import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
-import { useSnackbar } from '@/components/snackbar/context';
-import UserButton from '@/components/userButton';
-import { useConfirmationDialog } from '@/components/confirmationDialog/context';
 
 const Metronome = () => {
-
-    const { data: session } = useSession();
 
     const t = useTranslations();
 
@@ -61,19 +54,14 @@ const Metronome = () => {
         templateFormDialogIsOpen,
         templateFormData,
         handleSelectTemplateToPlayByName,
-        handleDeselectTemplate,
         handleSubmitActionTemplate,
         handleOpenCreateTemplate,
         handleSaveTemplateChanges,
         handleOpenDeleteTemplate,
-        handleDeleteAllTemplates,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
         handleCloseTemplateForm,
     } = useTemplates(settings, onTemplateSelectionCallback);
-
-    const { handleOpen: handleOpenSnackbar } = useSnackbar();
-    const { handleOpen: handleOpenConfirmationDialog } = useConfirmationDialog();
 
     const {
         value: templateDialogIsOpen,
@@ -99,12 +87,7 @@ const Metronome = () => {
         handleStartMetronome();
     }
 
-    const handleValidateAndOpenTemplateDialog = () => {
-        if (!Boolean(session)) {
-            handleOpenSnackbar({ text: t('youMustBeLoggedIn') })
-            return;
-        }
-
+    const handleOpenTemplateDialog = () => {
         handleToggleTemplateDialog();
         handleStopMetronome();
     }
@@ -112,12 +95,6 @@ const Metronome = () => {
     const handleOpenBPMProgrammingTimerDialogAndStopMetronome = () => {
         handleToggleBPMProgrammingTimerDialog();
         handleStopMetronome();
-    }
-
-    const handleResetUserSettings = () => {
-        handleStopMetronome();
-        handleSetSettings(DEFAULT_SETTINGS);
-        handleDeselectTemplate();
     }
 
     const settingsIsActive = (
@@ -132,20 +109,6 @@ const Metronome = () => {
             <Header
                 disableLocaleSelector={isPlaying}
                 handleTitleClick={handleToggleAboutDialog}
-                userButton={
-                    <UserButton
-                        templates={templates}
-                        handleDeleteAllTemplates={() => handleOpenConfirmationDialog({
-                            question: <>
-                                {t('deleteAllTemplatesQuestion')}
-                                <br />
-                                {t('thisActionCannotBeUndone')}
-                            </>,
-                            handleConfirm: handleDeleteAllTemplates,
-                        })}
-                        handleResetUserSettings={handleResetUserSettings}
-                    />
-                }
             />
             <main
                 style={{
@@ -228,7 +191,7 @@ const Metronome = () => {
                             aria-label={t('templates')}
                             variant={selectedTemplateNameToPlay ? 'contained' : 'dark'}
                             sx={{ minWidth: 0, padding: 1, borderRadius: '100%' }}
-                            onClick={handleValidateAndOpenTemplateDialog}
+                            onClick={handleOpenTemplateDialog}
                         >
                             <PlaylistAddIcon sx={{ fontSize: '2.5rem' }} />
                         </Button>

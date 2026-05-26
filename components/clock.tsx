@@ -56,7 +56,6 @@ const Clock = (props: Props) => {
           {secondsToStop ? `-${formatMsToHHMMSS(secondsToStop * 1000 - value)}` : formatMsToHHMMSS(value)}
         </Typography>
         <Typography variant='caption' sx={{ visibility: isPlaying ? 'visible' : 'hidden' }}>
-
           {
             !isInCountdown ?
               `${currentMeasure}${measureToStop ? ` ${t('of')} ${measureToStop}` : ''} ${t('measures')}`

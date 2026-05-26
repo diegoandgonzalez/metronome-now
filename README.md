@@ -17,7 +17,7 @@ Online metronome for your everyday needs
 - Next.js
 - next-intl
 - Material UI
-- Google Drive API
+- IndexedDB
 
 ## Features
 - Play metronome at the BPM and time signatures you want
@@ -27,7 +27,7 @@ Online metronome for your everyday needs
 - Play optional extra measures at the beggining (countdown)
 - Tap to get tempo
 - Pause metronome and timer at anytime
-- Template creation for faster settings switch (requires a Google Account)
+- Template creation for faster settings switch
 - Preserve your current settings for the next time you open the site
 - English and Spanish localizations
 - Deployed site with a live link
