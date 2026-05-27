@@ -243,7 +243,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                 {
                                     METRONOME_CONSTANTS.countdownOptions.map((countdown) => {
                                         return (
-                                            <MenuItem key={countdown} value={countdown}>{`${countdown} ${'measures'}`}</MenuItem>
+                                            <MenuItem key={countdown} value={countdown}>{`${countdown} ${t('measures')}`}</MenuItem>
                                         )
                                     })
                                 }
