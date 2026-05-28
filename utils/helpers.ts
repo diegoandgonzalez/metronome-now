@@ -1,4 +1,5 @@
 import type { LocalStorageKey, LocalStorageValue } from "@/utils/types";
+import dayjs, { Dayjs } from "dayjs";
 
 const isLocalStorageAvailable = () => typeof localStorage !== 'undefined';
 
@@ -76,4 +77,17 @@ export const handleIntegerPaste = (e: React.ClipboardEvent<HTMLInputElement>) =>
     if (!/^\d+$/.test(pasteData)) {
         e.preventDefault();
     }
+};
+
+export const convertSecondsToMinutesSeconds = (totalSeconds: number): Dayjs => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    return dayjs().startOf('day').minute(minutes).second(seconds);
+};
+
+export const convertMmSsToSeconds = (timeStr: string): number => {
+    const [minutes, seconds] = timeStr.split(':').map(Number);
+    if (isNaN(minutes) || isNaN(seconds)) return 0;
+    return (minutes * 60) + seconds;
 };

@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import type { } from '@mui/x-date-pickers/themeAugmentation';
 
 declare module '@mui/material/styles' {
     interface Palette {
@@ -122,10 +123,6 @@ const appTheme = createTheme({
                 }),
                 root: ({ theme }) => ({
                     backgroundColor: theme.palette.secondary.main,
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                        border: '1px solid',
-                        borderColor: theme.palette.border.main,
-                    },
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                         border: `3px solid ${theme.palette.primary.main}`,
                     },
@@ -292,6 +289,20 @@ const appTheme = createTheme({
                     color: theme.palette.text.primary,
                     '& .MuiIconButton-root:hover': {
                         backgroundColor: 'transparent',
+                    },
+                }),
+            },
+        },
+        MuiPickersInputBase: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    backgroundColor: theme.palette.secondary.main,
+                    borderRadius: theme.shape.borderRadius,
+                    '& fieldset': {
+                        borderColor: theme.palette.border.main,
+                    },
+                    '&.Mui-focused fieldset': {
+                        border: `3px solid ${theme.palette.primary.main} !important`,
                     },
                 }),
             },

@@ -14,13 +14,16 @@ import {
     Switch,
     TextField,
 } from '@mui/material';
-import { handleIntegerKeyDown, handleIntegerPaste } from '@/utils/helpers';
+import { convertMmSsToSeconds, convertSecondsToMinutesSeconds, handleIntegerKeyDown, handleIntegerPaste } from '@/utils/helpers';
 import type { TempoProgrammingSettings, TimerSettings } from '@/utils/types';
 import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS, TIMER_CONSTANTS } from '@/utils/constants';
 import useIsBelowBreakpoint from '@/utils/hooks/useIsBelowBreakpoint';
 import { useSnackbar } from '@/components/snackbar/context';
 import Container from '@/components/container';
 import DialogTitle from '@/components/dialogTitle';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimeField } from '@mui/x-date-pickers';
 
 type Props = {
     open: boolean,
@@ -42,7 +45,6 @@ type FormDataType = {
     isTimeActive: boolean,
     isMeasuresActive: boolean,
     secondsToStop: number,
-    minutesToStop: number,
     measuresToStop: number,
 }
 
@@ -80,7 +82,6 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             isTimeActive,
             isMeasuresActive,
             secondsToStop,
-            minutesToStop,
             measuresToStop,
         } = formData;
 
@@ -120,21 +121,15 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         }
 
         if (isTimeActive) {
-            if (!secondsToStop && !minutesToStop) {
+            if (!secondsToStop) {
                 handleOpenSnackbar({ text: t('timeCannotBeEmpty') });
-                newFieldsWithErrors.push('minutesToStop', 'secondsToStop');
+                newFieldsWithErrors.push('secondsToStop');
                 dataIsValid = false;
             }
 
             if (!(secondsToStop >= 0 && secondsToStop <= TIMER_CONSTANTS.maxSecondsToStop)) {
                 handleOpenSnackbar({ text: t('secondsMustBeInRange', { min: 0, max: TIMER_CONSTANTS.maxSecondsToStop }) });
                 newFieldsWithErrors.push('secondsToStop');
-                dataIsValid = false;
-            }
-
-            if (!(minutesToStop >= 0 && minutesToStop <= TIMER_CONSTANTS.maxMinutesToStop)) {
-                handleOpenSnackbar({ text: t('minutesMustBeInRange', { min: 0, max: TIMER_CONSTANTS.maxMinutesToStop }) });
-                newFieldsWithErrors.push('minutesToStop');
                 dataIsValid = false;
             }
         }
@@ -170,8 +165,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
             toBPM: isTempoProgrammingActive ? Number(inputValues.toBPM) : initialTempoProgrammingSettings.toBPM,
             bpmToChange: isTempoProgrammingActive ? Number(inputValues.bpmToChange) : initialTempoProgrammingSettings.bpmToChange,
             measuresToChangeBPM: isTempoProgrammingActive ? Number(inputValues.measuresToChangeBPM) : initialTempoProgrammingSettings.measuresToChangeBPM,
-            secondsToStop: isTimeActive ? Number(inputValues.secondsToStop) : initialTimerSettings.secondsToStop % 60,
-            minutesToStop: isTimeActive ? Number(inputValues.minutesToStop) : Math.floor(initialTimerSettings.secondsToStop / 60),
+            secondsToStop: isTimeActive ? convertMmSsToSeconds(inputValues.secondsToStop as string) : initialTimerSettings.secondsToStop,
             measuresToStop: isMeasuresActive ? Number(inputValues.measuresToStop) : initialTimerSettings.measuresToStop,
         }
 
@@ -187,10 +181,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
         }
 
         const newTimerSettings: TimerSettings = {
-            secondsToStop: (formData.minutesToStop || 0) * 60 + (formData.secondsToStop || 0),
             isTimeActive: formData.isTimeActive,
-            measuresToStop: formData.measuresToStop || 0,
+            secondsToStop: formData.secondsToStop || 0,
             isMeasuresActive: formData.isMeasuresActive,
+            measuresToStop: formData.measuresToStop || 0,
         }
 
         handleSubmit(formData.countdownLength, newTempoProgrammingSettings, newTimerSettings);
@@ -214,7 +208,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                     onSubmit={submit}
                     noValidate
                 >
-                    <Grid container spacing={2}>
+                    <Grid container spacing={3}>
                         <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
                             <TextField
                                 name={'countdownLength'}
@@ -357,99 +351,70 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             </Grid>
                         </Container>
                         <Container label={t('timer')}>
-                            <Grid container size={12} alignItems={'center'}>
-                                <Grid size={{ sm: 12, md: 6 }}>
-                                    <FormControlLabel
-                                        label={t('stopByTime')}
-                                        control={<Switch checked={isTimeActive} />}
-                                        onChange={() => setIsTimeActive((prev) => !prev)}
-                                    />
+                            <Grid container size={12} direction={'column'}>
+                                <Grid container size={{ sm: 12, md: 6 }} alignItems={'center'}>
+                                    <Grid size={{ sm: 12, md: 6 }}>
+                                        <FormControlLabel
+                                            label={t('stopByTime')}
+                                            control={<Switch checked={isTimeActive} />}
+                                            onChange={() => setIsTimeActive((prev) => !prev)}
+                                        />
+                                    </Grid>
+                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <TimeField
+                                                name='secondsToStop'
+                                                disabled={!isTimeActive}
+                                                defaultValue={convertSecondsToMinutesSeconds(initialTimerSettings.secondsToStop)}
+                                                variant='outlined'
+                                                format="mm:ss"
+                                                slotProps={{
+                                                    textField: {
+                                                        endAdornment: <InputAdornment position='end'>{'mm:ss'}</InputAdornment>,
+                                                    }
+                                                }}
+                                                fullWidth
+                                            />
+                                        </LocalizationProvider>
+                                    </Grid>
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                                    <TextField
-                                        name={'minutesToStop'}
-                                        defaultValue={Math.floor(initialTimerSettings.secondsToStop / 60)}
-                                        disabled={!isTimeActive}
-                                        error={fieldsWithErrors.includes('minutesToStop')}
-                                        type='number'
-                                        variant='outlined'
-                                        helperText={`${0} ${t('to').toLowerCase()} ${TIMER_CONSTANTS.maxMinutesToStop} ${t('minutes')}`}
-                                        slotProps={{
-                                            input: {
-                                                endAdornment: <InputAdornment position='end'>{t('minutes')}</InputAdornment>,
-                                            },
-                                            htmlInput: {
-                                                min: 0,
-                                                max: TIMER_CONSTANTS.maxMinutesToStop,
-                                                step: 1,
-                                                onKeyDown: handleIntegerKeyDown,
-                                                onPaste: handleIntegerPaste,
-                                            }
-                                        }}
-                                        fullWidth
-                                    />
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                                    <TextField
-                                        name={'secondsToStop'}
-                                        defaultValue={initialTimerSettings.secondsToStop % 60}
-                                        disabled={!isTimeActive}
-                                        error={fieldsWithErrors.includes('secondsToStop')}
-                                        type='number'
-                                        variant='outlined'
-                                        helperText={`${t('from')} ${0} ${t('to').toLowerCase()} ${TIMER_CONSTANTS.maxSecondsToStop} ${t('seconds')}`}
-                                        slotProps={{
-                                            input: {
-                                                endAdornment: <InputAdornment position='end'>{t('seconds')}</InputAdornment>
-                                            },
-                                            htmlInput: {
-                                                min: 0,
-                                                max: TIMER_CONSTANTS.maxSecondsToStop,
-                                                step: 1,
-                                                onKeyDown: handleIntegerKeyDown,
-                                                onPaste: handleIntegerPaste,
-                                            }
-                                        }}
-                                        fullWidth
-                                    />
+                                <Grid container size={{ sm: 12, md: 6 }} alignItems={'center'}>
+                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                        <FormControlLabel
+                                            label={t('stopByMeasures')}
+                                            control={<Switch checked={isMeasuresActive} />}
+                                            onChange={() => setIsMeasuresActive((prev) => !prev)}
+                                        />
+                                    </Grid>
+                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                        <TextField
+                                            name={'measuresToStop'}
+                                            defaultValue={initialTimerSettings.measuresToStop}
+                                            disabled={!isMeasuresActive}
+                                            error={fieldsWithErrors.includes('measuresToStop')}
+                                            type='number'
+                                            variant='outlined'
+                                            slotProps={{
+                                                input: {
+                                                    endAdornment: <InputAdornment position='end'>{t('measures')}</InputAdornment>
+                                                },
+                                                htmlInput: {
+                                                    min: 0,
+                                                    max: TIMER_CONSTANTS.maxMeasuresToStop,
+                                                    step: 1,
+                                                    onKeyDown: handleIntegerKeyDown,
+                                                    onPaste: handleIntegerPaste,
+                                                }
+                                            }}
+                                            fullWidth
+                                        />
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container size={12} alignItems={'center'}>
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <FormControlLabel
-                                        label={t('stopByMeasures')}
-                                        control={<Switch checked={isMeasuresActive} />}
-                                        onChange={() => setIsMeasuresActive((prev) => !prev)}
-                                    />
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <TextField
-                                        name={'measuresToStop'}
-                                        defaultValue={initialTimerSettings.measuresToStop}
-                                        disabled={!isMeasuresActive}
-                                        error={fieldsWithErrors.includes('measuresToStop')}
-                                        type='number'
-                                        variant='outlined'
-                                        slotProps={{
-                                            input: {
-                                                endAdornment: <InputAdornment position='end'>{t('measures')}</InputAdornment>
-                                            },
-                                            htmlInput: {
-                                                min: 0,
-                                                max: TIMER_CONSTANTS.maxMeasuresToStop,
-                                                step: 1,
-                                                onKeyDown: handleIntegerKeyDown,
-                                                onPaste: handleIntegerPaste,
-                                            }
-                                        }}
-                                        fullWidth
-                                    />
-                                </Grid>
-                                <Grid size={{ xs: 12 }}>
-                                    <Alert severity='info'>
-                                        {t('timerExplanation')}
-                                    </Alert>
-                                </Grid>
+                            <Grid size={{ xs: 12 }}>
+                                <Alert severity='info'>
+                                    {t('timerExplanation')}
+                                </Alert>
                             </Grid>
                         </Container>
                     </Grid>
