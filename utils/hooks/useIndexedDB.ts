@@ -3,19 +3,16 @@ import { useState, useEffect, useCallback } from "react";
 
 type DataBase = IDBDatabase | null;
 
-const useIndexedDB = <T>(databaseName: string, storeName: string, version: number, keyPath: string) => {
+const useIndexedDB = <T>(databaseName: string, storeName: string, version: number, primaryKeyFieldName: string) => {
 
     const [isReady, setIsReady] = useState(false);
     const [database, setDatabase] = useState<DataBase>(null);
     const [error, setError] = useState<Error | null>(() => {
-        if (typeof window !== "undefined" && !window.indexedDB) {
-            return new Error("DBnotSupported");
-        }
+        if (typeof window !== "undefined" && !window.indexedDB) return new Error("DBnotSupported");
         return null;
     });
 
     useEffect(() => {
-        // If we already have an error from init (e.g. not supported), bail out
         if (error) return;
 
         const openRequest = indexedDB.open(databaseName, version);
@@ -25,7 +22,7 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
             const db = (event.target as IDBOpenDBRequest).result;
 
             if (!db.objectStoreNames.contains(storeName)) {
-                db.createObjectStore(storeName, { keyPath, autoIncrement: true });
+                db.createObjectStore(storeName, { keyPath: primaryKeyFieldName });
             }
         };
 
@@ -45,7 +42,7 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
                 auxDatabase.close();
             }
         };
-    }, [error, databaseName, storeName, version, keyPath]);
+    }, [error, databaseName, storeName, version, primaryKeyFieldName]);
 
     const getAllItems = useCallback((): Promise<T[]> => {
         return new Promise((resolve, reject) => {

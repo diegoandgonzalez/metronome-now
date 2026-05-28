@@ -34,7 +34,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         deleteItem: deleteItemInDB,
         error: errorDB,
         isReady: isDBReady,
-    } = useIndexedDB<Template>('MetronomeNowDB', 'Templates', 1, 'id');
+    } = useIndexedDB<Template>('MetronomeNowDB', 'Templates', 1, 'name');
 
     useEffect(() => {
         if (errorDB) {
