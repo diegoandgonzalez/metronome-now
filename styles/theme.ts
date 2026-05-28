@@ -56,11 +56,6 @@ const appTheme = createTheme({
     components: {
         MuiCssBaseline: {
             styleOverrides: (theme) => ({
-                // html: {
-                //     '@media (-webkit-min-device-pixel-ratio: 2.5), (min-resolution: 2.5dppx)': {
-                //         fontSize: '75%',
-                //     },
-                // },
                 '*::-webkit-scrollbar': {
                     width: '6px',
                 },
