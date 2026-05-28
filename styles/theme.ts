@@ -66,6 +66,9 @@ const appTheme = createTheme({
                     backgroundColor: theme.palette.border.main,
                     borderRadius: '10px',
                 },
+                '::selection': {
+                    backgroundColor: theme.palette.primary.main,
+            },
             }),
         },
         MuiInput: {
