@@ -309,6 +309,13 @@ const appTheme = createTheme({
                 }),
             },
         },
+        MuiDialogActions: {
+            styleOverrides: {
+                root: {
+                    padding: 12,
+                },
+            },
+        },
     },
 });
 

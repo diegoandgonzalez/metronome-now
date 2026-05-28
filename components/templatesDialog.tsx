@@ -13,7 +13,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import type { Settings, Template } from '@/utils/types';
 import { DEFAULT_SETTINGS, TEMPLATE_NAME_MAX_LENGTH } from '@/utils/constants';
-import useIsMobileSize from '@/utils/hooks/useIsMobileSize';
+import useIsBelowBreakpoint from '@/utils/hooks/useIsBelowBreakpoint';
 import TemplateItem from '@/components/templateItem';
 import DialogTitle from '@/components/dialogTitle';
 
@@ -51,7 +51,7 @@ const TemplatesDialog = (props: Props) => {
 
     const [searchValue, setSearchValue] = useState('');
 
-    const useFullScreen = useIsMobileSize();
+    const fullScreen = useIsBelowBreakpoint('md');
     const selectedItemRef = useRef<HTMLLIElement | null>(null);
 
     const scrollToSelectedItem = () => {
@@ -79,7 +79,7 @@ const TemplatesDialog = (props: Props) => {
             onClose={handleClose}
             maxWidth={'xs'}
             fullWidth={true}
-            fullScreen={useFullScreen}
+            fullScreen={fullScreen}
             slotProps={{ transition: { onEntering: scrollToSelectedItem } }}
         >
             <DialogTitle onClose={handleClose}>
