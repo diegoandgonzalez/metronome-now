@@ -14,6 +14,7 @@ import {
     Switch,
     TextField,
 } from '@mui/material';
+import { handleIntegerKeyDown, handleIntegerPaste } from '@/utils/helpers';
 import type { TempoProgrammingSettings, TimerSettings } from '@/utils/types';
 import { METRONOME_CONSTANTS, TEMPO_PROGRAMMING_CONSTANTS, TIMER_CONSTANTS } from '@/utils/constants';
 import useIsBelowBreakpoint from '@/utils/hooks/useIsBelowBreakpoint';
@@ -217,8 +218,8 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                         <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
                             <TextField
                                 name={'countdownLength'}
-                                label={t('countdown')}
                                 defaultValue={initialCountdownLength}
+                                label={t('countdown')}
                                 sx={{ minWidth: '10rem', marginTop: 2 }}
                                 fullWidth
                                 select
@@ -257,10 +258,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
                                     name={'fromBPM'}
+                                    defaultValue={initialTempoProgrammingSettings.fromBPM}
                                     disabled={!isTempoProgrammingActive}
                                     error={fieldsWithErrors.includes('fromBPM')}
                                     label={t('from')}
-                                    defaultValue={initialTempoProgrammingSettings.fromBPM}
                                     type='number'
                                     variant='outlined'
                                     helperText={`${METRONOME_CONSTANTS.minBPM} ${t('to').toLowerCase()} ${METRONOME_CONSTANTS.maxBPM} ${t('bpm')}`}
@@ -271,6 +272,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                         htmlInput: {
                                             min: METRONOME_CONSTANTS.minBPM,
                                             max: METRONOME_CONSTANTS.maxBPM,
+                                            step: 1,
+                                            onKeyDown: handleIntegerKeyDown,
+                                            onPaste: handleIntegerPaste,
                                         }
                                     }}
                                     fullWidth
@@ -279,11 +283,11 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
                                     name={'toBPM'}
+                                    defaultValue={initialTempoProgrammingSettings.toBPM}
                                     disabled={!isTempoProgrammingActive}
                                     error={fieldsWithErrors.includes('toBPM')}
                                     label={t('to')}
                                     type='number'
-                                    defaultValue={initialTempoProgrammingSettings.toBPM}
                                     variant='outlined'
                                     helperText={`${METRONOME_CONSTANTS.minBPM} ${t('to').toLowerCase()} ${METRONOME_CONSTANTS.maxBPM} ${t('bpm')}`}
                                     slotProps={{
@@ -293,6 +297,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                         htmlInput: {
                                             min: METRONOME_CONSTANTS.minBPM,
                                             max: METRONOME_CONSTANTS.maxBPM,
+                                            step: 1,
+                                            onKeyDown: handleIntegerKeyDown,
+                                            onPaste: handleIntegerPaste,
                                         }
                                     }}
                                     fullWidth
@@ -301,11 +308,11 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
                                     name={'bpmToChange'}
+                                    defaultValue={initialTempoProgrammingSettings.bpmToChange}
                                     disabled={!isTempoProgrammingActive}
                                     error={fieldsWithErrors.includes('bpmToChange')}
                                     label={t('change')}
                                     type='number'
-                                    defaultValue={initialTempoProgrammingSettings.bpmToChange}
                                     variant='outlined'
                                     helperText={`${TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange} ${t('to').toLowerCase()} ${TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange} ${t('bpm')}`}
                                     slotProps={{
@@ -315,6 +322,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                         htmlInput: {
                                             min: TEMPO_PROGRAMMING_CONSTANTS.minBPMToChange,
                                             max: TEMPO_PROGRAMMING_CONSTANTS.maxBPMToChange,
+                                            step: 1,
+                                            onKeyDown: handleIntegerKeyDown,
+                                            onPaste: handleIntegerPaste,
                                         }
                                     }}
                                     fullWidth
@@ -323,11 +333,11 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                 <TextField
                                     name={'measuresToChangeBPM'}
+                                    defaultValue={initialTempoProgrammingSettings.measuresToChangeBPM}
                                     disabled={!isTempoProgrammingActive}
                                     error={fieldsWithErrors.includes('measuresToChangeBPM')}
                                     label={t('every')}
                                     type='number'
-                                    defaultValue={initialTempoProgrammingSettings.measuresToChangeBPM}
                                     variant='outlined'
                                     helperText={`${TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM} ${t('to').toLowerCase()} ${TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM} ${t('measures')}`}
                                     slotProps={{
@@ -337,6 +347,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                         htmlInput: {
                                             min: TEMPO_PROGRAMMING_CONSTANTS.minMeasuresToChangeBPM,
                                             max: TEMPO_PROGRAMMING_CONSTANTS.maxMeasuresToChangeBPM,
+                                            step: 1,
+                                            onKeyDown: handleIntegerKeyDown,
+                                            onPaste: handleIntegerPaste,
                                         }
                                     }}
                                     fullWidth
@@ -355,10 +368,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <TextField
                                         name={'minutesToStop'}
+                                        defaultValue={Math.floor(initialTimerSettings.secondsToStop / 60)}
                                         disabled={!isTimeActive}
                                         error={fieldsWithErrors.includes('minutesToStop')}
                                         type='number'
-                                        defaultValue={Math.floor(initialTimerSettings.secondsToStop / 60)}
                                         variant='outlined'
                                         helperText={`${0} ${t('to').toLowerCase()} ${TIMER_CONSTANTS.maxMinutesToStop} ${t('minutes')}`}
                                         slotProps={{
@@ -368,6 +381,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                             htmlInput: {
                                                 min: 0,
                                                 max: TIMER_CONSTANTS.maxMinutesToStop,
+                                                step: 1,
+                                                onKeyDown: handleIntegerKeyDown,
+                                                onPaste: handleIntegerPaste,
                                             }
                                         }}
                                         fullWidth
@@ -376,10 +392,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <TextField
                                         name={'secondsToStop'}
+                                        defaultValue={initialTimerSettings.secondsToStop % 60}
                                         disabled={!isTimeActive}
                                         error={fieldsWithErrors.includes('secondsToStop')}
                                         type='number'
-                                        defaultValue={initialTimerSettings.secondsToStop % 60}
                                         variant='outlined'
                                         helperText={`${t('from')} ${0} ${t('to').toLowerCase()} ${TIMER_CONSTANTS.maxSecondsToStop} ${t('seconds')}`}
                                         slotProps={{
@@ -389,6 +405,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                             htmlInput: {
                                                 min: 0,
                                                 max: TIMER_CONSTANTS.maxSecondsToStop,
+                                                step: 1,
+                                                onKeyDown: handleIntegerKeyDown,
+                                                onPaste: handleIntegerPaste,
                                             }
                                         }}
                                         fullWidth
@@ -406,10 +425,10 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                     <TextField
                                         name={'measuresToStop'}
+                                        defaultValue={initialTimerSettings.measuresToStop}
                                         disabled={!isMeasuresActive}
                                         error={fieldsWithErrors.includes('measuresToStop')}
                                         type='number'
-                                        defaultValue={initialTimerSettings.measuresToStop}
                                         variant='outlined'
                                         slotProps={{
                                             input: {
@@ -418,6 +437,9 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                             htmlInput: {
                                                 min: 0,
                                                 max: TIMER_CONSTANTS.maxMeasuresToStop,
+                                                step: 1,
+                                                onKeyDown: handleIntegerKeyDown,
+                                                onPaste: handleIntegerPaste,
                                             }
                                         }}
                                         fullWidth

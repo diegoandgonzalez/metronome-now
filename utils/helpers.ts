@@ -61,3 +61,19 @@ export const getUpdatedBeatTypesArray = (currentBeatTypes: number[], newBeatsPer
     const newBeatTypesSection = new Array(newBeatsPerMeasure - currentBeatTypes.length).fill(1);
     return [...currentBeatTypes, ...newBeatTypesSection];
 }
+
+
+export const handleIntegerKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Block decimals (.), minus signs if only positive integers are allowed (-), and scientific notation (e, E)
+    if (e.key === '.' || e.key === ',' || e.key === 'e' || e.key === 'E' || e.key === '-') {
+        e.preventDefault();
+    }
+};
+
+export const handleIntegerPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasteData = e.clipboardData.getData('text');
+    // If the pasted string contains anything other than digits, block it
+    if (!/^\d+$/.test(pasteData)) {
+        e.preventDefault();
+    }
+};
