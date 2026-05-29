@@ -1,5 +1,7 @@
-import type { LocalStorageKey, LocalStorageValue } from "@/utils/types";
+import { DEFAULT_SETTINGS } from "@/utils/constants";
+import type { LocalStorageKey, LocalStorageValue, Settings, Template } from "@/utils/types";
 import dayjs, { Dayjs } from "dayjs";
+import { strToU8, deflateSync, strFromU8, inflateSync } from 'fflate';
 
 const isLocalStorageAvailable = () => typeof localStorage !== 'undefined';
 
@@ -91,3 +93,30 @@ export const convertMmSsToSeconds = (timeStr: string): number => {
     if (isNaN(minutes) || isNaN(seconds)) return 0;
     return (minutes * 60) + seconds;
 };
+
+
+export function encode(data: unknown): string {
+    const json = JSON.stringify(data);
+    const compressed = deflateSync(strToU8(json));
+    const binary = String.fromCharCode(...compressed);
+    return encodeURIComponent(btoa(binary));
+}
+
+export function decode(encoded: string): unknown {
+    const binary = atob(decodeURIComponent(encoded));
+    const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+    const json = strFromU8(inflateSync(bytes));
+    return JSON.parse(json);
+}
+
+export const generateTemplateUniqueName = (templates: Template[], newName: string): string => {
+    let uniqueName = newName;
+    let counter = 1;
+
+    while (templates.some((template) => template.name === uniqueName)) {
+        uniqueName = `${newName} (${counter})`;
+        counter++;
+    }
+
+    return uniqueName;
+}

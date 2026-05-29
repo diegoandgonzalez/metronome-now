@@ -28,6 +28,7 @@ type Props = {
     handleSaveTemplateChanges: (templateName: string) => void,
     handleDuplicateTemplate: (templateName: string) => void,
     handleDeleteTemplate: (templateName: string) => void,
+    handleShareTemplate: (templateName: string) => void,
     handleClose: () => void,
 }
 
@@ -44,6 +45,7 @@ const TemplatesDialog = (props: Props) => {
         handleSaveTemplateChanges,
         handleDuplicateTemplate,
         handleDeleteTemplate,
+        handleShareTemplate,
         handleClose,
     } = props;
 
@@ -155,6 +157,7 @@ const TemplatesDialog = (props: Props) => {
                                         handleDuplicate={() => handleDuplicateTemplate(template.name)}
                                         handleSaveChanges={() => handleSaveTemplateChanges(template.name)}
                                         handleDelete={() => handleDeleteTemplate(template.name)}
+                                        handleShare={() => handleShareTemplate(template.name)}
                                     />
                                 </ListItem>
                             )

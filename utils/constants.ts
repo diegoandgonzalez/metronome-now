@@ -1,6 +1,8 @@
 import type { Settings } from '@/utils/types';
 import { createDefaultBeatTypesArray } from '@/utils/helpers';
 
+export const TEMPLATE_PARAM_NAME = 'template';
+
 export const METRONOME_CONSTANTS = {
     beatTypesAmount: 3, // number of different types of beat types
     stoppedBeatIndex: -1,

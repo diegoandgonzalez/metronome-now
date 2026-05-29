@@ -60,6 +60,7 @@ const Metronome = () => {
         handleOpenDeleteTemplate,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
+        handleOpenShareTemplate,
         handleCloseTemplateForm,
     } = useTemplates(settings, onTemplateSelectionCallback);
 
@@ -220,6 +221,7 @@ const Metronome = () => {
                             handleSaveTemplateChanges={handleSaveTemplateChanges}
                             handleDuplicateTemplate={handleOpenDuplicateTemplate}
                             handleDeleteTemplate={handleOpenDeleteTemplate}
+                            handleShareTemplate={handleOpenShareTemplate}
                             handleClose={handleToggleTemplateDialog}
                         />
                     }

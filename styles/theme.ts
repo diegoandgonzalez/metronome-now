@@ -68,6 +68,7 @@ const appTheme = createTheme({
                 },
                 '::selection': {
                     backgroundColor: theme.palette.primary.main,
+                    color: '#fff',
             },
             }),
         },

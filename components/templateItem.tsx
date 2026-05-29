@@ -12,6 +12,7 @@ type Props = {
     handleSaveChanges?: () => void,
     handleDuplicate?: () => void,
     handleDelete?: () => void,
+    handleShare?: () => void,
 }
 
 const TemplateItem = (props: Props) => {
@@ -26,6 +27,7 @@ const TemplateItem = (props: Props) => {
         handleSaveChanges,
         handleDuplicate,
         handleDelete,
+        handleShare,
     } = props;
 
     const t = useTranslations();
@@ -52,6 +54,11 @@ const TemplateItem = (props: Props) => {
                     options={
                         [
                             {
+                                key: 'share',
+                                label: t('share'),
+                                onClick: () => handleShare?.(),
+                            },
+                            {
                                 key: 'update',
                                 label: t('update'),
                                 onClick: () => handleSaveChanges?.(),
@@ -70,9 +77,10 @@ const TemplateItem = (props: Props) => {
                                 key: 'delete',
                                 label: t('delete'),
                                 onClick: () => handleDelete?.(),
-                            }
+                            },
                         ]
                             .filter((option) => {
+                                if (hasUnsavedChanges && option.key === 'share') return false;
                                 if (!hasUnsavedChanges && option.key === 'update') return false;
                                 return true;
                             })

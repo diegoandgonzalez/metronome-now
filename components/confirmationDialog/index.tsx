@@ -20,8 +20,10 @@ const ConfirmationDialog = () => {
     } = useConfirmationDialog();
 
     const {
-        question,
+        title,
+        body,
         handleConfirm,
+        confirmOnly,
     } = state;
 
     const t = useTranslations();
@@ -37,26 +39,34 @@ const ConfirmationDialog = () => {
             }}
         >
             <DialogTitle onClose={handleClose}>
-                {t('attention')}
+                {title || t('attention')}
             </DialogTitle>
             <DialogContent>
-                <Typography>
-                    {question}
-                </Typography>
+                {
+                    typeof body === 'string' ?
+                        <Typography>
+                            {body}
+                        </Typography>
+                        :
+                        body
+                }
             </DialogContent>
             <DialogActions>
-                <Button
-                    type='button'
-                    variant='dark'
-                    onClick={handleClose}
-                >
-                    {t('cancel')}
-                </Button>
+                {
+                    !confirmOnly &&
+                    <Button
+                        type='button'
+                        variant='dark'
+                        onClick={handleClose}
+                    >
+                        {t('cancel')}
+                    </Button>
+                }
                 <Button
                     type='submit'
                     variant='contained'
                     onClick={() => {
-                        handleConfirm();
+                        handleConfirm?.();
                         handleClose();
                     }}
                 >

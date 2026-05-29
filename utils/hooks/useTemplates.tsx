@@ -1,21 +1,25 @@
 'use client'
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { Settings, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
 import useToggle from '@/utils/hooks/useToggle';
 import { useSnackbar } from '@/components/snackbar/context';
-import { getValueFromLocalStorageOrDefault, setValueInLocalStorage } from '@/utils/helpers';
-import { DEFAULT_SETTINGS, LOCAL_STORAGE_KEYS } from '@/utils/constants';
+import { decode, encode, generateTemplateUniqueName, getValueFromLocalStorageOrDefault, setValueInLocalStorage } from '@/utils/helpers';
+import { DEFAULT_SETTINGS, LOCAL_STORAGE_KEYS, TEMPLATE_PARAM_NAME } from '@/utils/constants';
 import { useConfirmationDialog } from '@/components/confirmationDialog/context';
 import isEqual from 'lodash/isEqual';
 import useIndexedDB from '@/utils/hooks/useIndexedDB';
 import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
+import { useSearchParams } from 'next/navigation';
+import { Link, Typography } from '@mui/material';
+import QRCode from 'react-qr-code';
 
 const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (args?: Template) => void) => {
 
     const t = useTranslations();
     const { handleOpen: handleOpenSnackbar } = useSnackbar();
     const { handleOpen: handleOpenConfirmationDialog } = useConfirmationDialog();
+    const searchParams = useSearchParams();
 
     const [storedSelectedTemplateNameToPlay] = useState<string>(() => getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, '') as string);
 
@@ -85,15 +89,15 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         }
 
         handleOpenConfirmationDialog({
-            question: t('unsavedChangesQuestion'),
+            body: t('unsavedChangesQuestion'),
             handleConfirm: callback
         })
     }
 
-    const selectTemplateAndStoreInLocalStorage = (newTemplateName: string) => {
+    const selectTemplateAndStoreInLocalStorage = useCallback((newTemplateName: string) => {
         setSelectedTemplateNameToPlay(newTemplateName);
         setValueInLocalStorage(LOCAL_STORAGE_KEYS.template, newTemplateName);
-    }
+    }, [setSelectedTemplateNameToPlay])
 
     const handleDeselectTemplate = () => {
         selectTemplateAndStoreInLocalStorage('');
@@ -113,10 +117,10 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         if (callback) callback();
     })
 
-    const handleSelectTemplateToPlayByObject = (newTemplate?: Template) => {
+    const handleSelectTemplateToPlayByObject = useCallback((newTemplate?: Template) => {
         selectTemplateAndStoreInLocalStorage(newTemplate?.name || '');
         onTemplateSelectionCallback(newTemplate);
-    }
+    }, [onTemplateSelectionCallback, selectTemplateAndStoreInLocalStorage])
 
     const handleOpenCreateTemplate = () => handleWarnUnsavedChanges(() => {
         setTemplateFormData({ templateName: '', action: 'CREATE' });
@@ -184,25 +188,25 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         }
     }
 
-    const handleCreateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
-        const newTemplate: Template = {
-            name: newtemplateName,
-            settings: newSettings,
-        }
+    const handleCreateTemplate: TemplateFunction = useCallback((newtemplateName, newSettings) => {
+        getAllItemsFromDB()
+            .then((allTemplates) => {
+                const newTemplate: Template = {
+                    name: generateTemplateUniqueName(allTemplates, newtemplateName),
+                    settings: newSettings,
+                }
 
-        addItemToDB(newTemplate)
-            .then(() => {
-                getAllItemsFromDB()
-                    .then((newTemplates) => {
-                        setTemplates(newTemplates);
+                addItemToDB(newTemplate)
+                    .then(() => {
+                        setTemplates([...allTemplates, newTemplate]);
                         handleSelectTemplateToPlayByObject(newTemplate);
                         handleOpenSnackbar({ text: t('templateCreated'), type: 'success' });
                     })
             })
             .catch((error) => {
-                handleOpenSnackbar(error);
+                handleOpenSnackbar({ text: error.message });
             });
-    }
+    }, [t, addItemToDB, getAllItemsFromDB, handleOpenSnackbar, handleSelectTemplateToPlayByObject])
 
     const handleUpdateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
         const auxSelectedTemplate = templates.find((template) => template.name === templateFormData?.templateName);
@@ -221,7 +225,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
                     })
             })
             .catch((error) => {
-                handleOpenSnackbar(error);
+                handleOpenSnackbar({ text: error.message });
             });
     }
 
@@ -236,9 +240,55 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
                     })
             })
             .catch((error) => {
-                handleOpenSnackbar(error);
+                handleOpenSnackbar({ text: error.message });
             });
     }
+
+    const handleOpenShareTemplate = (templateName: string) => {
+        const foundTemplate = templates.find((template) => template.name === templateName);
+        const encodedTemplate = encode(foundTemplate);
+        const url = new URL('/', window.location.origin);
+        url.searchParams.set(TEMPLATE_PARAM_NAME, encodedTemplate);
+        const urlString = url.toString();
+
+        handleOpenConfirmationDialog({
+            title: `${t('share')}`,
+            body: (
+                <>
+                    <Typography>
+                        {t('scanQRorOpenURL')}
+                    </Typography>
+                    <Link href={urlString} target="_blank" rel="noreferrer" noWrap>
+                        {urlString.substring(0, 45)}...
+                    </Link>
+                    <div style={{ marginTop: 20, marginBottom: 10, display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', padding: 10, background: 'white' }}>
+                            <QRCode value={urlString} />
+                        </div>
+                    </div>
+                    <Typography align='center' sx={{ fontSize: '0.8rem' }}>
+                        {templateName}
+                    </Typography>
+                </>
+            ),
+            confirmOnly: true,
+        })
+    }
+
+    // import template from url
+    useEffect(() => {
+        if (!isDBReady) return;
+
+        const encodedTemplate = searchParams.get(TEMPLATE_PARAM_NAME);
+        if (!encodedTemplate) return;
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete(TEMPLATE_PARAM_NAME);
+        window.history.replaceState({}, '', url.toString());
+
+        const decodedTemplate = decode(encodedTemplate) as Template;
+        handleCreateTemplate(decodedTemplate.name, decodedTemplate.settings);
+    }, [isDBReady, searchParams, handleCreateTemplate]);
 
     return {
         selectedTemplateHasUnsavedChanges,
@@ -254,6 +304,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         handleOpenDeleteTemplate,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
+        handleOpenShareTemplate,
         handleCloseTemplateForm,
     };
 }

@@ -394,6 +394,7 @@ const TempoProgrammingTimerDialog = (props: Props) => {
                                             error={fieldsWithErrors.includes('measuresToStop')}
                                             type='number'
                                             variant='outlined'
+                                            helperText={`0 ${t('to').toLowerCase()} ${TIMER_CONSTANTS.maxMeasuresToStop} ${t('measures')}`}
                                             slotProps={{
                                                 input: {
                                                     endAdornment: <InputAdornment position='end'>{t('measures')}</InputAdornment>
