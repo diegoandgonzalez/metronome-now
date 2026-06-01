@@ -18,6 +18,7 @@ import TemplateFormDialog from '@/components/templateFormDialog';
 import TemplatesDialog from '@/components/templatesDialog';
 import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
+import ShareTemplateDialog from '@/components/shareTemplateDialog';
 
 const Metronome = () => {
 
@@ -51,6 +52,7 @@ const Metronome = () => {
         selectedTemplateHasUnsavedChanges,
         templates,
         selectedTemplateNameToPlay,
+        templateToShare,
         templateFormDialogIsOpen,
         templateFormData,
         handleSelectTemplateToPlayByName,
@@ -60,7 +62,8 @@ const Metronome = () => {
         handleOpenDeleteTemplate,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
-        handleOpenShareTemplate,
+        handleOpenShareTemplateDialog,
+        handleCloseShareTemplateDialog,
         handleCloseTemplateForm,
     } = useTemplates(settings, onTemplateSelectionCallback);
 
@@ -221,7 +224,7 @@ const Metronome = () => {
                             handleSaveTemplateChanges={handleSaveTemplateChanges}
                             handleDuplicateTemplate={handleOpenDuplicateTemplate}
                             handleDeleteTemplate={handleOpenDeleteTemplate}
-                            handleShareTemplate={handleOpenShareTemplate}
+                            handleShareTemplate={handleOpenShareTemplateDialog}
                             handleClose={handleToggleTemplateDialog}
                         />
                     }
@@ -233,6 +236,14 @@ const Metronome = () => {
                             templates={templates}
                             handleSubmit={(newName) => handleSubmitActionTemplate(newName, settings)}
                             handleClose={handleCloseTemplateForm}
+                        />
+                    }
+                    {
+                        Boolean(templateToShare) &&
+                        <ShareTemplateDialog
+                            open={Boolean(templateToShare)}
+                            template={templateToShare!}
+                            handleClose={handleCloseShareTemplateDialog}
                         />
                     }
                 </Grid>

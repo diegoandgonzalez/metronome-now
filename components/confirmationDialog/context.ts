@@ -3,9 +3,8 @@ import { createContext, useContext, useState } from 'react';
 
 export type ConfirmationDialogState = {
     title?: string;
-    body: string | React.ReactNode;
+    question: string;
     handleConfirm?: () => void;
-    confirmOnly?: boolean,
 }
 export type ConfirmationDialogContextValue = {
     open: boolean,
@@ -16,7 +15,7 @@ export type ConfirmationDialogContextValue = {
 }
 
 const initialState: ConfirmationDialogState = {
-    body: '',
+    question: '',
     handleConfirm: () => null,
 };
 

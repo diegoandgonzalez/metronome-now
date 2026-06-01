@@ -4,15 +4,13 @@ import { useTranslations } from 'next-intl';
 import type { Settings, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
 import useToggle from '@/utils/hooks/useToggle';
 import { useSnackbar } from '@/components/snackbar/context';
-import { decode, encode, generateTemplateUniqueName, getValueFromLocalStorageOrDefault, setValueInLocalStorage } from '@/utils/helpers';
+import { decode, generateTemplateUniqueName, getValueFromLocalStorageOrDefault, setValueInLocalStorage } from '@/utils/helpers';
 import { DEFAULT_SETTINGS, LOCAL_STORAGE_KEYS, TEMPLATE_PARAM_NAME } from '@/utils/constants';
 import { useConfirmationDialog } from '@/components/confirmationDialog/context';
 import isEqual from 'lodash/isEqual';
 import useIndexedDB from '@/utils/hooks/useIndexedDB';
 import useStateRefLocalStorageSync from '@/utils/hooks/useStateRefLocalStorageSync';
 import { useSearchParams } from 'next/navigation';
-import { Link, Typography } from '@mui/material';
-import QRCode from 'react-qr-code';
 
 const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (args?: Template) => void) => {
 
@@ -22,6 +20,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
     const searchParams = useSearchParams();
 
     const [storedSelectedTemplateNameToPlay] = useState<string>(() => getValueFromLocalStorageOrDefault(LOCAL_STORAGE_KEYS.template, '') as string);
+    const [templateToShare, setTemplateToShare] = useState<Template | null>(null);
 
     const [templates, setTemplates] = useState<Template[]>([]);
     const hasFetched = useRef<boolean>(false);
@@ -89,7 +88,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         }
 
         handleOpenConfirmationDialog({
-            body: t('unsavedChangesQuestion'),
+            question: t('unsavedChangesQuestion'),
             handleConfirm: callback
         })
     }
@@ -244,35 +243,14 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
             });
     }
 
-    const handleOpenShareTemplate = (templateName: string) => {
+    const handleOpenShareTemplateDialog = (templateName: string) => {
         const foundTemplate = templates.find((template) => template.name === templateName);
-        const encodedTemplate = encode(foundTemplate);
-        const url = new URL('/', window.location.origin);
-        url.searchParams.set(TEMPLATE_PARAM_NAME, encodedTemplate);
-        const urlString = url.toString();
+        if (!foundTemplate) return;
+        setTemplateToShare(foundTemplate);
+    }
 
-        handleOpenConfirmationDialog({
-            title: `${t('share')}`,
-            body: (
-                <>
-                    <Typography>
-                        {t('scanQRorOpenURL')}
-                    </Typography>
-                    <Link href={urlString} target="_blank" rel="noreferrer" noWrap>
-                        {urlString.substring(0, 45)}...
-                    </Link>
-                    <div style={{ marginTop: 20, marginBottom: 10, display: 'flex', justifyContent: 'center' }}>
-                        <div style={{ display: 'flex', justifyContent: 'center', padding: 10, background: 'white' }}>
-                            <QRCode value={urlString} />
-                        </div>
-                    </div>
-                    <Typography align='center' sx={{ fontSize: '0.8rem' }}>
-                        {templateName}
-                    </Typography>
-                </>
-            ),
-            confirmOnly: true,
-        })
+    const handleCloseShareTemplateDialog = () => {
+        setTemplateToShare(null);
     }
 
     // import template from url
@@ -294,6 +272,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         selectedTemplateHasUnsavedChanges,
         templates: sortedTemplates,
         selectedTemplateNameToPlay,
+        templateToShare,
         templateFormDialogIsOpen,
         templateFormData,
         handleSelectTemplateToPlayByName,
@@ -304,7 +283,8 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         handleOpenDeleteTemplate,
         handleOpenRenameTemplate,
         handleOpenDuplicateTemplate,
-        handleOpenShareTemplate,
+        handleOpenShareTemplateDialog,
+        handleCloseShareTemplateDialog,
         handleCloseTemplateForm,
     };
 }
