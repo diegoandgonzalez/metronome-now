@@ -62,7 +62,7 @@ const DotsMenu = ({ disabled, options, icon, ariaLabel }: Props) => {
                                 option.onClick();
                                 handleClose(e);
                             }}
-                            sx={{ display: 'block', paddingX: 3, paddingY: 0.625 }}
+                            sx={{ display: 'block', paddingX: 3, paddingY: 0.625, minHeight: 'auto' }}
                         >
                             {option.label}
                         </MenuItem>

@@ -1,6 +1,6 @@
 {
   "name": "metronome-now",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "private": true,
   "scripts": {
     "dev": "start http://localhost:3000 & next dev",
