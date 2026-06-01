@@ -27,7 +27,8 @@ Online metronome for your everyday needs
 - Play optional extra measures at the beggining (countdown)
 - Tap to get tempo
 - Pause metronome and timer at anytime
-- Template creation for faster settings switch
+- Template management for faster settings switch
+- Template sharing via url
 - Preserve your current settings for the next time you open the site
 - English and Spanish localizations
 - Deployed site with a live link
