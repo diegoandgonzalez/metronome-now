@@ -36,7 +36,7 @@ const ShareTemplateDialog = (props: Props) => {
                 title: `${templateName} | Metronome Now`,
                 url: url,
             });
-        } catch {}
+        } catch { }
     }
 
     const urlString = useMemo(() => {
@@ -58,8 +58,18 @@ const ShareTemplateDialog = (props: Props) => {
                 <Typography>
                     {t('scanQRorOpenURL')}
                 </Typography>
-                <Link href={urlString} target="_blank" rel="noreferrer" noWrap>
-                    {urlString.substring(0, 45)}...
+                <Link
+                    href={urlString}
+                    target="_blank"
+                    rel="noreferrer"
+                    sx={{
+                        display: 'block',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                    }}
+                >
+                    {urlString}
                 </Link>
                 <div style={{ marginTop: 20, marginBottom: 10, display: 'flex', justifyContent: 'center' }}>
                     <div style={{ display: 'flex', justifyContent: 'center', padding: 10, background: 'white' }}>

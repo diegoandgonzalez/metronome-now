@@ -89,26 +89,24 @@ const TemplatesDialog = (props: Props) => {
             <DialogTitle onClose={handleClose}>
                 {t('templates')}
             </DialogTitle>
-            <DialogContent sx={{ paddingBottom: 1 }}>
-                <Grid container alignItems={'center'} justifyContent={'space-between'} spacing={2} sx={{ paddingTop: 1 }}>
-                    <TextField
-                        variant='outlined'
-                        label={t('searchTemplate')}
-                        value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
-                        sx={{ flex: 1 }}
-                    />
-                    <Button
-                        title={t('createTemplate')}
-                        aria-label={t('createTemplate')}
-                        variant='contained'
-                        sx={{ minWidth: 0, padding: 1 }}
-                        onClick={handleCreateTemplate}
-                    >
-                        <AddIcon />
-                    </Button>
-                </Grid>
-            </DialogContent>
+            <Grid container alignItems={'center'} justifyContent={'space-between'} spacing={2} sx={{ paddingBottom: 1, paddingX: 3 }}>
+                <TextField
+                    variant='outlined'
+                    label={t('searchTemplate')}
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
+                    sx={{ flex: 1 }}
+                />
+                <Button
+                    title={t('createTemplate')}
+                    aria-label={t('createTemplate')}
+                    variant='contained'
+                    sx={{ minWidth: 0, padding: 1 }}
+                    onClick={handleCreateTemplate}
+                >
+                    <AddIcon />
+                </Button>
+            </Grid>
             <DialogContent sx={{ height: '30rem', paddingTop: 0 }}>
                 <List>
                     <ListItem
