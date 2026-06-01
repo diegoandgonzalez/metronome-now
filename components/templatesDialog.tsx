@@ -81,7 +81,7 @@ const TemplatesDialog = (props: Props) => {
         <Dialog
             open={open}
             onClose={handleClose}
-            maxWidth={'xs'}
+            maxWidth={'sm'}
             fullWidth={true}
             fullScreen={fullScreen}
             slotProps={{ transition: { onEntering: scrollToSelectedItem } }}

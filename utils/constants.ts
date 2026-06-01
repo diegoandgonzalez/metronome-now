@@ -25,7 +25,7 @@ export const TEMPO_PROGRAMMING_CONSTANTS = {
     maxMeasuresToChangeBPM: 999,
 }
 
-export const TEMPLATE_NAME_MAX_LENGTH = 40;
+export const TEMPLATE_NAME_MAX_LENGTH = 75;
 
 export const LOCALES = ['en', 'es'];
 
