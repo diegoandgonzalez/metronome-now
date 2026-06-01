@@ -41,7 +41,7 @@ const TemplateItem = (props: Props) => {
             }}
         >
             <div>
-                <Typography sx={{ maxWidth: '30ch', overflowWrap: 'break-word' }}>
+                <Typography sx={{ maxWidth: '50ch', overflowWrap: 'break-word' }}>
                     {name}
                 </Typography>
                 <Typography variant='caption'>

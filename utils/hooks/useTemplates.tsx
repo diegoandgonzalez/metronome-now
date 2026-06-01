@@ -1,7 +1,7 @@
 'use client'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import type { Settings, Template, TemplateFormData, TemplateFunction } from '@/utils/types';
+import type { Settings, Template, TemplateFormData } from '@/utils/types';
 import useToggle from '@/utils/hooks/useToggle';
 import { useSnackbar } from '@/components/snackbar/context';
 import { decode, generateTemplateUniqueName, getValueFromLocalStorageOrDefault, setValueInLocalStorage } from '@/utils/helpers';
@@ -57,11 +57,11 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
                     const storedTemplateIdExists = Boolean(storedSelectedTemplateNameToPlay) && fetchedTemplates.some((template) => template.name === storedSelectedTemplateNameToPlay);
                     setSelectedTemplateNameToPlay(storedTemplateIdExists ? storedSelectedTemplateNameToPlay : '');
                 })
-                .catch((error) => {
-                    handleOpenSnackbar(error);
+                .catch(() => {
+                    handleOpenSnackbar({ text: t('errorOcurred') });
                 });
         }
-    }, [isDBReady, storedSelectedTemplateNameToPlay, getAllItemsFromDB, setSelectedTemplateNameToPlay, handleOpenSnackbar]);
+    }, [isDBReady, storedSelectedTemplateNameToPlay, t, getAllItemsFromDB, setSelectedTemplateNameToPlay, handleOpenSnackbar]);
 
     const [templateFormData, setTemplateFormData] = useState<TemplateFormData | null>(null);
 
@@ -152,7 +152,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         handleToggleTemplateFormDialog();
     })
 
-    const handleSubmitActionTemplate: TemplateFunction = (newtemplateName, newSettings) => {
+    const handleSubmitActionTemplate = (newtemplateName: string, newSettings: Settings) => {
         if (!templateFormData) return;
 
         const {
@@ -178,69 +178,91 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         }
 
         if (action === 'RENAME') {
-            handleUpdateTemplate(newtemplateName, originalTemplateData?.settings || newSettings);
+            handleRenameTemplate(newtemplateName);
             return;
         }
 
         if (action === 'UPDATE') {
-            handleUpdateTemplate(originalTemplateData?.name || '', newSettings);
+            handleUpdateTemplateSettings(newSettings);
             return;
         }
     }
 
-    const handleCreateTemplate: TemplateFunction = useCallback((newtemplateName, newSettings) => {
+    const handleCreateTemplate = useCallback((newtemplateName: string, newSettings: Settings) => {
         getAllItemsFromDB()
-            .then((allTemplates) => {
+            .then(async (allTemplates) => {
                 const newTemplate: Template = {
                     name: generateTemplateUniqueName(allTemplates, newtemplateName),
                     settings: newSettings,
                 }
 
-                addItemToDB(newTemplate)
+                return addItemToDB(newTemplate)
                     .then(() => {
                         setTemplates([...allTemplates, newTemplate]);
                         handleSelectTemplateToPlayByObject(newTemplate);
                         handleOpenSnackbar({ text: t('templateCreated'), type: 'success' });
                     })
             })
-            .catch((error) => {
-                handleOpenSnackbar({ text: error.message });
+            .catch(() => {
+                handleOpenSnackbar({ text: t('errorOcurred') });
             });
     }, [t, addItemToDB, getAllItemsFromDB, handleOpenSnackbar, handleSelectTemplateToPlayByObject])
 
-    const handleUpdateTemplate: TemplateFunction = (newtemplateName, newSettings) => {
+    const handleRenameTemplate = (newtemplateName: string) => {
         const auxSelectedTemplate = templates.find((template) => template.name === templateFormData?.templateName);
         if (!auxSelectedTemplate) return;
 
         auxSelectedTemplate.name = newtemplateName;
+
+        addItemToDB(auxSelectedTemplate)
+            .then(async () => {
+                return deleteItemInDB(templateFormData!.templateName) // name is key so delete template with old name
+                    .then(async () => {
+                        return getAllItemsFromDB()
+                            .then((newTemplates) => {
+                                setTemplates(newTemplates);
+                                handleSelectTemplateToPlayByObject(auxSelectedTemplate);
+                                handleOpenSnackbar({ text: t('templateUpdated'), type: 'success' });
+                            })
+                    })
+            })
+            .catch(() => {
+                handleOpenSnackbar({ text: t('errorOcurred') });
+            });
+    }
+
+    const handleUpdateTemplateSettings = (newSettings: Settings) => {
+        const auxSelectedTemplate = templates.find((template) => template.name === templateFormData?.templateName);
+        if (!auxSelectedTemplate) return;
+
         auxSelectedTemplate.settings = newSettings;
 
         updateItemInDB(auxSelectedTemplate)
-            .then(() => {
-                getAllItemsFromDB()
+            .then(async () => {
+                return getAllItemsFromDB()
                     .then((newTemplates) => {
                         setTemplates(newTemplates);
                         handleSelectTemplateToPlayByObject(auxSelectedTemplate);
                         handleOpenSnackbar({ text: t('templateUpdated'), type: 'success' });
                     })
             })
-            .catch((error) => {
-                handleOpenSnackbar({ text: error.message });
+            .catch(() => {
+                handleOpenSnackbar({ text: t('errorOcurred') });
             });
     }
 
     const handleDeleteTemplate = () => {
         deleteItemInDB(templateFormData?.templateName || '')
-            .then(() => {
-                getAllItemsFromDB()
+            .then(async () => {
+                return getAllItemsFromDB()
                     .then((newTemplates) => {
                         setTemplates(newTemplates);
                         handleSelectTemplateToPlayByObject();
                         handleOpenSnackbar({ text: t('templateDeleted'), type: 'success' });
                     })
             })
-            .catch((error) => {
-                handleOpenSnackbar({ text: error.message });
+            .catch(() => {
+                handleOpenSnackbar({ text: t('errorOcurred') });
             });
     }
 
@@ -259,16 +281,16 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
             question: t('confirmDeleteAll'),
             handleConfirm: () => {
                 deleteAllItemsInDB()
-                    .then(() => {
-                        getAllItemsFromDB()
+                    .then(async () => {
+                        return getAllItemsFromDB()
                             .then((newTemplates) => {
                                 setTemplates(newTemplates);
                                 handleSelectTemplateToPlayByObject();
                                 handleOpenSnackbar({ text: t('templatesDeleted'), type: 'success' });
                             })
                     })
-                    .catch((error) => {
-                        handleOpenSnackbar({ text: error.message });
+                    .catch(() => {
+                        handleOpenSnackbar({ text: t('errorOcurred') });
                     });
             }
         });

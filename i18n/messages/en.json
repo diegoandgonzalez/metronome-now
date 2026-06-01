@@ -12,6 +12,7 @@
     "bpmToChangeMustBeInRange": "BPM to change must be between {min} and {max}",
     "cancel": "Cancel",
     "change": "Change",
+    "characters": "characters",
     "close": "Close",
     "countdown": "Countdown",
     "confirmDeleteAll": "This action cannot be undone, do you wish to delete all templates?",

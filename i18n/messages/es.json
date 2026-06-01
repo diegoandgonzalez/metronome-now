@@ -12,6 +12,7 @@
     "bpmToChangeMustBeInRange": "El BPM a cambiar debe estar entre {min} y {max}",
     "cancel": "Cancelar",
     "change": "Cambiar",
+    "characters": "caracteres",
     "close": "Cerrar",
     "countdown": "Cuenta regresiva",
     "confirmDeleteAll": "Esta acción no se puede deshacer, ¿Desea eliminar todas las plantillas?",

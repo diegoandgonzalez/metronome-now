@@ -75,6 +75,8 @@ const TemplateFormDialog = (props: Props) => {
         <Dialog
             open={open}
             onClose={handleClose}
+            maxWidth={action === 'DELETE' ? 'xs' : 'sm'}
+            fullWidth
         >
             <DialogTitle onClose={handleClose}>
                 {t(getTitleKey(action))}
@@ -104,6 +106,7 @@ const TemplateFormDialog = (props: Props) => {
                             value={newTemplateName}
                             onChange={(e) => setNewTemplateName(e.target.value.substring(0, TEMPLATE_NAME_MAX_LENGTH))}
                             sx={{ marginTop: 3 }}
+                            helperText={`${newTemplateName.length} ${t('of').toLocaleLowerCase()} ${TEMPLATE_NAME_MAX_LENGTH} ${t('characters')}`}
                             fullWidth
                         />
                     }
