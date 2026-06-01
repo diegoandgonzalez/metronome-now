@@ -108,11 +108,28 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
         });
     };
 
+    const deleteAllItems = (): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            if (!database) {
+                reject(new Error("databaseError"));
+                return;
+            }
+
+            const transaction = database.transaction(storeName, "readwrite");
+            const store = transaction.objectStore(storeName);
+            const request = store.clear();
+
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    };
+
     return {
         getAllItems,
         addItem,
         updateItem,
         deleteItem,
+        deleteAllItems,
         error,
         isReady,
     };

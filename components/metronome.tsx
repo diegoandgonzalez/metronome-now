@@ -65,6 +65,7 @@ const Metronome = () => {
         handleOpenShareTemplateDialog,
         handleCloseShareTemplateDialog,
         handleCloseTemplateForm,
+        handleDeleteAllTemplates,
     } = useTemplates(settings, onTemplateSelectionCallback);
 
     const {
@@ -225,6 +226,7 @@ const Metronome = () => {
                             handleDuplicateTemplate={handleOpenDuplicateTemplate}
                             handleDeleteTemplate={handleOpenDeleteTemplate}
                             handleShareTemplate={handleOpenShareTemplateDialog}
+                            handleDeleteAllTemplates={handleDeleteAllTemplates}
                             handleClose={handleToggleTemplateDialog}
                         />
                     }

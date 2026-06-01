@@ -29,6 +29,7 @@ type Props = {
     handleDuplicateTemplate: (templateName: string) => void,
     handleDeleteTemplate: (templateName: string) => void,
     handleShareTemplate: (templateName: string) => void,
+    handleDeleteAllTemplates: () => void,
     handleClose: () => void,
 }
 
@@ -46,6 +47,7 @@ const TemplatesDialog = (props: Props) => {
         handleDuplicateTemplate,
         handleDeleteTemplate,
         handleShareTemplate,
+        handleDeleteAllTemplates,
         handleClose,
     } = props;
 
@@ -162,6 +164,16 @@ const TemplatesDialog = (props: Props) => {
                                 </ListItem>
                             )
                         })
+                    }
+                    {
+                        !searchValue && templates.length > 0 &&
+                        <Button
+                            sx={{ marginTop: 1 }}
+                            variant='contained'
+                            onClick={handleDeleteAllTemplates}
+                        >
+                            {t('deleteAll')}
+                        </Button>
                     }
                 </List>
             </DialogContent>

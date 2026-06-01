@@ -35,6 +35,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         addItem: addItemToDB,
         updateItem: updateItemInDB,
         deleteItem: deleteItemInDB,
+        deleteAllItems: deleteAllItemsInDB,
         error: errorDB,
         isReady: isDBReady,
     } = useIndexedDB<Template>('MetronomeNowDB', 'Templates', 1, 'name');
@@ -253,6 +254,26 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         setTemplateToShare(null);
     }
 
+    const handleDeleteAllTemplates = () => {
+        handleOpenConfirmationDialog({
+            question: t('confirmDeleteAll'),
+            handleConfirm: () => {
+                deleteAllItemsInDB()
+                    .then(() => {
+                        getAllItemsFromDB()
+                            .then((newTemplates) => {
+                                setTemplates(newTemplates);
+                                handleSelectTemplateToPlayByObject();
+                                handleOpenSnackbar({ text: t('templatesDeleted'), type: 'success' });
+                            })
+                    })
+                    .catch((error) => {
+                        handleOpenSnackbar({ text: error.message });
+                    });
+            }
+        });
+    }
+
     // import template from url
     useEffect(() => {
         if (!isDBReady) return;
@@ -286,6 +307,7 @@ const useTemplates = (currentSettings: Settings, onTemplateSelectionCallback: (a
         handleOpenShareTemplateDialog,
         handleCloseShareTemplateDialog,
         handleCloseTemplateForm,
+        handleDeleteAllTemplates,
     };
 }
 
