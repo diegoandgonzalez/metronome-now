@@ -130,7 +130,7 @@ const Metronome = () => {
                 >
                     <Grid container direction={'column'} alignItems={'center'} spacing={3}>
                         <Grid container direction={'column'} alignItems={'center'} spacing={0}>
-                            <Typography sx={{ fontSize: '0.9rem' }}>
+                            <Typography align='center' sx={{ fontSize: '0.9rem' }}>
                                 {selectedTemplateNameToPlay || t('defaultTemplate')}
                             </Typography>
                             <BPMInput
