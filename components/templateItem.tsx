@@ -37,58 +37,60 @@ const TemplateItem = (props: Props) => {
 
     return (
         <Grid
-            container alignItems={'center'} justifyContent={'space-between'} spacing={2} wrap='nowrap'
+            container alignItems={'center'} justifyContent={'space-between'} wrap='nowrap'
             sx={{
                 width: '100%',
                 color: ({ palette }) => selected ? palette.primary.main : palette.text.primary,
             }}
         >
-            <div>
-                <Typography sx={{ maxWidth: '50ch', overflowWrap: 'break-word' }}>
+            <Grid container size={11} direction={'column'} justifyContent={'center'} spacing={0.5}>
+                <Typography sx={{ paddingRight: 2 }}>
                     <HighlightedText text={name} query={searchQuery} />
                 </Typography>
                 <Typography variant='caption'>
                     {hasUnsavedChanges ? t('hasUnsavedChanges') : description}
                 </Typography>
-            </div>
+            </Grid>
             {
                 editable &&
-                <DotsMenu
-                    options={
-                        [
-                            {
-                                key: 'share',
-                                label: t('share'),
-                                onClick: () => handleShare?.(),
-                            },
-                            {
-                                key: 'update',
-                                label: t('update'),
-                                onClick: () => handleSaveChanges?.(),
-                            },
-                            {
-                                key: 'rename',
-                                label: t('rename'),
-                                onClick: () => handleRename?.(),
-                            },
-                            {
-                                key: 'duplicate',
-                                label: t('duplicate'),
-                                onClick: () => handleDuplicate?.(),
-                            },
-                            {
-                                key: 'delete',
-                                label: t('delete'),
-                                onClick: () => handleDelete?.(),
-                            },
-                        ]
-                            .filter((option) => {
-                                if (hasUnsavedChanges && option.key === 'share') return false;
-                                if (!hasUnsavedChanges && option.key === 'update') return false;
-                                return true;
-                            })
-                    }
-                />
+                <Grid container size={1} justifyContent={'center'}>
+                    <DotsMenu
+                        options={
+                            [
+                                {
+                                    key: 'share',
+                                    label: t('share'),
+                                    onClick: () => handleShare?.(),
+                                },
+                                {
+                                    key: 'update',
+                                    label: t('update'),
+                                    onClick: () => handleSaveChanges?.(),
+                                },
+                                {
+                                    key: 'rename',
+                                    label: t('rename'),
+                                    onClick: () => handleRename?.(),
+                                },
+                                {
+                                    key: 'duplicate',
+                                    label: t('duplicate'),
+                                    onClick: () => handleDuplicate?.(),
+                                },
+                                {
+                                    key: 'delete',
+                                    label: t('delete'),
+                                    onClick: () => handleDelete?.(),
+                                },
+                            ]
+                                .filter((option) => {
+                                    if (hasUnsavedChanges && option.key === 'share') return false;
+                                    if (!hasUnsavedChanges && option.key === 'update') return false;
+                                    return true;
+                                })
+                        }
+                    />
+                </Grid>
             }
         </Grid>
     );
