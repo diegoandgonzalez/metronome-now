@@ -1,12 +1,14 @@
 import { useTranslations } from 'next-intl';
 import { Grid, Typography } from '@mui/material';
 import DotsMenu from '@/components/dotsMenu';
+import HighlightedText from '@/components/highlightedText';
 
 type Props = {
     selected: boolean,
     editable: boolean,
     name: string,
     description: string,
+    searchQuery?: string,
     hasUnsavedChanges?: boolean,
     handleRename?: () => void,
     handleSaveChanges?: () => void,
@@ -22,6 +24,7 @@ const TemplateItem = (props: Props) => {
         editable,
         name,
         description,
+        searchQuery,
         hasUnsavedChanges = false,
         handleRename,
         handleSaveChanges,
@@ -42,7 +45,7 @@ const TemplateItem = (props: Props) => {
         >
             <div>
                 <Typography sx={{ maxWidth: '50ch', overflowWrap: 'break-word' }}>
-                    {name}
+                    <HighlightedText text={name} query={searchQuery} />
                 </Typography>
                 <Typography variant='caption'>
                     {hasUnsavedChanges ? t('hasUnsavedChanges') : description}

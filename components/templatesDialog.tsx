@@ -146,12 +146,13 @@ const TemplatesDialog = (props: Props) => {
                                     }}
                                     onClick={() => handleSelectTemplate(template.name)}
                                     disablePadding
-                                >
+                                    >
                                     <TemplateItem
                                         editable={true}
                                         selected={isSelected}
                                         name={template.name}
                                         description={getTemplateDescription(template.settings)}
+                                        searchQuery={searchValue}
                                         hasUnsavedChanges={isSelected ? selectedTemplateHasUnsavedChanges : false}
                                         handleRename={() => handleRenameTemplate(template.name)}
                                         handleDuplicate={() => handleDuplicateTemplate(template.name)}
