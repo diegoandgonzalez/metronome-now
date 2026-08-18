@@ -3,11 +3,11 @@
 Online metronome for your everyday needs.
 
 ## Table of Contents
-- [Live Demo](#-live-demo)
-- [Features](#-features)
-- [Technical Highlights & Architecture](#-technical-highlights--architecture)
-- [Tech Stack](#-tech-stack)
-- [How to Run Locally](#-how-to-run-locally)
+- [Live Demo](#live-demo)
+- [Features](#features)
+- [Technical Highlights & Architecture](#technical-highlights--architecture)
+- [Tech Stack](#tech-stack)
+- [How to Run Locally](#how-to-run-locally)
 
 ---
 
