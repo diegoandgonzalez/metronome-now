@@ -1,38 +1,54 @@
 # Metronome Now
 
-Online metronome for your everyday needs
+Online metronome for your everyday needs.
 
-## Table of contents
-* [Live link](#live-link)
-* [Technologies](#technologies)
-* [Features](#features)
-* [How to run the project locally](#how-to-run-locally)
+## Table of Contents
+- [Live Demo](#-live-demo)
+- [Features](#-features)
+- [Technical Highlights & Architecture](#-technical-highlights--architecture)
+- [Tech Stack](#-tech-stack)
+- [How to Run Locally](#-how-to-run-locally)
 
-## Live link
-[https://metronome-now.vercel.app/](https://metronome-now.vercel.app/)
+---
 
-## Technologies
-- TypeScript
-- React
-- Next.js
-- next-intl
-- Material UI
-- IndexedDB
+## Live Demo
+**[https://metronome-now.vercel.app/](https://metronome-now.vercel.app/)**
+
+---
 
 ## Features
-- Play metronome at the BPM and time signatures you want
-- Toggle accent, normal and mute sounds for each beat independently
-- Set the metronome to stop after a determined amount of seconds/measures
-- Increase or decrease your BPM after a determined amount of measures
-- Play optional extra measures at the beggining (countdown)
-- Tap to get tempo
-- Pause metronome and timer at anytime
-- Template management for faster settings switch
-- Template sharing via url
-- Preserve your current settings for the next time you open the site
-- English and Spanish localizations
-- Deployed site with a live link
-- PWA (Website installable as app)
+
+* **Precise Rhythm & Beat Customization:** Adjust BPM and time signatures with independent accent, normal, and mute controls for each beat.
+* **Advanced Training Tools:**
+  * Auto increase/decrease BPM after a set number of measures.
+  * Auto stop metronome after specified seconds or measures.
+  * Optional countdown measures before playback starts.
+  * Tap tempo detection.
+* **Template Management & Sharing:** Save settings locally (IndexedDB) or share configurations instantly via URL params.
+* **State Persistence:** Preserves active settings across sessions.
+* **Multilanguage Support:** Full English and Spanish localization.
+
+---
+
+## Technical Highlights & Architecture
+
+* **Off Main Thread Audio Engine:** Implements a custom **`AudioWorkletProcessor`** via the **Web Audio API**. This offloads time critical audio processing and scheduling from the main JavaScript thread to a dedicated audio thread, completely eliminating timing jitter and beat delays caused by React rerenders or DOM updates.
+* **Client Side Persistence:** Leverages **IndexedDB** for fast, asynchronous storage and management of user defined metronome templates without backend overhead.
+* **Internationalization (i18n):** Built with **`next-intl`** featuring localized routing (`/es`, `/en`) and seamless language switching.
+* **PWA Capability:** Configured as a Progressive Web App, making it installable across desktop and mobile devices.
+
+---
+
+## Tech Stack
+
+* **Framework & Language:** Next.js, React, TypeScript
+* **Audio Processing:** Web Audio API (`AudioWorkletProcessor`)
+* **UI & Styling:** Material UI (MUI)
+* **Localization:** `next-intl`
+* **Local Storage:** IndexedDB
+* **Deployment & Hosting:** Vercel
+
+---
 
 ## How to run locally
 
