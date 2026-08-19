@@ -67,7 +67,7 @@ const useAudio = (onTick: React.RefObject<() => void>) => {
 
     const setupWorklet = async (context: AudioContext) => {
         try {
-            await context.audioWorklet.addModule('/metronome-processor.js');
+            await context.audioWorklet.addModule('/worklets/metronome-processor.js');
         } catch (err) {
             console.error('Failed to load AudioWorklet module:', err);
             return;

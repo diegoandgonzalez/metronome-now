@@ -41,3 +41,8 @@ yarn-error.log*
 next-env.d.ts
 
 certificates
+
+# Service Worker generated build artifacts
+/public/sw.js
+/public/sw.js.map
+/public/swe-worker-*.js

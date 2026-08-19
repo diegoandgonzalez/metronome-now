@@ -27,6 +27,8 @@ Online metronome for your everyday needs.
 * **Template Management & Sharing:** Save settings locally (IndexedDB) or share configurations instantly via URL params.
 * **State Persistence:** Preserves active settings across sessions.
 * **Multilanguage Support:** Full English and Spanish localization.
+* **Installable as a PWA:** Keep it as a standalone app, if you so desire.
+* **Works offline too:** After visiting the site at least once, next time you won't require internet connection to access it.
 
 ---
 
@@ -35,18 +37,18 @@ Online metronome for your everyday needs.
 * **Off Main Thread Audio Engine:** Implements a custom **`AudioWorkletProcessor`** via the **Web Audio API**. This offloads time critical audio processing and scheduling from the main JavaScript thread to a dedicated audio thread, completely eliminating timing jitter and beat delays caused by React rerenders or DOM updates.
 * **Client Side Persistence:** Leverages **IndexedDB** for fast, asynchronous storage and management of user defined metronome templates without backend overhead.
 * **Internationalization (i18n):** Built with **`next-intl`** featuring localized routing (`/es`, `/en`) and seamless language switching.
-* **PWA Capability:** Configured as a Progressive Web App, making it installable across desktop and mobile devices.
+* **Site caching:** Uses **`serwist`** service workers to cache assets on initial load, allowing the site to run offline after first visit.
 
 ---
 
 ## Tech Stack
 
-* **Framework & Language:** Next.js, React, TypeScript
-* **Audio Processing:** Web Audio API (`AudioWorkletProcessor`)
-* **UI & Styling:** Material UI (MUI)
-* **Localization:** `next-intl`
-* **Local Storage:** IndexedDB
-* **Deployment & Hosting:** Vercel
+* **Framework & Language:** Next.js, React, TypeScript.
+* **Audio Processing:** Web Audio API.
+* **UI & Styling:** Material UI (MUI).
+* **Localization:** next-intl.
+* **Local Storage:** IndexedDB.
+* **Deployment & Hosting:** Vercel.
 
 ---
 
