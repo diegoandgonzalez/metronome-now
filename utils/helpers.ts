@@ -1,5 +1,4 @@
-import { DEFAULT_SETTINGS } from "@/utils/constants";
-import type { LocalStorageKey, LocalStorageValue, Settings, Template } from "@/utils/types";
+import type { LocalStorageKey, LocalStorageValue, Template } from "@/utils/types";
 import dayjs, { Dayjs } from "dayjs";
 import { strToU8, deflateSync, strFromU8, inflateSync } from 'fflate';
 
@@ -58,7 +57,7 @@ export const createDefaultBeatTypesArray = (beatsPerMeasure: number) => {
  * @returns 
  */
 export const getUpdatedBeatTypesArray = (currentBeatTypes: number[], newBeatsPerMeasure: number): number[] => {
-    // keey types for those beats that are not in the nre time signature
+    // key types for those beats that are not in the nre time signature
     if (currentBeatTypes.length >= newBeatsPerMeasure) return [...currentBeatTypes];
 
     const newBeatTypesSection = new Array(newBeatsPerMeasure - currentBeatTypes.length).fill(1);
@@ -67,7 +66,7 @@ export const getUpdatedBeatTypesArray = (currentBeatTypes: number[], newBeatsPer
 
 
 export const handleIntegerKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Block decimals (.), minus signs if only positive integers are allowed (-), and scientific notation (e, E)
+    // block decimals (.), minus signs if only positive integers are allowed (-), and scientific notation (e, E)
     if (e.key === '.' || e.key === ',' || e.key === 'e' || e.key === 'E' || e.key === '-') {
         e.preventDefault();
     }
@@ -75,7 +74,7 @@ export const handleIntegerKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) =
 
 export const handleIntegerPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     const pasteData = e.clipboardData.getData('text');
-    // If the pasted string contains anything other than digits, block it
+    // if the pasted string contains anything other than digits, block it
     if (!/^\d+$/.test(pasteData)) {
         e.preventDefault();
     }
