@@ -94,13 +94,13 @@ const TemplateFormDialog = (props: Props) => {
                         {t(getDescriptionKey(action), { templateName: templateName })}
                     </Typography>
                     {
-                        ['DELETE'].includes(action!) &&
+                        ['DELETE'].includes(action) &&
                         <Typography>
                             {t('thisActionCannotBeUndone')}
                         </Typography>
                     }
                     {
-                        ['CREATE', 'RENAME', 'DUPLICATE'].includes(action!) &&
+                        ['CREATE', 'RENAME', 'DUPLICATE'].includes(action) &&
                         <TextField
                             label={t('templateName')}
                             value={newTemplateName}
