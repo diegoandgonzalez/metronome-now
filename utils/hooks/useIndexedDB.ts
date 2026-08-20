@@ -28,6 +28,14 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
 
         openRequest.onsuccess = (event) => {
             auxDatabase = (event.target as IDBOpenDBRequest).result;
+
+            // close connection if another tab needs to upgrade or delete this database
+            auxDatabase.onversionchange = () => {
+                auxDatabase?.close();
+                setDatabase(null);
+                setIsReady(false);
+            };
+
             setDatabase(auxDatabase);
             setIsReady(true);
         };
