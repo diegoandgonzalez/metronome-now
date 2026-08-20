@@ -3,19 +3,33 @@ import { Grid, Typography } from '@mui/material';
 import DotsMenu from '@/components/dotsMenu';
 import HighlightedText from '@/components/highlightedText';
 
-type Props = {
+type BaseProps = {
     selected: boolean,
-    editable: boolean,
     name: string,
     description: string,
     searchQuery?: string,
     hasUnsavedChanges?: boolean,
-    handleRename?: () => void,
-    handleSaveChanges?: () => void,
-    handleDuplicate?: () => void,
-    handleDelete?: () => void,
-    handleShare?: () => void,
 }
+
+type NonEditableProps = {
+    editable: false,
+    handleRename?: never,
+    handleSaveChanges?: never,
+    handleDuplicate?: never,
+    handleDelete?: never,
+    handleShare?: never,
+}
+
+type EditableProps = {
+    editable: true,
+    handleRename: () => void,
+    handleSaveChanges: () => void,
+    handleDuplicate: () => void,
+    handleDelete: () => void,
+    handleShare: () => void,
+}
+
+type Props = BaseProps & (NonEditableProps | EditableProps);
 
 const TemplateItem = (props: Props) => {
 
@@ -60,27 +74,27 @@ const TemplateItem = (props: Props) => {
                                 {
                                     key: 'share',
                                     label: t('share'),
-                                    onClick: () => handleShare?.(),
+                                    onClick: () => handleShare(),
                                 },
                                 {
                                     key: 'update',
                                     label: t('update'),
-                                    onClick: () => handleSaveChanges?.(),
+                                    onClick: () => handleSaveChanges(),
                                 },
                                 {
                                     key: 'rename',
                                     label: t('rename'),
-                                    onClick: () => handleRename?.(),
+                                    onClick: () => handleRename(),
                                 },
                                 {
                                     key: 'duplicate',
                                     label: t('duplicate'),
-                                    onClick: () => handleDuplicate?.(),
+                                    onClick: () => handleDuplicate(),
                                 },
                                 {
                                     key: 'delete',
                                     label: t('delete'),
-                                    onClick: () => handleDelete?.(),
+                                    onClick: () => handleDelete(),
                                 },
                             ]
                                 .filter((option) => {
