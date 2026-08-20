@@ -59,12 +59,16 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
                 return;
             }
 
-            const transaction = database.transaction(storeName, "readonly");
-            const store = transaction.objectStore(storeName);
-            const request = store.getAll();
+            try {
+                const transaction = database.transaction(storeName, "readonly");
+                const store = transaction.objectStore(storeName);
+                const request = store.getAll();
 
-            request.onsuccess = () => resolve(request.result as T[]);
-            request.onerror = () => reject(request.error);
+                request.onsuccess = () => resolve(request.result as T[]);
+                request.onerror = () => reject(request.error);
+            } catch (err) {
+                reject(err);
+            }
         });
     }, [database, storeName]);
 
@@ -75,12 +79,16 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
                 return;
             }
 
-            const transaction = database.transaction(storeName, "readwrite");
-            const store = transaction.objectStore(storeName);
-            const request = store.add(item);
+            try {
+                const transaction = database.transaction(storeName, "readwrite");
+                const store = transaction.objectStore(storeName);
+                const request = store.add(item);
 
-            request.onsuccess = () => resolve(request.result);
-            request.onerror = () => reject(request.error);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            } catch (err) {
+                reject(err);
+            }
         });
     };
 
@@ -91,12 +99,16 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
                 return;
             }
 
-            const transaction = database.transaction(storeName, "readwrite");
-            const store = transaction.objectStore(storeName);
-            const request = store.put(item);
+            try {
+                const transaction = database.transaction(storeName, "readwrite");
+                const store = transaction.objectStore(storeName);
+                const request = store.put(item);
 
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            } catch (err) {
+                reject(err);
+            }
         });
     };
 
@@ -107,12 +119,16 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
                 return;
             }
 
-            const transaction = database.transaction(storeName, "readwrite");
-            const store = transaction.objectStore(storeName);
-            const request = store.delete(id);
+            try {
+                const transaction = database.transaction(storeName, "readwrite");
+                const store = transaction.objectStore(storeName);
+                const request = store.delete(id);
 
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            } catch (err) {
+                reject(err);
+            }
         });
     };
 
@@ -123,12 +139,16 @@ const useIndexedDB = <T>(databaseName: string, storeName: string, version: numbe
                 return;
             }
 
-            const transaction = database.transaction(storeName, "readwrite");
-            const store = transaction.objectStore(storeName);
-            const request = store.clear();
+            try {
+                const transaction = database.transaction(storeName, "readwrite");
+                const store = transaction.objectStore(storeName);
+                const request = store.clear();
 
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            } catch (err) {
+                reject(err);
+            }
         });
     };
 
