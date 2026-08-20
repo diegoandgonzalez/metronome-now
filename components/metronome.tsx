@@ -19,10 +19,12 @@ import TemplatesDialog from '@/components/templatesDialog';
 import AboutDialog from '@/components/aboutDialog';
 import Header from '@/components/header';
 import ShareTemplateDialog from '@/components/shareTemplateDialog';
+import { useSnackbar } from '@/components/snackbar/context';
 
 const Metronome = () => {
 
     const t = useTranslations();
+    const { handleOpen: handleOpenSnackbar } = useSnackbar();
 
     const {
         isInCountdown,
@@ -83,13 +85,17 @@ const Metronome = () => {
         handleToggle: handleToggleAboutDialog,
     } = useToggle();
 
-    const handleToggleMetronome = () => {
+    const handleToggleMetronome = async () => {
         if (isPlaying) {
             handleStopMetronome();
             return;
         }
 
-        handleStartMetronome();
+        const startedMetronome = await handleStartMetronome();
+
+        if (!startedMetronome) {
+            handleOpenSnackbar({ text: t("metronomeError"), type: "error", secondsToClose: 10 });
+        }
     }
 
     const handleOpenTemplateDialog = () => {

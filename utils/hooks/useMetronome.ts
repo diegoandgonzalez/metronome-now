@@ -39,19 +39,19 @@ const useMetronome = () => {
         value: timerSettings,
         handleSyncValue: handleSetTimerSettings,
     } = useStateRefLocalStorageSync<TimerSettings>(DEFAULT_SETTINGS.timerSettings, LOCAL_STORAGE_KEYS.timerSettings);
-    
+
     const {
         value: isInCountdown,
         valueRef: isInCountdownRef,
         handleSyncValue: handleSyncIsInCountdown,
     } = useStateRefSync<boolean>(false);
-    
+
     const {
         value: measureNumber,
         valueRef: measureNumberRef,
         handleSyncValue: handleSyncMeasureNumber,
     } = useStateRefSync<number>(METRONOME_CONSTANTS.stoppedBeatIndex);
-    
+
     const [currentBeatInMeasure, setCurrentBeatInMeasure] = useState(METRONOME_CONSTANTS.stoppedBeatIndex);
     const beatNumberRef = useRef(METRONOME_CONSTANTS.stoppedBeatIndex);
     const timeToNextNoteRef = useRef(0);
@@ -183,9 +183,18 @@ const useMetronome = () => {
     }
 
     const handleStartMetronome = async () => {
-        await initAudio();
+        try {
+            await initAudio();
+        } catch (err) {
+            console.error('Failed to initialize audio:', err);
+            return false;
+        }
 
-        if (!audioContextRef.current) return;
+        if (!audioContextRef.current) return false;
+
+        if (audioContextRef.current.state === 'suspended') {
+            await audioContextRef.current.resume();
+        }
 
         resetBPM(tempoProgrammingSettings);
 
@@ -202,14 +211,21 @@ const useMetronome = () => {
         if (!isInCountdown) { // if countdown is active, startTimeMeasure is executed after countdown
             startTimeMeasure();
         }
+
+        return true;
     }
 
-    const handleTogglePauseMetronome = () => { // it works similar to handleToggleMetronome except it doesn't reset clock, beat and measure positions
+    const handleTogglePauseMetronome = async () => { // it works similar to handleToggleMetronome except it doesn't reset clock, beat and measure positions
         if (!isPaused) {
             stopWorklet();
             togglePauseTimeMeasure();
         } else {
             if (!audioContextRef.current) return;
+
+            if (audioContextRef.current.state === 'suspended') {
+                await audioContextRef.current.resume();
+            }
+
             timeToNextNoteRef.current = audioContextRef.current.currentTime;
             togglePauseTimeMeasure();
             startWorklet();

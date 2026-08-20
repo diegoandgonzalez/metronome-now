@@ -45,6 +45,7 @@
     "measuresToChangeBPMMustBeInRange": "Measures to change BPM must be between {min} and {max}",
     "measuresToStopCannotBeEmpty": "Measures to change BPM cannot be empty",
     "measuresToStopMustBeInRange": "Measures to stop must be between {min} and {max}",
+    "metronomeError": "The metronome's audio engine failed to load. Try reloading the page, if it keeps happening, your browser may not be supported.",
     "minutes": "min.",
     "minutesMustBeInRange": "Minutes must be between {min} and {max}",
     "nameInUse": "Name is already in use",

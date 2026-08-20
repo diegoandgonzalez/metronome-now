@@ -45,6 +45,7 @@
     "measuresToChangeBPMMustBeInRange": "Los compases para cambiar el BPM deben estar entre {min} y {max}",
     "measuresToStopCannotBeEmpty": "Los compases para cambiar el BPM no pueden estar vacíos",
     "measuresToStopMustBeInRange": "Los compases para detener deben estar entre {min} y {max}",
+    "metronomeError": "El motor de audio del metronomo ha fallado. Intente recargando la página, si el error persiste, tu navegador puede no ser compatible.",
     "minutes": "min.",
     "minutesMustBeInRange": "Los minutos deben estar entre {min} y {max}",
     "nameInUse": "El nombre ya está en uso",

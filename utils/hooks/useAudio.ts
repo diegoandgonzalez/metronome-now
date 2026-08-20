@@ -44,7 +44,7 @@ const useAudio = (onTick: React.RefObject<() => void>) => {
                     const response = await fetch(url);
                     rawBuffers.current[url] = await response.arrayBuffer();
                 }));
-            } catch {}
+            } catch { }
         };
 
         prefetch();
@@ -66,12 +66,7 @@ const useAudio = (onTick: React.RefObject<() => void>) => {
     };
 
     const setupWorklet = async (context: AudioContext) => {
-        try {
-            await context.audioWorklet.addModule('/worklets/metronome-processor.js');
-        } catch (err) {
-            console.error('Failed to load AudioWorklet module:', err);
-            return;
-        }
+        await context.audioWorklet.addModule('/worklets/metronome-processor.js');
 
         workletNodeRef.current = new AudioWorkletNode(context, 'metronome-processor');
         workletNodeRef.current.port.onmessage = (e) => {
@@ -84,6 +79,7 @@ const useAudio = (onTick: React.RefObject<() => void>) => {
         if (audioContextRef.current) return;
 
         const context = new window.AudioContext();
+        if (context.state === 'suspended') await context.resume();
         audioContextRef.current = context;
 
         await Promise.all([
