@@ -102,12 +102,8 @@ const useAudio = (onTick: React.RefObject<() => void>) => {
         if (!audioContextRef.current || !audioToPlay) return;
 
         const source = audioContextRef.current.createBufferSource();
-        const gainNode = audioContextRef.current.createGain();
-
-        gainNode.gain.value = 1;
-        gainNode.connect(audioContextRef.current.destination);
         source.buffer = audioToPlay;
-        source.connect(gainNode);
+        source.connect(audioContextRef.current.destination);
         source.start(time);
     };
 
