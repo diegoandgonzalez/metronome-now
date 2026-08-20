@@ -8,11 +8,11 @@ type BaseProps = {
     name: string,
     description: string,
     searchQuery?: string,
-    hasUnsavedChanges?: boolean,
 }
 
 type NonEditableProps = {
     editable: false,
+    hasUnsavedChanges?: never,
     handleRename?: never,
     handleSaveChanges?: never,
     handleDuplicate?: never,
@@ -22,6 +22,7 @@ type NonEditableProps = {
 
 type EditableProps = {
     editable: true,
+    hasUnsavedChanges: boolean,
     handleRename: () => void,
     handleSaveChanges: () => void,
     handleDuplicate: () => void,
@@ -39,7 +40,7 @@ const TemplateItem = (props: Props) => {
         name,
         description,
         searchQuery,
-        hasUnsavedChanges = false,
+        hasUnsavedChanges,
         handleRename,
         handleSaveChanges,
         handleDuplicate,
@@ -48,7 +49,7 @@ const TemplateItem = (props: Props) => {
     } = props;
 
     const t = useTranslations();
-
+    
     return (
         <Grid
             container alignItems={'center'} justifyContent={'space-between'} wrap='nowrap'
